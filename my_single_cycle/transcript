@@ -1,0 +1,71 @@
+# vsim -c -do "run -all" testbench 
+# Start time: 10:14:51 on Feb 16,2020
+# Loading sv_std.std
+# Loading work.testbench
+# Loading work.top
+# Loading work.mips
+# Loading work.controller
+# Loading work.maindec
+# Loading work.aludec
+# Loading work.datapath
+# Loading work.regfile
+# Loading work.alu
+# Loading work.imem
+# Loading work.dmem
+# run -all
+#  
+# time | PC |  opcode : instr[31:26] | funct : instr[5:0] |  srcA : value |   imm value  | dest : value
+# |          1  |          0 | ADDI  :  001000	   | slt  :  000101 |  0  :   |     5  :   |  2  :  
+#  
+# time | PC |  opcode : instr[31:26] | funct : instr[5:0] |  srcA : value |   imm value  | dest : value
+# |          2  |          4 | ADDI  :  001000	   | slt  :  001100 |  0  :   |    12  :   |  3  :  
+#  
+# time | PC |  opcode : instr[31:26] | funct : instr[5:0] |  srcA : value |   imm value  | dest : value
+# |          3  |          8 | ADDI  :  001000	   | slt  :  110111 |  3  :   | 65527  :   |  7  :  
+#  
+# time | PC | opcode : instr[31:26] | funct : instr[5:0] |  srcA : value | srcB : value | dest : value
+# |          4  |         12 | R type  :  000000	   | slt  :  100101 |  7  :   |  2  :   |  4  :  
+#  
+# time | PC | opcode : instr[31:26] | funct : instr[5:0] |  srcA : value | srcB : value | dest : value
+# |          5  |         16 | R type  :  000000	   | slt  :  100100 |  3  :   |  4  :   |  5  :  
+#  
+# time | PC | opcode : instr[31:26] | funct : instr[5:0] |  srcA : value | srcB : value | dest : value
+# |          6  |         20 | R type  :  000000	   | slt  :  100000 |  5  :   |  4  :   |  5  :  
+#  
+# time | PC |  opcode : instr[31:26] | funct : instr[5:0] |  srcA : value | srcB : value | target 
+# |          7  |         24 | BREQ  :  000100	   | slt  :  001010 |  5  :   |  7  :   |    10  :  
+#  
+# time | PC | opcode : instr[31:26] | funct : instr[5:0] |  srcA : value | srcB : value | dest : value
+# |          8  |         28 | R type  :  000000	   | slt  :  101010 |  3  :   |  4  :   |  4  :  
+#  
+# time | PC |  opcode : instr[31:26] | funct : instr[5:0] |  srcA : value | srcB : value | target 
+# |          9  |         32 | BREQ  :  000100	   | slt  :  000001 |  4  :   |  0  :   |     1  :  
+#  
+# time | PC | opcode : instr[31:26] | funct : instr[5:0] |  srcA : value | srcB : value | dest : value
+# |         10  |         40 | R type  :  000000	   | slt  :  101010 |  7  :   |  2  :   |  4  :  
+#  
+# time | PC | opcode : instr[31:26] | funct : instr[5:0] |  srcA : value | srcB : value | dest : value
+# |         11  |         44 | R type  :  000000	   | slt  :  100000 |  4  :   |  5  :   |  7  :  
+#  
+# time | PC | opcode : instr[31:26] | funct : instr[5:0] |  srcA : value | srcB : value | dest : value
+# |         12  |         48 | R type  :  000000	   | slt  :  100010 |  7  :   |  2  :   |  7  :  
+#  
+# time | PC |  opcode : instr[31:26] | funct : instr[5:0] |  srcA : value |   imm value  | srcB : value
+# |         13  |         52 | SW  :  101011	   | or  :  000100 |  3  :   |    68  :   |  7  :  
+#  
+# dataadr:         80  writedata:          7
+# time | PC |  opcode : instr[31:26] | funct : instr[5:0] |  srcA : value |   imm value  | dest : value
+# |         14  |         56 |LW  :  100011	   | or  :  010000 |  0  :   |    80  :   |  2  :  
+#  
+#  
+# time | PC |  opcode : instr[31:26] | funct : instr[5:0] |  srcA : value |   imm value  | srcB : value
+# |         16  |         68 | SW  :  101011	   | or  :  010100 |  0  :   |    84  :   |  2  :  
+#  
+# dataadr:         84  writedata:          7
+# Simulation succeeded
+# ** Note: $stop    : testbench.sv(22)
+#    Time: 175 ps  Iteration: 1  Instance: /testbench
+# Break in Module testbench at testbench.sv line 22
+# Stopped at testbench.sv line 22
+# End time: 10:15:05 on Feb 16,2020, Elapsed time: 0:00:14
+# Errors: 0, Warnings: 0
