@@ -1,0 +1,81 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dE:/NCSU_classes_files/spring20/633/Project/Heterogeneous-multicore/my_5_stage_proc
+vEX_comb
+Z1 DXx6 sv_std 3 std 0 22 AD7iAPLo6nTIKk<N0eo=D3
+Z2 !s110 1582487582
+!i10b 1
+!s100 <kOHTa9^GDkJWTm2gR<CC2
+I`CM_=dlJ><1bM[4RILfAh3
+Z3 VDg1SIo80bB@j0V0VzS_@n1
+Z4 !s105 core_sv_unit
+S1
+R0
+Z5 w1582487579
+Z6 8core.sv
+Z7 Fcore.sv
+L0 40
+Z8 OV;L;10.5b;63
+r1
+!s85 0
+31
+Z9 !s108 1582487582.000000
+Z10 !s107 core.sv|
+Z11 !s90 core.sv|
+!i113 1
+Z12 tCvgOpt 0
+n@e@x_comb
+vIF_comb
+R1
+R2
+!i10b 1
+!s100 molfRSH4_K[BU1:PTe_Q`1
+ICnBFG_]m:8_O6;?beeCZF1
+R3
+R4
+S1
+R0
+R5
+R6
+R7
+L0 19
+R8
+r1
+!s85 0
+31
+R9
+R10
+R11
+!i113 1
+R12
+n@i@f_comb
+vpc_gen
+R1
+R2
+!i10b 1
+!s100 0MMAETz:=Z?0DOUIg?JfZ0
+IR6T6Sg98gA<?8lf_H<NNo0
+R3
+R4
+S1
+R0
+R5
+R6
+R7
+L0 5
+R8
+r1
+!s85 0
+31
+R9
+R10
+R11
+!i113 1
+R12
