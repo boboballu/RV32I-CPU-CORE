@@ -1,3 +1,7 @@
+// Author: Tarun Govind Kesavamurthi
+// School: North Carolina State University
+// mail  : tkesava@ncsu.edu
+/********************************************************************************/
 // 0th module in the machinary - purely combinatioal
 // control signals - pcsrcD
 // Datapath nets inputs - pcplus4F[Fetch], pcbranchD[Decode] 
@@ -12,6 +16,7 @@ module pc_gen (
 	assign pc = pcsrcD ? pcbranchD : pcplus4F;
 endmodule : pc_gen
 
+/********************************************************************************/
 // 1st module in the machinary - purely combinational (IMEM doesnt have a clk!)
 // control signals - none
 // datapath nets inputs - pc
@@ -36,21 +41,20 @@ endmodule : IF_comb
 // bypass nets inputs - resultW, aluoutM 
 // datapath nets outputs - aluoutE, writedataE
 // inputs to hazard unit from EX - rsE, rtE, writeregE
- 
+
+/********************************************************************************/ 
 module EX_comb (
 				input logic alusrcE, input logic [2:0] aluctrlE, input logic regdstE,
 				input logic [1:0] forwardAE, input logic [1:0] forwardBE,
 				input logic [31:0] A, input logic [31:0] B, input logic [31:0] signimmD,
 				input logic [31:0] resultW, input logic [31:0] aluoutM,
-				input logic [4:0] rdE, input logic [4:0] rtE,
-				output logic [31:0] aluoutE, output logic [31:0] writedataE,
-				output logic [4:0] writeregE
+				output logic [31:0] aluoutE, output logic [31:0] writedataE
 				);
 	logic [31:0] srcAE, srcBE, srcBE_net0;
+	logic alu_zero_flag; // unconnected net
 	
 	assign writedataE = srcBE_net0;
 	assign srcBE = alusrcE ? signimmD : srcBE_net0;
-	assign writeregE = regdstE ? rdE : rtE;
 
 	always_comb begin
 		case (forwardAE)
@@ -70,23 +74,59 @@ module EX_comb (
 		endcase
 	end
 
-	always_comb begin // alu
-		case (aluctrlE)
-			3'b000: aluoutE <= srcAE & srcBE;
-			3'b001: aluoutE <= srcAE | srcBE;
-			3'b010: aluoutE <= srcAE + srcBE;
+	alu alu0 (.sca(srcAE), .scb(srcBE), .alucontrol(aluoutM),
+				.aluout(aluoutE), .zero(alu_zero_flag));	
+endmodule
 
-			3'b100: aluoutE <= srcAE & (~srcBE);
-			3'b101: aluoutE <= srcAE | (~srcBE);
-			3'b110: aluoutE <= srcAE - srcBE;
-			3'b111: aluoutE <= (srcAE < srcBE) ? 32'd1 : 32'd0;
-			default: aluoutE<= 32'bx;
+/// EX Stage - ALU  //////
+module alu (input logic [31:0] srca, input logic [31:0] srcb, 
+			input logic [2:0] alucontrol, 
+			output logic [31:0] aluout, output logic zero);
+	
+	assign zero = (aluout == 32'd0) ? 1 : 0;
+	always_comb begin
+		case(alucontrol)
+			3'b000: aluout <= srca & srcb;
+			3'b001: aluout <= srca | srcb;
+			3'b010: aluout <= srca + srcb;
+
+			3'b100: aluout <= srca & (~srcb);
+			3'b101: aluout <= srca | (~srcb);
+			3'b110: aluout <= srca - srcb;
+			3'b111: aluout <= (srca < srcb) ? 32'd1 : 32'd0;
+			default: aluout<= 32'bx;
 		endcase
 	end
 endmodule
+/********************************************************************************/ 
 
+// 4th module in the machinary - (data cache write is clocked)
+// clock - clk
+// control signals - memwriteM
+// hazard signals -  none
+// datapath nets inputs - aluoutM, writedataM
+// datapath nets outputs - readdataM
+module mem_stage (
+				  input logic clk,
+				  input logic memwriteM,
+				  input logic [31:0] aluoutM, input logic [31:0] writedataM,
+				  output logic [31:0] readdataM);
+	
+	logic [31:0] DMEM [1023:0]; // fixed size - will be changed later
+	assign readdataM = DMEM[aluoutM[31:2]];
+	always_ff @(posedge clk) begin
+		if (memwriteM)	DMEM[aluoutM[31:2]] <= writedataM;
+	end
+endmodule
+/********************************************************************************/ 
 
-
-
-
-
+// 5th module in the machinary - purely combinational
+// control signals - memregW
+// datapath nets inputs - readdataW, aluoutW
+// datapath nets outputs - resultW
+module wb_comb (input logic memregW,
+				input logic [31:0] readdataW, input logic [31:0] aluoutW,
+				output logic [31:0] resultW);
+	assign resultW = memregW ? readdataW : aluoutW;
+endmodule		
+/********************************************************************************/ 

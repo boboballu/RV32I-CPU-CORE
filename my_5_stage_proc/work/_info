@@ -8,36 +8,35 @@ z2
 !i10f 100
 cModel Technology
 Z0 dE:/NCSU_classes_files/spring20/633/Project/Heterogeneous-multicore/my_5_stage_proc
-vEX_comb
+valu
 Z1 DXx6 sv_std 3 std 0 22 AD7iAPLo6nTIKk<N0eo=D3
-Z2 !s110 1582487582
+Z2 !s110 1582691105
 !i10b 1
-!s100 <kOHTa9^GDkJWTm2gR<CC2
-I`CM_=dlJ><1bM[4RILfAh3
+!s100 F0AhIgb8E0WB6]^NH[39G3
+I7`i^J=4R5]la1e[@f_HYM2
 Z3 VDg1SIo80bB@j0V0VzS_@n1
 Z4 !s105 core_sv_unit
 S1
 R0
-Z5 w1582487579
+Z5 w1582691101
 Z6 8core.sv
 Z7 Fcore.sv
-L0 40
+L0 82
 Z8 OV;L;10.5b;63
 r1
 !s85 0
 31
-Z9 !s108 1582487582.000000
+Z9 !s108 1582691105.000000
 Z10 !s107 core.sv|
 Z11 !s90 core.sv|
 !i113 1
 Z12 tCvgOpt 0
-n@e@x_comb
-vIF_comb
+vEX_comb
 R1
 R2
 !i10b 1
-!s100 molfRSH4_K[BU1:PTe_Q`1
-ICnBFG_]m:8_O6;?beeCZF1
+!s100 P<eSTC]Pmf?Tm]1M`^;9I0
+IO@lF8_N4lVV[i[1zLAf@G0
 R3
 R4
 S1
@@ -45,7 +44,31 @@ R0
 R5
 R6
 R7
-L0 19
+L0 46
+R8
+r1
+!s85 0
+31
+R9
+R10
+R11
+!i113 1
+R12
+n@e@x_comb
+vIF_comb
+R1
+R2
+!i10b 1
+!s100 3bGeg]`g2d;<c>^7k;`FK2
+I_4ffY?2nSc2jZEOAn11T^0
+R3
+R4
+S1
+R0
+R5
+R6
+R7
+L0 24
 R8
 r1
 !s85 0
@@ -56,12 +79,12 @@ R11
 !i113 1
 R12
 n@i@f_comb
-vpc_gen
+vmem_stage
 R1
 R2
 !i10b 1
-!s100 0MMAETz:=Z?0DOUIg?JfZ0
-IR6T6Sg98gA<?8lf_H<NNo0
+!s100 M;UCHfgFUFN^P3kRgI1oh0
+IDKzSfE3ac6@oE4X_V8jJ`2
 R3
 R4
 S1
@@ -69,7 +92,53 @@ R0
 R5
 R6
 R7
-L0 5
+L0 109
+R8
+r1
+!s85 0
+31
+R9
+R10
+R11
+!i113 1
+R12
+vpc_gen
+R1
+R2
+!i10b 1
+!s100 N:;=`o_kSX?XJTTS@Wn>j1
+I>8VJBBIPQi]XUWYUZ7Oh>3
+R3
+R4
+S1
+R0
+R5
+R6
+R7
+L0 9
+R8
+r1
+!s85 0
+31
+R9
+R10
+R11
+!i113 1
+R12
+vwb_comb
+R1
+R2
+!i10b 1
+!s100 ATWjg6V3TFR?anH6_3M8W2
+I3TloEW1ko;aakFGK_g?X?2
+R3
+R4
+S1
+R0
+R5
+R6
+R7
+L0 127
 R8
 r1
 !s85 0
