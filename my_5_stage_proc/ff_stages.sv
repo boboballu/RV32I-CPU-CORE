@@ -4,7 +4,7 @@
 /********************************************************************************/
 // this file has all pipeline stages (flip-flops) for the processor
 
-// 0th stage - pc_IF stage
+// 1st stage - pc_IF stage
 // stage ctrl inputs - clk, en (active low), clear
 // data input 	  - pc 
 // output 		  - pcF
@@ -23,7 +23,7 @@ module pc_if (	input logic clk,
 endmodule : pc_if
 /********************************************************************************/
 
-// 1st stage - IF_ID stage
+// 2nd stage - IF_ID stage
 // stage ctrl inputs - clk, en (active low), clear
 // data inputs - rd, pcplus4F
 // data outputs - instnD, pcplus4D
@@ -33,7 +33,8 @@ module if_id ( 	input logic clk,
 				output logic [31:0] instnD, pcplus4D  );
 	always_ff @(posedge clk) begin
 		if (clear) begin
-			pc <= 0;
+			instnD <= 0;
+			pcplus4D <= 0;
 		end
 		else if(!en) begin
 			instnD <= rd;
@@ -43,7 +44,7 @@ module if_id ( 	input logic clk,
 endmodule : if_id
 /********************************************************************************/
 
-// 2nd stage - id_ex stage
+// 3rd stage - id_ex stage
 // stage ctrl inputs - clk, en (active low), clear
 // controller inputs - regwriteD, memtoregD, memwriteD, regdstD, alusrcD, alucontrolD
 // controller outputs- regwriteE, memtoregE, memwriteE, regdstE, alusrcE, alucontrolE
@@ -56,18 +57,69 @@ module id_ex (	input logic clk,
 				input logic [31:0] A, B, signimmD, input logic [4:0] rsD, rtD, rdD,
 				output logic regwriteE, memtoregE, memwriteE, regdstE, alusrcE,
 				output logic [1:0] alucontrolE,
-				output logic [31:0] AE, BE, signimmE, input logic [4:0] rsE, rtE, rdE
+				output logic [31:0] AE, BE, signimmE, output logic [4:0] rsE, rtE, rdE
 				);
 	always_ff @(posedge clk) begin
 		if (clear) begin
 			{regwriteE, memtoregE, memwriteE, regdstE, alusrcE, alucontrolE} <= 0;
-			{rsE, rtE, rdE, AE, BE, signimmE} <= 512'b0;
+			{rsE, rtE, rdE, AE, BE, signimmE} <= 0;
 		end
 		else if (!en) begin
-			{regwriteE, memtoregE, memwriteE, regdstE, alusrcE, alucontrolE} <= {regwriteD, memtoregD, memwriteD, regdstD, alusrcD, alucontrolD}
+			{regwriteE, memtoregE, memwriteE, regdstE, alusrcE, alucontrolE} <= {regwriteD, memtoregD, memwriteD, regdstD, alusrcD, alucontrolD};
 			{rsE, rtE, rdE, AE, BE, signimmE} <= {rsD, rtD, rdD, A, B, signimmD};
 		end
 	end
 endmodule : id_ex
 /********************************************************************************/
+
+// 4th stage - ex_mem stage
+// stage ctrl inputs - clk, en (active low), clear
+// controller inputs - regwriteE, memtoregE, memwriteE
+// controller outputs - regwriteM, memtoregM, memwriteM
+// data inputs - aluoutE, writedataE,   [4:0]writeregE(dest addr)
+// data outputs - aluoutM, writedataM, 	[4:0]writeregM(dest addr)
+module ex_mem (	input logic clk,
+				input logic en, clear,
+				input logic regwriteE, memtoregE, memwriteE,
+				input logic [31:0] aluoutE, writedataE, input logic [4:0] writeregE,
+				output logic regwriteM, memtoregM, memwriteM,
+				output logic [31:0] aluoutM, writedataM, output logic [4:0] writeregM
+				);
+	always_ff @(posedge clk) begin
+		if (clear) begin
+			{regwriteM, memtoregM, memwriteM} <= 0;
+			{aluoutM, writedataM, writeregM} <= 0;
+		end
+		else if (!en) begin
+			{regwriteM, memtoregM, memwriteM} <= {regwriteE, memtoregE, memwriteE};
+			{aluoutM, writedataM, writeregM}  <= {aluoutE, writedataE, writeregE};
+		end
+	end
+endmodule : ex_mem
+/********************************************************************************/
+
+// 5th stage - mem_wb stage
+// stage ctrl inputs - clk, en (active low), clear
+// controller inputs - regwriteM, memtoregM
+// controller outputs- regwriteW, memtoregW
+// data inputs - aluoutM, readdataM, writeregM
+// data outputs - aluoutW, readdataW, writeregW
+module mem_wb (	input logic clk,
+				input logic en, clear,
+				input logic regwriteM, memtoregM,
+				input logic [31:0] aluoutM, regdataM, input logic [4:0] writeregM,
+				output logic regwriteW, memtoregW,
+				output logic [31:0] aluoutW, regdataW, output logic [4:0] writeregW
+				);
+	always_ff @(posedge clk) begin
+		if (clear) begin
+			{regwriteW, memtoregW} <= 0;
+			{aluoutW, regdataW, writeregW} <= 0;
+		end
+		else if (!en) begin
+			{regwriteW, memtoregW} <= {regwriteM, memtoregM};
+			{aluoutW, regdataW, writeregW} <= {aluoutM, regdataM, writeregM};
+		end
+	end
+endmodule : mem_wb
 
