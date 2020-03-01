@@ -54,12 +54,12 @@ endmodule : IF_comb
 // bypass nets inputs - resultW, aluoutM
 // datapath nets inputs - writeregW, instnD, pcplus4D, 
 // datapath nets outputs - a, b, equalD, signimmD, pcbranchD, jump_targetD
-module ID_stage (input logic clk,
+module ID_comb (input logic clk,
 				 input regwriteW,
+				 input [31:0] instnD, pcplus4D,
 				 input forwardAD, forwardBD,
 				 input [4:0] writeregW,
 				 input [31:0] resultW, aluoutM,
-				 input [31:0] instnD, pcplus4D,
 				 output [31:0] a, b, signimmD, pcbranchD, jump_targetD,
 				 output equalD  );
 
@@ -77,7 +77,7 @@ module ID_stage (input logic clk,
 	assign signimmD = {{16{instnD[15]}}, instnD[15:0]};
 	assign pcbranchD = pcplus4D + (signimmD << 2);	
 	assign equalD = (a-b) ? 1'b1 : 1'b0;
-endmodule : ID_stage
+endmodule : ID_comb
 
 // register file - writes during negedge of clk
 module regfile(input logic clk,
@@ -108,7 +108,7 @@ endmodule : regfile
 // datapath nets outputs - aluoutE, writedataE
 /********************************************************************************/ 
 module EX_comb (
-				input logic alusrcE, input logic [2:0] aluctrlE,
+				input logic alusrcE, input logic [2:0] alucontrolE,
 				input logic [1:0] forwardAE, input logic [1:0] forwardBE,
 				input logic [31:0] a, input logic [31:0] b, input logic [31:0] signimmE,
 				input logic [31:0] resultW, input logic [31:0] aluoutM,
@@ -171,7 +171,7 @@ endmodule : alu
 // input from dmem - dmem_ed
 // datapath input nets - memwriteM, aluoutM_in, writedataM
 // datapath output nets - readdataM, aluoutM_out
-module MEM_stage (
+module MEM_comb (
 				  input logic memwriteM,
 				  input logic [31:0] aluoutM_in, input logic [31:0] writedataM,
 				  input logic [31:0] dmem_rd,
@@ -187,7 +187,7 @@ module MEM_stage (
 
 	assign aluoutM_out = aluoutM_in;
 
-endmodule : MEM_stage
+endmodule : MEM_comb
 /********************************************************************************/
 
 // 5th module in the machinary - purely combinational
