@@ -53,10 +53,10 @@ endmodule : if_id
 module id_ex (	input logic clk,
 				input logic en, clear,
 				input logic regwriteD, memtoregD, memwriteD, regdstD, alusrcD,
-				input logic [1:0] alucontrolD,
+				input logic [2:0] alucontrolD,
 				input logic [31:0] a, b, signimmD, input logic [4:0] rsD, rtD, rdD,
 				output logic regwriteE, memtoregE, memwriteE, regdstE, alusrcE,
-				output logic [1:0] alucontrolE,
+				output logic [2:0] alucontrolE,
 				output logic [31:0] aE, bE, signimmE, output logic [4:0] rsE, rtE, rdE
 				);
 	always_ff @(posedge clk) begin

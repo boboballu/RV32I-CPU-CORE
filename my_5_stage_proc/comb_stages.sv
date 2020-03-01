@@ -138,7 +138,7 @@ module EX_comb (
 		endcase
 	end
 
-	alu alu0 (.sca(srcAE), .scb(srcBE), .alucontrol(aluoutM),
+	alu alu0 (.srca(srcAE), .srcb(srcBE), .alucontrol(alucontrolE),
 				.aluout(aluoutE), .zero(alu_zero_flag));	
 endmodule : EX_comb
 
@@ -177,8 +177,7 @@ module MEM_comb (
 				  input logic [31:0] dmem_rd,
 				  output logic [31:0] dmem_addr, dmem_wd,
 				  output logic dmem_we,
-				  output logic [31:0] readdataM, 
-				  output logic aluoutM_out);
+				  output logic [31:0] readdataM, aluoutM_out);
 	
 	assign dmem_addr = aluoutM_in;
 	assign dmem_wd = writedataM;
@@ -194,9 +193,9 @@ endmodule : MEM_comb
 // control signals - memregW
 // datapath nets inputs - readdataW, aluoutW
 // datapath nets outputs - resultW
-module WB_comb (input logic memregW,
+module WB_comb (input logic memtoregW,
 				input logic [31:0] readdataW, input logic [31:0] aluoutW,
 				output logic [31:0] resultW);
-	assign resultW = memregW ? readdataW : aluoutW;
+	assign resultW = memtoregW ? readdataW : aluoutW;
 endmodule : WB_comb
 /********************************************************************************/

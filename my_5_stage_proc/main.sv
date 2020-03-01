@@ -28,31 +28,44 @@ module mips(input logic clk, reset,
 	// control path nets
 	logic [5:0] op, funct; // op and funct - inputs to the controller
 	// interconnect nets
-	logic pcsrcD, jumpD, regwriteD, memtoregD, memwriteD, regdstD, alusrcD; logic [2:0] alucontrolD;
+	logic branchD, pcsrcD, jumpD, regwriteD, memtoregD, memwriteD, regdstD, alusrcD; logic [2:0] alucontrolD;
 	logic regwriteE, memtoregE, memwriteE, regdstE, alusrcE; logic [2:0] alucontrolE;
 	logic regwriteM, memtoregM, memwriteM;
 	logic regwriteW, memtoregW;
 	//logic [15:0] immD - immidiate value, sign extended in ID_comb stage
 /********************************************************************************/
 	// hazard datapath nets
-	// 	logic [4:0] rsD, rtD, rdD; // reg source & dest addresses - for hazard datapath
+	logic [4:0] rsD, rtD, rdD; // reg source & dest addresses - for hazard datapath
 	logic [4:0] rsE, rtE, rdE;
 	logic [4:0] writeregE, writeregM, writeregW;
+/********************************************************************************/
+	// hazaard control nets
+	// forward nets:
+	logic forwardAD, forwardBD;
+	logic [1:0] forwardAE, forwardBE;
+	// stall nets
+	logic stallF, stallD;
+	logic flushD, flushE;
 /********************************************************************************/
 	// controller: op, funct assignment
 	assign op = instnD[31:26];
 	assign funct = instnD[5:0];
 	// hazard: Datapath
 	assign writeregE = regdstE ? rdE : rtE;
+	assign flushD = pcsrcD & jumpD;
+	// rsD, rtD and rtD
+	assign rsD = instnD[25:21];
+	assign rtD = instnD[20:16];
+	assign rdD = instnD[15:11];
 	// Datapath: cinnecting stage_comb to stage_ff		
 	// stage 1: pc_if stage
 	pc_gen pc_gen_comb 
 					(	.pcsrcD(pcsrcD), .jumpD(jumpD),
 						.pcbranchD(pcbranchD), .jump_targetD(jump_targetD),
-						.pcplus4(pcplus4F), .pc(pc_genF_in)	);
+						.pcplus4F(pcplus4F), .pc(pc_genF_in)	);
 	
 	pc_if pc_if_ff 	(	.clk(clk), 
-						.en(), .clear(), 
+						.en(stallF), .clear(1'b0), 
 						.pc(pc_genF_in),
 						.pcF(pc_genF_out)	);
 
@@ -64,7 +77,7 @@ module mips(input logic clk, reset,
 						.pcplus4F(pcplus4F)	);
 	
 	if_id if_id_ff  (	.clk(clk),
-						.en(), .clear(),
+						.en(stallD), .clear(flushD),
 						.rd(instnF), .pcplus4F(pcplus4F),
 						.instnD(instnD), .pcplus4D(pcplus4D)	);
 
@@ -73,15 +86,15 @@ module mips(input logic clk, reset,
 	ID_comb id_comb (	.clk(clk),
 						.regwriteW(regwriteW),
 						.instnD(instnD), .pcplus4D(pcplus4D),
-						.forwardAD(), .forwardBD(),
+						.forwardAD(forwardAD), .forwardBD(forwardBD),
 						.writeregW(writeregW),
 						.resultW(resultW), .aluoutM(aluoutM),
 						.a(aD), .b(bD), .signimmD(signimmD), .pcbranchD(pcbranchD), .jump_targetD(jump_targetD),
 						.equalD(equalD_ctrl));
 	
 	id_ex id_ex_ff	(	.clk(clk), 
-						.en(), .clear(),
-						.regwriteD(regwriteD), .memtoregD(regwriteD), .memwriteD(memwriteD), .regdstD(regdstD), .alusrcD(alusrcD),
+						.en(1'b0), .clear(flushE),
+						.regwriteD(regwriteD), .memtoregD(memtoregD), .memwriteD(memwriteD), .regdstD(regdstD), .alusrcD(alusrcD),
 						.alucontrolD(alucontrolD), 
 						.a(aD), .b(bD), .signimmD(signimmD), .rsD(rsD), .rtD(rtD), .rdD(rdD),
 						.regwriteE(regwriteE), .memtoregE(memtoregE), .memwriteE(memwriteE), .regdstE(regdstE), .alusrcE(alusrcE),
@@ -90,13 +103,13 @@ module mips(input logic clk, reset,
 
 	// stage 4: ex_mem stage
 	EX_comb ex_comb (	.alusrcE(alusrcE), .alucontrolE(alucontrolE),
-						.forwardAE(), .forwardBE(),
+						.forwardAE(forwardAE), .forwardBE(forwardBE),
 						.a(aE), .b(bE), .signimmE(signimmE),
 						.resultW(resultW), .aluoutM(aluoutM),
 						.aluoutE(aluoutE), .writedataE(writedataE)	);
 	
 	ex_mem ex_mem_ff(	.clk(clk),
-						.en(), .clear(),
+						.en(1'b0), .clear(1'b0),
 						.regwriteE(regwriteE), .memtoregE(memtoregE), .memwriteE(memwriteE),
 						.aluoutE(aluoutE), .writedataE(writedataE), 
 						.writeregE(writeregE), 
@@ -113,26 +126,41 @@ module mips(input logic clk, reset,
 						.aluoutM_out(aluoutM_out)	);
 
 	mem_wb mem_wb_ff(	.clk(clk), 
-						.en(), .clear(),
+						.en(1'b0), .clear(1'b0),
 						.regwriteM(regwriteM), .memtoregM(memtoregM),
 						.aluoutM(aluoutM_out), .readdataM(readdataM), .writeregM(writeregM),
 						.regwriteW(regwriteW), .memtoregW(memtoregW),
 						.aluoutW(aluoutW), .readdataW(readdataW),
 						.writeregW(writeregW)	);	
 
-	WB_comb wb_comb (	.memregW(),
+	WB_comb wb_comb (	.memtoregW(memtoregW),
 						.readdataW(readdataW), .aluoutW(aluoutW),
 						.resultW(resultW)	);
-
 /********************************************************************************/
+	
 	// controller:
 	controller ctrl(	.op(op), .funct(funct),
 						.equalD(equalD_ctrl),
-						.pcsrcD(pcsrcD), .jumpD(jumpD),
+						.branchD(branchD), .pcsrcD(pcsrcD), .jumpD(jumpD),
 						.regwriteD(regwriteD),
-						.memtoregD(regwriteD), .memwriteD(memwriteD),
+						.memtoregD(memtoregD), .memwriteD(memwriteD),
 						.regdstD(regdstD),
 						.alusrcD(alusrcD),
 						.alucontrolD(alucontrolD)  );
+/********************************************************************************/
+	
+	// hazard unit:
+	hazard_unit hazard_unit1
+					( 	.branchD(branchD), 
+						.memtoregE(memtoregE), .regwriteE(regwriteE),
+						.memtoregM(memtoregM), .regwriteM(regwriteM),
+						.regwriteW(regwriteW),
+						.rsD(rsD), .rtD(rtD),
+						.rsE(rsE), .rtE(rtE),
+						.writeregE(writeregE), .writeregM(writeregM), .writeregW(writeregW),
+						.stallF(stallF),
+						.stallD(stallD), .forwardAD(forwardAD), .forwardBD(forwardBD),
+						.flushE(flushE), .forwardAE(forwardAE), .forwardBE(forwardBE)	);
+
 
 endmodule : mips

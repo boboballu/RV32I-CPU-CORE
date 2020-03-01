@@ -18,15 +18,14 @@
 
 module controller(	input logic [5:0] op, funct,
 					input logic equalD,
-					output logic pcsrcD, jumpD,
+					output logic branchD, pcsrcD, jumpD,
 					output logic regwriteD,
 					output logic memtoregD, memwriteD,
 					output logic regdstD,
 					output logic alusrcD,
-					output logic [2:0] alucontrolD  );
+					output logic [2:0] alucontrolD );
 
 	logic [1:0] aluop;
-	logic branchD;
 
 	maindec md(	.op(op), 
 				.memtoregD(memtoregD), .memwriteD(memwriteD),
