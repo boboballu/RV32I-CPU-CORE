@@ -7,7 +7,7 @@ compile:
 	vlog -sv main.sv
 	vlog -sv testbench.sv
 run:
-	vsim testbench
+	vsim -novopt testbench
 work:
 	vlib work
 clean:

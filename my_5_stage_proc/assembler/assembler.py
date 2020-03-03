@@ -1,3 +1,7 @@
+# Author: Tarun Govind Kesavamurthi
+# School: North Carolina State University
+# mail  : tkesava@ncsu.edu
+#********************************************************************************#
 import sys
 
 fp = open (sys.argv[1], "r")
