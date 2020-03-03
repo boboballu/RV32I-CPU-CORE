@@ -41,7 +41,7 @@ module IF_comb (
 				output logic [31:0] pcplus4F
 				);
 
-	assign pc_imem = pc[31:2];
+	assign pc_imem = pc;
 	assign instnF = imem_instn;
 	assign pcplus4F = pc + 32'd4;
 endmodule : IF_comb
@@ -76,7 +76,7 @@ module ID_comb (input logic clk,
 	assign jump_targetD = {pcplus4D[31:28], instnD[25:0], 2'b00};
 	assign signimmD = {{16{instnD[15]}}, instnD[15:0]};
 	assign pcbranchD = pcplus4D + (signimmD << 2);	
-	assign equalD = (a-b) ? 1'b1 : 1'b0;
+	assign equalD = (a-b) ? 1'b0 : 1'b1;
 endmodule : ID_comb
 
 // register file - writes during negedge of clk

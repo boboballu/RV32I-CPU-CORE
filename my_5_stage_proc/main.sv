@@ -65,7 +65,7 @@ module mips(input logic clk, reset,
 						.pcplus4F(pcplus4F), .pc(pc_genF_in)	);
 	
 	pc_if pc_if_ff 	(	.clk(clk), 
-						.en(stallF), .clear(1'b0), 
+						.en(stallF), .clear(reset), 
 						.pc(pc_genF_in),
 						.pcF(pc_genF_out)	);
 
@@ -77,7 +77,7 @@ module mips(input logic clk, reset,
 						.pcplus4F(pcplus4F)	);
 	
 	if_id if_id_ff  (	.clk(clk),
-						.en(stallD), .clear(flushD),
+						.en(stallD), .clear((flushD | reset)),
 						.rd(instnF), .pcplus4F(pcplus4F),
 						.instnD(instnD), .pcplus4D(pcplus4D)	);
 
@@ -93,7 +93,7 @@ module mips(input logic clk, reset,
 						.equalD(equalD_ctrl));
 	
 	id_ex id_ex_ff	(	.clk(clk), 
-						.en(1'b0), .clear(flushE),
+						.en(1'b0), .clear((flushE | reset)),
 						.regwriteD(regwriteD), .memtoregD(memtoregD), .memwriteD(memwriteD), .regdstD(regdstD), .alusrcD(alusrcD),
 						.alucontrolD(alucontrolD), 
 						.a(aD), .b(bD), .signimmD(signimmD), .rsD(rsD), .rtD(rtD), .rdD(rdD),
@@ -109,7 +109,7 @@ module mips(input logic clk, reset,
 						.aluoutE(aluoutE), .writedataE(writedataE)	);
 	
 	ex_mem ex_mem_ff(	.clk(clk),
-						.en(1'b0), .clear(1'b0),
+						.en(1'b0), .clear(reset),
 						.regwriteE(regwriteE), .memtoregE(memtoregE), .memwriteE(memwriteE),
 						.aluoutE(aluoutE), .writedataE(writedataE), 
 						.writeregE(writeregE), 
@@ -121,12 +121,12 @@ module mips(input logic clk, reset,
 	MEM_comb mem_comb 
 					(	.memwriteM(memwriteM),
 						.aluoutM_in(aluoutM), .writedataM(writedataM),
-						.dmem_rd(dmem_rd), .dmem_addr(dmem_addr), .dmem_wd(dmem_wd), .dmem_we(), 
+						.dmem_rd(dmem_rd), .dmem_addr(dmem_addr), .dmem_wd(dmem_wd), .dmem_we(dmem_we), 
 						.readdataM(readdataM), 
 						.aluoutM_out(aluoutM_out)	);
 
 	mem_wb mem_wb_ff(	.clk(clk), 
-						.en(1'b0), .clear(1'b0),
+						.en(1'b0), .clear(reset),
 						.regwriteM(regwriteM), .memtoregM(memtoregM),
 						.aluoutM(aluoutM_out), .readdataM(readdataM), .writeregM(writeregM),
 						.regwriteW(regwriteW), .memtoregW(memtoregW),
