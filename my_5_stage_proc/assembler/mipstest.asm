@@ -21,5 +21,6 @@ sub $7 $7 $2              # $7 = 12 − 5 = 7                     30            
 sw $7 68 ($3)             # [80] = 7                            34              ac670044
 lw $2 80 ($0)             # $2 = [80] = 7                       38              8c020050
 j >end                    # should be taken                     3c            	08000011
+nop
 addi $2 $0 1              # shouldn't happen                    40              20020001
 sw $2 84 ($0)   <end      # write mem[84] = 7                   44          	ac020054

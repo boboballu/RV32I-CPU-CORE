@@ -9,6 +9,7 @@ fp = open (sys.argv[1], "r")
 instruction = [] # tokens in a perticular instruction
 binary_list = [] # the binary obtained after the assembly of instruction
 
+# takes instn number, target ">#tgtname" and instn type(beq or j) and returns target
 def compute_target(target, S_ln, instn_type):
 	fp = open (sys.argv[1], "r")
 	tgt = "<"+target[1:]
@@ -58,7 +59,13 @@ for line in fp:
 		else :
 			instruction.append(word)
 	# print (instruction)
-	if (instruction[0] == "add"):
+	if (instruction[0] == "nop"):
+		binary_list.append("00000000000000000000000000000000")
+	
+	elif (instruction[0] == "hlt"):
+		binary_list.append("11111100000000000000000000000000")
+		
+	elif (instruction[0] == "add"):
 		binary_list.append("000000")
 		binary_list.append('{0:05b}'.format((int(instruction[2][1:]))))
 		binary_list.append('{0:05b}'.format((int(instruction[3][1:]))))
