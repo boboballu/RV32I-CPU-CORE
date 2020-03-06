@@ -2,7 +2,8 @@
 # School: North Carolina State University
 # mail  : tkesava@ncsu.edu
 #********************************************************************************#
-all: clean work compile testcase1
+
+all: clean work compile run
 compile:
 	vlog -sv comb_stages.sv
 	vlog -sv ff_stages.sv
@@ -12,9 +13,12 @@ compile:
 	vlog -sv top_test.sv
 	vlog -sv testbench.sv
 	vlog -sv testcase1.sv
+	vlog -sv testcase2.sv
 
 testcase1:
 	vsim -novopt testcase1
+testcase2:
+	vsim -novopt testcase2
 run:
 	vsim -novopt testbench
 work:

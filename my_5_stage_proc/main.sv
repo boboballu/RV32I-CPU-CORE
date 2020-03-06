@@ -52,7 +52,7 @@ module mips(input logic clk, reset,
 	assign funct = instnD[5:0];
 	// hazard: Datapath
 	assign writeregE = regdstE ? rdE : rtE;
-	assign flushD = pcsrcD & jumpD;
+	assign flushD = pcsrcD | jumpD;
 	// rsD, rtD and rtD
 	assign rsD = instnD[25:21];
 	assign rtD = instnD[20:16];
@@ -151,7 +151,7 @@ module mips(input logic clk, reset,
 	
 	// hazard unit:
 	hazard_unit hazard_unit1
-					( 	.branchD(branchD), 
+					( 	.branchD(branchD), .jumpD(jumpD),
 						.memtoregE(memtoregE), .regwriteE(regwriteE),
 						.memtoregM(memtoregM), .regwriteM(regwriteM),
 						.regwriteW(regwriteW),

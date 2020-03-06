@@ -3,6 +3,7 @@
 // mail  : tkesava@ncsu.edu
 /********************************************************************************/
 // the top module used for test and verification //
+
 module top(input logic clk, reset,
 			output logic [31:0] writedata, dataadr,
 			output logic [31:0] readdata, pc, instr,
@@ -34,7 +35,7 @@ module imem(input logic [29:0] a,
 			output logic [31:0] rd);
 	bit [1023:0] RAM[63:0];
 	initial begin
-		$readmemh("./assembler/testcase1", RAM);
+		$readmemh("./assembler/golden_mipstest_binary", RAM);
 	end
 	assign rd = RAM[a]; // word aligned
 endmodule

@@ -3,6 +3,7 @@
 // mail  : tkesava@ncsu.edu
 /********************************************************************************/
 // master (golden) testbench, checking all the features (uses adHoc testing)
+
 module testbench();
 	logic clk;
 	logic reset;

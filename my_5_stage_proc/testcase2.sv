@@ -2,10 +2,10 @@
 // School: North Carolina State University
 // mail  : tkesava@ncsu.edu
 /********************************************************************************/
-// testbench for testcase1 - all alu instns, load , store (branch and jump not tested)
+// testbench for testcase2 - test unconditional jump, load, store, alu instructions
 /****important*****change imem file path to ./assembler/testcase1 in top_test.sv*/
 
-module testcase1();
+module testcase2();
 	logic clk;
 	logic reset;
 	logic [31:0] writedata, dataadr;
@@ -30,7 +30,7 @@ module testcase1();
 	always @(negedge clk) begin
 		if (memwrite) begin
 			$display ("pc: %d store : dataadr: %d  writedata: %d", pc, dataadr, $signed(writedata));
-			if (dataadr===116 & writedata===6) begin
+			if (dataadr===15 & $signed(writedata)===-5) begin
 				$display("Simulation succeeded");
 				$stop;
 			end

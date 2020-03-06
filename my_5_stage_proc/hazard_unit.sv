@@ -2,7 +2,7 @@
 // School: North Carolina State University
 // mail  : tkesava@ncsu.edu
 /********************************************************************************/
-module hazard_unit( input logic branchD,
+module hazard_unit( input logic branchD, jumpD,
 					input logic memtoregE, regwriteE,
 					input logic memtoregM, regwriteM,
 					input logic regwriteW,
@@ -48,7 +48,7 @@ module hazard_unit( input logic branchD,
 		// control hazard : stall during branch
 		branchstall = 	( branchD && regwriteE && ( (writeregE == rsD) || (writeregE == rtD) ) )
 													||
-					  	( branchD && memtoregM && ( (writeregM == rsD) || (writeregM == rtD) ) )	;
+					  	( branchD && memtoregM && ( (writeregM == rsD) || (writeregM == rtD) ) );
 
 		//StallF = StallD = FlushE = lwstall OR branchstall
 		stallF = lwstall | branchstall;
