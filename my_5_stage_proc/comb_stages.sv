@@ -18,10 +18,10 @@ module pc_gen (
 	//assign pc = pcsrcD ? pcbranchD : pcplus4F;
 	always_comb begin
 		case ({pcsrcD, jumpD})
-			2'b00: pc <= pcplus4F;
-			2'b01: pc <= jump_targetD;
-			2'b10: pc <= pcbranchD;
-			default: pc <= pcplus4F;
+			2'b00: pc = pcplus4F;
+			2'b01: pc = jump_targetD;
+			2'b10: pc = pcbranchD;
+			default: pc = pcplus4F;
 		endcase
 	end
 endmodule : pc_gen
@@ -122,19 +122,19 @@ module EX_comb (
 
 	always_comb begin
 		case (forwardAE)
-			2'b00: srcAE <= a;	
-			2'b01: srcAE <= resultW;
-			2'b10: srcAE <= aluoutM;
-			default: srcAE <= 32'bx;
+			2'b00: srcAE = a;	
+			2'b01: srcAE = resultW;
+			2'b10: srcAE = aluoutM;
+			default: srcAE = 32'bx;
 		endcase
 	end
 
 	always_comb begin
 		case (forwardBE)
-			2'b00: srcBE_net0 <= b;
-			2'b01: srcBE_net0 <= resultW;
-			2'b10: srcBE_net0 <= aluoutM;
-			default: srcBE_net0 <= 32'bx;
+			2'b00: srcBE_net0 = b;
+			2'b01: srcBE_net0 = resultW;
+			2'b10: srcBE_net0 = aluoutM;
+			default: srcBE_net0 = 32'bx;
 		endcase
 	end
 
@@ -150,15 +150,15 @@ module alu (input logic [31:0] srca, input logic [31:0] srcb,
 	assign zero = (aluout == 32'd0) ? 1 : 0;
 	always_comb begin
 		case(alucontrol)
-			3'b000: aluout <= srca & srcb;
-			3'b001: aluout <= srca | srcb;
-			3'b010: aluout <= srca + srcb;
+			3'b000: aluout = srca & srcb;
+			3'b001: aluout = srca | srcb;
+			3'b010: aluout = srca + srcb;
 
-			3'b100: aluout <= srca & (~srcb);
-			3'b101: aluout <= srca | (~srcb);
-			3'b110: aluout <= srca - srcb;
-			3'b111: aluout <= (srca < srcb) ? 32'd1 : 32'd0;
-			default: aluout<= 32'bx;
+			3'b100: aluout = srca & (~srcb);
+			3'b101: aluout = srca | (~srcb);
+			3'b110: aluout = srca - srcb;
+			3'b111: aluout = (srca < srcb) ? 32'd1 : 32'd0;
+			default: aluout= 32'bx;
 		endcase
 	end
 endmodule : alu

@@ -51,13 +51,13 @@ module maindec(	input logic [5:0] op,
 	assign {regwriteD, regdstD, alusrcD, branchD, memwriteD, memtoregD, jumpD, aluop} = controls;
 	always_comb begin
 		case(op)
-			6'b000000: controls <= 9'b110000010; // RTYPE
-			6'b100011: controls <= 9'b101001000; // LW
-			6'b101011: controls <= 9'b001010000; // SW
-			6'b000100: controls <= 9'b000100001; // BEQ
-			6'b001000: controls <= 9'b101000000; // ADDI
-			6'b000010: controls <= 9'b000000100; // J
-			default: controls <= 9'bxxxxxxxxx; // illegal op
+			6'b000000: controls = 9'b110000010; // RTYPE
+			6'b100011: controls = 9'b101001000; // LW
+			6'b101011: controls = 9'b001010000; // SW
+			6'b000100: controls = 9'b000100001; // BEQ
+			6'b001000: controls = 9'b101000000; // ADDI
+			6'b000010: controls = 9'b000000100; // J
+			default: controls = 9'bxxxxxxxxx; // illegal op
 		endcase
 	end
 endmodule : maindec
@@ -68,15 +68,15 @@ module aludec(	input logic [5:0] funct,
 				output logic [2:0] alucontrolD  );
 	always_comb
 	case(aluop)
-		2'b00: alucontrolD <= 3'b010; // add (for lw/sw/addi)
-		2'b01: alucontrolD <= 3'b110; // sub (for beq)
+		2'b00: alucontrolD = 3'b010; // add (for lw/sw/addi)
+		2'b01: alucontrolD = 3'b110; // sub (for beq)
 		default: case(funct) // R-type instructions
-					6'b100000: alucontrolD <= 3'b010; // add
-					6'b100010: alucontrolD <= 3'b110; // sub
-					6'b100100: alucontrolD <= 3'b000; // and
-					6'b100101: alucontrolD <= 3'b001; // or
-					6'b101010: alucontrolD <= 3'b111; // slt
-					default: alucontrolD <= 3'bxxx; // ???
+					6'b100000: alucontrolD = 3'b010; // add
+					6'b100010: alucontrolD = 3'b110; // sub
+					6'b100100: alucontrolD = 3'b000; // and
+					6'b100101: alucontrolD = 3'b001; // or
+					6'b101010: alucontrolD = 3'b111; // slt
+					default: alucontrolD = 3'bxxx; // ???
 				endcase
 	endcase
 endmodule : aludec

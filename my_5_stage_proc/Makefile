@@ -9,6 +9,7 @@ compile:
 	vlog -sv controller.sv
 	vlog -sv hazard_unit.sv
 	vlog -sv main.sv
+	vlog -sv top_test.sv
 	vlog -sv testbench.sv
 	vlog -sv testcase1.sv
 

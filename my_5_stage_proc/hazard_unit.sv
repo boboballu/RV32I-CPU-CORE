@@ -19,30 +19,30 @@ module hazard_unit( input logic branchD,
 	always_comb begin
 		//data bypass A: 
 		if ((rsE != 0) && (rsE == writeregM) && regwriteM) begin
-			forwardAE <= 2'b10; // ex_ex bypass -> a = aluoutM
+			forwardAE = 2'b10; // ex_ex bypass -> a = aluoutM
 		end
-		else if ( (rsE != 0) && (rsE == writeregM) && regwriteM) begin
-			forwardAE <= 2'b01; // mem_ex bypass -> a = resultW
+		else if ( (rsE != 0) && (rsE == writeregW) && regwriteW) begin
+			forwardAE = 2'b01; // mem_ex bypass -> a = resultW
 		end
 		else begin
-			forwardAE <= 2'b00;
+			forwardAE = 2'b00;
 		end
 
 		//data bypass A: 
 		if ((rtE != 0) && (rtE == writeregM) && regwriteM) begin
-			forwardBE <= 2'b10; // ex_ex bypass -> b = aluoutM
+			forwardBE = 2'b10; // ex_ex bypass -> b = aluoutM
 		end
-		else if ( (rtE != 0) && (rtE == writeregM) && regwriteM) begin
-			forwardBE <= 2'b01; // mem_ex bypass -> b = resultW
+		else if ( (rtE != 0) && (rtE == writeregW) && regwriteW) begin
+			forwardBE = 2'b01; // mem_ex bypass -> b = resultW
 		end
 		else begin
-			forwardBE <= 2'b00;
+			forwardBE = 2'b00;
 		end
 	end
 
 	always_comb begin
 		//data hazard: load RAW dependency stall (load followed by alu instn)
-		lwstall <= ((rsD == rtE) || (rtD == rtE)) && memtoregE;
+		lwstall = ((rsD == rtE) || (rtD == rtE)) && memtoregE;
 		// stallF = stallD = flushE = lwstall
 
 		// control hazard : stall during branch

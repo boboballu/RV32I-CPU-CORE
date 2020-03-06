@@ -17,14 +17,18 @@ def compute_target(target, S_ln, instn_type):
 	instruction = []
 	instn_no = 0
 	for line in fp:
-		if(line.split()[0][0] != "#"):
-			instn_no = instn_no + 1
-		for word in line.split():
-			if word[0] == "#":
-				instruction.append("comment")
-				break
-			else :
-				instruction.append(word)
+		if (len(line.split()) > 0):
+			if(line.split()[0][0] != "#"):
+				instn_no = instn_no + 1
+			for word in line.split():
+				if word[0] == "#":
+					instruction.append("comment")
+					break
+				else :
+					instruction.append(word)
+		else :
+			instruction.append("empty_line");
+		
 		if tgt in instruction:
 			result = instn_no
 			break
@@ -48,16 +52,24 @@ def twosComplement (value, bitLength) :
     return bin(value & (2**bitLength - 1))
 
 instn_no = 0
+line_no  = 0
 for line in fp:
-	#print (line.split())
-	if(line.split()[0][0] != "#"):
-		instn_no = instn_no + 1
-	for word in line.split():
-		if word[0] == "#":
-			instruction.append("comment")
-			break
-		else :
-			instruction.append(word)
+	# print (len(line.split()));
+	# if (len(line.split()) > 0):
+	# 	instruction.append("empty_line")
+	line_no = line_no+1;
+	if (len(line.split()) > 0):
+		if(line.split()[0][0] != "#"):
+			instn_no = instn_no + 1
+	
+		for word in line.split():
+			if word[0] == "#":
+				instruction.append("comment")
+				break
+			else :
+				instruction.append(word)
+	else :
+		instruction.append("empty_line");
 	# print (instruction)
 	if (instruction[0] == "nop"):
 		binary_list.append("00000000000000000000000000000000")
@@ -142,13 +154,18 @@ for line in fp:
 		# binary_list.append('{0:025b}'.format(int(instruction[1])))
 		tgt = compute_target(instruction[1], instn_no,"j")
 		binary_list.append('{0:026b}'.format(tgt))
-		
+	
+	else :
+		if (instruction[0] != "comment") and (instruction[0] != "empty_line"):
+			print ("Error "+str(line_no)+": invalid instn - "+line[0:5]+"...")
+			print ("**Assembler terminates**");
+			break
 	# print (binary_list)
 	instn_binary_str = "".join(binary_list)
 	# print (instn_binary_str)
 	# print (len(instn_binary_str))
 	# print (type(instn_binary_str))
-	if (instruction[0] != "comment"):
+	if (instruction[0] != "comment") and (instruction[0] != "empty_line"):
 		print ('{0:08X}'.format(bin_string_to_int(instn_binary_str)))
 	binary_list = []
 	instruction = []
