@@ -2,6 +2,7 @@
 // School: North Carolina State University
 // mail  : tkesava@ncsu.edu
 /********************************************************************************/
+
 module mips(input logic clk, reset,
 			output logic [31:0] pc_imem,
 			input logic [31:0] imem_instn,

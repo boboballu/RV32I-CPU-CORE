@@ -3,7 +3,7 @@
 // mail  : tkesava@ncsu.edu
 /********************************************************************************/
 // testbench for testcase2 - test unconditional jump, load, store, alu instructions
-/****important*****change imem file path to ./assembler/testcase1 in top_test.sv*/
+/****important*****change imem file path to ./assembler/testcase2 in top_test.sv*/
 
 module testcase2();
 	logic clk;
