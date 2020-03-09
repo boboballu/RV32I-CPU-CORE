@@ -3,7 +3,8 @@
 // mail  : tkesava@ncsu.edu
 /********************************************************************************/
 // master (golden) testbench, checking all the features (uses adHoc testing)
-
+`include "debug_headerfile.sv"
+import dbg_pkg::*;
 
 module testbench();
 	logic clk;
@@ -11,11 +12,16 @@ module testbench();
 	logic [31:0] writedata, dataadr;
 	logic [31:0] readdata, pc, instr;
 	logic memwrite;
+	mem_debug debug;
 	// instantiate device to be tested
 	top dut (.clk(clk), .reset(reset), 
 			.writedata(writedata), .dataadr(dataadr),
             .readdata(readdata), .pc(pc), .instr(instr), 
-			.memwrite(memwrite));
+			.memwrite(memwrite)
+			`ifdef mem_debug
+			, .debug(debug)
+			`endif
+			);
 	// initialize test
 	initial begin
 		reset <= 1; # 22; reset <= 0;

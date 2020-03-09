@@ -5,6 +5,7 @@
 
 all: clean work compile testbench
 compile:
+	vlog -sv packages.sv
 	vlog -sv comb_stages.sv
 	vlog -sv ff_stages.sv
 	vlog -sv controller.sv

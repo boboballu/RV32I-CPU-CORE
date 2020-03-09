@@ -2,13 +2,19 @@
 // School: North Carolina State University
 // mail  : tkesava@ncsu.edu
 /********************************************************************************/
-
+`include "debug_headerfile.sv"
+import dbg_pkg::*;
+/********************************************************************************/
 module mips(input logic clk, reset,
 			output logic [31:0] pc_imem,
 			input logic [31:0] imem_instn,
 			output logic dmem_we,
 			output logic [31:0] dmem_addr, dmem_wd,
-			input logic [31:0] dmem_rd 	);
+			input logic [31:0] dmem_rd
+			`ifdef mem_debug 
+			, output mem_debug debug
+			`endif			
+			);
 
 /********************************************************************************/
 	// Datapath of the processor - stagewise datapath nets
@@ -33,12 +39,13 @@ module mips(input logic clk, reset,
 	logic regwriteE, memtoregE, memwriteE, regdstE, alusrcE; logic [2:0] alucontrolE;
 	logic regwriteM, memtoregM, memwriteM;
 	logic regwriteW, memtoregW;
-	//logic [15:0] immD - immidiate value, sign extended in ID_comb stage
+
 /********************************************************************************/
 	// hazard datapath nets
 	logic [4:0] rsD, rtD, rdD; // reg source & dest addresses - for hazard datapath
 	logic [4:0] rsE, rtE, rdE;
 	logic [4:0] writeregE, writeregM, writeregW;
+
 /********************************************************************************/
 	// hazaard control nets
 	// forward nets:
@@ -58,6 +65,18 @@ module mips(input logic clk, reset,
 	assign rsD = instnD[25:21];
 	assign rtD = instnD[20:16];
 	assign rdD = instnD[15:11];
+
+/********************************************************************************/
+	// debugging at mem stage
+	`ifdef mem_debug
+	assign debug.dmem_we = dmem_we;
+	assign debug.dmem_addr = dmem_addr;
+	assign debug.dmem_wd = dmem_wd;
+	assign debug.dmem_rd = dmem_rd;
+	assign debug.regwriteM = regwriteM;
+	assign debug.memtoregM = memtoregM;
+	`endif 
+/********************************************************************************/
 	// Datapath: cinnecting stage_comb to stage_ff		
 	// stage 1: pc_if stage
 	pc_gen pc_gen_comb 
@@ -83,7 +102,6 @@ module mips(input logic clk, reset,
 						.instnD(instnD), .pcplus4D(pcplus4D)	);
 
 	// stage 3: id_ex stage
-	
 	ID_comb id_comb (	.clk(clk),
 						.regwriteW(regwriteW),
 						.instnD(instnD), .pcplus4D(pcplus4D),
@@ -162,6 +180,5 @@ module mips(input logic clk, reset,
 						.stallF(stallF),
 						.stallD(stallD), .forwardAD(forwardAD), .forwardBD(forwardBD),
 						.flushE(flushE), .forwardAE(forwardAE), .forwardBE(forwardBE)	);
-
 
 endmodule : mips

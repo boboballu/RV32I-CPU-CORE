@@ -3,7 +3,8 @@
 // mail  : tkesava@ncsu.edu
 /********************************************************************************/
 // this file has all pipeline stages (flip-flops) for the processor
-
+`include "debug_headerfile.sv"
+import dbg_pkg::*;
 // 1st stage - pc_IF stage
 // stage ctrl inputs - clk, en (active low), clear
 // data input 	  - pc 

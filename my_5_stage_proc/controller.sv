@@ -5,7 +5,8 @@
 // the controller has main and alu decoder 
 // main decoder - for identifying instruction type
 // alu decoder -  specifies alu finctionality for different opcode
-
+`include "debug_headerfile.sv"
+import dbg_pkg::*;
 // controller:
 // inputs - instnD ([31:26]op & [5:0]funct); equalD - to determin pcsrcD
 // pcsrcD and jumpD - change next PC (to the PC mux), flush IF_ID pipeline

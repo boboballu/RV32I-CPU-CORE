@@ -2,6 +2,8 @@
 // School: North Carolina State University
 // mail  : tkesava@ncsu.edu
 /********************************************************************************/
+`include "debug_headerfile.sv"
+import dbg_pkg::*;
 module hazard_unit( input logic branchD, jumpD,
 					input logic memtoregE, regwriteE,
 					input logic memtoregM, regwriteM,
@@ -15,6 +17,9 @@ module hazard_unit( input logic branchD, jumpD,
 	
 	logic lwstall;
 	logic branchstall;
+	
+	/********************************************************************************/
+	// *******Data Forwarding***********//
 	//data forwarding:(RAW) ex-ex and mem-ex bypass
 	always_comb begin
 		//data bypass A: 
@@ -40,6 +45,14 @@ module hazard_unit( input logic branchD, jumpD,
 		end
 	end
 
+	//Decode stage data dependency
+	always_comb begin
+		forwardAD = (rsD != 0) && (rsD == writeregM) && regwriteM;
+		forwardBD = (rtD != 0) && (rtD == writeregM) && regwriteM;
+	end
+
+	/********************************************************************************/
+	// *******Hazard Detection***********//
 	always_comb begin
 		//data hazard: load RAW dependency stall (load followed by alu instn)
 		lwstall = ((rsD == rtE) || (rtD == rtE)) && memtoregE;
@@ -54,12 +67,6 @@ module hazard_unit( input logic branchD, jumpD,
 		stallF = lwstall | branchstall;
 		stallD = lwstall | branchstall;
 		flushE = lwstall | branchstall;
-	end
-
-	//Decode stage data dependency
-	always_comb begin
-		forwardAD = (rsD != 0) && (rsD == writeregM) && regwriteM;
-		forwardBD = (rtD != 0) && (rtD == writeregM) && regwriteM;
 	end
 
 endmodule : hazard_unit
