@@ -41,6 +41,7 @@ module testbench();
 				$stop;
 			end 
 		end
+		`ifdef mem_debug
 		else if (debug.regwriteM) begin
 			if (debug.memtoregM) begin
 				$display ("pc %d load : dataadr: %d readdata: %d", pc, dataadr, $signed(readdata));
@@ -61,5 +62,6 @@ module testbench();
 			else 
             	$display ("pc %d branch : data: %d", pc, dataadr);
         end
+		`endif
 	end
 endmodule

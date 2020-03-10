@@ -1,5 +1,5 @@
 # vsim -c -do "run -all; exit" testbench 
-# Start time: 13:01:10 on Mar 10,2020
+# Start time: 13:05:47 on Mar 10,2020
 # Loading sv_std.std
 # Loading work.dbg_pkg
 # Loading work.testbench_sv_unit
@@ -63,5 +63,5 @@
 # Break in Module testbench at testbench.sv line 41
 # Stopped at testbench.sv line 41
 #  exit
-# End time: 13:01:10 on Mar 10,2020, Elapsed time: 0:00:00
+# End time: 13:05:47 on Mar 10,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
