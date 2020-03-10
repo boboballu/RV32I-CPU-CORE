@@ -1,0 +1,67 @@
+# vsim -c -do "run -all; exit" testbench 
+# Start time: 13:01:10 on Mar 10,2020
+# Loading sv_std.std
+# Loading work.dbg_pkg
+# Loading work.testbench_sv_unit
+# Loading work.testbench
+# Loading work.top_test_sv_unit
+# Loading work.top
+# Loading work.main_sv_unit
+# Loading work.mips
+# Loading work.comb_stages_sv_unit
+# Loading work.pc_gen
+# Loading work.ff_stages_sv_unit
+# Loading work.pc_if
+# Loading work.IF_comb
+# Loading work.if_id
+# Loading work.ID_comb
+# Loading work.regfile
+# Loading work.id_ex
+# Loading work.EX_comb
+# Loading work.alu
+# Loading work.ex_mem
+# Loading work.MEM_comb
+# Loading work.mem_wb
+# Loading work.WB_comb
+# Loading work.controller_sv_unit
+# Loading work.controller
+# Loading work.maindec
+# Loading work.aludec
+# Loading work.hazard_unit_sv_unit
+# Loading work.hazard_unit
+# Loading work.imem
+# Loading work.dmem
+# run -all
+# pc          0 bubble/branch : data:          0
+# pc          0 bubble/branch : data:          0
+# pc          0 bubble/branch : data:          0
+# pc          4 bubble/branch : data:          0
+# pc          8 nop/squashed instn-taken branch: data:          x
+# pc         12 ALU/Addi : data:          5
+# pc         16 ALU/Addi : data:         12
+# pc         20 ALU/Addi : data:          3
+# pc         24 ALU/Addi : data:          7
+# pc         28 ALU/Addi : data:          4
+# pc         28 ALU/Addi : data:         11
+# pc         32 bubble/branch : data:          0
+# pc         36 branch : data:          8
+# pc         36 ALU/Addi : data:          0
+# pc         40 bubble/branch : data:          0
+# pc         44 bubble/branch : data:          0
+# pc         48 nop/squashed instn-taken branch: data:          x
+# pc         52 ALU/Addi : data:          1
+# pc         56 ALU/Addi : data:         12
+# pc         60 ALU/Addi : data:          7
+# pc         64 store : dataadr:         80 writedata:           7
+# pc         68 load : dataadr:         80 readdata:           7
+# pc         72 bubble/branch : data:          0
+# pc         76 nop/squashed instn-taken branch: data:          x
+# pc         80 store : dataadr:         84 writedata:           7
+# Simulation succeeded
+# ** Note: $stop    : testbench.sv(41)
+#    Time: 245 ps  Iteration: 1  Instance: /testbench
+# Break in Module testbench at testbench.sv line 41
+# Stopped at testbench.sv line 41
+#  exit
+# End time: 13:01:10 on Mar 10,2020, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
