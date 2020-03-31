@@ -1,5 +1,5 @@
-*Author : Tarun Govind Kesavamurthi*
-*School : North Carolina State University - Comp Engg*
+*Author : Tarun Govind Kesavamurthi* |
+*School : North Carolina State University - Comp Engg* |
 *EMAIL  : tkesava@ncsu.edu*
 
 # Heterogeneous-multicore
