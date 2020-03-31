@@ -6,12 +6,12 @@
 This project is intended to develop a heterogeneous chip-multi-processor RTL design, a timing accurate simulator for verifying the RTL core, a working compiler port (LLVM backend) for a RISCV based ISA(supported instns yet to be finalized).
 *-> Far in future -> proxy kernel port for the core subsystem (may include a HTIF (host-target interface), which is not planned as of now).*
 
-The project now has a focuses on processor designs, starting from a very simple single-cycle processor design.
+The project now focuses on processor designs, starting from a very simple single-cycle processor design.
 
 ## Single cycle processor ( Dir: my_single_cycle)
 The motivation of this project is to use it as a processor design tutorial. Hence I added a single cycle processor design, which supports a 6 instruction DLX ISA. (**instructions.xls**)
 
-![](images/6_instn_DLX_ISA.jpg)
+![](images/6_instn_DLX_ISA.JPG)
 
 ## Classical 5 stage Pipelined processor (Dir: my_s_stage_proc)
 * Contains a classical 5 stage pipelined processor design for the same 6 instrucation DLX ISA.
