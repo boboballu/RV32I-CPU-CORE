@@ -3,11 +3,11 @@
 *EMAIL  : tkesava@ncsu.edu*
 
 # Heterogeneous-multicore
-I did this project during my independent study, which is designing a heterogeneous chip-multi-processor RTL. The main objective of this project is to minimize the instruction cycles taken for a thread swap between two cores. The thread swapping technique exploits **3DIC design techniques** to swap the threads faster than the existing techniques. A timing accurate simulator for verifying the RTL core and a working compiler port (LLVM backend) for a RISCV based ISA(supported instns yet to be finalized) to compile the and run the benchmark applications, is also planned for this project.
+I is a pert of my independent study, which is designing a heterogeneous chip-multi-processor RTL. The main objective of this project is to minimize the instruction cycles taken for a thread swap between two cores. The thread swapping technique exploits **3DIC design techniques** to swap the threads faster than the existing techniques. A timing accurate simulator for verifying the RTL core and a working compiler port (LLVM backend) for a RISCV based ISA(supported instns yet to be finalized) to compile the and run the benchmark applications, is also planned for this project.
 
 *-> far in future -> proxy kernel port for the core subsystem (may include a HTIF (host-target interface), which is not planned as of now).*
 
-The project now focuses on processor designs, starting from a very simple single-cycle processor design.
+The project repo focuses on processor designs, starting from a very simple single-cycle processor design.
 
 ## Single cycle processor ( Dir: my_single_cycle)
 The motivation of this project is to use it as a processor design tutorial. Hence I added a single cycle processor design, which supports a 6 instruction DLX ISA. (**instructions.xls**)
