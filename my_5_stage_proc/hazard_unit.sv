@@ -21,6 +21,9 @@ module hazard_unit( input logic branchD, jumpD,
 	/********************************************************************************/
 	// *******Data Forwarding***********//
 	//data forwarding:(RAW) ex-ex and mem-ex bypass
+	
+	// Intelectual Property - protected
+	`pragma protect begin
 	always_comb begin
 		//data bypass A: 
 		if ((rsE != 0) && (rsE == writeregM) && regwriteM) begin
@@ -68,5 +71,6 @@ module hazard_unit( input logic branchD, jumpD,
 		stallD = lwstall | branchstall;
 		flushE = lwstall | branchstall;
 	end
-
+	`pragma protect end
+	// Intelectual Property - protection ends here
 endmodule : hazard_unit

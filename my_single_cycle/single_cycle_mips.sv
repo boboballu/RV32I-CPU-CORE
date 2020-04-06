@@ -121,6 +121,8 @@ module datapath(input logic clk, reset,
 				output logic [31:0] aluout, writedata,
 				input logic [31:0] readdata);
 	
+	// protect the code in this given region
+	`pragma protect begin
 	logic [4:0] writereg;
 	logic [31:0] pcnext, pcnextbr, pcplus4, pcbranch;
 	logic [31:0] signimm, signimmsh;
@@ -142,6 +144,8 @@ module datapath(input logic clk, reset,
 			endcase
 		end
 	end
+	`pragma protect end
+	// end the protect here
 	// register file logic
 	regfile rf(clk, regwrite, instr[25:21], instr[20:16], writereg, result, srca, writedata);
 	assign signimm = {{16{instr[15]}}, instr[15:0]};

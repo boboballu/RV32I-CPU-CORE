@@ -1,5 +1,5 @@
-# vsim -c -do "run -all" testbench 
-# Start time: 10:14:51 on Feb 16,2020
+# vsim -c -do "run -a" testbench 
+# Start time: 21:51:42 on Apr 01,2020
 # Loading sv_std.std
 # Loading work.testbench
 # Loading work.top
@@ -12,7 +12,7 @@
 # Loading work.alu
 # Loading work.imem
 # Loading work.dmem
-# run -all
+# run -a
 #  
 # time | PC |  opcode : instr[31:26] | funct : instr[5:0] |  srcA : value |   imm value  | dest : value
 # |          1  |          0 | ADDI  :  001000	   | slt  :  000101 |  0  :   |     5  :   |  2  :  
@@ -67,5 +67,18 @@
 #    Time: 175 ps  Iteration: 1  Instance: /testbench
 # Break in Module testbench at testbench.sv line 22
 # Stopped at testbench.sv line 22
-# End time: 10:15:05 on Feb 16,2020, Elapsed time: 0:00:14
+# ~$PS Single cycle processor.docx
+# assembler
+# encrypt.sv
+# instructions.xlsx
+# memfile.dat
+# MIPS Single cycle processor.docx
+# single_cycle_mips.sv
+# test.asm
+# testbench.sv
+# transcript
+# vsim.wlf
+# wave.do
+# work
+# End time: 21:51:59 on Apr 01,2020, Elapsed time: 0:00:17
 # Errors: 0, Warnings: 0
