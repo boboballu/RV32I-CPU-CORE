@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "*.svh": "systemverilog",
+        "iosfwd": "cpp"
+    }
+}

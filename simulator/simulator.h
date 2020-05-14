@@ -45,6 +45,7 @@ struct ret_info {
 
 class funct_sim {
 public:
+    ofstream pipeline; // output the pipeline diagram
     map<uint32_t, instn_info> Imem;
     map<uint32_t, uint32_t> Dmem;
     uint32_t Reg[32];
@@ -66,7 +67,8 @@ public:
     void classic5pipeline();
     void printpipeline();
     // constructor
-    funct_sim() {
+    funct_sim(char *filename) {
+        pipeline.open(filename);
         for (int i=0; i < 32; i++) {
             Reg[i] = 0;
         } 

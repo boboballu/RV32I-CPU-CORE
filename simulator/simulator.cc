@@ -8,7 +8,6 @@
 using namespace std;
 
 ifstream trace;
-funct_sim sim1;
 
 int main(int argc, char* argv[]){
     uint32_t trace_intsn = 0;
@@ -16,7 +15,9 @@ int main(int argc, char* argv[]){
     instn_info trace_instn_info;
 
     trace.open(argv[1]);
-    
+
+    funct_sim sim1(argv[2]);
+
     printf("Imem - Populating Imem\n");
     while (trace>>hex>>trace_intsn) {
         trace_instn_info = sim1.getInstnInfo(trace_intsn);

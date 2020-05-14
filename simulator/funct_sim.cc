@@ -347,13 +347,21 @@ void funct_sim::classic5pipeline() {
 }
 
 void funct_sim::printpipeline() {
-    auto iter2 = debug_pc.begin();
+    auto pc_iter = debug_pc.begin();
     for (auto iter1 = instn_ppl.begin(); iter1 != instn_ppl.end(); ++iter1) {
-        printf("exe_seq: %d; %08x", iter1->first, *iter2);
-        iter2++;
+        printf("exe_seq: %d; %08x", iter1->first, *pc_iter);
+        pc_iter++;
+        
+        for (int i=0; i<iter1->second.begin()->first; i++) {
+            pipeline<<",";
+        }
+        
         for (auto iter2 = iter1->second.begin(); iter2 != iter1->second.end(); ++iter2) {
             printf(" |%d: %c| ", iter2->first, iter2->second);
+            pipeline<<iter2->second<<",";
         }
+        
+        pipeline<<endl;
         printf("\n");
     }
 }
