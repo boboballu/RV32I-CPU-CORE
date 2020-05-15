@@ -1,3 +1,7 @@
+// Author: Tarun Govind Kesavamurthi
+// School: North Carolina State University
+// mail  : tkesava@ncsu.edu
+/********************************************************************************/
 #include <iostream>
 #include <inttypes.h>
 #include <bits/stdc++.h>
@@ -15,8 +19,7 @@ int main(int argc, char* argv[]){
     instn_info trace_instn_info;
 
     trace.open(argv[1]);
-
-    funct_sim sim1(argv[2]);
+    funct_sim sim1;
 
     printf("Imem - Populating Imem\n");
     while (trace>>hex>>trace_intsn) {
@@ -36,4 +39,5 @@ int main(int argc, char* argv[]){
     printf("#####Check Pipeline#######\n");
     sim1.classic5pipeline();
     sim1.printpipeline();
+    sim1.dumppipeline(argv[2]);
 }

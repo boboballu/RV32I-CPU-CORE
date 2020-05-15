@@ -1,3 +1,7 @@
+// Author: Tarun Govind Kesavamurthi
+// School: North Carolina State University
+// mail  : tkesava@ncsu.edu
+/********************************************************************************/
 #ifndef SIMULATOR_H
 #define SIMULATOR_H
 
@@ -45,7 +49,6 @@ struct ret_info {
 
 class funct_sim {
 public:
-    ofstream pipeline; // output the pipeline diagram
     map<uint32_t, instn_info> Imem;
     map<uint32_t, uint32_t> Dmem;
     uint32_t Reg[32];
@@ -56,6 +59,8 @@ public:
     // for debugging puropses
     deque<uint32_t> debug_pc;
 
+    // records total number of cycles taken to run till the end 
+    uint32_t runtime;
     uint32_t PC;
     instn_info getInstnInfo(uint32_t instn);
     void sim_functional();
@@ -66,9 +71,9 @@ public:
     // pipeline simulation
     void classic5pipeline();
     void printpipeline();
+    void dumppipeline(char *filename);
     // constructor
-    funct_sim(char *filename) {
-        pipeline.open(filename);
+    funct_sim() {
         for (int i=0; i < 32; i++) {
             Reg[i] = 0;
         } 

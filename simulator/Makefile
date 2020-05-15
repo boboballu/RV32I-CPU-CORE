@@ -1,7 +1,11 @@
+# Author: Tarun Govind Kesavamurthi
+#  School: North Carolina State University
+#  mail  : tkesava@ncsu.edu
+# /********************************************************************************/
 CC=g++
 CFLAGS=-g
-DEPS = simulator.cc funct_sim.cc
-OBJ = simulator.o funct_sim.o
+DEPS = simulator.cc funct_sim.cc pipeline.cc
+OBJ = simulator.o funct_sim.o pipeline.o
 %.o: %.cc $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
