@@ -14,7 +14,8 @@ design:
 	vlog -sv comb_stages.sv
 	vlog -sv ff_stages.sv
 	vlog -sv controller.sv
-	vlog -sv hazard_protected.sv
+	vlog -sv hazard_unit.sv
+# 	vlog -sv hazard_protected.sv
 	vlog -sv main.sv
 
 packages: 
