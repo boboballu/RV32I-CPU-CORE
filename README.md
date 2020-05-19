@@ -9,12 +9,12 @@ I developed this project for my independent study, which is designing a heteroge
 
 The project repo focuses on processor designs, starting from a very simple single-cycle processor design.
 
-## Single cycle processor ( Dir: my_single_cycle)
+## Single cycle processor ( Dir: scalar_cores/1stage_core)
 The motivation of this project is to use it as a processor design tutorial. Hence I added a single cycle processor design, which supports a 6 instruction DLX ISA. (**instructions.xls**)
 
 ![](images/6_instn_DLX_ISA.JPG)
 
-## Classical 5 stage Pipeline processor (Dir: my_s_stage_proc)
+## Classical 5 stage Pipeline processor (Dir: scalar_cores/5stage_core)
 * Contains a classical 5 stage integer pipeline processor design for the same 6 instrucation DLX ISA.
 * Implements Ex-Ex, MEM-Ex data forwarding.
 * RAW data hazard detection is also implemented, which introduces 1 cycle bubble.
@@ -28,3 +28,8 @@ The motivation of this project is to use it as a processor design tutorial. Henc
 ## Crude Assembler (Dir: assembler)
 * contains a simple assembler written in python
 * ~~Read assembler/README for more info~~
+
+## 5stage processor simulator (Dir: scalar_cores/simulator)
+* Functional simulator capable of delivering the pipeline diagram in a csv format.
+* Args: ./sim "assembled binary file" "outout csv file"
+* Code yet to be documented.
