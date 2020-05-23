@@ -4,4 +4,5 @@
 /********************************************************************************/
 // comment the definition below to disable debugging io at mem stage (mem_debug)
 `define mem_debug
-
+//`define BR_RESOLVE_D
+`define BR_RESOLVE_M

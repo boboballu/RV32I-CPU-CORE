@@ -114,9 +114,16 @@ module EX_comb (
 				input logic [31:0] a, input logic [31:0] b, input logic [31:0] signimmE,
 				input logic [31:0] resultW, input logic [31:0] aluoutM,
 				output logic [31:0] aluoutE, output logic [31:0] writedataE
+				`ifdef BR_RESOLVE_M
+				, output logic zeroE
+				`endif
 				);
 	logic [31:0] srcAE, srcBE, srcBE_net0;
 	logic alu_zero_flag; // unconnected net
+	
+	`ifdef BR_RESOLVE_M
+	assign zeroE = alu_zero_flag;
+	`endif
 	
 	assign writedataE = srcBE_net0;
 	assign srcBE = alusrcE ? signimmE : srcBE_net0;

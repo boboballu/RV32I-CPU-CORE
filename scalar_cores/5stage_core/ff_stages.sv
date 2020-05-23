@@ -54,20 +54,34 @@ endmodule : if_id
 module id_ex (	input logic clk,
 				input logic en, clear,
 				input logic regwriteD, memtoregD, memwriteD, regdstD, alusrcD,
-				input logic [2:0] alucontrolD,
+				input logic [2:0] alucontrolD,				
 				input logic [31:0] a, b, signimmD, input logic [4:0] rsD, rtD, rdD,
 				output logic regwriteE, memtoregE, memwriteE, regdstE, alusrcE,
 				output logic [2:0] alucontrolE,
 				output logic [31:0] aE, bE, signimmE, output logic [4:0] rsE, rtE, rdE
+				`ifdef BR_RESOLVE_M // BR evaluation in EX stage - pipeline registers
+				, input logic [31:0] pcbranchD,
+				  output logic [31:0] pcbranchE,
+				  input logic branchD,
+				  output logic branchE
+				`endif
 				);
 	always_ff @(posedge clk) begin
 		if (clear) begin
 			{regwriteE, memtoregE, memwriteE, regdstE, alusrcE, alucontrolE} <= 0;
 			{rsE, rtE, rdE, aE, bE, signimmE} <= 0;
+			`ifdef BR_RESOLVE_M
+			pcbranchE <= 0;
+			branchE <= 0;
+			`endif
 		end
 		else if (!en) begin
 			{regwriteE, memtoregE, memwriteE, regdstE, alusrcE, alucontrolE} <= {regwriteD, memtoregD, memwriteD, regdstD, alusrcD, alucontrolD};
 			{rsE, rtE, rdE, aE, bE, signimmE} <= {rsD, rtD, rdD, a, b, signimmD};
+			`ifdef BR_RESOLVE_M
+			pcbranchE <= pcbranchD;
+			branchE <= branchD;
+			`endif
 		end
 	end
 endmodule : id_ex
@@ -85,15 +99,31 @@ module ex_mem (	input logic clk,
 				input logic [31:0] aluoutE, writedataE, input logic [4:0] writeregE,
 				output logic regwriteM, memtoregM, memwriteM,
 				output logic [31:0] aluoutM, writedataM, output logic [4:0] writeregM
+				`ifdef BR_RESOLVE_M // BR evaluation in EX stage - pipeline registers
+				, input logic [31:0] pcbranchE,
+				  output logic [31:0] pcbranchM,
+				  input logic branchE, zeroE,
+				  output logic branchM, zeroM
+				`endif
 				);
 	always_ff @(posedge clk) begin
 		if (clear) begin
 			{regwriteM, memtoregM, memwriteM} <= 0;
 			{aluoutM, writedataM, writeregM} <= 0;
+			`ifdef BR_RESOLVE_M
+			branchM <= 0;
+			zeroM   <= 0;
+			pcbranchM <= 0;
+			`endif
 		end
 		else if (!en) begin
 			{regwriteM, memtoregM, memwriteM} <= {regwriteE, memtoregE, memwriteE};
 			{aluoutM, writedataM, writeregM}  <= {aluoutE, writedataE, writeregE};
+			`ifdef BR_RESOLVE_M
+			branchM <= branchE;
+			zeroM   <= zeroE;
+			pcbranchM <= pcbranchE;
+			`endif
 		end
 	end
 endmodule : ex_mem

@@ -13,6 +13,7 @@ module testbench();
 	logic [31:0] readdata, pc, instr;
 	logic memwrite;
 	mem_debug debug;
+	integer instn_cycle = 1;
 	// instantiate device to be tested
 	top dut (.clk(clk), .reset(reset), 
 			.writedata(writedata), .dataadr(dataadr),
@@ -34,34 +35,37 @@ module testbench();
 	end
 	// check results
 	always @(negedge clk) begin
-		if (memwrite) begin
-			$display ("pc %d store : dataadr: %d writedata: %d", pc, dataadr, $signed(writedata));
-			if (dataadr===84 & $signed(writedata)===7) begin
-				$display("Simulation succeeded");
-				$stop;
-			end 
-		end
-		`ifdef mem_debug
-		else if (debug.regwriteM) begin
-			if (debug.memtoregM) begin
-				$display ("pc %d load : dataadr: %d readdata: %d", pc, dataadr, $signed(readdata));
+		if (!reset) begin
+			if (memwrite) begin
+				$display ("instn_cycle : %d pc %d store : dataadr: %d writedata: %d", instn_cycle, pc, dataadr, $signed(writedata));
+				if (dataadr===84 & $signed(writedata)===7) begin
+					$display("Simulation succeeded");
+					$stop;
+				end 
 			end
-			else begin
-				if (debug.dmem_addr === 32'bx) begin
-					$display ("pc %d nop/squashed instn-taken branch: data: %d", pc, dataadr);
+			`ifdef mem_debug
+			else if (debug.regwriteM) begin
+				if (debug.memtoregM) begin
+					$display ("instn_cycle : %d pc %d load : dataadr: %d readdata: %d", instn_cycle, pc, dataadr, $signed(readdata));
 				end
 				else begin
-					$display ("pc %d ALU/Addi : data: %d", pc, dataadr);
-				end
-			end		
-		end
+					if (debug.dmem_addr === 32'bx) begin
+						$display ("instn_cycle : %d pc %d nop/squashed instn-taken branch: data: %d", instn_cycle, pc, dataadr);
+					end
+					else begin
+						$display ("instn_cycle : %d pc %d ALU/Addi : data: %d", instn_cycle, pc, dataadr);
+					end
+				end		
+			end
 
-        else begin
-			if (dataadr === 0)
-            	$display ("pc %d bubble/branch : data: %d", pc, dataadr);
-			else 
-            	$display ("pc %d branch : data: %d", pc, dataadr);
-        end
-		`endif
+	        else begin
+				if (dataadr === 0)
+	            	$display ("instn_cycle : %d pc %d bubble/branch : data: %d", instn_cycle, pc, dataadr);
+				else 
+	            	$display ("instn_cycle : %d pc %d branch : data: %d", instn_cycle, pc, dataadr);
+	        end
+			`endif
+			instn_cycle++;
+		end
 	end
 endmodule

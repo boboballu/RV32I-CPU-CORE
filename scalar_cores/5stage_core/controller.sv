@@ -9,6 +9,7 @@
 import dbg_pkg::*;
 // controller:
 // inputs - instnD ([31:26]op & [5:0]funct); equalD - to determin pcsrcD
+// control outputs - 
 // pcsrcD and jumpD - change next PC (to the PC mux), flush IF_ID pipeline
 // regwriteD - write EN for reg file
 // memtoregD - for load instn
