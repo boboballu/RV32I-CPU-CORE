@@ -87,17 +87,18 @@ void funct_sim::classic5pipeline() {
                 }
             }
             if (stage_match == false) {
-                // Ex stall - instn followed by lw with raw dependancy
+                // Wrong ---Ex stall--- - instn followed by lw with raw dependancy
+                // lw stall is identified in decode stage, Hence its decode stall
                 if ((stall_cycle < 1) &&
                     (Imem.find(last_pc)->second.type == lw) && 
-                    (instn_ppl.find(exe_seq)->second.find(cycle-1)->second == 'E') &&
+                    (instn_ppl.find(exe_seq)->second.find(cycle-1)->second == 'D') &&
                     ((Imem.find(last_pc)->second.rd == Imem.find(pc)->second.rs) || 
                     (Imem.find(last_pc)->second.rd == Imem.find(pc)->second.rt))
                     ) 
                 {   
                     raw_hazzard = true;
                     stall_cycle++;
-                    instn_ppl[exe_seq][cycle] = 'E';
+                    instn_ppl[exe_seq][cycle] = 'D';
                 }
                 // Decode Stall - beq followed by r_r or addi
                 if ((stall_cycle < 1) && 
