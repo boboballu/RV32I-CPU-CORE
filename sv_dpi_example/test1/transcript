@@ -1,0 +1,38 @@
+# vsim -c -do "run -all; exit" test 
+# Start time: 13:54:57 on May 24,2020
+# Loading /tmp/tkesava@engr-ras-206.eos.ncsu.edu_dpi_10975/linux_gcc-5.3.0/export_tramp.so
+# ** Note: (vsim-8009) Loading existing optimized design _opt
+# //  Questa Sim
+# //  Version 10.7c linux Aug 17 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  QuestaSim and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading sv_std.std
+# Loading work.test(fast)
+# Compiling /tmp/tkesava@engr-ras-206.eos.ncsu.edu_dpi_10975/linux_gcc-5.3.0/exportwrapper.c
+# Loading /tmp/tkesava@engr-ras-206.eos.ncsu.edu_dpi_10975/linux_gcc-5.3.0/vsim_auto_compile.so
+# run -all
+# a is x
+# (C++) a is 3
+# Scope is test
+# (SV) b is 1
+# a is 1
+# (C++) a is 1
+# Scope is test
+# (SV) b is 1
+# a is z
+# (C++) a is 2
+# Scope is test
+# (SV) b is 0
+#  exit
+# End time: 13:54:58 on May 24,2020, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0

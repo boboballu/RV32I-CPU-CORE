@@ -1,0 +1,44 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 d/afs/unity.ncsu.edu/users/t/tkesava/633/Heterogeneous-multicore/sv_dpi_example/test1
+T_opt
+!s110 1590342836
+V5Xg^k2`H48Ok]FDJRCWPC1
+04 4 4 work test fast 0
+=1-000ae431a4f1-5ecab4b4-70cef-296c
+o-quiet -auto_acc_if_foreign -work work
+Z1 tCvgOpt 0
+n@_opt
+OE;O;10.7c;67
+R0
+vtest
+DXx6 sv_std 3 std 0 22 d=_JfHTnXCN[H5FjiaJJc0
+!s110 1590342890
+!i10b 1
+!s100 ;XEF@cB5Z64=VJ4<<eE:m1
+IS4J1JRi;>a1:@MT`bQiYR0
+VDg1SIo80bB@j0V0VzS_@n1
+!s105 testbench_sv_unit
+S1
+R0
+w1590342697
+8testbench.sv
+Ftestbench.sv
+L0 6
+OE;L;10.7c;67
+r1
+!s85 0
+31
+!s108 1590342889.000000
+!s107 testbench.sv|
+!s90 testbench.sv|
+!i113 0
+o-L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+R1

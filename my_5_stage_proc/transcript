@@ -1,0 +1,63 @@
+# vsim -c -do "run -all; exit" testbench 
+# Start time: 19:33:47 on May 07,2020
+# ** Note: (vsim-3812) Design is being optimized...
+# //  Questa Sim
+# //  Version 10.7c linux Aug 17 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  QuestaSim and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading sv_std.std
+# Loading work.dbg_pkg(fast)
+# Loading work.testbench_sv_unit(fast)
+# Loading work.testbench(fast)
+# Loading work.top_test_sv_unit(fast)
+# Loading work.top(fast)
+# Loading work.hazard_unit_sv_unit(fast)
+# Loading work.controller_sv_unit(fast)
+# Loading work.ff_stages_sv_unit(fast)
+# Loading work.comb_stages_sv_unit(fast)
+# Loading work.main_sv_unit(fast)
+# Loading work.mips(fast)
+# run -all
+# pc          0 bubble/branch : data:          0
+# pc          0 bubble/branch : data:          0
+# pc          0 bubble/branch : data:          0
+# pc          4 bubble/branch : data:          0
+# pc          8 nop/squashed instn-taken branch: data:          x
+# pc         12 ALU/Addi : data:          5
+# pc         16 ALU/Addi : data:         12
+# pc         20 ALU/Addi : data:          3
+# pc         24 ALU/Addi : data:          7
+# pc         28 ALU/Addi : data:          4
+# pc         28 ALU/Addi : data:         11
+# pc         32 bubble/branch : data:          0
+# pc         36 branch : data:          8
+# pc         36 ALU/Addi : data:          0
+# pc         40 bubble/branch : data:          0
+# pc         44 bubble/branch : data:          0
+# pc         48 nop/squashed instn-taken branch: data:          x
+# pc         52 ALU/Addi : data:          1
+# pc         56 ALU/Addi : data:         12
+# pc         60 ALU/Addi : data:          7
+# pc         64 store : dataadr:         80 writedata:           7
+# pc         68 load : dataadr:         80 readdata:           7
+# pc         72 bubble/branch : data:          0
+# pc         76 nop/squashed instn-taken branch: data:          x
+# pc         80 store : dataadr:         84 writedata:           7
+# Simulation succeeded
+# ** Note: $stop    : testbench.sv(41)
+#    Time: 245 ns  Iteration: 1  Instance: /testbench
+# Break at testbench.sv line 41
+# Stopped at testbench.sv line 41
+#  exit
+# End time: 19:33:48 on May 07,2020, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
