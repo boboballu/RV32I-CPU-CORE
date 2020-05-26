@@ -1,0 +1,9 @@
+#README - COMPILING SV_DPI
+vlib work
+vlog -writetoplevels questa.tops '-timescale' '1ns/1ns' design.sv testbench.sv
+
+##ccomp -dpi my_dpi.cc -o my_dpi.so
+##vsim -f questa.tops -batch -do "vsim -sv_lib my_dpi -voptargs=+acc=npr; run -all; exit" -voptargs=+acc=np
+
+#gcc -fPIC -g -w -shared -I$MTI_HOME/include -Lstdc++ my_dpi.cc -o my_dpi.so
+#vsim -c -do "run -all; exit" -f questa.tops -sv_lib my_dpi

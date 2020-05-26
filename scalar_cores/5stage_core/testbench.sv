@@ -37,7 +37,7 @@ module testbench();
 	always @(negedge clk) begin
 		if (!reset) begin
 			if (memwrite) begin
-				$display ("instn_cycle : %d pc %d store : dataadr: %d writedata: %d", instn_cycle, pc, dataadr, $signed(writedata));
+				$display ("instn_cycle : %d pc %x store : dataadr: %d writedata: %d", instn_cycle, pc, dataadr, $signed(writedata));
 				if (dataadr===84 & $signed(writedata)===7) begin
 					$display("Simulation succeeded");
 					$stop;
@@ -46,23 +46,23 @@ module testbench();
 			`ifdef mem_debug
 			else if (debug.regwriteM) begin
 				if (debug.memtoregM) begin
-					$display ("instn_cycle : %d pc %d load : dataadr: %d readdata: %d", instn_cycle, pc, dataadr, $signed(readdata));
+					$display ("instn_cycle : %d pc %x load : dataadr: %d readdata: %d", instn_cycle, pc, dataadr, $signed(readdata));
 				end
 				else begin
 					if (debug.dmem_addr === 32'bx) begin
-						$display ("instn_cycle : %d pc %d nop/squashed instn-taken branch: data: %d", instn_cycle, pc, dataadr);
+						$display ("instn_cycle : %d pc %x nop/squashed instn-taken branch: data: %d", instn_cycle, pc, dataadr);
 					end
 					else begin
-						$display ("instn_cycle : %d pc %d ALU/Addi : data: %d", instn_cycle, pc, dataadr);
+						$display ("instn_cycle : %d pc %x ALU/Addi : data: %d", instn_cycle, pc, dataadr);
 					end
 				end		
 			end
 
 	        else begin
 				if (dataadr === 0)
-	            	$display ("instn_cycle : %d pc %d bubble/branch : data: %d", instn_cycle, pc, dataadr);
+	            	$display ("instn_cycle : %d pc %x bubble/branch : data: %d", instn_cycle, pc, dataadr);
 				else 
-	            	$display ("instn_cycle : %d pc %d branch : data: %d", instn_cycle, pc, dataadr);
+	            	$display ("instn_cycle : %d pc %x branch : data: %d", instn_cycle, pc, dataadr);
 	        end
 			`endif
 			instn_cycle++;

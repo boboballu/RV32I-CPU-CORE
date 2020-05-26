@@ -30,6 +30,7 @@ module mips(input logic clk, reset,
 	logic [31:0] readdataM, aluoutM_out; // mem_comb to mem_wb ff
 	logic [31:0] readdataW, aluoutW; // mem_wb ff to wv_comb
 	logic [31:0] resultW; // wb_comb to other stage comb modules
+	logic haltD, haltE, haltM, haltW; // For the halt uOp
 	
 /********************************************************************************/
 	// control path nets
@@ -137,9 +138,11 @@ module mips(input logic clk, reset,
 						.regwriteD(regwriteD), .memtoregD(memtoregD), .memwriteD(memwriteD), .regdstD(regdstD), .alusrcD(alusrcD),
 						.alucontrolD(alucontrolD), 
 						.a(aD), .b(bD), .signimmD(signimmD), .rsD(rsD), .rtD(rtD), .rdD(rdD),
+						.haltD(haltD),
 						.regwriteE(regwriteE), .memtoregE(memtoregE), .memwriteE(memwriteE), .regdstE(regdstE), .alusrcE(alusrcE),
 						.alucontrolE(alucontrolE),
-						.aE(aE), .bE(bE), .signimmE(signimmE), .rsE(rsE), .rtE(rtE), .rdE(rdE)	
+						.aE(aE), .bE(bE), .signimmE(signimmE), .rsE(rsE), .rtE(rtE), .rdE(rdE),
+						.haltE(haltE)
 						`ifdef BR_RESOLVE_M
 						, .pcbranchD(pcbranchD),
 						  .pcbranchE(pcbranchE),
@@ -162,11 +165,12 @@ module mips(input logic clk, reset,
 	ex_mem ex_mem_ff(	.clk(clk),
 						.en(stallM), .clear(flushM | reset),
 						.regwriteE(regwriteE), .memtoregE(memtoregE), .memwriteE(memwriteE),
-						.aluoutE(aluoutE), .writedataE(writedataE), 
-						.writeregE(writeregE), 
+						.aluoutE(aluoutE), .writedataE(writedataE), .writeregE(writeregE),
+						.haltE(haltE), 
 						.regwriteM(regwriteM), .memtoregM(memtoregM), .memwriteM(memwriteM),
 						.aluoutM(aluoutM), .writedataM(writedataM),
-						.writeregM(writeregM)	
+						.writeregM(writeregM),
+						.haltM(haltM)	
 						`ifdef BR_RESOLVE_M
 						, .pcbranchE(pcbranchE),
 						  .pcbranchM(pcbranchM),
@@ -187,9 +191,11 @@ module mips(input logic clk, reset,
 						.en(stallW), .clear(flushW | reset),
 						.regwriteM(regwriteM), .memtoregM(memtoregM),
 						.aluoutM(aluoutM_out), .readdataM(readdataM), .writeregM(writeregM),
+						.haltM(haltM),
 						.regwriteW(regwriteW), .memtoregW(memtoregW),
 						.aluoutW(aluoutW), .readdataW(readdataW),
-						.writeregW(writeregW)	);	
+						.writeregW(writeregW),
+						.haltW(haltW)	);	
 
 	WB_comb wb_comb (	.memtoregW(memtoregW),
 						.readdataW(readdataW), .aluoutW(aluoutW),
@@ -204,7 +210,8 @@ module mips(input logic clk, reset,
 						.memtoregD(memtoregD), .memwriteD(memwriteD),
 						.regdstD(regdstD),
 						.alusrcD(alusrcD),
-						.alucontrolD(alucontrolD)  );
+						.alucontrolD(alucontrolD),
+						.haltD(haltD)  );
 /********************************************************************************/
 	
 	// hazard unit:
@@ -219,6 +226,7 @@ module mips(input logic clk, reset,
 						.rsD(rsD), .rtD(rtD),
 						.rsE(rsE), .rtE(rtE),
 						.writeregE(writeregE), .writeregM(writeregM), .writeregW(writeregW),
+						.haltD(haltD), .haltE(haltE), .haltM(haltM), .haltW(haltW),
 						.forwardAD(forwardAD), .forwardBD(forwardBD),
 						.forwardAE(forwardAE), .forwardBE(forwardBE),
 						.stallF(stallF), .stallD(stallD), .stallE(stallE), .stallM(stallM), .stallW(stallW),

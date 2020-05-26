@@ -1,5 +1,5 @@
 # vsim -c -do "run -all; exit" testbench 
-# Start time: 18:10:17 on May 23,2020
+# Start time: 14:42:04 on May 25,2020
 # Loading sv_std.std
 # Loading work.dbg_pkg
 # Loading work.testbench_sv_unit
@@ -32,34 +32,50 @@
 # Loading work.imem
 # Loading work.dmem
 # run -all
-# instn_cycle :           1 pc          0 bubble/branch : data:          0
-# instn_cycle :           2 pc          4 bubble/branch : data:          0
-# instn_cycle :           3 pc          8 nop/squashed instn-taken branch: data:          x
-# instn_cycle :           4 pc         12 ALU/Addi : data:          5
-# instn_cycle :           5 pc         16 ALU/Addi : data:         12
-# instn_cycle :           6 pc         20 ALU/Addi : data:          3
-# instn_cycle :           7 pc         24 ALU/Addi : data:          7
-# instn_cycle :           8 pc         28 ALU/Addi : data:          4
-# instn_cycle :           9 pc         32 ALU/Addi : data:         11
-# instn_cycle :          10 pc         36 branch : data:          8
-# instn_cycle :          11 pc         40 ALU/Addi : data:          0
-# instn_cycle :          12 pc         44 bubble/branch : data:          0
-# instn_cycle :          13 pc         40 bubble/branch : data:          0
-# instn_cycle :          14 pc         44 bubble/branch : data:          0
-# instn_cycle :          15 pc         48 nop/squashed instn-taken branch: data:          x
-# instn_cycle :          16 pc         52 ALU/Addi : data:          1
-# instn_cycle :          17 pc         56 ALU/Addi : data:         12
-# instn_cycle :          18 pc         60 ALU/Addi : data:          7
-# instn_cycle :          19 pc         64 store : dataadr:         80 writedata:           7
-# instn_cycle :          20 pc         68 load : dataadr:         80 readdata:           7
-# instn_cycle :          21 pc         72 bubble/branch : data:          0
-# instn_cycle :          22 pc         76 nop/squashed instn-taken branch: data:          x
-# instn_cycle :          23 pc         80 store : dataadr:         84 writedata:           7
-# Simulation succeeded
-# ** Note: $stop    : testbench.sv(43)
-#    Time: 245 ps  Iteration: 1  Instance: /testbench
-# Break in Module testbench at testbench.sv line 43
-# Stopped at testbench.sv line 43
+# instn_cycle :           1 pc 00000000 bubble/branch : data:          0
+# instn_cycle :           2 pc 00000004 bubble/branch : data:          0
+# instn_cycle :           3 pc 00000008 nop/squashed instn-taken branch: data:          x
+# instn_cycle :           4 pc 0000000c ALU/Addi : data:          5
+# instn_cycle :           5 pc 00000010 ALU/Addi : data:         12
+# instn_cycle :           6 pc 00000014 ALU/Addi : data:          3
+# instn_cycle :           7 pc 00000018 ALU/Addi : data:          7
+# instn_cycle :           8 pc 0000001c ALU/Addi : data:          4
+# instn_cycle :           9 pc 00000020 ALU/Addi : data:         11
+# instn_cycle :          10 pc 00000024 branch : data:          8
+# instn_cycle :          11 pc 00000028 ALU/Addi : data:          0
+# instn_cycle :          12 pc 0000002c bubble/branch : data:          0
+# instn_cycle :          13 pc 00000028 bubble/branch : data:          0
+# instn_cycle :          14 pc 0000002c bubble/branch : data:          0
+# instn_cycle :          15 pc 00000030 nop/squashed instn-taken branch: data:          x
+# instn_cycle :          16 pc 00000030 ALU/Addi : data:          1
+# instn_cycle :          17 pc 00000030 bubble/branch : data:          0
+# instn_cycle :          18 pc 00000030 bubble/branch : data:          0
+# instn_cycle :          19 pc 00000030 bubble/branch : data:          0
+# instn_cycle :          20 pc 00000030 bubble/branch : data:          0
+# instn_cycle :          21 pc 00000030 bubble/branch : data:          0
+# instn_cycle :          22 pc 00000030 bubble/branch : data:          0
+# instn_cycle :          23 pc 00000030 bubble/branch : data:          0
+# instn_cycle :          24 pc 00000030 bubble/branch : data:          0
+# instn_cycle :          25 pc 00000030 bubble/branch : data:          0
+# instn_cycle :          26 pc 00000030 bubble/branch : data:          0
+# instn_cycle :          27 pc 00000030 bubble/branch : data:          0
+# instn_cycle :          28 pc 00000030 bubble/branch : data:          0
+# instn_cycle :          29 pc 00000030 bubble/branch : data:          0
+# instn_cycle :          30 pc 00000030 bubble/branch : data:          0
+# instn_cycle :          31 pc 00000030 bubble/branch : data:          0
+# instn_cycle :          32 pc 00000030 bubble/branch : data:          0
+# instn_cycle :          33 pc 00000030 bubble/branch : data:          0
+# instn_cycle :          34 pc 00000030 bubble/branch : data:          0
+# instn_cycle :          35 pc 00000030 bubble/branch : data:          0
+# instn_cycle :          36 pc 00000030 bubble/branch : data:          0
+# instn_cycle :          37 pc 00000030 bubble/branch : data:          0
+# instn_cycle :          38 pc 00000030 bubble/branch : data:          0
+# instn_cycle :          39 pc 00000030 bubble/branch : data:          0
+# instn_cycle :          40 pc 00000030 bubble/branch : data:          0
+# ** Note: $stop    : testbench.sv(30)
+#    Time: 422 ps  Iteration: 0  Instance: /testbench
+# Break in Module testbench at testbench.sv line 30
+# Stopped at testbench.sv line 30
 #  exit
-# End time: 18:10:17 on May 23,2020, Elapsed time: 0:00:00
+# End time: 14:42:05 on May 25,2020, Elapsed time: 0:00:01
 # Errors: 0, Warnings: 0
