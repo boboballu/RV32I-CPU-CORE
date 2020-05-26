@@ -31,3 +31,4 @@ lw $12 108 ($0)     # load $12 = mem[108] // 1
 # nop                 # a bug found // lw followed by alu op takes 2 cycle stall for some reason
 add $13 $11 $12     # $13 = $11 + $12 // 6
 sw $13 116 ($0)     # store $13 to mem[116]
+hlt

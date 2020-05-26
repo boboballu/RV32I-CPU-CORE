@@ -9,7 +9,8 @@ import dbg_pkg::*;
 module top(input logic clk, reset,
 			output logic [31:0] writedata, dataadr,
 			output logic [31:0] readdata, pc, instr,
-			output logic memwrite
+			output logic memwrite,
+			output logic cpu_halt
 			`ifdef mem_debug
 			, output mem_debug debug
 			`endif
@@ -22,7 +23,8 @@ module top(input logic clk, reset,
 			.imem_instn(instr),
 			.dmem_we(memwrite),
 			.dmem_addr(dataadr), .dmem_wd(writedata),
-			.dmem_rd(readdata)	
+			.dmem_rd(readdata),
+			.cpu_halt(cpu_halt)	
 			`ifdef mem_debug
 			, .debug(debug)
 			`endif
@@ -34,18 +36,31 @@ endmodule
 module dmem(input logic clk, we,
 			input logic [31:0] a, wd,
 			output logic [31:0] rd);
-	bit [31:0] RAM[63:0];
-	assign rd = RAM[a[31:2]]; // word aligned
+
+	bit [31:0] D_cache[1023:0];
+	assign rd = D_cache[a[31:2]]; // word aligned
+	
 	always_ff @(posedge clk) begin
-		if (we) RAM[a[31:2]] <= wd;
+		if (we) D_cache[a[31:2]] <= wd;
 	end
 endmodule
 
 module imem(input logic [31:0] a,
 			output logic [31:0] rd);
-	bit [1023:0] RAM[63:0];
+	
+	// get the binary file from commandline args
+	string EXEC;
 	initial begin
-		$readmemh("./assembler/bin", RAM);
+		if ( !$value$plusargs("EXEC=%s", EXEC)) begin
+	        $display("FATAL: +EXEC plusarg not found on command line");
+	        $fatal;
+	    end
+	    $display("%m found +EXEC=%s", EXEC);
 	end
-	assign rd = RAM[a[31:2]]; // word aligned
+
+	bit [31:0] I_cache[1023:0];
+	initial begin
+		$readmemh(EXEC, I_cache); // copy the contents of the file to I_cache
+	end
+	assign rd = I_cache[a[31:2]]; // word aligned
 endmodule

@@ -1,5 +1,5 @@
-# vsim -c -do "run -all; exit" testbench 
-# Start time: 14:42:04 on May 25,2020
+# vsim -c -do "run -all; exit" "+EXEC=./assembler/bin" "+D_cache_address=84" "+D_cache_data=7" testbench 
+# Start time: 23:01:10 on May 25,2020
 # Loading sv_std.std
 # Loading work.dbg_pkg
 # Loading work.testbench_sv_unit
@@ -32,6 +32,9 @@
 # Loading work.imem
 # Loading work.dmem
 # run -all
+# testbench.dut.imem found +EXEC=./assembler/bin
+# testbench found +D_cache_address=         84
+# testbench found +D_cache_data=          7
 # instn_cycle :           1 pc 00000000 bubble/branch : data:          0
 # instn_cycle :           2 pc 00000004 bubble/branch : data:          0
 # instn_cycle :           3 pc 00000008 nop/squashed instn-taken branch: data:          x
@@ -47,35 +50,20 @@
 # instn_cycle :          13 pc 00000028 bubble/branch : data:          0
 # instn_cycle :          14 pc 0000002c bubble/branch : data:          0
 # instn_cycle :          15 pc 00000030 nop/squashed instn-taken branch: data:          x
-# instn_cycle :          16 pc 00000030 ALU/Addi : data:          1
-# instn_cycle :          17 pc 00000030 bubble/branch : data:          0
-# instn_cycle :          18 pc 00000030 bubble/branch : data:          0
-# instn_cycle :          19 pc 00000030 bubble/branch : data:          0
-# instn_cycle :          20 pc 00000030 bubble/branch : data:          0
-# instn_cycle :          21 pc 00000030 bubble/branch : data:          0
-# instn_cycle :          22 pc 00000030 bubble/branch : data:          0
-# instn_cycle :          23 pc 00000030 bubble/branch : data:          0
-# instn_cycle :          24 pc 00000030 bubble/branch : data:          0
-# instn_cycle :          25 pc 00000030 bubble/branch : data:          0
-# instn_cycle :          26 pc 00000030 bubble/branch : data:          0
-# instn_cycle :          27 pc 00000030 bubble/branch : data:          0
-# instn_cycle :          28 pc 00000030 bubble/branch : data:          0
-# instn_cycle :          29 pc 00000030 bubble/branch : data:          0
-# instn_cycle :          30 pc 00000030 bubble/branch : data:          0
-# instn_cycle :          31 pc 00000030 bubble/branch : data:          0
-# instn_cycle :          32 pc 00000030 bubble/branch : data:          0
-# instn_cycle :          33 pc 00000030 bubble/branch : data:          0
-# instn_cycle :          34 pc 00000030 bubble/branch : data:          0
-# instn_cycle :          35 pc 00000030 bubble/branch : data:          0
-# instn_cycle :          36 pc 00000030 bubble/branch : data:          0
-# instn_cycle :          37 pc 00000030 bubble/branch : data:          0
-# instn_cycle :          38 pc 00000030 bubble/branch : data:          0
-# instn_cycle :          39 pc 00000030 bubble/branch : data:          0
-# instn_cycle :          40 pc 00000030 bubble/branch : data:          0
-# ** Note: $stop    : testbench.sv(30)
-#    Time: 422 ps  Iteration: 0  Instance: /testbench
-# Break in Module testbench at testbench.sv line 30
-# Stopped at testbench.sv line 30
+# instn_cycle :          16 pc 00000034 ALU/Addi : data:          1
+# instn_cycle :          17 pc 00000038 ALU/Addi : data:         12
+# instn_cycle :          18 pc 0000003c ALU/Addi : data:          7
+# instn_cycle :          19 pc 00000040 store : dataadr:         80 writedata:           7
+# instn_cycle :          20 pc 00000044 load : dataadr:         80 readdata:           7
+# instn_cycle :          21 pc 00000048 bubble/branch : data:          0
+# instn_cycle :          22 pc 0000004c nop/squashed instn-taken branch: data:          x
+# instn_cycle :          23 pc 0000004c store : dataadr:         84 writedata:           7
+# Simulation succeeded
+# instn_cycle :          24 pc 0000004c bubble/branch : data:          0
+# ** Note: $stop    : testbench.sv(56)
+#    Time: 265 ps  Iteration: 1  Instance: /testbench
+# Break in Module testbench at testbench.sv line 56
+# Stopped at testbench.sv line 56
 #  exit
-# End time: 14:42:05 on May 25,2020, Elapsed time: 0:00:01
+# End time: 23:01:10 on May 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0

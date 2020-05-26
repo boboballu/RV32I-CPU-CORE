@@ -21,3 +21,4 @@ slt $5 $0 $4 <branch	# taken target - branch:  $5 = 1 if $4 < $0 else 0
 sw $0 11 $(0)           # store $0 to 11 // just checking
 sw $4 12 $(0)           # store $4 to 12 // just checking
 sw $5 10 $(2)			# store $5 to 15  // 1
+hlt

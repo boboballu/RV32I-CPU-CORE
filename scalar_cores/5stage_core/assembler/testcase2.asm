@@ -13,3 +13,4 @@ sw $3 10 $(2)			# store $3 to 15
 
 sub $3 $2 $3 <jump_tag1	# $3 = $2 - $3 // -5
 sw $3 10 $(2)			# store $3 to 15
+hlt

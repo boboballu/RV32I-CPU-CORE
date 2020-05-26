@@ -3,8 +3,12 @@
 # mail  : tkesava@ncsu.edu
 #********************************************************************************#
 
+exe ?= ./assembler/bin 
+d_addr ?= 84
+d_data ?= 7
+
 cli: clean work compile
-	vsim -c -do "run -all; exit" testbench
+	vsim -c -do "run -all; exit" +EXEC=$(exe) +D_cache_address=$(d_addr) +D_cache_data=$(d_data) testbench
 
 all: clean work compile testbench
 
@@ -23,17 +27,8 @@ packages:
 
 all_tbs:
 	vlog -sv top_test.sv
-	vlog -sv testcase1.sv
-	vlog -sv testcase2.sv
-	vlog -sv testcase3.sv
 	vlog -sv testbench.sv
 
-testcase1:
-	vsim -novopt testcase1
-testcase2:
-	vsim -novopt testcase2
-testcase3:
-	vsim -novopt testcase3
 testbench:
 	vsim -novopt testbench
 

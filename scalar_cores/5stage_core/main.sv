@@ -10,7 +10,8 @@ module mips(input logic clk, reset,
 			input logic [31:0] imem_instn,
 			output logic dmem_we,
 			output logic [31:0] dmem_addr, dmem_wd,
-			input logic [31:0] dmem_rd
+			input logic [31:0] dmem_rd,
+			output logic cpu_halt
 			`ifdef mem_debug 
 			, output mem_debug debug
 			`endif			
@@ -61,6 +62,9 @@ module mips(input logic clk, reset,
 	// stall nets
 	logic stallF, stallD, stallE, stallM, stallW;
 	logic flushF, flushD, flushE, flushM, flushW;
+/********************************************************************************/
+	// cpu_halt signal
+	assign cpu_halt = haltW;
 /********************************************************************************/
 	// controller: op, funct assignment
 	assign op = instnD[31:26];
