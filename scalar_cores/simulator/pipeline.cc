@@ -204,9 +204,6 @@ void funct_sim::printpipeline() {
 void funct_sim::dumppipeline(char *filename) {
     ofstream pipeline;
     pipeline.open(filename);
-
-    char instn_type_str[10][10] = {"nop", "r_r", "addi", "lw", "sw", "beq", "j"};
-    char  instn_funct_str[10][10] = {"add", "sub", "AND", "OR", "slt"};
     
     // header for the csv pipeline diagram
     // pc | 1 | 2 | 3 | ...
@@ -222,23 +219,7 @@ void funct_sim::dumppipeline(char *filename) {
         // pc goes first in the row
         pipeline<<"0x"<<hex<<*pc_iter<<dec<<",";
         // recnstructed instn goes second in the row
-        if (Imem[*pc_iter].type == r_r) {
-            pipeline<<instn_funct_str[Imem[*pc_iter].f]<<" ";
-        }
-        else {
-            pipeline<<instn_type_str[Imem[*pc_iter].type]<<" ";
-        }
-
-        if (Imem[*pc_iter].rd != -1)
-            pipeline<<Imem[*pc_iter].rd<<" ";
-        if (Imem[*pc_iter].rs != -1)
-            pipeline<<Imem[*pc_iter].rs<<" ";
-        if (Imem[*pc_iter].rt != -1)
-            pipeline<<Imem[*pc_iter].rt<<" ";
-        if ((signed)Imem[*pc_iter].imm != -1)
-            pipeline<<(signed)Imem[*pc_iter].imm<<" ";
-        if ((signed)Imem[*pc_iter].target != -1)
-            pipeline<<Imem[*pc_iter].target<<" ";
+        pipeline<<disassemble_instn(*pc_iter).str();
         
         pipeline<<",";
         for (int i=0; i<iter1->second.begin()->first; i++) {
@@ -250,4 +231,31 @@ void funct_sim::dumppipeline(char *filename) {
         pipeline<<endl;
         pc_iter++;
     }
+}
+
+stringstream funct_sim::disassemble_instn(uint32_t pc) {
+    
+    char instn_type_str[10][10] = {"nop", "r_r", "addi", "lw", "sw", "beq", "j"};
+    char  instn_funct_str[10][10] = {"add", "sub", "AND", "OR", "slt"};
+
+    stringstream ret;
+
+    if (Imem[pc].type == r_r) {
+        ret<<instn_funct_str[Imem[pc].f]<<" ";
+    }
+    else {
+        ret<<instn_type_str[Imem[pc].type]<<" ";
+    }
+
+    if (Imem[pc].rd != -1)
+        ret<<Imem[pc].rd<<" ";
+    if (Imem[pc].rs != -1)
+        ret<<Imem[pc].rs<<" ";
+    if (Imem[pc].rt != -1)
+        ret<<Imem[pc].rt<<" ";
+    if ((signed)Imem[pc].imm != -1)
+        ret<<(signed)Imem[pc].imm<<" ";
+    if ((signed)Imem[pc].target != -1)
+        ret<<Imem[pc].target;
+    return ret;
 }

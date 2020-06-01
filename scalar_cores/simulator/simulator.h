@@ -12,6 +12,7 @@
 #include <map>
 #include <iterator>
 #include <fstream>
+#include <sstream>
 
 using namespace std;
 
@@ -47,6 +48,13 @@ struct ret_info {
     pipe_info pipe;
 };
 
+
+// tried funct_sim and pipe_sim, where pipe_sim class is a derived class of funct_sim
+// ran into hell a lot of issues in accessing maps. 
+// all the out-of-boundary reads ran into seg faults
+// this setup is fine since there is only one object created, which creates maps in heap
+// multiple classes and objects will create seg fault after set fault
+
 class funct_sim {
 public:
     map<uint32_t, instn_info> Imem;
@@ -72,6 +80,7 @@ public:
     void classic5pipeline();
     void printpipeline();
     void dumppipeline(char *filename);
+    stringstream disassemble_instn(uint32_t pc);
     // constructor
     funct_sim() {
         for (int i=0; i < 32; i++) {
