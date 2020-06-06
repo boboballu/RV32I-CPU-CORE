@@ -25,8 +25,8 @@ module controller(	input logic [5:0] op, funct,
 					output logic memtoregD, memwriteD,
 					output logic regdstD,
 					output logic alusrcD,
-					output logic [2:0] alucontrolD,
-					output logic haltD  );
+					output logic [2:0] alucontrolD
+					);
 
 	logic [1:0] aluop;
 
@@ -34,7 +34,7 @@ module controller(	input logic [5:0] op, funct,
 				.memtoregD(memtoregD), .memwriteD(memwriteD),
 				.branchD(branchD), .alusrcD(alusrcD), 
 				.regdstD(regdstD), .regwriteD(regwriteD), 
-				.jumpD(jumpD), .aluop(aluop), .haltD(haltD) );
+				.jumpD(jumpD), .aluop(aluop));
 
 	aludec ad(	.funct(funct), 
 				.aluop(aluop), 
@@ -48,21 +48,20 @@ module maindec(	input logic [5:0] op,
 				output logic branchD, alusrcD,
 				output logic regdstD, regwriteD,
 				output logic jumpD,
-				output logic [1:0] aluop,
-				output logic haltD  );
+				output logic [1:0] aluop
+				);
 
-	logic [9:0] controls;
-	assign {regwriteD, regdstD, alusrcD, branchD, memwriteD, memtoregD, jumpD, aluop, haltD} = controls;
+	logic [8:0] controls;
+	assign {regwriteD, regdstD, alusrcD, branchD, memwriteD, memtoregD, jumpD, aluop} = controls;
 	always_comb begin
 		case(op)
-			6'b000000: controls = 10'b1100000100; // RTYPE
-			6'b100011: controls = 10'b1010010000; // LW
-			6'b101011: controls = 10'b0010100000; // SW
-			6'b000100: controls = 10'b0001000010; // BEQ
-			6'b001000: controls = 10'b1010000000; // ADDI
-			6'b000010: controls = 10'b0000001000; // J
-			6'b111111: controls	= 10'b0000000001; //haltD
-			default  : controls = 10'bxxxxxxxxxx; // illegal op
+			6'b000000: controls = 9'b110000010; // RTYPE
+			6'b100011: controls = 9'b101001000; // LW
+			6'b101011: controls = 9'b001010000; // SW
+			6'b000100: controls = 9'b000100001; // BEQ
+			6'b001000: controls = 9'b101000000; // ADDI
+			6'b000010: controls = 9'b000000100; // J
+			default  : controls = 9'bxxxxxxxxx; // illegal op
 		endcase
 	end
 endmodule : maindec

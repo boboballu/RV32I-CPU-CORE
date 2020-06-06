@@ -1,5 +1,5 @@
 # vsim -c -do "run -all; exit" "+EXEC=./assembler/bin" "+D_cache_address=84" "+D_cache_data=7" testbench 
-# Start time: 23:01:10 on May 25,2020
+# Start time: 23:22:07 on Jun 05,2020
 # Loading sv_std.std
 # Loading work.dbg_pkg
 # Loading work.testbench_sv_unit
@@ -57,13 +57,12 @@
 # instn_cycle :          20 pc 00000044 load : dataadr:         80 readdata:           7
 # instn_cycle :          21 pc 00000048 bubble/branch : data:          0
 # instn_cycle :          22 pc 0000004c nop/squashed instn-taken branch: data:          x
-# instn_cycle :          23 pc 0000004c store : dataadr:         84 writedata:           7
+# instn_cycle :          23 pc 00000050 store : dataadr:         84 writedata:           7
 # Simulation succeeded
-# instn_cycle :          24 pc 0000004c bubble/branch : data:          0
-# ** Note: $stop    : testbench.sv(56)
-#    Time: 265 ps  Iteration: 1  Instance: /testbench
-# Break in Module testbench at testbench.sv line 56
-# Stopped at testbench.sv line 56
+# ** Note: $stop    : testbench.sv(57)
+#    Time: 245 ps  Iteration: 1  Instance: /testbench
+# Break in Module testbench at testbench.sv line 57
+# Stopped at testbench.sv line 57
 #  exit
-# End time: 23:01:10 on May 25,2020, Elapsed time: 0:00:00
+# End time: 23:22:08 on Jun 05,2020, Elapsed time: 0:00:01
 # Errors: 0, Warnings: 0

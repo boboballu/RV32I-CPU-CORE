@@ -9,8 +9,7 @@ import dbg_pkg::*;
 module top(input logic clk, reset,
 			output logic [31:0] writedata, dataadr,
 			output logic [31:0] readdata, pc, instr,
-			output logic memwrite,
-			output logic cpu_halt
+			output logic memwrite
 			`ifdef mem_debug
 			, output mem_debug debug
 			`endif
@@ -23,8 +22,7 @@ module top(input logic clk, reset,
 			.imem_instn(instr),
 			.dmem_we(memwrite),
 			.dmem_addr(dataadr), .dmem_wd(writedata),
-			.dmem_rd(readdata),
-			.cpu_halt(cpu_halt)	
+			.dmem_rd(readdata)
 			`ifdef mem_debug
 			, .debug(debug)
 			`endif

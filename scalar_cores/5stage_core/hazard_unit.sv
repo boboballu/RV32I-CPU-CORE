@@ -24,11 +24,11 @@ module hazard_unit( input logic branchD, jumpD, pcsrcD,
 					input logic [4:0] rsD, rtD,
 					input logic [4:0] rsE, rtE,
 					input logic [4:0] writeregE, writeregM, writeregW,
-					input logic haltD, haltE, haltM, haltW,
 					output logic forwardAD, forwardBD,
 					output logic [1:0] forwardAE, forwardBE,
 					output logic stallF, stallD, stallE, stallM, stallW,
-					output logic flushF, flushD, flushE, flushM, flushW);
+					output logic flushF, flushD, flushE, flushM, flushW
+				);
 	
 	logic lwstall;
 	logic branchstall;
@@ -37,21 +37,17 @@ module hazard_unit( input logic branchD, jumpD, pcsrcD,
 
 	// If BR_RESOLVE_D is defined, The following signals are 0
 	// If BR_RESOLVE_D - instn next to Br, will stall at Decode stage until RAW is resolved
-	`ifdef BR_RESOLVE_D
-	assign stallE = haltE;
-	assign stallM = haltM;
-	assign stallW = haltW;
+	assign stallE = 0;
+	assign stallM = 0;
+	assign stallW = 0;
 
+	`ifdef BR_RESOLVE_D
 	assign flushF = 0;
 	assign flushM = 0;
 	assign flushW = 0;
 	`endif
 
 	`ifdef BR_RESOLVE_M
-	assign stallE = haltE;
-	assign stallM = haltM;
-	assign stallW = haltW;
-
 	assign flushF = 0;
 	assign flushW = 0;
 	`endif
@@ -106,8 +102,8 @@ module hazard_unit( input logic branchD, jumpD, pcsrcD,
 					  	( branchD && memtoregM && ( (writeregM == rsD) || (writeregM == rtD) ) );
 
 		//StallF = StallD = FlushE = lwstall OR branchstall
-		stallF = lwstall | branchstall | haltD;
-		stallD = lwstall | branchstall | haltD;
+		stallF = lwstall | branchstall;
+		stallD = lwstall | branchstall;
 
 		// moving flushD to hazard unit since it makes more sense
 		flushD = pcsrcD  | jumpD;
@@ -116,8 +112,8 @@ module hazard_unit( input logic branchD, jumpD, pcsrcD,
 
 		`ifdef BR_RESOLVE_M
 		// Dont stall the BR and proceed. If miss pred, flush the future instns
-		stallF = lwstall | haltD;
-		stallD = lwstall | haltD;
+		stallF = lwstall;
+		stallD = lwstall;
 		
 		flushD = jumpD   | pcsrcM;
 		flushE = lwstall | pcsrcM;

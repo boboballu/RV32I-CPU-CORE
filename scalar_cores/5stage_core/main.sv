@@ -10,8 +10,7 @@ module mips(input logic clk, reset,
 			input logic [31:0] imem_instn,
 			output logic dmem_we,
 			output logic [31:0] dmem_addr, dmem_wd,
-			input logic [31:0] dmem_rd,
-			output logic cpu_halt
+			input logic [31:0] dmem_rd
 			`ifdef mem_debug 
 			, output mem_debug debug
 			`endif			
@@ -31,7 +30,6 @@ module mips(input logic clk, reset,
 	logic [31:0] readdataM, aluoutM_out; // mem_comb to mem_wb ff
 	logic [31:0] readdataW, aluoutW; // mem_wb ff to wv_comb
 	logic [31:0] resultW; // wb_comb to other stage comb modules
-	logic haltD, haltE, haltM, haltW; // For the halt uOp
 	
 /********************************************************************************/
 	// control path nets
@@ -63,8 +61,6 @@ module mips(input logic clk, reset,
 	logic stallF, stallD, stallE, stallM, stallW;
 	logic flushF, flushD, flushE, flushM, flushW;
 /********************************************************************************/
-	// cpu_halt signal
-	assign cpu_halt = haltW;
 /********************************************************************************/
 	// controller: op, funct assignment
 	assign op = instnD[31:26];
@@ -108,24 +104,28 @@ module mips(input logic clk, reset,
 						.pcbranchD(pcbranchM),
 						`endif
 						.jump_targetD(jump_targetD),
-						.pcplus4F(pcplus4F), .pc(pc_genF_in)	);
+						.pcplus4F(pcplus4F), .pc(pc_genF_in)	
+					);
 	
 	pc_if pc_if_ff 	(	.clk(clk), 
 						.en(stallF), .clear(flushF | reset), 
 						.pc(pc_genF_in),
-						.pcF(pc_genF_out)	);
+						.pcF(pc_genF_out)	
+					);
 
 	// stage 2: if_id stage 
 	IF_comb If_comb (	.pc(pc_genF_out),
 						.imem_instn(imem_instn),
 						.pc_imem(pc_imem),
 						.instnF(instnF),
-						.pcplus4F(pcplus4F)	);
+						.pcplus4F(pcplus4F)	
+					);
 	
 	if_id if_id_ff  (	.clk(clk),
 						.en(stallD), .clear((flushD | reset)),
 						.rd(instnF), .pcplus4F(pcplus4F),
-						.instnD(instnD), .pcplus4D(pcplus4D)	);
+						.instnD(instnD), .pcplus4D(pcplus4D)	
+					);
 
 	// stage 3: id_ex stage
 	ID_comb id_comb (	.clk(clk),
@@ -135,25 +135,24 @@ module mips(input logic clk, reset,
 						.writeregW(writeregW),
 						.resultW(resultW), .aluoutM(aluoutM),
 						.a(aD), .b(bD), .signimmD(signimmD), .pcbranchD(pcbranchD), .jump_targetD(jump_targetD),
-						.equalD(equalD_ctrl));
+						.equalD(equalD_ctrl)
+					);
 	
 	id_ex id_ex_ff	(	.clk(clk), 
 						.en(stallE), .clear((flushE | reset)),
 						.regwriteD(regwriteD), .memtoregD(memtoregD), .memwriteD(memwriteD), .regdstD(regdstD), .alusrcD(alusrcD),
 						.alucontrolD(alucontrolD), 
 						.a(aD), .b(bD), .signimmD(signimmD), .rsD(rsD), .rtD(rtD), .rdD(rdD),
-						.haltD(haltD),
 						.regwriteE(regwriteE), .memtoregE(memtoregE), .memwriteE(memwriteE), .regdstE(regdstE), .alusrcE(alusrcE),
 						.alucontrolE(alucontrolE),
-						.aE(aE), .bE(bE), .signimmE(signimmE), .rsE(rsE), .rtE(rtE), .rdE(rdE),
-						.haltE(haltE)
+						.aE(aE), .bE(bE), .signimmE(signimmE), .rsE(rsE), .rtE(rtE), .rdE(rdE)
 						`ifdef BR_RESOLVE_M
 						, .pcbranchD(pcbranchD),
 						  .pcbranchE(pcbranchE),
 						  .branchD(branchD),
 						  .branchE(branchE)
 						`endif
-						); 
+					); 
 
 	// stage 4: ex_mem stage
 	EX_comb ex_comb (	.alusrcE(alusrcE), .alucontrolE(alucontrolE),
@@ -164,24 +163,22 @@ module mips(input logic clk, reset,
 						`ifdef BR_RESOLVE_M
 						, .zeroE(zeroE)
 						`endif
-						);
+					);
 	
 	ex_mem ex_mem_ff(	.clk(clk),
 						.en(stallM), .clear(flushM | reset),
 						.regwriteE(regwriteE), .memtoregE(memtoregE), .memwriteE(memwriteE),
 						.aluoutE(aluoutE), .writedataE(writedataE), .writeregE(writeregE),
-						.haltE(haltE), 
 						.regwriteM(regwriteM), .memtoregM(memtoregM), .memwriteM(memwriteM),
 						.aluoutM(aluoutM), .writedataM(writedataM),
-						.writeregM(writeregM),
-						.haltM(haltM)	
+						.writeregM(writeregM)
 						`ifdef BR_RESOLVE_M
 						, .pcbranchE(pcbranchE),
 						  .pcbranchM(pcbranchM),
 						  .branchE(branchE), .zeroE(zeroE),
 						  .branchM(branchM), .zeroM(zeroM)
 						`endif
-						);
+					);
 
 	// stage 5: mem_wb stage
 	MEM_comb mem_comb 
@@ -189,21 +186,22 @@ module mips(input logic clk, reset,
 						.aluoutM_in(aluoutM), .writedataM(writedataM),
 						.dmem_rd(dmem_rd), .dmem_addr(dmem_addr), .dmem_wd(dmem_wd), .dmem_we(dmem_we), 
 						.readdataM(readdataM), 
-						.aluoutM_out(aluoutM_out)	);
+						.aluoutM_out(aluoutM_out)	
+					);
 
 	mem_wb mem_wb_ff(	.clk(clk), 
 						.en(stallW), .clear(flushW | reset),
 						.regwriteM(regwriteM), .memtoregM(memtoregM),
 						.aluoutM(aluoutM_out), .readdataM(readdataM), .writeregM(writeregM),
-						.haltM(haltM),
 						.regwriteW(regwriteW), .memtoregW(memtoregW),
 						.aluoutW(aluoutW), .readdataW(readdataW),
-						.writeregW(writeregW),
-						.haltW(haltW)	);	
+						.writeregW(writeregW) 
+					);
 
 	WB_comb wb_comb (	.memtoregW(memtoregW),
 						.readdataW(readdataW), .aluoutW(aluoutW),
-						.resultW(resultW)	);
+						.resultW(resultW)
+					);
 /********************************************************************************/
 	
 	// controller:
@@ -214,8 +212,8 @@ module mips(input logic clk, reset,
 						.memtoregD(memtoregD), .memwriteD(memwriteD),
 						.regdstD(regdstD),
 						.alusrcD(alusrcD),
-						.alucontrolD(alucontrolD),
-						.haltD(haltD)  );
+						.alucontrolD(alucontrolD)			
+					);
 /********************************************************************************/
 	
 	// hazard unit:
@@ -230,11 +228,10 @@ module mips(input logic clk, reset,
 						.rsD(rsD), .rtD(rtD),
 						.rsE(rsE), .rtE(rtE),
 						.writeregE(writeregE), .writeregM(writeregM), .writeregW(writeregW),
-						.haltD(haltD), .haltE(haltE), .haltM(haltM), .haltW(haltW),
 						.forwardAD(forwardAD), .forwardBD(forwardBD),
 						.forwardAE(forwardAE), .forwardBE(forwardBE),
 						.stallF(stallF), .stallD(stallD), .stallE(stallE), .stallM(stallM), .stallW(stallW),
 						.flushF(flushF), .flushD(flushD), .flushE(flushE), .flushM(flushM), .flushW(flushW)
-						);
+					);
 
 endmodule : mips

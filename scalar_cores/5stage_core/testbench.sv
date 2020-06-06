@@ -12,7 +12,6 @@ module testbench();
 	logic [31:0] writedata, dataadr;
 	logic [31:0] readdata, pc, instr;
 	logic memwrite;
-	logic cpu_halt;
 	mem_debug debug;
 	integer instn_cycle = 1;
 
@@ -22,8 +21,7 @@ module testbench();
 	top dut (.clk(clk), .reset(reset), 
 			.writedata(writedata), .dataadr(dataadr),
             .readdata(readdata), .pc(pc), .instr(instr), 
-			.memwrite(memwrite),
-			.cpu_halt(cpu_halt)
+			.memwrite(memwrite)
 			`ifdef mem_debug
 			, .debug(debug)
 			`endif
@@ -52,15 +50,12 @@ module testbench();
 	// check results
 	always @(negedge clk) begin
 		if (!reset) begin
-			if (cpu_halt) begin
-				$stop; // stop the test if the cpu halts
-			end
 			if (memwrite) begin
 				$display ("instn_cycle : %d pc %x store : dataadr: %d writedata: %d", instn_cycle, pc, dataadr, $signed(writedata));
 				if (dataadr===D_cache_address & $signed(writedata)===D_cache_data) begin
 					$display("Simulation succeeded");
-					// $stop;
-				end 
+					$stop;
+				end
 			end
 			`ifdef mem_debug
 			else if (debug.regwriteM) begin

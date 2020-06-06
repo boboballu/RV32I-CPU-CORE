@@ -56,11 +56,9 @@ module id_ex (	input logic clk,
 				input logic regwriteD, memtoregD, memwriteD, regdstD, alusrcD,
 				input logic [2:0] alucontrolD,				
 				input logic [31:0] a, b, signimmD, input logic [4:0] rsD, rtD, rdD,
-				input logic haltD,
 				output logic regwriteE, memtoregE, memwriteE, regdstE, alusrcE,
 				output logic [2:0] alucontrolE,
-				output logic [31:0] aE, bE, signimmE, output logic [4:0] rsE, rtE, rdE,
-				output logic haltE
+				output logic [31:0] aE, bE, signimmE, output logic [4:0] rsE, rtE, rdE
 				`ifdef BR_RESOLVE_M // BR evaluation in EX stage - pipeline registers
 				, input logic [31:0] pcbranchD,
 				  output logic [31:0] pcbranchE,
@@ -72,7 +70,6 @@ module id_ex (	input logic clk,
 		if (clear) begin
 			{regwriteE, memtoregE, memwriteE, regdstE, alusrcE, alucontrolE} <= 0;
 			{rsE, rtE, rdE, aE, bE, signimmE} <= 0;
-			haltE <= 0;
 			`ifdef BR_RESOLVE_M
 			pcbranchE <= 0;
 			branchE <= 0;
@@ -81,7 +78,6 @@ module id_ex (	input logic clk,
 		else if (!en) begin
 			{regwriteE, memtoregE, memwriteE, regdstE, alusrcE, alucontrolE} <= {regwriteD, memtoregD, memwriteD, regdstD, alusrcD, alucontrolD};
 			{rsE, rtE, rdE, aE, bE, signimmE} <= {rsD, rtD, rdD, a, b, signimmD};
-			haltE <= haltD;
 			`ifdef BR_RESOLVE_M
 			pcbranchE <= pcbranchD;
 			branchE <= branchD;
@@ -101,10 +97,8 @@ module ex_mem (	input logic clk,
 				input logic en, clear,
 				input logic regwriteE, memtoregE, memwriteE,
 				input logic [31:0] aluoutE, writedataE, input logic [4:0] writeregE,
-				input logic haltE,
 				output logic regwriteM, memtoregM, memwriteM,
-				output logic [31:0] aluoutM, writedataM, output logic [4:0] writeregM,
-				output logic haltM
+				output logic [31:0] aluoutM, writedataM, output logic [4:0] writeregM
 				`ifdef BR_RESOLVE_M // BR evaluation in EX stage - pipeline registers
 				, input logic [31:0] pcbranchE,
 				  output logic [31:0] pcbranchM,
@@ -116,7 +110,6 @@ module ex_mem (	input logic clk,
 		if (clear) begin
 			{regwriteM, memtoregM, memwriteM} <= 0;
 			{aluoutM, writedataM, writeregM} <= 0;
-			haltM <= 0;
 			`ifdef BR_RESOLVE_M
 			branchM <= 0;
 			zeroM   <= 0;
@@ -126,7 +119,6 @@ module ex_mem (	input logic clk,
 		else if (!en) begin
 			{regwriteM, memtoregM, memwriteM} <= {regwriteE, memtoregE, memwriteE};
 			{aluoutM, writedataM, writeregM}  <= {aluoutE, writedataE, writeregE};
-			haltM <= haltE;
 			`ifdef BR_RESOLVE_M
 			branchM <= branchE;
 			zeroM   <= zeroE;
@@ -147,21 +139,17 @@ module mem_wb (	input logic clk,
 				input logic en, clear,
 				input logic regwriteM, memtoregM,
 				input logic [31:0] aluoutM, readdataM, input logic [4:0] writeregM,
-				input logic haltM,
 				output logic regwriteW, memtoregW,
-				output logic [31:0] aluoutW, readdataW, output logic [4:0] writeregW,
-				output logic haltW
+				output logic [31:0] aluoutW, readdataW, output logic [4:0] writeregW
 				);
 	always_ff @(posedge clk) begin
 		if (clear) begin
 			{regwriteW, memtoregW} <= 0;
 			{aluoutW, readdataW, writeregW} <= 0;
-			haltW <= 0;
 		end
 		else if (!en) begin
 			{regwriteW, memtoregW} <= {regwriteM, memtoregM};
 			{aluoutW, readdataW, writeregW} <= {aluoutM, readdataM, writeregM};
-			haltW <= haltM;
 		end
 	end
 endmodule : mem_wb
