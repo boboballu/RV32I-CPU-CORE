@@ -1,37 +1,28 @@
 onerror {resume}
 quietly WaveActivateNextPane {} 0
-add wave -noupdate /testbench/clk
-add wave -noupdate /testbench/reset
-add wave -noupdate /testbench/writedata
-add wave -noupdate /testbench/dataadr
-add wave -noupdate /testbench/memwrite
-add wave -noupdate /testbench/dut/clk
-add wave -noupdate /testbench/dut/reset
-add wave -noupdate /testbench/dut/writedata
-add wave -noupdate /testbench/dut/dataadr
-add wave -noupdate /testbench/dut/memwrite
-add wave -noupdate /testbench/dut/pc
-add wave -noupdate -radix hexadecimal /testbench/dut/instr
-add wave -noupdate /testbench/dut/readdata
-add wave -noupdate /testbench/dut/mips/dp/alu/srca
-add wave -noupdate /testbench/dut/mips/dp/alu/srcb
-add wave -noupdate /testbench/dut/mips/dp/alu/alucontrol
-add wave -noupdate /testbench/dut/mips/dp/alu/aluout
-add wave -noupdate /testbench/dut/mips/dp/alu/zero
-add wave -noupdate /testbench/dut/dmem/clk
-add wave -noupdate /testbench/dut/dmem/we
-add wave -noupdate -radix decimal /testbench/dut/dmem/a
-add wave -noupdate -radix hexadecimal /testbench/dut/dmem/wd
-add wave -noupdate /testbench/dut/dmem/rd
-add wave -noupdate -radix binary /testbench/dut/mips/dp/alu/alucontrol
-add wave -noupdate -radix decimal /testbench/dut/mips/dp/alu/aluout
-add wave -noupdate -radix decimal /testbench/dut/mips/dp/alu/srca
-add wave -noupdate -radix decimal /testbench/dut/mips/dp/alu/srcb
-add wave -noupdate -radix hexadecimal /testbench/dut/mips/dp/alu/zero
+add wave -noupdate -height 25 -radix hexadecimal -radixshowbase 1 /testbench/dut/mips/clk
+add wave -noupdate -height 25 -radix hexadecimal -radixshowbase 1 /testbench/dut/mips/reset
+add wave -noupdate -height 25 -radix hexadecimal -radixshowbase 1 /testbench/dut/mips/pc
+add wave -noupdate -height 25 -radix hexadecimal -radixshowbase 1 /testbench/dut/mips/instr
+add wave -noupdate -height 25 -radix decimal -radixshowbase 1 /testbench/dut/mips/dp/alu/srca
+add wave -noupdate -height 25 -radix decimal -radixshowbase 1 /testbench/dut/mips/dp/alu/srcb
+add wave -noupdate -height 25 -radix decimal -radixshowbase 1 /testbench/dut/mips/aluout
+add wave -noupdate -height 25 -radix hexadecimal -radixshowbase 1 /testbench/dut/mips/alusrc
+add wave -noupdate -height 25 -radix hexadecimal -radixshowbase 1 /testbench/dut/mips/regdst
+add wave -noupdate -height 25 -radix hexadecimal -radixshowbase 1 /testbench/dut/mips/memtoreg
+add wave -noupdate -height 25 -radix hexadecimal -radixshowbase 1 /testbench/dut/mips/regwrite
+add wave -noupdate -height 25 -radix hexadecimal -radixshowbase 1 /testbench/dut/mips/memwrite
+add wave -noupdate -height 25 -radix hexadecimal -radixshowbase 1 /testbench/dut/mips/writedata
+add wave -noupdate -height 25 -radix hexadecimal -radixshowbase 1 /testbench/dut/mips/readdata
+add wave -noupdate -height 25 -radix hexadecimal -radixshowbase 1 /testbench/dut/mips/jump
+add wave -noupdate -height 25 -radix hexadecimal -radixshowbase 1 /testbench/dut/mips/pcsrc
+add wave -noupdate -height 25 -radix hexadecimal -radixshowbase 1 /testbench/dut/mips/zero
+add wave -noupdate -height 25 -radix hexadecimal -radixshowbase 1 /testbench/dut/mips/alucontrol
+add wave -noupdate -height 25 -radix hexadecimal -radixshowbase 1 /testbench/dut/mips/alu_sub
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {91 ps} 0}
+WaveRestoreCursors {{Cursor 1} {14 ps} 0}
 quietly wave cursor active 1
-configure wave -namecolwidth 345
+configure wave -namecolwidth 235
 configure wave -valuecolwidth 100
 configure wave -justifyvalue left
 configure wave -signalnamewidth 0
@@ -45,4 +36,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ps
 update
-WaveRestoreZoom {75 ps} {116 ps}
+WaveRestoreZoom {0 ps} {70 ps}
