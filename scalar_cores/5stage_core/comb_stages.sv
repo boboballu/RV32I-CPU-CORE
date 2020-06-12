@@ -14,7 +14,7 @@ module pc_gen (
 				input logic [31:0] pcbranchD, jump_targetD,
 				input logic [31:0] pcplus4F,
 				output logic [31:0] pc
-				);
+			  );
 	
 	//assign pc = pcsrcD ? pcbranchD : pcplus4F;
 	always_comb begin
@@ -55,29 +55,34 @@ endmodule : IF_comb
 // bypass nets inputs - resultW, aluoutM
 // datapath nets inputs - writeregW, instnD, pcplus4D, 
 // datapath nets outputs - a, b, equalD, signimmD, pcbranchD, jump_targetD
-module ID_comb (input logic clk,
+// riscv addition - (in) pc, memwriteD
+module ID_comb ( input logic clk,
 				 input regwriteW,
-				 input [31:0] instnD, pcplus4D,
+				 input [31:0] instnD, pc, pcplus4D,
 				 input forwardAD, forwardBD,
+				 input memwriteD,
 				 input [4:0] writeregW,
 				 input [31:0] resultW, aluoutM,
 				 output [31:0] a, b, signimmD, pcbranchD, jump_targetD,
-				 output equalD  );
+				 output equalD  
+			   );
 
 	wire [31:0] A_reg, B_reg;
 	regfile rf (.clk(clk),
 				.we3(regwriteW),
-				.ra1(instnD[25:21]), .ra2(instnD[20:16]), .wa3(writeregW),
+				.ra1(instnD[19:15]), .ra2(instnD[24:20]), .wa3(writeregW),
 				.wd3(resultW),
-				.rd1(A_reg), .rd2(B_reg));
+				.rd1(A_reg), .rd2(B_reg)
+			   );
 
 	assign a = forwardAD ? aluoutM : A_reg;
 	assign b = forwardBD ? aluoutM : B_reg;
 
-	assign jump_targetD = {pcplus4D[31:28], instnD[25:0], 2'b00};
-	assign signimmD = {{16{instnD[15]}}, instnD[15:0]};
-	assign pcbranchD = pcplus4D + (signimmD << 2);	
-	assign equalD = (a-b) ? 1'b0 : 1'b1;
+	assign jump_targetD = pc + {{11{instnD[31]}}, instnD[31], instnD[19:12], instnD[20], instnD[30:21], 1'b0};
+	assign pcbranchD = pc + {{19{instnD[31]}}, instnD[31], instnD[7], instnD[30:25], instnD[11:8], 1'b0};	
+	assign signimmD = memwriteD ? {{20{instnD[31]}},instnD[31:25], instnD[11:7]} : {{20{instnD[31]}}, instnD[31:20]};
+
+	assign equalD = (a - b) ? 1'b0 : 1'b1;
 endmodule : ID_comb
 
 // register file - writes during negedge of clk
@@ -108,17 +113,18 @@ endmodule : regfile
 // bypass nets inputs - resultW, aluoutM 
 // datapath nets outputs - aluoutE, writedataE
 /********************************************************************************/ 
-module EX_comb (
-				input logic alusrcE, input logic [2:0] alucontrolE,
-				input logic [1:0] forwardAE, input logic [1:0] forwardBE,
-				input logic [31:0] a, input logic [31:0] b, input logic [31:0] signimmE,
-				input logic [31:0] resultW, input logic [31:0] aluoutM,
-				output logic [31:0] aluoutE, output logic [31:0] writedataE
-				`ifdef BR_RESOLVE_M
-				, output logic zeroE
-				`endif
+// riscv addition - (in) jumpE, alu_subE, pcplus4E
+module EX_comb (	input logic jumpE, input logic [31:0] pcplus4E,
+					input logic alusrcE, input logic [2:0] alucontrolE, input logic alu_subE,
+					input logic [1:0] forwardAE, input logic [1:0] forwardBE,
+					input logic [31:0] a, input logic [31:0] b, input logic [31:0] signimmE,
+					input logic [31:0] resultW, input logic [31:0] aluoutM,
+					output logic [31:0] aluoutE, output logic [31:0] writedataE
+					`ifdef BR_RESOLVE_M
+					, output logic zeroE
+					`endif
 				);
-	logic [31:0] srcAE, srcBE, srcBE_net0;
+	logic [31:0] srcAE, srcBE, srcBE_net0, aluout_net0;
 	logic alu_zero_flag; // unconnected net
 	
 	`ifdef BR_RESOLVE_M
@@ -128,6 +134,7 @@ module EX_comb (
 	assign writedataE = srcBE_net0;
 	assign srcBE = alusrcE ? signimmE : srcBE_net0;
 
+	assign aluoutE = jumpE ? pcplus4E : aluout_net0;
 	always_comb begin
 		case (forwardAE)
 			2'b00: srcAE = a;	
@@ -146,28 +153,33 @@ module EX_comb (
 		endcase
 	end
 
-	alu alu0 (.srca(srcAE), .srcb(srcBE), .alucontrol(alucontrolE),
-				.aluout(aluoutE), .zero(alu_zero_flag));	
+	alu alu0 (	.srca(srcAE), .srcb(srcBE), 
+				.alucontrol(alucontrolE), .alu_sub(alu_subE),
+				.aluout(aluout_net0), .zero(alu_zero_flag)
+			 );
+
 endmodule : EX_comb
 
 /// EX Stage - ALU  //////
-module alu (input logic [31:0] srca, input logic [31:0] srcb, 
-			input logic [2:0] alucontrol, 
-			output logic [31:0] aluout, output logic zero);
-	
+module alu (	input logic [31:0] srca, input logic [31:0] srcb, 
+				input logic [2:0] alucontrol, input logic alu_sub,
+				output logic [31:0] aluout, output logic zero
+		   );
+
 	assign zero = (aluout == 32'd0) ? 1 : 0;
 	always_comb begin
-		case(alucontrol)
-			3'b000: aluout = srca & srcb;
-			3'b001: aluout = srca | srcb;
-			3'b010: aluout = srca + srcb;
-
-			3'b100: aluout = srca & (~srcb);
-			3'b101: aluout = srca | (~srcb);
-			3'b110: aluout = srca - srcb;
-			3'b111: aluout = (srca < srcb) ? 32'd1 : 32'd0;
-			default: aluout= 32'bx;
-		endcase
+		if (!alu_sub) begin
+			case(alucontrol)
+				3'b000: aluout <= srca + srcb;
+				3'b110: aluout <= srca | srcb;
+				3'b111: aluout <= srca & srcb;
+				3'b010: aluout <= (srca < srcb) ? 32'd1 : 32'd0;
+				default: aluout<= 32'bx;
+			endcase
+		end
+		else begin
+			aluout <= srca - srcb;
+		end
 	end
 endmodule : alu
 /********************************************************************************/

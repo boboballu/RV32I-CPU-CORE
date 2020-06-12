@@ -3,7 +3,7 @@
 # mail  : tkesava@ncsu.edu
 #********************************************************************************#
 
-exe ?= ./assembler/bin 
+exe ?= ./test_executables/riscvtest.dat
 d_addr ?= 84
 d_data ?= 7
 
@@ -19,7 +19,6 @@ design:
 	vlog -sv ff_stages.sv
 	vlog -sv controller.sv
 	vlog -sv hazard_unit.sv
-# 	vlog -sv hazard_protected.sv
 	vlog -sv main.sv
 
 packages: 
@@ -30,7 +29,7 @@ all_tbs:
 	vlog -sv testbench.sv
 
 testbench:
-	vsim -novopt testbench
+	vsim -novopt +EXEC=$(exe) +D_cache_address=$(d_addr) +D_cache_data=$(d_data) testbench
 
 work:
 	vlib work

@@ -5,7 +5,7 @@
 `include "debug_headerfile.sv"
 import dbg_pkg::*;
 /********************************************************************************/
-module mips(input logic clk, reset,
+module riscv_32i(input logic clk, reset,
 			output logic [31:0] pc_imem,
 			input logic [31:0] imem_instn,
 			output logic dmem_we,
@@ -20,10 +20,12 @@ module mips(input logic clk, reset,
 	// Datapath of the processor - stagewise datapath nets
 	logic [31:0] pc_genF_in;  // pc_gen_comb to to pc_gen_IF ff
 	logic [31:0] pc_genF_out; // pc_gen_if ff to if_comb
+	logic [31:0] pcD, pcE, pcM, pcW; // pc in all the ff stages
 	logic [31:0] instnF, pcplus4F;  // if comb to if_id ff
 	logic [31:0] instnD, pcplus4D;  // if_id ff to id_comb
 	logic [31:0] aD, bD, signimmD, pcbranchD, jump_targetD; // id_comb to id_ex ff
 	logic equalD_ctrl; // id_comb to controller
+	logic [31:0] pcplus4E;
 	logic [31:0] aE, bE, signimmE; // id_ex ff to ex_comb 
 	logic [31:0] aluoutE, writedataE; // ex_comb to ex_mem ff
 	logic [31:0] aluoutM, writedataM; // ex_mem ff to mem_comb
@@ -33,10 +35,13 @@ module mips(input logic clk, reset,
 	
 /********************************************************************************/
 	// control path nets
-	logic [5:0] op, funct; // op and funct - inputs to the controller
+	logic [6:0] opD; 
+	logic [2:0] funct3D; 
+	logic [6:0] funct7D;// op and funct - inputs to the controller
+	
 	// interconnect nets
-	logic branchD, pcsrcD, jumpD, regwriteD, memtoregD, memwriteD, regdstD, alusrcD; logic [2:0] alucontrolD;
-	logic regwriteE, memtoregE, memwriteE, regdstE, alusrcE; logic [2:0] alucontrolE;
+	logic branchD, pcsrcD, jumpD, regwriteD, memtoregD, memwriteD, alusrcD, alu_subD; logic [2:0] alucontrolD;
+	logic jumpE, regwriteE, memtoregE, memwriteE, alusrcE, alu_subE; logic [2:0] alucontrolE;
 	logic regwriteM, memtoregM, memwriteM;
 	logic regwriteW, memtoregW;
 
@@ -61,17 +66,17 @@ module mips(input logic clk, reset,
 	logic stallF, stallD, stallE, stallM, stallW;
 	logic flushF, flushD, flushE, flushM, flushW;
 /********************************************************************************/
-/********************************************************************************/
 	// controller: op, funct assignment
-	assign op = instnD[31:26];
-	assign funct = instnD[5:0];
+	assign opD = instnD[6:0];
+	assign funct3D = instnD[14:12];
+	assign funct7D = instnD[31:25];
+/********************************************************************************/	
 	// hazard: Datapath
-	assign writeregE = regdstE ? rdE : rtE;
-	//assign flushD = pcsrcD | jumpD;
+	assign writeregE = rdE;
 	// rsD, rtD and rtD
-	assign rsD = instnD[25:21];
-	assign rtD = instnD[20:16];
-	assign rdD = instnD[15:11];
+	assign rsD = instnD[19:15];
+	assign rtD = instnD[24:20];
+	assign rdD = instnD[11:7];
 
 	`ifdef BR_RESOLVE_M
 	assign pcsrcM = branchM & zeroM;
@@ -123,15 +128,16 @@ module mips(input logic clk, reset,
 	
 	if_id if_id_ff  (	.clk(clk),
 						.en(stallD), .clear((flushD | reset)),
-						.rd(instnF), .pcplus4F(pcplus4F),
-						.instnD(instnD), .pcplus4D(pcplus4D)	
+						.rd(instnF), .pcF(pc_genF_out) ,.pcplus4F(pcplus4F),
+						.instnD(instnD), .pcD(pcD), .pcplus4D(pcplus4D)	
 					);
 
 	// stage 3: id_ex stage
 	ID_comb id_comb (	.clk(clk),
 						.regwriteW(regwriteW),
-						.instnD(instnD), .pcplus4D(pcplus4D),
+						.instnD(instnD), .pc(pcD), .pcplus4D(pcplus4D),
 						.forwardAD(forwardAD), .forwardBD(forwardBD),
+						.memwriteD(memwriteD),
 						.writeregW(writeregW),
 						.resultW(resultW), .aluoutM(aluoutM),
 						.a(aD), .b(bD), .signimmD(signimmD), .pcbranchD(pcbranchD), .jump_targetD(jump_targetD),
@@ -140,11 +146,13 @@ module mips(input logic clk, reset,
 	
 	id_ex id_ex_ff	(	.clk(clk), 
 						.en(stallE), .clear((flushE | reset)),
-						.regwriteD(regwriteD), .memtoregD(memtoregD), .memwriteD(memwriteD), .regdstD(regdstD), .alusrcD(alusrcD),
-						.alucontrolD(alucontrolD), 
+						.jumpD(jumpD), .pcplus4D(pcplus4D),
+						.regwriteD(regwriteD), .memtoregD(memtoregD), .memwriteD(memwriteD), .alusrcD(alusrcD),
+						.alucontrolD(alucontrolD), .alu_subD(alu_subD),
 						.a(aD), .b(bD), .signimmD(signimmD), .rsD(rsD), .rtD(rtD), .rdD(rdD),
-						.regwriteE(regwriteE), .memtoregE(memtoregE), .memwriteE(memwriteE), .regdstE(regdstE), .alusrcE(alusrcE),
-						.alucontrolE(alucontrolE),
+						.jumpE(jumpE), .pcplus4E(pcplus4E),
+						.regwriteE(regwriteE), .memtoregE(memtoregE), .memwriteE(memwriteE), .alusrcE(alusrcE),
+						.alucontrolE(alucontrolE), .alu_subE(alu_subE),
 						.aE(aE), .bE(bE), .signimmE(signimmE), .rsE(rsE), .rtE(rtE), .rdE(rdE)
 						`ifdef BR_RESOLVE_M
 						, .pcbranchD(pcbranchD),
@@ -155,7 +163,8 @@ module mips(input logic clk, reset,
 					); 
 
 	// stage 4: ex_mem stage
-	EX_comb ex_comb (	.alusrcE(alusrcE), .alucontrolE(alucontrolE),
+	EX_comb ex_comb (	.jumpE(jumpE), .pcplus4E(pcplus4E),
+						.alusrcE(alusrcE), .alucontrolE(alucontrolE), .alu_subE(alu_subE),
 						.forwardAE(forwardAE), .forwardBE(forwardBE),
 						.a(aE), .b(bE), .signimmE(signimmE),
 						.resultW(resultW), .aluoutM(aluoutM),
@@ -205,14 +214,14 @@ module mips(input logic clk, reset,
 /********************************************************************************/
 	
 	// controller:
-	controller ctrl(	.op(op), .funct(funct),
+	controller ctrl (	.opD(opD), .funct3D(funct3D), .funct7D(funct7D),
 						.equalD(equalD_ctrl),
 						.branchD(branchD), .pcsrcD(pcsrcD), .jumpD(jumpD),
 						.regwriteD(regwriteD),
 						.memtoregD(memtoregD), .memwriteD(memwriteD),
-						.regdstD(regdstD),
 						.alusrcD(alusrcD),
-						.alucontrolD(alucontrolD)			
+						.alucontrolD(alucontrolD),
+						.alu_subD(alu_subD)
 					);
 /********************************************************************************/
 	
@@ -234,4 +243,4 @@ module mips(input logic clk, reset,
 						.flushF(flushF), .flushD(flushD), .flushE(flushE), .flushM(flushM), .flushW(flushW)
 					);
 
-endmodule : mips
+endmodule : riscv_32i

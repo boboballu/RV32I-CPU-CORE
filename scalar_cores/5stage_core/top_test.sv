@@ -16,8 +16,8 @@ module top(input logic clk, reset,
 			);
 	// logic [31:0] pc, instr, readdata;
 	// instantiate processor and memories
-	// mips mips(clk, reset, pc, instr, memwrite, dataadr, writedata, readdata);
-	mips mips (.clk(clk), .reset(reset),
+	// riscv_32i riscv_32i(clk, reset, pc, instr, memwrite, dataadr, writedata, readdata);
+	riscv_32i riscv_32i (.clk(clk), .reset(reset),
 			.pc_imem(pc),
 			.imem_instn(instr),
 			.dmem_we(memwrite),
@@ -58,7 +58,7 @@ module imem(input logic [31:0] a,
 
 	bit [31:0] I_cache[1023:0];
 	initial begin
-		$readmemh(EXEC, I_cache); // copy the contents of the file to I_cache
+		$readmemb(EXEC, I_cache); // copy the contents of the file to I_cache
 	end
 	assign rd = I_cache[a[31:2]]; // word aligned
 endmodule

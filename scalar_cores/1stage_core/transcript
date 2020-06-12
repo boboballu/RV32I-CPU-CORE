@@ -1,5 +1,5 @@
-# vsim -c -do "run -all; exit;" testbench 
-# Start time: 23:02:06 on Jun 05,2020
+# vsim -c -do "run -all; exit" "+df=h" "+EXEC=./memfile.dat" "+D_cache_address=84" "+D_cache_data=7" testbench 
+# Start time: 17:38:15 on Jun 12,2020
 # Loading sv_std.std
 # Loading work.testbench
 # Loading work.top
@@ -10,16 +10,69 @@
 # Loading work.datapath
 # Loading work.regfile
 # Loading work.alu
+# Loading work.mem_bus
 # Loading work.imem
 # Loading work.dmem
 # run -all
-# dataadr:         80  writedata:          7
-# dataadr:         84  writedata:          7
-# Simulation succeeded
+# testbench.dut.Bus found +EXEC=./memfile.dat
+# testbench found +D_cache_address=         84
+# testbench found +D_cache_data=          7
+#                   65: dataadr:      65500  writedata: 0000000c
+#                   75: dataadr:      65496  writedata: 00000000
+#                  105: dataadr:      65464  writedata: 6c6c6548
+#                  135: dataadr:      65468  writedata: 0000006f
+#                  145: dataadr:      65470  writedata: 0000006f
+#                  155: dataadr:      65472  writedata: 00000000
+#                  165: dataadr:      65474  writedata: 00000000
+#                  175: dataadr:      65476  writedata: 00000000
+#                  185: dataadr:      65478  writedata: 00000000
+#                  195: dataadr:      65480  writedata: 00000000
+#                  205: dataadr:      65482  writedata: 00000000
+#                  215: dataadr:      65484  writedata: 00000000
+#                  385: dataadr:      65452  writedata: 0000ffe0
+#                  405: dataadr:      65436  writedata: 00000fa0
+#                  415: dataadr:      65432  writedata: 00000048
+#                  445: dataadr:       4000  writedata: 00000048
+#                  505: dataadr:      65484  writedata: 00000001
+#                  665: dataadr:      65452  writedata: 0000ffe0
+#                  685: dataadr:      65436  writedata: 00000fa0
+#                  695: dataadr:      65432  writedata: 00000048
+#                  725: dataadr:       4000  writedata: 00000048
+#                  785: dataadr:      65484  writedata: 00000002
+#                  945: dataadr:      65452  writedata: 0000ffe0
+#                  965: dataadr:      65436  writedata: 00000fa0
+#                  975: dataadr:      65432  writedata: 00000048
+#                 1005: dataadr:       4000  writedata: 00000048
+#                 1065: dataadr:      65484  writedata: 00000003
+#                 1225: dataadr:      65452  writedata: 0000ffe0
+#                 1245: dataadr:      65436  writedata: 00000fa0
+#                 1255: dataadr:      65432  writedata: 00000048
+#                 1285: dataadr:       4000  writedata: 00000048
+#                 1345: dataadr:      65484  writedata: 00000004
+#                 1505: dataadr:      65452  writedata: 0000ffe0
+#                 1525: dataadr:      65436  writedata: 00000fa0
+#                 1535: dataadr:      65432  writedata: 0000006f
+#                 1565: dataadr:       4000  writedata: 0000006f
+#                 1625: dataadr:      65484  writedata: 00000005
+#                 1785: dataadr:      65452  writedata: 0000ffe0
+#                 1805: dataadr:      65436  writedata: 00000fa0
+#                 1815: dataadr:      65432  writedata: 0000006f
+#                 1845: dataadr:       4000  writedata: 0000006f
+#                 1905: dataadr:      65484  writedata: 00000006
+#                 2065: dataadr:      65452  writedata: 0000ffe0
+#                 2085: dataadr:      65436  writedata: 00000fa0
+#                 2095: dataadr:      65432  writedata: 0000006f
+#                 2125: dataadr:       4000  writedata: 0000006f
+#                 2185: dataadr:      65484  writedata: 00000007
+#                 2345: dataadr:      65452  writedata: 0000ffe0
+#                 2365: dataadr:      65436  writedata: 00000fa0
+#                 2375: dataadr:      65432  writedata: 0000006f
+#                 2405: dataadr:       4000  writedata: 0000006f
+#                 2465: dataadr:      65484  writedata: 00000008
 # ** Note: $stop    : testbench.sv(33)
-#    Time: 175 ps  Iteration: 1  Instance: /testbench
+#    Time: 4 ns  Iteration: 0  Instance: /testbench
 # Break in Module testbench at testbench.sv line 33
 # Stopped at testbench.sv line 33
 #  exit
-# End time: 23:02:07 on Jun 05,2020, Elapsed time: 0:00:01
+# End time: 17:38:16 on Jun 12,2020, Elapsed time: 0:00:01
 # Errors: 0, Warnings: 0

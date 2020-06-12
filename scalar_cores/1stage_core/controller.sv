@@ -7,48 +7,53 @@
 // input : 6' op - to identify instn
 // input : 3' funct3 - as mentioned in risv isa
 // input : 7' funct7 - as mentioned in riscv isa
-// input : zero(from alu for beq)
+// input : br_taken(from alu for beq)
 
 module controller(	input logic [6:0] op, 
 					input [2:0] funct3,
 					input [6:0] funct7,
-					input logic zero,
+					input logic br_taken,
+					output logic branch, jump, jalr,
 					output logic memtoreg, memwrite,
 					output logic pcsrc, alusrc,
-					output logic regdst, regwrite,
-					output logic jump,
+					output logic regwrite,
 					output logic [2:0] alucontrol,
-					output logic alu_sub
+					output logic alu_sub,
+					output logic auipc, lui
 				 );
 
 	logic [1:0] aluop;
-	logic branch;
 
-	maindec md(op, memtoreg, memwrite, branch, alusrc, regdst, regwrite, jump, aluop);
+	maindec md(op, auipc, lui, memtoreg, memwrite, branch, alusrc, regwrite, jump, jalr, aluop);
 	aludec ad(funct3, funct7, aluop, alucontrol, alu_sub);
-	assign pcsrc = branch & zero;
+	assign pcsrc = branch & br_taken;
 
 endmodule
  
 module maindec(	input logic [6:0] op, // riscv - opcode
+				output logic auipc, lui,
 				output logic memtoreg, memwrite,
 				output logic branch, alusrc,
-				output logic regdst, regwrite,
+				output logic regwrite,
 				output logic jump,
+				output jalr,
 				output logic [1:0] aluop
 			  );
 
-	logic [6:0] controls;
-	assign {regwrite, regdst, alusrc, branch, memwrite, memtoreg, jump} = controls;
+	logic [8:0] controls;
+	assign {regwrite, alusrc, branch, memwrite, memtoreg, jump, jalr, auipc, lui} = controls;
 	always_comb begin
 		case(op)
-			7'b0110011: begin controls <= 7'b1100000;   aluop <= 2'b10; end // RTYPE
-			7'b0000011: begin controls <= 7'b1010010;   aluop <= 2'b00; end // LW
-			7'b0100011: begin controls <= 7'b0010100;   aluop <= 2'b00; end // SW
-			7'b0010011: begin controls <= 7'b1010000;   aluop <= 2'b00; end // ADDI
-			7'b1100011: begin controls <= 7'b0001000;   aluop <= 2'b01; end // BEQ
-			7'b1101111: begin controls <= 7'b0000001;   aluop <= 2'b00; end // J
-			default   : begin controls <= 7'bxxxxxxx;   aluop <= 2'bxx; end // illegal op
+			7'b0110011: begin controls <= 9'b100000000;   aluop <= 2'b10; end // RTYPE
+			7'b0000011: begin controls <= 9'b110010000;   aluop <= 2'b00; end // LW
+			7'b0100011: begin controls <= 9'b010100000;   aluop <= 2'b00; end // SW
+			7'b0010011: begin controls <= 9'b110000000;   aluop <= 2'b00; end // ADDI
+			7'b1100011: begin controls <= 9'b001000000;   aluop <= 2'b01; end // BEQ
+			7'b1101111: begin controls <= 9'b100001000;   aluop <= 2'b00; end // J
+			7'b1100111: begin controls <= 9'b100001100;	  aluop <= 2'b00; end // JALR
+			7'b0010111: begin controls <= 9'b100000010;   aluop <= 2'b00; end // auipc
+			7'b0110111: begin controls <= 9'b100000001;   aluop <= 2'b00; end // lui
+			default   : begin controls <= 9'b000000000;   aluop <= 2'b00; end // illegal op - nop
 		endcase
 	end
 endmodule
