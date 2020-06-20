@@ -1,13 +1,19 @@
 # vsim -c -do "run -all; exit" "+df=h" "+EXEC=./memfile.dat" "+D_cache_address=84" "+D_cache_data=7" testbench 
-# Start time: 17:38:15 on Jun 12,2020
+# Start time: 19:32:54 on Jun 19,2020
 # Loading sv_std.std
+# Loading work.dbg_pkg
+# Loading work.testbench_sv_unit
 # Loading work.testbench
+# Loading work.top_test_sv_unit
 # Loading work.top
+# Loading work.core_top_sv_unit
 # Loading work.riscv_32i
+# Loading work.controller_if
 # Loading work.controller
 # Loading work.maindec
 # Loading work.aludec
 # Loading work.datapath
+# Loading work.instn_decode
 # Loading work.regfile
 # Loading work.alu
 # Loading work.mem_bus
@@ -17,62 +23,29 @@
 # testbench.dut.Bus found +EXEC=./memfile.dat
 # testbench found +D_cache_address=         84
 # testbench found +D_cache_data=          7
-#                   65: dataadr:      65500  writedata: 0000000c
-#                   75: dataadr:      65496  writedata: 00000000
-#                  105: dataadr:      65464  writedata: 6c6c6548
-#                  135: dataadr:      65468  writedata: 0000006f
-#                  145: dataadr:      65470  writedata: 0000006f
-#                  155: dataadr:      65472  writedata: 00000000
-#                  165: dataadr:      65474  writedata: 00000000
-#                  175: dataadr:      65476  writedata: 00000000
-#                  185: dataadr:      65478  writedata: 00000000
-#                  195: dataadr:      65480  writedata: 00000000
-#                  205: dataadr:      65482  writedata: 00000000
-#                  215: dataadr:      65484  writedata: 00000000
-#                  385: dataadr:      65452  writedata: 0000ffe0
-#                  405: dataadr:      65436  writedata: 00000fa0
-#                  415: dataadr:      65432  writedata: 00000048
-#                  445: dataadr:       4000  writedata: 00000048
-#                  505: dataadr:      65484  writedata: 00000001
-#                  665: dataadr:      65452  writedata: 0000ffe0
-#                  685: dataadr:      65436  writedata: 00000fa0
-#                  695: dataadr:      65432  writedata: 00000048
-#                  725: dataadr:       4000  writedata: 00000048
-#                  785: dataadr:      65484  writedata: 00000002
-#                  945: dataadr:      65452  writedata: 0000ffe0
-#                  965: dataadr:      65436  writedata: 00000fa0
-#                  975: dataadr:      65432  writedata: 00000048
-#                 1005: dataadr:       4000  writedata: 00000048
-#                 1065: dataadr:      65484  writedata: 00000003
-#                 1225: dataadr:      65452  writedata: 0000ffe0
-#                 1245: dataadr:      65436  writedata: 00000fa0
-#                 1255: dataadr:      65432  writedata: 00000048
-#                 1285: dataadr:       4000  writedata: 00000048
-#                 1345: dataadr:      65484  writedata: 00000004
-#                 1505: dataadr:      65452  writedata: 0000ffe0
-#                 1525: dataadr:      65436  writedata: 00000fa0
-#                 1535: dataadr:      65432  writedata: 0000006f
-#                 1565: dataadr:       4000  writedata: 0000006f
-#                 1625: dataadr:      65484  writedata: 00000005
-#                 1785: dataadr:      65452  writedata: 0000ffe0
-#                 1805: dataadr:      65436  writedata: 00000fa0
-#                 1815: dataadr:      65432  writedata: 0000006f
-#                 1845: dataadr:       4000  writedata: 0000006f
-#                 1905: dataadr:      65484  writedata: 00000006
-#                 2065: dataadr:      65452  writedata: 0000ffe0
-#                 2085: dataadr:      65436  writedata: 00000fa0
-#                 2095: dataadr:      65432  writedata: 0000006f
-#                 2125: dataadr:       4000  writedata: 0000006f
-#                 2185: dataadr:      65484  writedata: 00000007
-#                 2345: dataadr:      65452  writedata: 0000ffe0
-#                 2365: dataadr:      65436  writedata: 00000fa0
-#                 2375: dataadr:      65432  writedata: 0000006f
-#                 2405: dataadr:       4000  writedata: 0000006f
-#                 2465: dataadr:      65484  writedata: 00000008
-# ** Note: $stop    : testbench.sv(33)
+# Console [0x00000fa0] print - writes to the addr treated as a console print msg
+#                   25; pc:          0; op: ADDI; rd :          2; rs1:           0; rs2:           5;
+#                   35; pc:          4; op: ADDI; rd :          3; rs1:           0; rs2:          12;
+#                   45; pc:          8; op: ADDI; rd :          7; rs1:           3; rs2:          23;
+#                   65; pc:         16; op: RTYPE; rd :          5; rs1:           3; rs2:           4;
+#                   75; pc:         20; op: RTYPE; rd :          5; rs1:           5; rs2:           4;
+#                   85; pc:         24; op: BEQ; rd :         12; rs1:           5; rs2:           7;
+#                   95; pc:         28; op: RTYPE; rd :          4; rs1:           3; rs2:           4;
+#                  105; pc:         32; op: BEQ; rd :          8; rs1:           4; rs2:           0;
+#                  115; pc:         40; op: RTYPE; rd :          4; rs1:           7; rs2:           2;
+#                  125; pc:         44; op: RTYPE; rd :          7; rs1:           4; rs2:           5;
+#                  135; pc:         48; op: RTYPE; rd :          7; rs1:           7; rs2:           2;
+#                  145; pc:         52; op: SW; rd :          4; rs1:           3; rs2:           7;
+#                  145: dataadr:         80  writedata: 00000007
+#                  155; pc:         56; op: LW; rd :          2; rs1:           0; rs2:          16;
+#                  155 load-> addr:         80; regwrite 1; result :00000007
+#                  175; pc:         68; op: SW; rd :         20; rs1:           0; rs2:           2;
+#                  175: dataadr:         84  writedata: 00000007
+# Simulation succeeded
+# ** Note: $stop    : testbench.sv(43)
 #    Time: 4 ns  Iteration: 0  Instance: /testbench
-# Break in Module testbench at testbench.sv line 33
-# Stopped at testbench.sv line 33
+# Break in Module testbench at testbench.sv line 43
+# Stopped at testbench.sv line 43
 #  exit
-# End time: 17:38:16 on Jun 12,2020, Elapsed time: 0:00:01
+# End time: 19:32:54 on Jun 19,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0

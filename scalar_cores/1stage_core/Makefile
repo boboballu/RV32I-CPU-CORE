@@ -15,9 +15,12 @@ run:
 	vsim -novopt +EXEC=$(exe) +D_cache_address=$(d_addr) +D_cache_data=$(d_data) testbench
 
 compile:
+	vlog -sv debug.svh
+	vlog -sv controller_if.sv
 	vlog -sv datapath.sv
 	vlog -sv controller.sv
 	vlog -sv core_top.sv
+	vlog -sv top_test.sv
 	vlog -sv testbench.sv
 
 work:

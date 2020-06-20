@@ -2,48 +2,30 @@
 // School: North Carolina State University
 // mail  : tkesava@ncsu.edu
 /********************************************************************************/
-
-// controller
-// input : 6' op - to identify instn
-// input : 3' funct3 - as mentioned in risv isa
-// input : 7' funct7 - as mentioned in riscv isa
-// input : br_taken(from alu for beq)
-
-module controller(	input logic [6:0] op, 
-					input [2:0] funct3,
-					input [6:0] funct7,
-					input logic br_taken,
-					output logic branch, jump, jalr,
-					output logic memtoreg, memwrite,
-					output logic pcsrc, alusrc,
-					output logic regwrite,
-					output logic [2:0] alucontrol,
-					output logic alu_sub,
-					output logic auipc, lui
-				 );
+module controller	(	controller_if c_bus );
 
 	logic [1:0] aluop;
 
-	maindec md(op, auipc, lui, memtoreg, memwrite, branch, alusrc, regwrite, jump, jalr, aluop);
-	aludec ad(funct3, funct7, aluop, alucontrol, alu_sub);
-	assign pcsrc = branch & br_taken;
+	maindec maindec (	.c_bus(c_bus),
+						.aluop(aluop)
+					);
+	aludec aludec 	(	.c_bus(c_bus),
+						.aluop(aluop)
+					);
+	assign c_bus.pcsrc = c_bus.branch & c_bus.br_taken;
 
 endmodule
  
-module maindec(	input logic [6:0] op, // riscv - opcode
-				output logic auipc, lui,
-				output logic memtoreg, memwrite,
-				output logic branch, alusrc,
-				output logic regwrite,
-				output logic jump,
-				output jalr,
-				output logic [1:0] aluop
-			  );
+module maindec		(	controller_if c_bus,
+						output logic [1:0] aluop
+			  		);
 
 	logic [8:0] controls;
-	assign {regwrite, alusrc, branch, memwrite, memtoreg, jump, jalr, auipc, lui} = controls;
+	assign {c_bus.regwrite, c_bus.alusrc, c_bus.branch, c_bus.memwrite, 
+			c_bus.memtoreg, c_bus.jump, c_bus.jalr, c_bus.auipc, c_bus.lui} = controls;
+	
 	always_comb begin
-		case(op)
+		case(c_bus.op)
 			7'b0110011: begin controls <= 9'b100000000;   aluop <= 2'b10; end // RTYPE
 			7'b0000011: begin controls <= 9'b110010000;   aluop <= 2'b00; end // LW
 			7'b0100011: begin controls <= 9'b010100000;   aluop <= 2'b00; end // SW
@@ -59,17 +41,14 @@ module maindec(	input logic [6:0] op, // riscv - opcode
 endmodule
 
 module aludec(	
-				input logic [2:0] funct3,
-				input logic [6:0] funct7,
-				input logic [1:0] aluop,
-				output logic [2:0] alucontrol,
-				output logic alu_sub
+				controller_if c_bus,
+				input logic [1:0] aluop
 			 );
 
 	always_comb
 	case(aluop)
-		2'b00: begin alucontrol <= 3'b000; alu_sub <= 1'b0; end // add (for lw/sw/addi/J)
-		2'b01: begin alucontrol <= 3'b000; alu_sub <= 1'b1; end // sub (for beq)
-		default: begin alucontrol <= funct3; alu_sub = funct7[5]; end // R-type 
+		2'b00: 	 begin c_bus.alucontrol <= 3'b000; c_bus.alu_sub <= 1'b0; end 				  // add (for lw/sw/addi/J)
+		2'b01: 	 begin c_bus.alucontrol <= 3'b000; c_bus.alu_sub <= 1'b1; end 				  // sub (for beq)
+		default: begin c_bus.alucontrol <= c_bus.funct3; c_bus.alu_sub = c_bus.funct7[5]; end // R-type 
 	endcase
 endmodule

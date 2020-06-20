@@ -1,0 +1,45 @@
+
+exe:     file format elf32-littleriscv
+
+Contents of section .text.init:
+ 0000 17010100 130101fe ef000001 6f000000  ............o...
+Contents of section .text:
+ 0010 2320b500 67800000                    # ..g...        
+Contents of section .text.startup:
+ 0018 130101ff 13074005 9307c100 2320f700  ......@.....# ..
+ 0028 13050000 13010101 67800000           ........g...    
+Contents of section .eh_frame:
+ 0034 10000000 00000000 017a5200 01040101  .........zR.....
+ 0044 1b0d0200 10000000 18000000 c0ffffff  ................
+ 0054 08000000 00000000 10000000 2c000000  ............,...
+ 0064 b4ffffff 1c000000 00440e10           .........D..    
+Contents of section .comment:
+ 0000 4743433a 2028474e 55292034 2e392e32  GCC: (GNU) 4.9.2
+ 0010 00                                   .               
+
+Disassembly of section .text.init:
+
+00000000 <entry>:
+   0:	00010117          	auipc	sp,0x10
+   4:	fe010113          	addi	sp,sp,-32 # ffe0 <main+0xffc8>
+   8:	010000ef          	jal	18 <main>
+
+0000000c <end>:
+   c:	0000006f          	j	c <end>
+
+Disassembly of section .text:
+
+00000010 <_Z9mem_writeji>:
+  10:	00b52023          	sw	a1,0(a0)
+  14:	00008067          	ret
+
+Disassembly of section .text.startup:
+
+00000018 <main>:
+  18:	ff010113          	addi	sp,sp,-16
+  1c:	05400713          	li	a4,84
+  20:	00c10793          	addi	a5,sp,12
+  24:	00f72023          	sw	a5,0(a4)
+  28:	00000513          	li	a0,0
+  2c:	01010113          	addi	sp,sp,16
+  30:	00008067          	ret
