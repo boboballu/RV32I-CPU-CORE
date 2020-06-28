@@ -1,5 +1,5 @@
 # vsim -c -do "run -all; exit" "+df=h" "+EXEC=./memfile.dat" "+D_cache_address=84" "+D_cache_data=7" testbench 
-# Start time: 19:32:54 on Jun 19,2020
+# Start time: 23:54:42 on Jun 27,2020
 # Loading sv_std.std
 # Loading work.dbg_pkg
 # Loading work.testbench_sv_unit
@@ -23,29 +23,18 @@
 # testbench.dut.Bus found +EXEC=./memfile.dat
 # testbench found +D_cache_address=         84
 # testbench found +D_cache_data=          7
-# Console [0x00000fa0] print - writes to the addr treated as a console print msg
-#                   25; pc:          0; op: ADDI; rd :          2; rs1:           0; rs2:           5;
-#                   35; pc:          4; op: ADDI; rd :          3; rs1:           0; rs2:          12;
-#                   45; pc:          8; op: ADDI; rd :          7; rs1:           3; rs2:          23;
-#                   65; pc:         16; op: RTYPE; rd :          5; rs1:           3; rs2:           4;
-#                   75; pc:         20; op: RTYPE; rd :          5; rs1:           5; rs2:           4;
-#                   85; pc:         24; op: BEQ; rd :         12; rs1:           5; rs2:           7;
-#                   95; pc:         28; op: RTYPE; rd :          4; rs1:           3; rs2:           4;
-#                  105; pc:         32; op: BEQ; rd :          8; rs1:           4; rs2:           0;
-#                  115; pc:         40; op: RTYPE; rd :          4; rs1:           7; rs2:           2;
-#                  125; pc:         44; op: RTYPE; rd :          7; rs1:           4; rs2:           5;
-#                  135; pc:         48; op: RTYPE; rd :          7; rs1:           7; rs2:           2;
-#                  145; pc:         52; op: SW; rd :          4; rs1:           3; rs2:           7;
-#                  145: dataadr:         80  writedata: 00000007
-#                  155; pc:         56; op: LW; rd :          2; rs1:           0; rs2:          16;
-#                  155 load-> addr:         80; regwrite 1; result :00000007
-#                  175; pc:         68; op: SW; rd :         20; rs1:           0; rs2:           2;
-#                  175: dataadr:         84  writedata: 00000007
-# Simulation succeeded
-# ** Note: $stop    : testbench.sv(43)
-#    Time: 4 ns  Iteration: 0  Instance: /testbench
-# Break in Module testbench at testbench.sv line 43
-# Stopped at testbench.sv line 43
+#  
+#  
+# ==> Console [0x00000fa0] print - writes to the addr treated as a console print msg <==
+#  
+#  
+# Hello World ;) 
+# ð 
+#  
+# ** Note: $stop    : testbench.sv(45)
+#    Time: 20 ns  Iteration: 0  Instance: /testbench
+# Break in Module testbench at testbench.sv line 45
+# Stopped at testbench.sv line 45
 #  exit
-# End time: 19:32:54 on Jun 19,2020, Elapsed time: 0:00:00
+# End time: 23:54:43 on Jun 27,2020, Elapsed time: 0:00:01
 # Errors: 0, Warnings: 0

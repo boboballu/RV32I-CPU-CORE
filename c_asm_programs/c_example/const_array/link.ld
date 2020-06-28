@@ -6,7 +6,9 @@
 
 /* stack grows from bottom to top - keep in mind */
 
-__sp = 0x10000;
+/*ENTRY(.text_init)*/
+
+__sp = 0x0FFF0;
 
 SECTIONS
 {
@@ -18,12 +20,17 @@ SECTIONS
         *(.text)
     }
 
+    .rodata : {
+    	*(.rodata)
+    	*(.rodata.*)
+    }
+
     .data : {
+        *(.vector_section)
         *(.sbss)
         *(COMMON)
         *(.bss)
         *(.sdata)
-        *(.rodata)
         *(.data*)
         *(.got*)
     }

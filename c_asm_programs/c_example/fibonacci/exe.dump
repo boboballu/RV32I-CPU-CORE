@@ -1,0 +1,59 @@
+
+exe:     file format elf32-littleriscv
+
+Contents of section .text.init:
+ 0000 17010100 130101fe ef008000 6f000000  ............o...
+Contents of section .text.startup:
+ 0010 b7170000 13071000 238007fa 2380e7fa  ........#...#...
+ 0020 2380e7fa 13072000 2380e7fa 13073000  #..... .#.....0.
+ 0030 2380e7fa 13075000 2380e7fa 13078000  #.....P.#.......
+ 0040 2380e7fa 1307d000 2380e7fa 13075001  #.......#.....P.
+ 0050 2380e7fa 13072002 2380e7fa 13077003  #..... .#.....p.
+ 0060 2380e7fa 13079005 13050000 2380e7fa  #...........#...
+ 0070 67800000                             g...            
+Contents of section .eh_frame:
+ 0074 10000000 00000000 017a5200 01040101  .........zR.....
+ 0084 1b0d0200 10000000 18000000 80ffffff  ................
+ 0094 64000000 00000000                    d.......        
+Contents of section .comment:
+ 0000 4743433a 2028474e 55292034 2e392e32  GCC: (GNU) 4.9.2
+ 0010 00                                   .               
+
+Disassembly of section .text.init:
+
+00000000 <entry>:
+   0:	00010117          	auipc	sp,0x10
+   4:	fe010113          	addi	sp,sp,-32 # ffe0 <main+0xffd0>
+   8:	008000ef          	jal	10 <main>
+
+0000000c <end>:
+   c:	0000006f          	j	c <end>
+
+Disassembly of section .text.startup:
+
+00000010 <main>:
+  10:	000017b7          	lui	a5,0x1
+  14:	00100713          	li	a4,1
+  18:	fa078023          	sb	zero,-96(a5) # fa0 <main+0xf90>
+  1c:	fae78023          	sb	a4,-96(a5)
+  20:	fae78023          	sb	a4,-96(a5)
+  24:	00200713          	li	a4,2
+  28:	fae78023          	sb	a4,-96(a5)
+  2c:	00300713          	li	a4,3
+  30:	fae78023          	sb	a4,-96(a5)
+  34:	00500713          	li	a4,5
+  38:	fae78023          	sb	a4,-96(a5)
+  3c:	00800713          	li	a4,8
+  40:	fae78023          	sb	a4,-96(a5)
+  44:	00d00713          	li	a4,13
+  48:	fae78023          	sb	a4,-96(a5)
+  4c:	01500713          	li	a4,21
+  50:	fae78023          	sb	a4,-96(a5)
+  54:	02200713          	li	a4,34
+  58:	fae78023          	sb	a4,-96(a5)
+  5c:	03700713          	li	a4,55
+  60:	fae78023          	sb	a4,-96(a5)
+  64:	05900713          	li	a4,89
+  68:	00000513          	li	a0,0
+  6c:	fae78023          	sb	a4,-96(a5)
+  70:	00008067          	ret

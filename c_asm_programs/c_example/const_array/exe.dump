@@ -6,72 +6,135 @@ Disassembly of section .text.init:
 
 00000000 <entry>:
    0:	00010117          	auipc	sp,0x10
-   4:	fe010113          	addi	sp,sp,-32 # ffe0 <main+0xffd0>
-   8:	008000ef          	jal	10 <main>
+   4:	fd010113          	addi	sp,sp,-48 # ffd0 <main+0xffa8>
+   8:	020000ef          	jal	ra,28 <main>
 
 0000000c <end>:
    c:	0000006f          	j	c <end>
 
 Disassembly of section .text:
 
-00000010 <main>:
-  10:	ff010113          	addi	sp,sp,-16
-  14:	05c02703          	lw	a4,92(zero)
-  18:	00e12423          	sw	a4,8(sp)
-  1c:	05c00793          	li	a5,92
-  20:	0047d783          	lhu	a5,4(a5)
-  24:	00f11623          	sh	a5,12(sp)
-  28:	00810713          	addi	a4,sp,8
-  2c:	000017b7          	lui	a5,0x1
-  30:	fa078793          	addi	a5,a5,-96 # fa0 <main+0xf90>
-  34:	00001637          	lui	a2,0x1
-  38:	fa560613          	addi	a2,a2,-91 # fa5 <main+0xf95>
-  3c:	00074683          	lbu	a3,0(a4)
-  40:	00d78023          	sb	a3,0(a5)
-  44:	00178793          	addi	a5,a5,1
-  48:	00170713          	addi	a4,a4,1
-  4c:	fec798e3          	bne	a5,a2,3c <main+0x2c>
-  50:	00000513          	li	a0,0
-  54:	01010113          	addi	sp,sp,16
-  58:	00008067          	ret
+00000010 <_Z10write_chari>:
+  10:	000107b7          	lui	a5,0x10
+  14:	fea7ae23          	sw	a0,-4(a5) # fffc <__sp+0xc>
+  18:	ffc7a783          	lw	a5,-4(a5)
+  1c:	40a78533          	sub	a0,a5,a0
+  20:	00153513          	seqz	a0,a0
+  24:	00008067          	ret
 
-Disassembly of section .rodata.str1.4:
+Disassembly of section .text.startup:
 
-0000005c <.rodata.str1.4>:
-  5c:	6568                	0x6568
-  5e:	6c6c                	0x6c6c
-  60:	0000006f          	j	60 <main+0x50>
+00000028 <main>:
+  28:	0c800793          	li	a5,200
+  2c:	0087a683          	lw	a3,8(a5)
+  30:	00c7a703          	lw	a4,12(a5)
+  34:	0007a583          	lw	a1,0(a5)
+  38:	0047a603          	lw	a2,4(a5)
+  3c:	0107c783          	lbu	a5,16(a5)
+  40:	fe010113          	addi	sp,sp,-32
+  44:	00d12423          	sw	a3,8(sp)
+  48:	00e12623          	sw	a4,12(sp)
+  4c:	00f10823          	sb	a5,16(sp)
+  50:	00b12023          	sw	a1,0(sp)
+  54:	00c12223          	sw	a2,4(sp)
+  58:	000108a3          	sb	zero,17(sp)
+  5c:	00010923          	sb	zero,18(sp)
+  60:	000109a3          	sb	zero,19(sp)
+  64:	00010a23          	sb	zero,20(sp)
+  68:	00010aa3          	sb	zero,21(sp)
+  6c:	00010b23          	sb	zero,22(sp)
+  70:	00010ba3          	sb	zero,23(sp)
+  74:	00010c23          	sb	zero,24(sp)
+  78:	00010ca3          	sb	zero,25(sp)
+  7c:	00010d23          	sb	zero,26(sp)
+  80:	00010da3          	sb	zero,27(sp)
+  84:	00010e23          	sb	zero,28(sp)
+  88:	00010ea3          	sb	zero,29(sp)
+  8c:	00110693          	addi	a3,sp,1
+  90:	04800713          	li	a4,72
+  94:	000107b7          	lui	a5,0x10
+  98:	fee7ae23          	sw	a4,-4(a5) # fffc <__sp+0xc>
+  9c:	0006c703          	lbu	a4,0(a3)
+  a0:	ffc7a603          	lw	a2,-4(a5)
+  a4:	00168693          	addi	a3,a3,1
+  a8:	ffc78613          	addi	a2,a5,-4
+  ac:	fe0716e3          	bnez	a4,98 <main+0x70>
+  b0:	000107b7          	lui	a5,0x10
+  b4:	ff078793          	addi	a5,a5,-16 # fff0 <__sp>
+  b8:	00f62023          	sw	a5,0(a2)
+  bc:	00000513          	li	a0,0
+  c0:	02010113          	addi	sp,sp,32
+  c4:	00008067          	ret
+
+Disassembly of section .rodata:
+
+000000c8 <.rodata>:
+  c8:	6548                	flw	fa0,12(a0)
+  ca:	6c6c                	flw	fa1,92(s0)
+  cc:	6f57206f          	j	72fc0 <__sp+0x62fd0>
+  d0:	6c72                	flw	fs8,28(sp)
+  d2:	2064                	fld	fs1,192(s0)
+  d4:	0a20293b          	0xa20293b
+	...
 
 Disassembly of section .eh_frame:
 
-00000064 <.eh_frame>:
-  64:	0010                	0x10
-  66:	0000                	unimp
-  68:	0000                	unimp
-  6a:	0000                	unimp
-  6c:	7a01                	0x7a01
-  6e:	0052                	0x52
-  70:	0401                	0x401
-  72:	0101                	0x101
-  74:	00020d1b          	sext.w	s10,tp
-  78:	0010                	0x10
-  7a:	0000                	unimp
-  7c:	0018                	0x18
-  7e:	0000                	unimp
-  80:	ff90                	0xff90
-  82:	ffff                	0xffff
-  84:	004c                	0x4c
-  86:	0000                	unimp
-  88:	4400                	0x4400
-  8a:	100e                	0x100e
+000000e8 <.eh_frame>:
+  e8:	0010                	0x10
+  ea:	0000                	unimp
+  ec:	0000                	unimp
+  ee:	0000                	unimp
+  f0:	00527a03          	0x527a03
+  f4:	7c01                	lui	s8,0xfffe0
+  f6:	0101                	addi	sp,sp,0
+  f8:	00020d1b          	0x20d1b
+  fc:	0010                	0x10
+  fe:	0000                	unimp
+ 100:	0018                	0x18
+ 102:	0000                	unimp
+ 104:	ff0c                	fsw	fa1,56(a4)
+ 106:	ffff                	0xffff
+ 108:	0018                	0x18
+ 10a:	0000                	unimp
+ 10c:	0000                	unimp
+ 10e:	0000                	unimp
+ 110:	0014                	0x14
+ 112:	0000                	unimp
+ 114:	002c                	addi	a1,sp,8
+ 116:	0000                	unimp
+ 118:	ff10                	fsw	fa2,56(a4)
+ 11a:	ffff                	0xffff
+ 11c:	00a0                	addi	s0,sp,72
+ 11e:	0000                	unimp
+ 120:	5c00                	lw	s0,56(s0)
+ 122:	200e                	fld	ft0,192(sp)
+ 124:	8002                	0x8002
+ 126:	000e                	c.slli	zero,0x3
+
+Disassembly of section .riscv.attributes:
+
+00000000 <.riscv.attributes>:
+   0:	1b41                	addi	s6,s6,-16
+   2:	0000                	unimp
+   4:	7200                	flw	fs0,32(a2)
+   6:	7369                	lui	t1,0xffffa
+   8:	01007663          	bgeu	zero,a6,14 <_Z10write_chari+0x4>
+   c:	0011                	c.nop	4
+   e:	0000                	unimp
+  10:	1004                	addi	s1,sp,32
+  12:	7205                	lui	tp,0xfffe1
+  14:	3376                	fld	ft6,376(sp)
+  16:	6932                	flw	fs2,12(sp)
+  18:	7032                	flw	ft0,44(sp)
+  1a:	0030                	addi	a2,sp,8
 
 Disassembly of section .comment:
 
 00000000 <.comment>:
    0:	3a434347          	fmsub.d	ft6,ft6,ft4,ft7,rmm
-   4:	2820                	0x2820
+   4:	2820                	fld	fs0,80(s0)
    6:	29554e47          	fmsub.s	ft8,fa0,fs5,ft5,rmm
-   a:	3420                	0x3420
-   c:	392e                	0x392e
-   e:	322e                	0x322e
-	...
+   a:	3120                	fld	fs0,96(a0)
+   c:	2e30                	fld	fa2,88(a2)
+   e:	2e31                	jal	32a <main+0x302>
+  10:	0030                	addi	a2,sp,8

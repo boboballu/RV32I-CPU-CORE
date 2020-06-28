@@ -10,7 +10,8 @@ module datapath(input logic clk, reset,
 				input logic [31:0] readdata
 				`ifdef DBG
 				, output logic [31:0] result
-				`endif);
+				`endif
+				);
 
 
 /********************************************************************************/
