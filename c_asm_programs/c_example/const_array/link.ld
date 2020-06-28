@@ -6,14 +6,16 @@
 
 /* stack grows from bottom to top - keep in mind */
 
-/*ENTRY(.text_init)*/
+/* doesn't pick textinit function bit picks main surpricingly */
+/* ENTRY(write_char) */
 
 __sp = 0x0FFF0;
 
 SECTIONS
 {
     .text.init : {
-        *(.text.init)
+        *(.text.init0)
+        *(.text.init1)
     }
 
     .text : {

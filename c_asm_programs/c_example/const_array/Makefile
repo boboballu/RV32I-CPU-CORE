@@ -1,6 +1,7 @@
 CC=riscv64-unknown-elf-gcc
 # CFLAGS=-O0 -m32 -march=RV32I
-CFLAGS=-O3 -march=rv32i -mabi=ilp32
+CFLAGS=-march=rv32i -mabi=ilp32
+OPT=-O3
 CCFs:=main.cc
 ASMs:=init.s
 OBJ:=init.o main.o 
@@ -9,10 +10,10 @@ exe: $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS) -T link.ld -nostdlib
 
 %.o: %.cc $(CCFs)
-	$(CC) -c -o $@ $< $(CFLAGS)
+	$(CC) -c -o $@ $< $(OPT) $(CFLAGS)
 
-%.o: %.s $(ASMs)
-	$(CC) -c -o $@ $< $(CFLAGS)
+# %.o: %.s $(ASMs)
+# 	$(CC) -c -o $@ $< $(CFLAGS)
 
 dsm:
 	riscv64-unknown-elf-objdump -D exe > exe.dump

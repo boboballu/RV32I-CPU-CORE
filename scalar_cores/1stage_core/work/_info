@@ -10,7 +10,7 @@ cModel Technology
 Z0 dE:/NCSU_classes_files/spring20/633/Project/HMP/Heterogeneous-multicore/scalar_cores/1stage_core
 valu
 Z1 DXx6 sv_std 3 std 0 22 AD7iAPLo6nTIKk<N0eo=D3
-Z2 !s110 1593316479
+Z2 !s110 1593319178
 !i10b 1
 !s100 1`In5fkj1QE``NVTNf>Io2
 IRHK^Nb@^3JQkfQSWQRka82
@@ -26,7 +26,7 @@ Z8 OV;L;10.5b;63
 r1
 !s85 0
 31
-Z9 !s108 1593316479.000000
+Z9 !s108 1593319178.000000
 Z10 !s107 datapath_functions.svh|datapath.sv|
 Z11 !s90 -sv|datapath.sv|
 !i113 1
@@ -34,49 +34,49 @@ o-sv
 Z12 tCvgOpt 0
 valudec
 R1
-Z13 !s110 1593316480
+R2
 !i10b 1
 !s100 WWd0k`Yf@GJ5XZL^GD45>2
 I:Be7BC`_84kh70P]hBbIk0
 R3
-Z14 !s105 controller_sv_unit
+Z13 !s105 controller_sv_unit
 S1
 R0
-Z15 w1592605456
-Z16 8controller.sv
-Z17 Fcontroller.sv
+Z14 w1592605456
+Z15 8controller.sv
+Z16 Fcontroller.sv
 L0 43
 R8
 r1
 !s85 0
 31
 R9
-Z18 !s107 controller.sv|
-Z19 !s90 -sv|controller.sv|
+Z17 !s107 controller.sv|
+Z18 !s90 -sv|controller.sv|
 !i113 1
 o-sv
 R12
 vcontroller
 R1
-R13
+R2
 !i10b 1
 !s100 5gEPW?_4mVZzF4RRBnR_i0
 I<^Ta7G6HO8Rhai^2oP:NQ0
 R3
-R14
+R13
 S1
 R0
+R14
 R15
 R16
-R17
 L0 5
 R8
 r1
 !s85 0
 31
 R9
+R17
 R18
-R19
 !i113 1
 o-sv
 R12
@@ -106,7 +106,7 @@ o-sv
 R12
 Xcore_top_sv_unit
 R1
-Z20 DXx4 work 7 dbg_pkg 0 22 KmPOe18nL4aacX_VFho:P0
+Z19 DXx4 work 7 dbg_pkg 0 22 KmPOe18nL4aacX_VFho:P0
 VR26Sd`0HbY>G_TVi<D_8m0
 r1
 !s85 0
@@ -117,14 +117,14 @@ IR26Sd`0HbY>G_TVi<D_8m0
 !i103 1
 S1
 R0
-Z21 w1592336502
-Z22 8core_top.sv
-Z23 Fcore_top.sv
+Z20 w1592336502
+Z21 8core_top.sv
+Z22 Fcore_top.sv
 L0 6
 R8
-Z24 !s108 1593316480.000000
-Z25 !s107 core_top.sv|
-Z26 !s90 -sv|core_top.sv|
+R9
+Z23 !s107 core_top.sv|
+Z24 !s90 -sv|core_top.sv|
 !i113 1
 o-sv
 R12
@@ -155,7 +155,7 @@ o-sv
 R12
 Xdbg_pkg
 R1
-!s110 1593316478
+!s110 1593319177
 !i10b 1
 !s100 lFU;m^=EjZn9R5gCTVWL^1
 IKmPOe18nL4aacX_VFho:P0
@@ -170,7 +170,7 @@ R8
 r1
 !s85 0
 31
-!s108 1593316478.000000
+!s108 1593319177.000000
 !s107 debug.svh|
 !s90 -sv|debug.svh|
 !i113 1
@@ -178,8 +178,8 @@ o-sv
 R12
 vdmem
 R1
-R20
-Z27 DXx4 work 16 top_test_sv_unit 0 22 ]BhlN_=79HzXcBIW_hm?o1
+R19
+Z25 DXx4 work 16 top_test_sv_unit 0 22 ]BhlN_=79HzXcBIW_hm?o1
 R3
 r1
 !s85 0
@@ -187,24 +187,24 @@ r1
 !i10b 1
 !s100 8Czd^^<9`:S]Eo>14S3I`0
 Ian7FcnBFIFV?WFd02MaZn0
-Z28 !s105 top_test_sv_unit
+Z26 !s105 top_test_sv_unit
 S1
 R0
-Z29 w1592258177
-Z30 8top_test.sv
-Z31 Ftop_test.sv
+Z27 w1592258177
+Z28 8top_test.sv
+Z29 Ftop_test.sv
 L0 33
 R8
-R24
-Z32 !s107 top_test.sv|
-Z33 !s90 -sv|top_test.sv|
+R9
+Z30 !s107 top_test.sv|
+Z31 !s90 -sv|top_test.sv|
 !i113 1
 o-sv
 R12
 vimem
 R1
-R20
-R27
+R19
+R25
 R3
 r1
 !s85 0
@@ -212,17 +212,17 @@ r1
 !i10b 1
 !s100 nhVMNd[NFSECeLH@4b9OQ3
 Id2Qm8Fbz>Q5BXGl8S_a=l0
-R28
+R26
 S1
 R0
+R27
+R28
 R29
-R30
-R31
 L0 46
 R8
-R24
-R32
-R33
+R9
+R30
+R31
 !i113 1
 o-sv
 R12
@@ -252,32 +252,32 @@ o-sv
 R12
 vmaindec
 R1
-R13
+R2
 !i10b 1
 !s100 PO[z[2IZ5NUckERkKkOGZ1
 IKmlkOSIPmoVh3@JJ8b1IL1
 R3
-R14
+R13
 S1
 R0
+R14
 R15
 R16
-R17
 L0 19
 R8
 r1
 !s85 0
 31
 R9
+R17
 R18
-R19
 !i113 1
 o-sv
 R12
 Ymem_bus
 R1
-R20
-R27
+R19
+R25
 R3
 r1
 !s85 0
@@ -285,17 +285,17 @@ r1
 !i10b 1
 !s100 GI`=doOnz:aE30lmzenfN0
 IFG7E[1RnGNbVe<BdISm^D2
-R28
+R26
 S1
 R0
+R27
+R28
 R29
-R30
-R31
 L0 54
 R8
-R24
-R32
-R33
+R9
+R30
+R31
 !i113 1
 o-sv
 R12
@@ -325,7 +325,7 @@ o-sv
 R12
 vriscv_32i
 R1
-R20
+R19
 DXx4 work 16 core_top_sv_unit 0 22 R26Sd`0HbY>G_TVi<D_8m0
 R3
 r1
@@ -337,20 +337,20 @@ Iza7g5HDln^NQ>_10;lbz^2
 !s105 core_top_sv_unit
 S1
 R0
+R20
 R21
 R22
-R23
 L0 7
 R8
+R9
+R23
 R24
-R25
-R26
 !i113 1
 o-sv
 R12
 vtestbench
 R1
-R20
+R19
 DXx4 work 17 testbench_sv_unit 0 22 L8nCdB6emJZmI@1l;`aeS1
 R3
 r1
@@ -362,20 +362,20 @@ IkS<ocaH>^8UBKj>1_G?:c3
 !s105 testbench_sv_unit
 S1
 R0
-Z34 w1593314835
-Z35 8testbench.sv
-Z36 Ftestbench.sv
+Z32 w1593314835
+Z33 8testbench.sv
+Z34 Ftestbench.sv
 L0 8
 R8
-Z37 !s108 1593316481.000000
-Z38 !s107 testbench.sv|
-Z39 !s90 -sv|testbench.sv|
+Z35 !s108 1593319179.000000
+Z36 !s107 testbench.sv|
+Z37 !s90 -sv|testbench.sv|
 !i113 1
 o-sv
 R12
 Xtestbench_sv_unit
 R1
-R20
+R19
 VL8nCdB6emJZmI@1l;`aeS1
 r1
 !s85 0
@@ -386,21 +386,21 @@ IL8nCdB6emJZmI@1l;`aeS1
 !i103 1
 S1
 R0
+R32
+R33
 R34
-R35
-R36
 L0 6
 R8
+R35
+R36
 R37
-R38
-R39
 !i113 1
 o-sv
 R12
 vtop
 R1
-R20
-R27
+R19
+R25
 R3
 r1
 !s85 0
@@ -408,23 +408,23 @@ r1
 !i10b 1
 !s100 I0Vd3H3AT9dUiNXbbWTlP2
 IP1`b[<JAPES06DQ0a`C_=2
-R28
+R26
 S1
 R0
+R27
+R28
 R29
-R30
-R31
 L0 8
 R8
-R24
-R32
-R33
+R9
+R30
+R31
 !i113 1
 o-sv
 R12
 Xtop_test_sv_unit
 R1
-R20
+R19
 V]BhlN_=79HzXcBIW_hm?o1
 r1
 !s85 0
@@ -435,14 +435,14 @@ I]BhlN_=79HzXcBIW_hm?o1
 !i103 1
 S1
 R0
+R27
+R28
 R29
-R30
-R31
 L0 6
 R8
-R24
-R32
-R33
+R9
+R30
+R31
 !i113 1
 o-sv
 R12
