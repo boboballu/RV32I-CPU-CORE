@@ -71,7 +71,7 @@ interface mem_bus;
 
 	// Imem part
 	initial begin
-		$readmemh(EXEC, MEM);
+		$readmemb(EXEC, MEM);
 	end
 	assign Iinstn = MEM[Iaddr[31:2]];
 

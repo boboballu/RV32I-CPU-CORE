@@ -1,5 +1,5 @@
 # vsim -c -do "run -all; exit" "+df=h" "+EXEC=./memfile.dat" "+D_cache_address=84" "+D_cache_data=7" testbench 
-# Start time: 00:39:39 on Jun 28,2020
+# Start time: 17:06:13 on Jul 14,2020
 # Loading sv_std.std
 # Loading work.dbg_pkg
 # Loading work.testbench_sv_unit
@@ -28,13 +28,14 @@
 # ==> Console [0x00000fa0] print - writes to the addr treated as a console print msg <==
 #  
 #  
-# Hello World ;) 
-# ð 
+#                   45: dataadr:         84  writedata: 00000008
+# Simulation stops when sw at mem[84] is encountered
 #  
-# ** Note: $stop    : testbench.sv(45)
+#  
+# ** Note: $stop    : testbench.sv(51)
 #    Time: 20 ns  Iteration: 0  Instance: /testbench
-# Break in Module testbench at testbench.sv line 45
-# Stopped at testbench.sv line 45
+# Break in Module testbench at testbench.sv line 51
+# Stopped at testbench.sv line 51
 #  exit
-# End time: 00:39:40 on Jun 28,2020, Elapsed time: 0:00:01
+# End time: 17:06:14 on Jul 14,2020, Elapsed time: 0:00:01
 # Errors: 0, Warnings: 0

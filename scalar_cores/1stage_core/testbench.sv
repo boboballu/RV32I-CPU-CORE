@@ -27,6 +27,12 @@ module testbench();
 			`endif
 			);
 	
+	// dump var for gtkwave
+/*	initial begin
+		$dumpfile("dumpwave.vcd")
+		$dumpvars(0, testbench);
+	end
+*/
 	// initialize test
 	initial begin
 		if ( !$value$plusargs("D_cache_address=%d", D_cache_address)) begin
@@ -71,23 +77,23 @@ module testbench();
 		// 	$display("%t load-> addr: %d; regwrite %b; result :%08x", $time, dataadr, dbg.regwrite, dbg.result);
 		// end
 
-		// if (memwrite) begin
-		// 	$display ("%t: dataadr: %d  writedata: %x", $time, dataadr, signed'(writedata));
-		// 	if (dataadr===D_cache_address) begin
-		// 		if (writedata===D_cache_data) begin
-		// 			$display("Simulation succeeded");
-		// 		end
-		// 		else begin
-		// 			$display("Simulation stops when sw at mem[84] is encountered");
-		// 			//$stop;
-		// 		end
-		// 	end
-		// end
 		if (memwrite) begin
-			if (dataadr == 65532) begin
-				$write("%c", writedata);
+			$display ("%t: dataadr: %d  writedata: %x", $time, dataadr, signed'(writedata));
+			if (dataadr===D_cache_address) begin
+				if (writedata===D_cache_data) begin
+					$display("Simulation succeeded");
+				end
+				else begin
+					$display("Simulation stops when sw at mem[84] is encountered");
+					//$stop;
+				end
 			end
 		end
+		// if (memwrite) begin
+		// 	if (dataadr == 65532) begin
+		// 		$write("%c", writedata);
+		// 	end
+		// end
 
 
 	end

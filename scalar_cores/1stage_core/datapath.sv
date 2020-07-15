@@ -66,10 +66,10 @@ module datapath(input logic clk, reset,
 			pc <= 0;
 		end
 		else begin
-			case( {c_bus.pcsrc, c_bus.jump, c_bus.jalr} )
+			casex( {c_bus.pcsrc, c_bus.jump, c_bus.jalr} )
 				3'b000: pc <= pcplus4;
 				3'b010: pc <= pc + jumpimm; // riscv - c_bus.jump
-				3'b011: pc <= (itypeimm + srca) & (32'hffff_fffe); // riscv - c_bus.jalr
+				3'b0x1: pc <= (itypeimm + srca) & (32'hffff_fffe); // riscv - c_bus.jalr
 				3'b100: pc <= pc + branchimm; // riscv - c_bus.branch
 				default pc <= pcplus4;
 			endcase
@@ -186,7 +186,7 @@ module instn_decode 	(
 	assign branchimm = {{19{instr[31]}}, instr[31], instr[7], instr[30:25], instr[11:8], 1'b0}; // riscv - for branch
 	assign utypeimm  = {instr[31:12], {12'b0}}; // riscv - for lui and auipc
 	// stype and itype corresponds lw sw and imm instns - goes through ALU
-	assign stypeimm  = {{20{instr[31]}},instr[31:25], instr[11:7]};
-	assign itypeimm  = {{20{instr[31]}}, instr[31:20]};
+	assign stypeimm  = {{20{instr[31]}},instr[31:25], instr[11:7]}; // store
+	assign itypeimm  = {{20{instr[31]}}, instr[31:20]}; // load, jalr
 
 endmodule : instn_decode
