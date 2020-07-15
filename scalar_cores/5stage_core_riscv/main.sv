@@ -39,7 +39,7 @@ module riscv_32i(	input logic clk, reset,
 /********************************************************************************/
 	// control path nets
 	logic [6:0] opD; 
-	logic [2:0] funct3D; 
+	logic [2:0] funct3D, funct3E, funct3M;
 	logic [6:0] funct7D;// op and funct - inputs to the controller
 	
 	// interconnect nets
@@ -146,12 +146,12 @@ module riscv_32i(	input logic clk, reset,
 						.en(stallE), .clear((flushE | reset)),
 						.jumpD(jumpD), .jalrD(jalrD), .pcD(pcD), .pcplus4D(pcplus4D),
 						.regwriteD(regwriteD), .memtoregD(memtoregD), .memwriteD(memwriteD), .alusrcD(alusrcD),
-						.alucontrolD(alucontrolD), .alu_subD(alu_subD),
+						.alucontrolD(alucontrolD), .alu_subD(alu_subD), .funct3D(funct3D),
 						.auipcD(auipcD), .luiD(luiD),
 						.a(aD), .b(bD), .signimmD(signimmD), .rsD(rsD), .rtD(rtD), .rdD(rdD), .utypeimmD(utypeimmD),
 						.jumpE(jumpE), .jalrE(jalrE), .pcE(pcE), .pcplus4E(pcplus4E),
 						.regwriteE(regwriteE), .memtoregE(memtoregE), .memwriteE(memwriteE), .alusrcE(alusrcE),
-						.alucontrolE(alucontrolE), .alu_subE(alu_subE),
+						.alucontrolE(alucontrolE), .alu_subE(alu_subE), .funct3E(funct3E),
 						.auipcE(auipcE), .luiE(luiE),
 						.aE(aE), .bE(bE), .signimmE(signimmE), .rsE(rsE), .rtE(rtE), .rdE(rdE), .utypeimmE(utypeimmE)
 					); 
@@ -167,16 +167,19 @@ module riscv_32i(	input logic clk, reset,
 	
 	ex_mem ex_mem_ff(	.clk(clk),
 						.en(stallM), .clear(flushM | reset),
+						.funct3E(funct3E),
 						.regwriteE(regwriteE), .memtoregE(memtoregE), .memwriteE(memwriteE),
 						.aluoutE(aluoutE), .writedataE(writedataE), .writeregE(writeregE),
 						.regwriteM(regwriteM), .memtoregM(memtoregM), .memwriteM(memwriteM),
+						.funct3M(funct3M),
 						.aluoutM(aluoutM), .writedataM(writedataM),
 						.writeregM(writeregM)
 					);
 
 	// stage 5: mem_wb stage
 	MEM_comb mem_comb 
-					(	.memwriteM(memwriteM),
+					(	.funct3M(funct3M),
+						.memwriteM(memwriteM),
 						.aluoutM_in(aluoutM), .writedataM(writedataM),
 						.dmem_rd(dmem_rd), .dmem_addr(dmem_addr), .dmem_wd(dmem_wd), .dmem_we(dmem_we), 
 						.readdataM(readdataM), 

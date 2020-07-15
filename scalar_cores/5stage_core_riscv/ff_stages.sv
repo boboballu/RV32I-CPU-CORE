@@ -59,19 +59,19 @@ module id_ex (	input logic clk,
 				input logic en, clear,
 				input logic jumpD, jalrD, input logic [31:0] pcD, pcplus4D,
 				input logic regwriteD, memtoregD, memwriteD, alusrcD,
-				input logic [2:0] alucontrolD, input logic alu_subD,
+				input logic [2:0] alucontrolD, input logic alu_subD, input logic [2:0] funct3D,
 				input logic auipcD, luiD, 
 				input logic [31:0] a, b, signimmD, input logic [4:0] rsD, rtD, rdD, input logic [31:0] utypeimmD,
 				output logic jumpE, jalrE, output logic [31:0] pcE, pcplus4E,
 				output logic regwriteE, memtoregE, memwriteE, alusrcE,
-				output logic [2:0] alucontrolE, output logic alu_subE,
+				output logic [2:0] alucontrolE, output logic alu_subE, output logic [2:0] funct3E,
 				output logic auipcE, luiE,
 				output logic [31:0] aE, bE, signimmE, output logic [4:0] rsE, rtE, rdE, output logic [31:0] utypeimmE
 			 );
 
 	always_ff @(posedge clk) begin
 		if (clear) begin
-			{regwriteE, memtoregE, memwriteE, alusrcE, alucontrolE, alu_subE} <= 'b0;
+			{regwriteE, memtoregE, memwriteE, alusrcE, alucontrolE, alu_subE, funct3E} <= 'b0;
 			{rsE, rtE, rdE, aE, bE, signimmE, utypeimmE} <= 'b0;
 			{auipcE, luiE} <= 'b0;
 			{jumpE, jalrE} <= 'b0;
@@ -79,7 +79,7 @@ module id_ex (	input logic clk,
 			pcplus4E 	<= 'b0;
 		end
 		else if (!en) begin
-			{regwriteE, memtoregE, memwriteE, alusrcE, alucontrolE, alu_subE} <= {regwriteD, memtoregD, memwriteD, alusrcD, alucontrolD, alu_subD};
+			{regwriteE, memtoregE, memwriteE, alusrcE, alucontrolE, alu_subE, funct3E} <= {regwriteD, memtoregD, memwriteD, alusrcD, alucontrolD, alu_subD, funct3D};
 			{rsE, rtE, rdE, aE, bE, signimmE, utypeimmE} <= {rsD, rtD, rdD, a, b, signimmD, utypeimmD};
 			{auipcE, luiE} <= {auipcD, luiD};
 			{jumpE, jalrE} <= {jumpD, jalrD};
@@ -98,19 +98,21 @@ endmodule : id_ex
 // data outputs - aluoutM, writedataM, 	[4:0]writeregM(dest addr)
 module ex_mem (	input logic clk,
 				input logic en, clear,
+				input logic [2:0] funct3E,
 				input logic regwriteE, memtoregE, memwriteE,
 				input logic [31:0] aluoutE, writedataE, input logic [4:0] writeregE,
+				output logic [2:0] funct3M,
 				output logic regwriteM, memtoregM, memwriteM,
 				output logic [31:0] aluoutM, writedataM, output logic [4:0] writeregM
 				);
 
 	always_ff @(posedge clk) begin
 		if (clear) begin
-			{regwriteM, memtoregM, memwriteM} <= 0;
-			{aluoutM, writedataM, writeregM} <= 0;
+			{regwriteM, memtoregM, memwriteM, funct3M} <= 'b0;
+			{aluoutM, writedataM, writeregM} <= 'b0;
 		end
 		else if (!en) begin
-			{regwriteM, memtoregM, memwriteM} <= {regwriteE, memtoregE, memwriteE};
+			{regwriteM, memtoregM, memwriteM, funct3M} <= {regwriteE, memtoregE, memwriteE, funct3E};
 			{aluoutM, writedataM, writeregM}  <= {aluoutE, writedataE, writeregE};
 		end
 	end

@@ -207,19 +207,29 @@ endmodule : alu
 // datapath input nets - memwriteM, aluoutM_in, writedataM
 // datapath output nets - readdataM, aluoutM_out
 module MEM_comb (
-				  input logic memwriteM,
-				  input logic [31:0] aluoutM_in, input logic [31:0] writedataM,
-				  input logic [31:0] dmem_rd,
-				  output logic [31:0] dmem_addr, dmem_wd,
-				  output logic dmem_we,
-				  output logic [31:0] readdataM, aluoutM_out
+				input logic [2:0] funct3M,
+				input logic memwriteM,
+				input logic [31:0] aluoutM_in, input logic [31:0] writedataM,
+				input logic [31:0] dmem_rd,
+				output logic [31:0] dmem_addr, dmem_wd,
+				output logic dmem_we,
+				output logic [31:0] readdataM, aluoutM_out
 );
 	
-	assign dmem_addr = aluoutM_in;
-	assign dmem_wd = writedataM;
-	assign dmem_we = memwriteM;
-	assign readdataM = dmem_rd;
-	assign aluoutM_out = aluoutM_in;
+	// assign dmem_addr = aluoutM_in;
+	// assign dmem_wd = writedataM;
+	// assign dmem_we = memwriteM;
+	// assign readdataM = dmem_rd;
+	// assign aluoutM_out = aluoutM_in;
+	`include "ls_compute.sv"
+	always_comb begin
+		dmem_addr 	= aluoutM_in;
+		aluoutM_out = aluoutM_in;
+		dmem_we 	= memwriteM;
+		readdataM 	= load_compute (funct3M, aluoutM_in, dmem_rd);
+		dmem_wd 	= store_compute(funct3M, aluoutM_in, dmem_rd, writedataM);
+	end
+	
 endmodule : MEM_comb
 /********************************************************************************/
 
