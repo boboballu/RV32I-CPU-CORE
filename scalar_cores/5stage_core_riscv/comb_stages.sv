@@ -11,7 +11,7 @@ import dbg_pkg::*;
 module pc_gen (
 				input logic br_takenD, jumpD, jalrD,
 				input logic [31:0] branchimmD, jumpimmD, itypeimmD,
-				input logic [31:0] pcF, pcplus4F,
+				input logic [31:0] pcD, pcplus4F,
 				input logic [31:0] srcaD,
 				output logic [31:0] pc
 			  );
@@ -20,9 +20,9 @@ module pc_gen (
 	always_comb begin
 		casex ({br_takenD, jumpD, jalrD})
 			3'b000: pc = pcplus4F;
-			3'b010: pc = pcF + jumpimmD; // riscv - c_bus.jump
+			3'b010: pc = pcD + jumpimmD; // riscv - c_bus.jump
 			3'b0x1: pc = (itypeimmD + srcaD) & (32'hffff_fffe); // riscv - c_bus.jalr
-			3'b100: pc = pcF + branchimmD; // riscv - c_bus.branch
+			3'b100: pc = pcD + branchimmD; // riscv - c_bus.branch
 			default: pc = pcplus4F;
 		endcase
 	end

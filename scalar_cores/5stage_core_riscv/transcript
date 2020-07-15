@@ -1,5 +1,5 @@
 # vsim -c -do "run -all; exit" "+EXEC=./riscvtest.dat" "+D_cache_address=84" "+D_cache_data=7" testbench 
-# Start time: 23:38:07 on Jul 14,2020
+# Start time: 14:40:21 on Jul 15,2020
 # Loading sv_std.std
 # Loading work.dbg_pkg
 # Loading work.testbench_sv_unit
@@ -37,10 +37,18 @@
 # testbench.dut.Bus found +EXEC=./riscvtest.dat
 # testbench found +D_cache_address=         84
 # testbench found +D_cache_data=          7
-# HðHð** Note: $stop    : testbench.sv(44)
-#    Time: 2022 ps  Iteration: 0  Instance: /testbench
-# Break in Module testbench at testbench.sv line 44
-# Stopped at testbench.sv line 44
+#  
+#  
+# ==> Console [0x0000fffc] print - writes to the addr treated as a console print msg <==
+#  
+#  
+# Hello World ;) 
+# ð 
+#  
+# ** Note: $stop    : testbench.sv(45)
+#    Time: 2 ns  Iteration: 0  Instance: /testbench
+# Break in Module testbench at testbench.sv line 45
+# Stopped at testbench.sv line 45
 #  exit
-# End time: 23:38:08 on Jul 14,2020, Elapsed time: 0:00:01
+# End time: 14:40:21 on Jul 15,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0

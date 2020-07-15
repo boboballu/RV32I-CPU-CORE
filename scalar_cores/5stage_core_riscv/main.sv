@@ -25,7 +25,7 @@ module riscv_32i(	input logic clk, reset,
 	logic [31:0] instnF, pcplus4F;  // if comb to if_id ff
 	logic [31:0] instnD, pcplus4D;  // if_id ff to id_comb
 	logic [31:0] jumpimmD, branchimmD, utypeimmD, itypeimmD, stypeimmD; // all imm's
-	logic [31:0] aD, bD, signimmD, pcbranchD, jump_targetD; // id_comb to id_ex ff
+	logic [31:0] aD, bD, signimmD; // id_comb to id_ex ff
 	//logic equalD_ctrl; // id_comb to controller
 	logic [31:0] pcplus4E;
 	logic [31:0] aE, bE, signimmE; // id_ex ff to ex_comb
@@ -90,14 +90,9 @@ module riscv_32i(	input logic clk, reset,
 	// Datapath: connecting stage_comb to stage_ff		
 	// stage 1: pc_if stage
 	pc_gen pc_gen_comb (
-						.br_takenD(br_takenD),
-						.jumpD(jumpD),
-						.jalrD(jalrD),
-						.branchimmD(branchimmD),
-						.jumpimmD(jumpimmD),
-						.itypeimmD(itypeimmD),
-						.pcF(pc_genF_out),
-						.pcplus4F(pcplus4F), 
+						.br_takenD(br_takenD), .jumpD(jumpD), .jalrD(jalrD),
+						.branchimmD(branchimmD), .jumpimmD(jumpimmD), .itypeimmD(itypeimmD),
+						.pcD(pcD), .pcplus4F(pcplus4F), 
 						.srcaD(aD),
 						.pc(pc_genF_in)	
 					);

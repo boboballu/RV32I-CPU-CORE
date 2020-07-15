@@ -39,19 +39,33 @@ module testbench();
 	    $display("%m found +D_cache_address=%d", D_cache_address);
 	   	$display("%m found +D_cache_data=%d", D_cache_data);
 
-		reset <= 1; # 22; reset <= 0;
 		#2000;
+		// env footer
+		$display (); $display ();
 		$stop;
 	end
+
+	/********************************************************************************/
+	// reset generation / env header
+	initial begin
+		reset <= 1; # 22; reset <= 0;
+		$display (); $display ();
+		$display ("==> Console [0x%08x] print - writes to the addr treated as a console print msg <==", 65532);
+		$display (); $display ();
+	end
+
+
 	// generate clock to sequence tests
 	always begin
 		clk <= 1; # 5; clk <= 0; # 5;
 	end
+	
+	/********************************************************************************/
 	// check results
 	always @(negedge clk) begin
 		// if (!reset) begin
 		// 	if (memwrite) begin
-		// 		$display ("instn_cycle : %d pc %x store : dataadr: %d writedata: %d", instn_cycle, pc, dataadr, $signed(writedata));
+		// 		$display ("instn_cycle : %d pc %x store : dataadr: %d writedata: %x", instn_cycle, pc, dataadr, $signed(writedata));
 		// 		if (dataadr===D_cache_address & $signed(writedata)===D_cache_data) begin
 		// 			$display("Simulation succeeded");
 		// 			$stop;
@@ -60,7 +74,7 @@ module testbench();
 		// 	`ifdef mem_debug
 		// 	else if (debug.regwriteM) begin
 		// 		if (debug.memtoregM) begin
-		// 			$display ("instn_cycle : %d pc %x load : dataadr: %d readdata: %d", instn_cycle, pc, dataadr, $signed(readdata));
+		// 			$display ("instn_cycle : %d pc %x load : dataadr: %d readdata: %x", instn_cycle, pc, dataadr, $signed(readdata));
 		// 		end
 		// 		else begin
 		// 			if (debug.dmem_addr === 32'bx) begin
