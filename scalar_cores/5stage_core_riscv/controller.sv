@@ -5,10 +5,9 @@
 module controller	(   
                     input logic [6:0] opD,
                     input logic  [2:0] funct3D, input logic [6:0] funct7D,
-                    /*input logic equalD,*/
                     output logic branchD, jumpD, jalrD,
                     output logic memtoregD, memwriteD,
-                    /*output logic br_takenD,*/ alusrcD,
+                    output logic alusrcD,
                     output logic regwriteD,
                     output logic [2:0] alucontrolD, output logic alu_subD,
                     output logic auipcD, luiD
@@ -28,8 +27,6 @@ module controller	(
                         .alucontrolD(alucontrolD),
                         .alu_subD(alu_subD)
     );
-
-    //assign br_takenD = branchD & equalD;
 
 endmodule : controller
 
@@ -52,7 +49,7 @@ module maindec	(	input logic [6:0] opD,
             7'b0100011: begin controls <= 9'b010100000;   aluop <= 2'b00; end // SW
             7'b0010011: begin controls <= 9'b110000000;   aluop <= 2'b00; end // Immediate
             7'b1100011: begin controls <= 9'b001000000;   aluop <= 2'b01; end // Branch
-            7'b1101111: begin controls <= 9'b100001000;   aluop <= 2'b00; end // Jump
+            7'b1101111: begin controls <= 9'b100001000;   aluop <= 2'b00; end // JAL - Jump
             7'b1100111: begin controls <= 9'b100000100;	  aluop <= 2'b00; end // JALR
             7'b0010111: begin controls <= 9'b100000010;   aluop <= 2'b00; end // auipc
             7'b0110111: begin controls <= 9'b100000001;   aluop <= 2'b00; end // lui

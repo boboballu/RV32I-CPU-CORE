@@ -1,9 +1,13 @@
+// Author: Tarun Govind Kesavamurthi
+// School: North Carolina State University
+// mail  : tkesava@ncsu.edu
+/********************************************************************************/
 // takes care of all load instns
 function automatic logic [31:0] load_compute 	(	
                                 input logic [2:0] funct3,
                                 input logic [31:0] aluout, readdata
                                 //output logic [31:0] result
-                            );
+);
     logic [31:0] result;
 
     case (funct3)
@@ -52,7 +56,7 @@ function automatic logic [31:0] store_compute 	(
                             input logic [2:0] funct3,
                             input logic [31:0] aluout, readdata, srcb_net0
                             //output logic [31:0] writedata 
-                        );
+);
 
     logic [31:0] writedata;
 

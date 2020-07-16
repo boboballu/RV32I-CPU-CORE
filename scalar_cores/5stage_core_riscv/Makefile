@@ -3,7 +3,7 @@
 # mail  : tkesava@ncsu.edu
 #********************************************************************************#
 
-exe ?= ./riscvtest.dat
+exe ?= ./memfile.dat
 d_addr ?= 84
 d_data ?= 7
 

@@ -3,7 +3,9 @@
 // mail  : tkesava@ncsu.edu
 /********************************************************************************/
 // master (golden) testbench, checking all the features (uses adHoc testing)
-`include "debug_headerfile.sv"
+// master testbench updated (15/7/2020)- mimics terminal by dumping writes to the address 'd65532
+int term_address = 65532;
+`include "debug_headerfile.svh"
 import dbg_pkg::*;
 
 module testbench();
@@ -13,10 +15,10 @@ module testbench();
 	logic [31:0] readdata, pc, instr;
 	logic memwrite;
 	mem_debug debug;
-	integer instn_cycle = 1;
+	int instn_cycle = 1;
 
 	// mem check variables filled from command line args
-	integer D_cache_address, D_cache_data;
+	int D_cache_address, D_cache_data;
 	// instantiate device to be tested
 	top dut (.clk(clk), .reset(reset), 
 			.writedata(writedata), .dataadr(dataadr),
@@ -25,32 +27,30 @@ module testbench();
 			`ifdef mem_debug
 			, .debug(debug)
 			`endif
-			);
+	);
 	// initialize test
 	initial begin
 		if ( !$value$plusargs("D_cache_address=%d", D_cache_address)) begin
-	        $display("FATAL: +D_cache_address plusarg not found on command line");
-	        $fatal;
+	        $display("WARN: +D_cache_address plusarg not found on command line");
 	    end
 	    if ( !$value$plusargs("D_cache_data=%d", D_cache_data)) begin
-	        $display("FATAL: +D_cache_data plusarg not found on command line");
-	        $fatal;
+	        $display("WARN: +D_cache_data plusarg not found on command line");
 	    end
 	    $display("%m found +D_cache_address=%d", D_cache_address);
 	   	$display("%m found +D_cache_data=%d", D_cache_data);
 
 		#2000;
-		// env footer
+		// terminal footer
 		$display (); $display ();
 		$stop;
 	end
 
-	/********************************************************************************/
-	// reset generation / env header
+/********************************************************************************/
+	// reset generation / terminal header
 	initial begin
 		reset <= 1; # 22; reset <= 0;
 		$display (); $display ();
-		$display ("==> Console [0x%08x] print - writes to the addr treated as a console print msg <==", 65532);
+		$display ("==> Console [0x%08x] print - writes to the addr treated as a console print msg <==", term_address);
 		$display (); $display ();
 	end
 
@@ -60,7 +60,7 @@ module testbench();
 		clk <= 1; # 5; clk <= 0; # 5;
 	end
 	
-	/********************************************************************************/
+/********************************************************************************/
 	// check results
 	always @(negedge clk) begin
 		// if (!reset) begin
@@ -97,7 +97,7 @@ module testbench();
 		// end
 
 		if (memwrite) begin
-			if (dataadr == 65532) begin
+			if (dataadr == term_address) begin
 				$write("%c", writedata);
 			end
 		end

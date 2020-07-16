@@ -1,5 +1,5 @@
-# vsim -c -do "run -all; exit" "+EXEC=./riscvtest.dat" "+D_cache_address=84" "+D_cache_data=7" testbench 
-# Start time: 14:40:21 on Jul 15,2020
+# vsim -c -do "run -all; exit" "+EXEC=./memfile.dat" "+D_cache_address=84" "+D_cache_data=7" testbench 
+# Start time: 23:29:53 on Jul 15,2020
 # Loading sv_std.std
 # Loading work.dbg_pkg
 # Loading work.testbench_sv_unit
@@ -34,7 +34,7 @@
 # Loading work.imem
 # Loading work.dmem
 # run -all
-# testbench.dut.Bus found +EXEC=./riscvtest.dat
+# testbench.dut.Bus found +EXEC=./memfile.dat
 # testbench found +D_cache_address=         84
 # testbench found +D_cache_data=          7
 #  
@@ -50,5 +50,5 @@
 # Break in Module testbench at testbench.sv line 45
 # Stopped at testbench.sv line 45
 #  exit
-# End time: 14:40:21 on Jul 15,2020, Elapsed time: 0:00:00
+# End time: 23:29:53 on Jul 15,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0

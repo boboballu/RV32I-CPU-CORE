@@ -4,6 +4,7 @@
 /********************************************************************************/
 // this file has all pipeline stages (flip-flops) for the processor
 import dbg_pkg::*;
+
 // 1st stage - pc_IF stage
 // stage ctrl inputs - clk, en (active low), clear
 // data input 	  - pc 
@@ -11,7 +12,9 @@ import dbg_pkg::*;
 module pc_if (	input logic clk,
 				input logic en, clear,
 				input logic [31:0] pc,
-				output logic [31:0] pcF  );
+				output logic [31:0] pcF 
+);
+
 	always_ff @(posedge clk) begin
 		if (clear) begin
 			pcF <= 0;
@@ -21,6 +24,7 @@ module pc_if (	input logic clk,
 		end
 	end
 endmodule : pc_if
+
 /********************************************************************************/
 
 // 2nd stage - IF_ID stage
@@ -31,7 +35,9 @@ endmodule : pc_if
 module if_id ( 	input logic clk,
 				input logic en, clear,
 				input logic	[31:0] rd, pcF, pcplus4F,
-				output logic [31:0] instnD, pcD, pcplus4D  );
+				output logic [31:0] instnD, pcD, pcplus4D  
+);
+
 	always_ff @(posedge clk) begin
 		if (clear) begin
 			instnD <= 0;
@@ -45,6 +51,7 @@ module if_id ( 	input logic clk,
 		end
 	end
 endmodule : if_id
+
 /********************************************************************************/
 
 // 3rd stage - id_ex stage
@@ -55,6 +62,7 @@ endmodule : if_id
 // data outputs - aE, bE, rsE, rtE, rdE, signimmE
 // riscv additions - jump, pcplus4, alu_sub 
 // riscv modifications - regdst no longer required
+
 module id_ex (	input logic clk,
 				input logic en, clear,
 				input logic jumpD, jalrD, input logic [31:0] pcD, pcplus4D,
@@ -67,7 +75,7 @@ module id_ex (	input logic clk,
 				output logic [2:0] alucontrolE, output logic alu_subE, output logic [2:0] funct3E,
 				output logic auipcE, luiE,
 				output logic [31:0] aE, bE, signimmE, output logic [4:0] rsE, rtE, rdE, output logic [31:0] utypeimmE
-			 );
+);
 
 	always_ff @(posedge clk) begin
 		if (clear) begin
@@ -88,6 +96,7 @@ module id_ex (	input logic clk,
 		end
 	end
 endmodule : id_ex
+
 /********************************************************************************/
 
 // 4th stage - ex_mem stage
@@ -104,7 +113,7 @@ module ex_mem (	input logic clk,
 				output logic [2:0] funct3M,
 				output logic regwriteM, memtoregM, memwriteM,
 				output logic [31:0] aluoutM, writedataM, output logic [4:0] writeregM
-				);
+);
 
 	always_ff @(posedge clk) begin
 		if (clear) begin
@@ -117,6 +126,7 @@ module ex_mem (	input logic clk,
 		end
 	end
 endmodule : ex_mem
+
 /********************************************************************************/
 
 // 5th stage - mem_wb stage
@@ -131,7 +141,8 @@ module mem_wb (	input logic clk,
 				input logic [31:0] aluoutM, readdataM, input logic [4:0] writeregM,
 				output logic regwriteW, memtoregW,
 				output logic [31:0] aluoutW, readdataW, output logic [4:0] writeregW
-				);
+);
+
 	always_ff @(posedge clk) begin
 		if (clear) begin
 			{regwriteW, memtoregW} <= 0;

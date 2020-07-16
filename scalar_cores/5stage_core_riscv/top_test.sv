@@ -3,7 +3,7 @@
 // mail  : tkesava@ncsu.edu
 /********************************************************************************/
 // the top module used for test and verification //
-`include "debug_headerfile.sv"
+`include "debug_headerfile.svh"
 import dbg_pkg::*;
 
 module top(input logic clk, reset,
@@ -32,7 +32,9 @@ module top(input logic clk, reset,
 		dmem dmem(.clk(clk), .we(memwrite), .a(dataadr), .wd(writedata), .rd(readdata), .Bus(Bus));
 endmodule : top
 
-
+/********************************************************************************/
+// unified L1 Instn and Data memory defined in mem_bus interface
+// imem & dmem connects to the mem_bus and CPU 
 module dmem(input logic clk, we,
 			input logic [31:0] a, wd,
 			output logic [31:0] rd,
@@ -85,3 +87,5 @@ interface mem_bus;
 	end
 
 endinterface : mem_bus
+
+/********************************************************************************/

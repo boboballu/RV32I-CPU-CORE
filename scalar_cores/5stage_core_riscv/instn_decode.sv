@@ -1,3 +1,8 @@
+// Author: Tarun Govind Kesavamurthi
+// School: North Carolina State University
+// mail  : tkesava@ncsu.edu
+/********************************************************************************/
+// decodes instruction in ID stage
 module instn_decode 	(
     input logic [31:0] instnD,
     output [6:0] opD, 

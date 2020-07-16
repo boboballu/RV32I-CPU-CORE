@@ -4,6 +4,7 @@
 /********************************************************************************/
 // all combinational circuitry in the datapath is put together in respective modules stage-wise.   
 import dbg_pkg::*;
+
 // 0th module in the machinary - purely combinatioal
 // control signals - br_takenD
 // Datapath nets inputs - pcplus4F[Fetch], pcbranchD[Decode], jump_targetD
@@ -14,7 +15,7 @@ module pc_gen (
 				input logic [31:0] pcD, pcplus4F,
 				input logic [31:0] srcaD,
 				output logic [31:0] pc
-			  );
+);
 	
 	//assign pc = br_takenD ? pcbranchD : pcplus4F;
 	always_comb begin
@@ -27,6 +28,7 @@ module pc_gen (
 		endcase
 	end
 endmodule : pc_gen
+
 /********************************************************************************/
 
 // 1st module in the machinary - purely combinational (IMEM doesnt have a clk!)
@@ -41,12 +43,13 @@ module IF_comb (
 				output logic [31:0] pc_imem,
 				output logic [31:0] instnF,
 				output logic [31:0] pcplus4F
-				);
+);
 
 	assign pc_imem = pc;
 	assign instnF = imem_instn;
 	assign pcplus4F = pc + 32'd4;
 endmodule : IF_comb
+
 /********************************************************************************/ 
 
 // 2nd module in the machinary - reg file writes at negedge clk
@@ -67,7 +70,7 @@ module ID_comb ( input logic clk,
 				 input logic [4:0] writeregW,
 				 input logic [31:0] resultW, aluoutM,
 				 output logic [31:0] a, b, signimmD
-	);
+);
 
 	wire [31:0] A_reg, B_reg;
 	regfile rf (.clk(clk),
@@ -92,7 +95,8 @@ module regfile(input logic clk,
 				input logic we3,
 				input logic [4:0] ra1, ra2, wa3,
 				input logic [31:0] wd3,
-				output logic [31:0] rd1, rd2);
+				output logic [31:0] rd1, rd2
+);
 	bit [31:0] rf[31:0];
 	// three ported register file
 	// read two ports combinationally
@@ -106,6 +110,7 @@ module regfile(input logic clk,
 	assign rd1 = (ra1 != 0) ? rf[ra1] : 0;
 	assign rd2 = (ra2 != 0) ? rf[ra2] : 0;
 endmodule : regfile
+
 /********************************************************************************/
 
 // 3rd module in the machinary - purely combinational
@@ -114,7 +119,6 @@ endmodule : regfile
 // datapath nets inputs - a, b, signimmE
 // bypass nets inputs - resultW, aluoutM 
 // datapath nets outputs - aluoutE, writedataE
-/********************************************************************************/ 
 // riscv addition - (in) jumpE, alu_subE, pcplus4E
 module EX_comb (	input logic jumpE, jalrE, auipcE, luiE, input logic [31:0] pcE, pcplus4E,
 					input logic alusrcE, input logic [2:0] alucontrolE, input logic alu_subE,
@@ -124,11 +128,10 @@ module EX_comb (	input logic jumpE, jalrE, auipcE, luiE, input logic [31:0] pcE,
 					output logic [31:0] aluoutE, output logic [31:0] writedataE
 );
 	logic [31:0] srcAE, srcBE, srcBE_net0, aluout_net0;
-	//logic alu_zero_flag; // unconnected net
 		
 	assign writedataE = srcBE_net0;
 	assign srcBE = alusrcE ? signimmE : srcBE_net0;
-	//assign aluoutE = jumpE ? pcplus4E : aluout_net0;
+
 	always_comb begin
 		case (forwardAE)
 			2'b00: srcAE = a;	
@@ -168,7 +171,7 @@ module EX_comb (	input logic jumpE, jalrE, auipcE, luiE, input logic [31:0] pcE,
 	end
 endmodule : EX_comb
 
-/// EX Stage - ALU  //////
+// ALU 
 module alu 	(	input logic [31:0] srca, 
 				input logic [31:0] srcb, 
 				input logic [2:0] alucontrol, input logic alu_sub,
@@ -197,6 +200,7 @@ module alu 	(	input logic [31:0] srca,
 		end
 	end
 endmodule : alu
+
 /********************************************************************************/
 
 // 4th module in the machinary - (data cache write is clocked)
@@ -221,7 +225,7 @@ module MEM_comb (
 	// assign dmem_we = memwriteM;
 	// assign readdataM = dmem_rd;
 	// assign aluoutM_out = aluoutM_in;
-	`include "ls_compute.sv"
+	`include "ls_compute.svh"
 	always_comb begin
 		dmem_addr 	= aluoutM_in;
 		aluoutM_out = aluoutM_in;
@@ -239,7 +243,9 @@ endmodule : MEM_comb
 // datapath nets outputs - resultW
 module WB_comb (input logic memtoregW,
 				input logic [31:0] readdataW, input logic [31:0] aluoutW,
-				output logic [31:0] resultW);
+				output logic [31:0] resultW
+);
+
 	assign resultW = memtoregW ? readdataW : aluoutW;
 endmodule : WB_comb
 /********************************************************************************/

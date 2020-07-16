@@ -1,8 +1,16 @@
+// Author: Tarun Govind Kesavamurthi
+// School: North Carolina State University
+// mail  : tkesava@ncsu.edu
+/********************************************************************************/
+// branch compute - connects to the controller in the decode stage
+// identifies the branch instruction and computes taken/not taken
+
 module branch_compute ( input logic branchD, input logic [2:0] funct3D,
                         input logic [31:0] jumpimmD, branchimmD, itypeimmD,
                         input logic [31:0] srca, srcb,
                         output logic br_takenD
-    );
+);
+
     always_comb begin
         if (branchD) begin
             case (funct3D)

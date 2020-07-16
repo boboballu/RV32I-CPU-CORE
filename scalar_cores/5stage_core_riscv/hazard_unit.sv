@@ -12,7 +12,7 @@
 // forward control signals (forwardAD, forwardBD, forwardAE, forwardBE)
 // all stall and flush signals for the pipeline regs (stallF, stallD, stallE, stallM, stallW)
 // and (flushF, flushD, flushE, flushM, flushW) 
-`include "debug_headerfile.sv"
+`include "debug_headerfile.svh"
 import dbg_pkg::*;
 module hazard_unit( input logic branchD, jumpD, jalrD, br_takenD,
 					input logic memtoregE, regwriteE,

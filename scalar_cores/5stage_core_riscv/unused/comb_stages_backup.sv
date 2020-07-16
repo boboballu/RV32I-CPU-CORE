@@ -3,7 +3,7 @@
 // mail  : tkesava@ncsu.edu
 /********************************************************************************/
 // all combinational circuitry in the datapath is put together in respective modules stage-wise.   
-`include "debug_headerfile.sv"
+`include "debug_headerfile.svh"
 import dbg_pkg::*;
 // 0th module in the machinary - purely combinatioal
 // control signals - pcsrcD
