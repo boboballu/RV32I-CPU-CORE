@@ -91,7 +91,7 @@ module testbench();
 		// end
 		if (memwrite) begin
 			if (dataadr == 65532) begin
-				$write("%c", writedata);
+				$write("%d", writedata);
 			end
 		end
 

@@ -4,7 +4,7 @@ objcopy = riscv64-unknown-elf-objcopy
 # CFLAGS=-O0 -m32 -march=RV32I
 CFLAGS=-march=rv32i -mabi=ilp32
 OPT=-O0
-ccFs:=main.cc init.cc
+ccFs:=main.cc #init.cc
 ASMs:=init.s
 OBJ:=init.o main.o 
 
@@ -14,8 +14,8 @@ exe: $(OBJ)
 %.o: %.cc $(ccFs)
 	$(cc) -c -o $@ $< $(OPT) $(CFLAGS)
 
-# %.o: %.s $(ASMs)
-# 	$(cc) -c -o $@ $< $(CFLAGS)
+%.o: %.s $(ASMs)
+	$(cc) -c -o $@ $< $(CFLAGS)
 
 dsm_from_dat:
 	sed 's/^/.word 0x/' exe.dat > disassembly.s

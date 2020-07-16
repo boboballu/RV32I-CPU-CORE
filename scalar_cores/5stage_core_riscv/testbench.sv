@@ -39,7 +39,7 @@ module testbench();
 	    $display("%m found +D_cache_address=%d", D_cache_address);
 	   	$display("%m found +D_cache_data=%d", D_cache_data);
 
-		#2000;
+		#20000;
 		// terminal footer
 		$display (); $display ();
 		$stop;
@@ -98,7 +98,7 @@ module testbench();
 
 		if (memwrite) begin
 			if (dataadr == term_address) begin
-				$write("%c", writedata);
+				$write("%d", writedata);
 			end
 		end
 	end

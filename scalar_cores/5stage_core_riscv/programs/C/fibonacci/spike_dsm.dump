@@ -1,0 +1,87 @@
+addi    sp, sp, -16
+sw      ra, 12(sp)
+sw      s0, 8(sp)
+addi    s0, sp, 16
+lui     sp, 0x10
+addi    sp, sp, -48
+jal     pc + 0x2c
+jal     pc + 0x18
+nop
+lw      ra, 12(sp)
+lw      s0, 8(sp)
+addi    sp, sp, 16
+ret
+addi    sp, sp, -16
+sw      s0, 12(sp)
+addi    s0, sp, 16
+j       pc + 0x0
+addi    sp, sp, -48
+sw      s0, 44(sp)
+addi    s0, sp, 48
+lui     a5, 0x10
+addi    a5, a5, -4
+sw      a5, -32(s0)
+li      a5, 12
+sw      a5, -36(s0)
+sw      zero, -24(s0)
+li      a5, 1
+sw      a5, -28(s0)
+li      a5, 1
+sw      a5, -20(s0)
+lw      a4, -20(s0)
+lw      a5, -36(s0)
+blt     a5, a4, pc + 64
+lw      a5, -32(s0)
+lw      a4, -24(s0)
+sw      a4, 0(a5)
+lw      a4, -24(s0)
+lw      a5, -28(s0)
+add     a5, a4, a5
+sw      a5, -40(s0)
+lw      a5, -28(s0)
+sw      a5, -24(s0)
+lw      a5, -40(s0)
+sw      a5, -28(s0)
+lw      a5, -20(s0)
+addi    a5, a5, 1
+sw      a5, -20(s0)
+j       pc - 0x44
+li      a5, 0
+mv      a0, a5
+lw      s0, 44(sp)
+addi    sp, sp, 48
+ret
+c.addi4spn s0, sp, 0
+c.addi4spn s0, sp, 0
+c.addi4spn s0, sp, 0
+c.addi4spn s0, sp, 0
+c.addi4spn s0, sp, 0
+c.addi4spn s0, sp, 0
+c.addi4spn s0, sp, 0
+c.addi4spn s0, sp, 0
+c.addi4spn s0, sp, 0
+c.addi4spn s0, sp, 0
+c.addi4spn s0, sp, 0
+c.addi4spn s0, sp, 0
+c.addi4spn s0, sp, 0
+c.addi4spn s0, sp, 0
+c.addi4spn s0, sp, 0
+c.addi4spn s0, sp, 0
+c.addi4spn s0, sp, 0
+c.addi4spn s0, sp, 0
+c.addi4spn s0, sp, 0
+c.addi4spn s0, sp, 0
+c.addi4spn s0, sp, 0
+c.addi4spn s0, sp, 0
+c.addi4spn s0, sp, 0
+c.addi4spn s0, sp, 0
+c.addi4spn s0, sp, 0
+c.addi4spn s0, sp, 0
+c.addi4spn s0, sp, 0
+c.addi4spn s0, sp, 0
+c.addi4spn s0, sp, 0
+c.addi4spn s0, sp, 0
+c.addi4spn s0, sp, 0
+c.sd    a2, 248(a5)
+c.addi4spn s0, sp, 0
+c.addi4spn a3, sp, 8
