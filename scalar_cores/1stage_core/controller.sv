@@ -8,17 +8,17 @@ module controller	(	controller_if c_bus );
 
 	maindec maindec (	.c_bus(c_bus),
 						.aluop(aluop)
-					);
+	);
 	aludec aludec 	(	.c_bus(c_bus),
 						.aluop(aluop)
-					);
+	);
 	assign c_bus.pcsrc = c_bus.branch & c_bus.br_taken;
 
-endmodule
+endmodule : controller
  
-module maindec		(	controller_if c_bus,
-						output logic [1:0] aluop
-			  		);
+module maindec(	controller_if c_bus,
+				output logic [1:0] aluop
+);
 
 	logic [8:0] controls;
 	assign {c_bus.regwrite, c_bus.alusrc, c_bus.branch, c_bus.memwrite, 
@@ -38,12 +38,12 @@ module maindec		(	controller_if c_bus,
 			default   : begin controls <= 9'b000000000;   aluop <= 2'b00; end // illegal op - nop
 		endcase
 	end
-endmodule
+endmodule : maindec
 
 module aludec(	
 				controller_if c_bus,
 				input logic [1:0] aluop
-			 );
+);
 
 	always_comb
 	case(aluop)
@@ -51,4 +51,4 @@ module aludec(
 		2'b01: 	 begin c_bus.alucontrol <= 3'b000; c_bus.alu_sub <= 1'b1; end 				  // sub (for beq)
 		default: begin c_bus.alucontrol <= c_bus.funct3; c_bus.alu_sub = c_bus.funct7[5]; end // R-type 
 	endcase
-endmodule
+endmodule : aludec

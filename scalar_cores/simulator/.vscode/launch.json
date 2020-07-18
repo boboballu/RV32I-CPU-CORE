@@ -9,7 +9,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${fileDirname}/sim",
-            "args": ["${fileDirname}/dump"],
+            "args": ["4278255891"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

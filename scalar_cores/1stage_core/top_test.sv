@@ -11,7 +11,7 @@ module top(	input logic clk, reset,
 			`ifdef DBG
 			, output mem_debug dbg
 			`endif
-			);
+);
 
 	logic [31:0] pc, instr, readdata;
 	// instantiate processor and memories
@@ -23,17 +23,18 @@ module top(	input logic clk, reset,
 						`ifdef DBG
 						, .dbg(dbg)
 						`endif
-						);
+	);
 
 	mem_bus Bus();
 	imem imem(.a(pc), .rd(instr), .Bus(Bus));
 	dmem dmem(.clk(clk), .we(memwrite), .a(dataadr), .wd(writedata), .rd(readdata), .Bus(Bus));
-endmodule
+endmodule : top
 
 module dmem(input logic clk, we,
 			input logic [31:0] a, wd,
 			output logic [31:0] rd,
-			mem_bus Bus);
+			mem_bus Bus
+);
 	
 	assign Bus.clk = clk;
 	assign Bus.Daddr = a;
@@ -41,15 +42,15 @@ module dmem(input logic clk, we,
 	assign Bus.Dwritedata = wd;
 	assign rd = Bus.Dreaddata;
 
-endmodule
+endmodule : dmem
 
 module imem(input logic [31:0] a,
 			output logic [31:0] rd,
 			mem_bus Bus
-			);
+);
 	assign Bus.Iaddr = a;
 	assign rd  = Bus.Iinstn;	
-endmodule
+endmodule : imem
 
 interface mem_bus;
 	logic clk;

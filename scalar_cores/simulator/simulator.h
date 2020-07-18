@@ -16,38 +16,28 @@
 
 using namespace std;
 
-enum instn_type {nop, r_r, addi, lw, sw, beq, j} ;
-enum stage_enum {F, D, E, M, W} ;
-enum funct {add, sub, AND, OR, slt};
-struct stage_info {
-    uint32_t cycle;
-    stage_enum stage;
-};
-
-struct pipe_info {
-    stage_info IF;
-    stage_info ID;
-    stage_info EX;
-    stage_info MEM;
-    stage_info WB;
+enum instn_type {
+    LUI, AUIPC,
+    JAL, JALR,
+    BEQ, BNE, BLT, BGE, BLTU, BGEU,
+    LB, LH, LW, LBU, LHU,
+    SB, SH, SW,
+    ADDI, SLTI, SLTIU, XORI, ORI, ANDI, SLLI, SRLI, SRAI,
+    ADD, SUB, SLL, SLT, SLTU, XOR, SRL, SRA, OR, AND
 };
 
 struct instn_info {
+    uint32_t pc;
     uint32_t bin;
-    instn_type type;
-    int32_t rs;
-    int32_t rt;
-    int32_t rd;
-    funct    f;
-    uint32_t imm;
-    uint32_t target;
+    uint32_t op, funct3, funct7;
+    instn_type  type;
+    int32_t     rs;
+    int32_t     rt;
+    int32_t     rd;
+    int32_t     imm;
+    uint32_t    target;
+    bitset <32> jumpimm, branchimm, utypeimm, stypeimm, itypeimm;
 };
-
-struct ret_info {
-    instn_info instn;
-    pipe_info pipe;
-};
-
 
 // tried funct_sim and pipe_sim, where pipe_sim class is a derived class of funct_sim
 // ran into hell a lot of issues in accessing maps. 
@@ -57,30 +47,30 @@ struct ret_info {
 
 class funct_sim {
 public:
+    char instn_type_str[37][10] {
+        "LUI", "AUIPC",
+        "JAL", "JALR",
+        "BEQ", "BNE", "BLT", "BGE", "BLTU", "BGEU",
+        "LB", "LH", "LW", "LBU", "LHU",
+        "SB", "SH", "SW",
+        "ADDI", "SLTI", "SLTIU", "XORI", "ORI", "ANDI", "SLLI", "SRLI", "SRAI",
+        "ADD", "SUB", "SLL", "SLT", "SLTU", "XOR", "SRL", "SRA", "OR", "AND"
+    };
+
     map<uint32_t, instn_info> Imem;
     map<uint32_t, uint32_t> Dmem;
     uint32_t Reg[32];
-    map<uint32_t, ret_info> retire_instn;
-    map<uint32_t, map<uint32_t, char>> instn_ppl;
-    map<uint32_t, bool> branch_info;
-
-    // for debugging puropses
-    deque<uint32_t> debug_pc;
 
     // records total number of cycles taken to run till the end 
+    uint32_t cycle;
     uint32_t runtime;
-    uint32_t PC;
-    instn_info getInstnInfo(uint32_t instn);
-    void sim_functional();
+    uint32_t pc;
+    instn_info getInstnInfo(uint32_t pc, uint32_t instn);
+    uint32_t sim_functional(uint32_t pc, instn_info instn); // returns next pc
     void printImem();
     void printDmem();
     void printReg();
-
-    // pipeline simulation
-    void classic5pipeline();
-    void printpipeline();
-    void dumppipeline(char *filename);
-    stringstream disassemble_instn(uint32_t pc);
+    stringstream disassemble_instn(uint32_t instn);
     // constructor
     funct_sim() {
         for (int i=0; i < 32; i++) {

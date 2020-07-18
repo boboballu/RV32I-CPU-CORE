@@ -28,11 +28,11 @@ interface controller_if (input [31:0] instr);
 					output branch, jump, jalr, 
 					memtoreg, memwrite, pcsrc, alusrc, regwrite,
 					alucontrol, alu_sub, auipc, lui
-				);
+	);
 	modport dp 	( 	input instr, 
 					output br_taken,
 					input branch, jump, jalr, 
 					memtoreg, memwrite, pcsrc, alusrc, regwrite,
 					alucontrol, alu_sub, auipc, lui
-				);
+	);
 endinterface : controller_if

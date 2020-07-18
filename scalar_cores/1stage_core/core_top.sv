@@ -13,7 +13,7 @@ module riscv_32i(input logic clk, reset,
 			`ifdef DBG
 			, output mem_debug dbg
 			`endif
-			);
+);
 	
 	`ifdef DBG
 	logic [31:0] result;
@@ -50,6 +50,6 @@ module riscv_32i(input logic clk, reset,
 							`ifdef DBG
 							,.result(result)
 							`endif
-						);
+	);
 
-endmodule
+endmodule : riscv_32i

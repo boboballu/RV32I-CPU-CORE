@@ -11,8 +11,7 @@ module datapath(input logic clk, reset,
 				`ifdef DBG
 				, output logic [31:0] result
 				`endif
-				);
-
+);
 
 /********************************************************************************/
 	// all functions necessary for load store and c_bus.branch instns
@@ -98,7 +97,7 @@ module datapath(input logic clk, reset,
 			result = utypeimm;
 		end
 		else if (c_bus.memtoreg) begin
-			result = load_compute (funct3, c_bus.memtoreg, pcplus4, aluout, readdata);
+			result = load_compute (funct3, aluout, readdata);
 		end
 		else begin
 			result = aluout;
@@ -118,19 +117,20 @@ module alu 	(	input logic [31:0] srca,
 				input logic [31:0] srcb, 
 				input logic [2:0] alucontrol, input logic alu_sub,
 				output logic [31:0] aluout /*output logic c_bus.br_taken*/
-			);
+);
 	
 	//assign c_bus.br_taken = (aluout == 32'd0) ? 1 : 0;
 	always_comb begin
 		if (!alu_sub) begin
 			case(alucontrol)
 				3'b000: aluout <= srca + srcb; // ADD
-				3'b110: aluout <= srca | srcb; // OR
-				3'b111: aluout <= srca & srcb; // AND
+				3'b001: aluout <= srca << srcb[4:0]; // SLL
 				3'b010: aluout <= ( signed'(srca) < signed'(srcb) ); // SLT
 				3'b011: aluout <= (srca < srcb) ? 32'd1 : 32'd0; // SLTU
-				3'b001: aluout <= srca << srcb[4:0]; // SLL
+				3'b100: aluout <= srca ^ srcb; // XOR
 				3'b101: aluout <= srca >> srcb[4:0]; // SRL
+				3'b110: aluout <= srca | srcb; // OR
+				3'b111: aluout <= srca & srcb; // AND
 				default: aluout<= 32'bx;
 			endcase
 		end
@@ -149,7 +149,7 @@ module regfile	(	input logic clk,
 					input logic [4:0] rs1, rs2, rd,
 					input logic [31:0] wd3,
 					output logic [31:0] rs1_data, rs2_data
-				);
+);
 	bit [31:0] rf[31:0];
 
 	// three ported register file
@@ -171,7 +171,7 @@ module instn_decode 	(
 							output logic [2:0] funct3, output logic [6:0] funct7,
 							output logic [31:0] jumpimm, branchimm, utypeimm, stypeimm, itypeimm,
 							output logic [4:0] rs1, rs2, rd
-						);
+);
 	// control funct signals from instr
 	assign funct3 = instr[14:12];
 	assign funct7 = instr[31:25];

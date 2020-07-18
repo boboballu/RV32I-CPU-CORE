@@ -182,12 +182,13 @@ module alu 	(	input logic [31:0] srca,
 		if (!alu_sub) begin
 			case(alucontrol)
 				3'b000: aluout <= srca + srcb; // ADD
-				3'b110: aluout <= srca | srcb; // OR
-				3'b111: aluout <= srca & srcb; // AND
+				3'b001: aluout <= srca << srcb[4:0]; // SLL
 				3'b010: aluout <= ( signed'(srca) < signed'(srcb) ); // SLT
 				3'b011: aluout <= (srca < srcb) ? 32'd1 : 32'd0; // SLTU
-				3'b001: aluout <= srca << srcb[4:0]; // SLL
+				3'b100: aluout <= srca ^ srcb; // XOR
 				3'b101: aluout <= srca >> srcb[4:0]; // SRL
+				3'b110: aluout <= srca | srcb; // OR
+				3'b111: aluout <= srca & srcb; // AND
 				default: aluout<= 32'bx;
 			endcase
 		end

@@ -25,7 +25,7 @@ module testbench();
 			`ifdef DBG
 			, .dbg(dbg)
 			`endif
-			);
+	);
 	
 	// dump var for gtkwave
 /*	initial begin
@@ -91,7 +91,7 @@ module testbench();
 		// end
 		if (memwrite) begin
 			if (dataadr == 65532) begin
-				$write("%d", writedata);
+				$write("%c", writedata);
 			end
 		end
 
