@@ -26,16 +26,16 @@ module maindec(	controller_if c_bus,
 	
 	always_comb begin
 		case(c_bus.op)
-			7'b0110011: begin controls <= 9'b100000000;   aluop <= 2'b10; end // RTYPE
-			7'b0000011: begin controls <= 9'b110010000;   aluop <= 2'b00; end // LW
-			7'b0100011: begin controls <= 9'b010100000;   aluop <= 2'b00; end // SW
-			7'b0010011: begin controls <= 9'b110000000;   aluop <= 2'b00; end // ADDI
-			7'b1100011: begin controls <= 9'b001000000;   aluop <= 2'b01; end // BEQ
-			7'b1101111: begin controls <= 9'b100001000;   aluop <= 2'b00; end // J
-			7'b1100111: begin controls <= 9'b100001100;	  aluop <= 2'b00; end // JALR
-			7'b0010111: begin controls <= 9'b100000010;   aluop <= 2'b00; end // auipc
-			7'b0110111: begin controls <= 9'b100000001;   aluop <= 2'b00; end // lui
-			default   : begin controls <= 9'b000000000;   aluop <= 2'b00; end // illegal op - nop
+			7'b0110011: begin controls = 9'b100000000;   aluop = 2'b10; end // RTYPE
+			7'b0000011: begin controls = 9'b110010000;   aluop = 2'b00; end // LW
+			7'b0100011: begin controls = 9'b010100000;   aluop = 2'b00; end // SW
+			7'b0010011: begin controls = 9'b110000000;   aluop = 2'b00; end // ADDI
+			7'b1100011: begin controls = 9'b001000000;   aluop = 2'b01; end // BEQ
+			7'b1101111: begin controls = 9'b100001000;   aluop = 2'b00; end // J
+			7'b1100111: begin controls = 9'b100001100;	  aluop = 2'b00; end // JALR
+			7'b0010111: begin controls = 9'b100000010;   aluop = 2'b00; end // auipc
+			7'b0110111: begin controls = 9'b100000001;   aluop = 2'b00; end // lui
+			default   : begin controls = 9'b000000000;   aluop = 2'b00; end // illegal op - nop
 		endcase
 	end
 endmodule : maindec
@@ -47,8 +47,8 @@ module aludec(
 
 	always_comb
 	case(aluop)
-		2'b00: 	 begin c_bus.alucontrol <= 3'b000; c_bus.alu_sub <= 1'b0; end 				  // add (for lw/sw/addi/J)
-		2'b01: 	 begin c_bus.alucontrol <= 3'b000; c_bus.alu_sub <= 1'b1; end 				  // sub (for beq)
-		default: begin c_bus.alucontrol <= c_bus.funct3; c_bus.alu_sub = c_bus.funct7[5]; end // R-type 
+		2'b00: 	 begin c_bus.alucontrol = 3'b000; c_bus.alu_sub = 1'b0; end 				  // add (for lw/sw/addi/J)
+		2'b01: 	 begin c_bus.alucontrol = 3'b000; c_bus.alu_sub = 1'b1; end 				  // sub (for beq)
+		default: begin c_bus.alucontrol = c_bus.funct3; c_bus.alu_sub = c_bus.funct7[5]; end // R-type 
 	endcase
 endmodule : aludec

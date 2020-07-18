@@ -59,6 +59,8 @@ interface mem_bus;
 	logic Dwe;
 	
 	// get the binary file from commandline args
+	// commenting for verilator
+
 	string EXEC;
 	initial begin
 		if ( !$value$plusargs("EXEC=%s", EXEC)) begin
@@ -68,11 +70,14 @@ interface mem_bus;
 	    $display("%m found +EXEC=%s", EXEC);
 	end
 
+	// end comment
+	
 	bit [31:0] MEM [131071:0]; // 512 KB of memory
 
 	// Imem part
 	initial begin
-		$readmemh(EXEC, MEM);
+		/*commenting for verilator*/ $readmemh(EXEC, MEM);
+		//$readmemh("/root/Heterogeneous-multicore/scalar_cores/1stage_core/memfile.dat", MEM);
 	end
 	assign Iinstn = MEM[Iaddr[31:2]];
 

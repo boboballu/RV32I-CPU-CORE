@@ -65,10 +65,10 @@ module datapath(input logic clk, reset,
 			pc <= 0;
 		end
 		else begin
-			casex( {c_bus.pcsrc, c_bus.jump, c_bus.jalr} )
+			casez( {c_bus.pcsrc, c_bus.jump, c_bus.jalr} )
 				3'b000: pc <= pcplus4;
 				3'b010: pc <= pc + jumpimm; // riscv - c_bus.jump
-				3'b0x1: pc <= (itypeimm + srca) & (32'hffff_fffe); // riscv - c_bus.jalr
+				3'b0?1: pc <= (itypeimm + srca) & (32'hffff_fffe); // riscv - c_bus.jalr
 				3'b100: pc <= pc + branchimm; // riscv - c_bus.branch
 				default pc <= pcplus4;
 			endcase
@@ -123,22 +123,22 @@ module alu 	(	input logic [31:0] srca,
 	always_comb begin
 		if (!alu_sub) begin
 			case(alucontrol)
-				3'b000: aluout <= srca + srcb; // ADD
-				3'b001: aluout <= srca << srcb[4:0]; // SLL
-				3'b010: aluout <= ( signed'(srca) < signed'(srcb) ); // SLT
-				3'b011: aluout <= (srca < srcb) ? 32'd1 : 32'd0; // SLTU
-				3'b100: aluout <= srca ^ srcb; // XOR
-				3'b101: aluout <= srca >> srcb[4:0]; // SRL
-				3'b110: aluout <= srca | srcb; // OR
-				3'b111: aluout <= srca & srcb; // AND
+				3'b000: aluout = srca + srcb; // ADD
+				3'b001: aluout = srca << srcb[4:0]; // SLL
+				3'b010: aluout = ( signed'(srca) < signed'(srcb) ); // SLT
+				3'b011: aluout = (srca < srcb) ? 32'd1 : 32'd0; // SLTU
+				3'b100: aluout = srca ^ srcb; // XOR
+				3'b101: aluout = srca >> srcb[4:0]; // SRL
+				3'b110: aluout = srca | srcb; // OR
+				3'b111: aluout = srca & srcb; // AND
 				default: aluout<= 32'bx;
 			endcase
 		end
 		else begin
 			case (alucontrol)
-				3'b000:	aluout <= srca - srcb; // SUB, BEQ
-				3'b101: aluout <= {srca, srca} >> srcb[4:0]; // SRA
-				default: aluout<= 32'bx;
+				3'b000:	aluout = srca - srcb; // SUB, BEQ
+				3'b101: aluout = {srca, srca} >> srcb[4:0]; // SRA
+				default: aluout = 32'bx;
 			endcase
 		end
 	end
