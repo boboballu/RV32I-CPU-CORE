@@ -48,7 +48,7 @@ module testbench();
 /********************************************************************************/
 	// reset generation / terminal header
 	initial begin
-		reset <= 1; # 22; reset <= 0;
+		reset <= 0; # 22; reset <= 1;
 		$display (); $display ();
 		$display ("==> Console [0x%08x] print - writes to the addr treated as a console print msg <==", term_address);
 		$display (); $display ();
@@ -98,7 +98,7 @@ module testbench();
 
 		if (memwrite) begin
 			if (dataadr == term_address) begin
-				$write("%d", writedata);
+				$write("%c", writedata);
 			end
 		end
 	end

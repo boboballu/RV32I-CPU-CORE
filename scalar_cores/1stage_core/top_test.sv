@@ -3,6 +3,7 @@
 // mail  : tkesava@ncsu.edu
 /********************************************************************************/
 `define DBG
+//`define verilator
 import dbg_pkg::*; 
 
 module top(	input logic clk, reset,
@@ -61,6 +62,7 @@ interface mem_bus;
 	// get the binary file from commandline args
 	// commenting for verilator
 
+	`ifndef verilator
 	string EXEC;
 	initial begin
 		if ( !$value$plusargs("EXEC=%s", EXEC)) begin
@@ -69,6 +71,7 @@ interface mem_bus;
 	    end
 	    $display("%m found +EXEC=%s", EXEC);
 	end
+	`endif
 
 	// end comment
 	
@@ -76,12 +79,17 @@ interface mem_bus;
 
 	// Imem part
 	initial begin
+		`ifdef verilator
+		$readmemh("/root/Heterogeneous-multicore/scalar_cores/1stage_core/memfile.dat", MEM);
+		`else
 		/*commenting for verilator*/ $readmemh(EXEC, MEM);
-		//$readmemh("/root/Heterogeneous-multicore/scalar_cores/1stage_core/memfile.dat", MEM);
+		`endif
 	end
+	/* verilator lint_off WIDTH */
 	assign Iinstn = MEM[Iaddr[31:2]];
 
 	// Dmem part
+	/* verilator lint_off WIDTH */
 	assign Dreaddata = MEM[Daddr[31:2]];
 	always_ff @(posedge clk) begin
 		if (Dwe) MEM[Daddr[31:2]] <= Dwritedata;

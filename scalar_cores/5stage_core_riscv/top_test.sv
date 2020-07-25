@@ -13,7 +13,7 @@ module top(input logic clk, reset,
 			`ifdef mem_debug
 			, output mem_debug debug
 			`endif
-			);
+);
 	// logic [31:0] pc, instr, readdata;
 	// instantiate processor and memories
 	// riscv_32i riscv_32i(clk, reset, pc, instr, memwrite, dataadr, writedata, readdata);
@@ -38,7 +38,8 @@ endmodule : top
 module dmem(input logic clk, we,
 			input logic [31:0] a, wd,
 			output logic [31:0] rd,
-			mem_bus Bus);
+			mem_bus Bus
+);
 	
 	assign Bus.clk = clk;
 	assign Bus.Daddr = a;
@@ -51,7 +52,7 @@ endmodule : dmem
 module imem(input logic [31:0] a,
 			output logic [31:0] rd,
 			mem_bus Bus
-			);
+);
 	assign Bus.Iaddr = a;
 	assign rd  = Bus.Iinstn;	
 endmodule : imem

@@ -12,8 +12,6 @@ add wave -noupdate -radix hexadecimal -radixshowbase 1 /testbench/dut/riscv_32i/
 add wave -noupdate -radix hexadecimal -radixshowbase 1 /testbench/dut/riscv_32i/pc_genF_out
 add wave -noupdate -radix hexadecimal -radixshowbase 1 /testbench/dut/riscv_32i/pcD
 add wave -noupdate -radix hexadecimal -radixshowbase 1 /testbench/dut/riscv_32i/pcE
-add wave -noupdate -radix hexadecimal -radixshowbase 1 /testbench/dut/riscv_32i/pcM
-add wave -noupdate -radix hexadecimal -radixshowbase 1 /testbench/dut/riscv_32i/pcW
 add wave -noupdate -radix hexadecimal -radixshowbase 1 /testbench/dut/riscv_32i/instnF
 add wave -noupdate -radix hexadecimal -radixshowbase 1 /testbench/dut/riscv_32i/pcplus4F
 add wave -noupdate -radix hexadecimal -radixshowbase 1 /testbench/dut/riscv_32i/instnD
@@ -26,9 +24,6 @@ add wave -noupdate -radix hexadecimal -radixshowbase 1 /testbench/dut/riscv_32i/
 add wave -noupdate -radix hexadecimal -radixshowbase 1 /testbench/dut/riscv_32i/aD
 add wave -noupdate -radix hexadecimal -radixshowbase 1 /testbench/dut/riscv_32i/bD
 add wave -noupdate -radix hexadecimal -radixshowbase 1 /testbench/dut/riscv_32i/signimmD
-add wave -noupdate -radix hexadecimal -radixshowbase 1 /testbench/dut/riscv_32i/pcbranchD
-add wave -noupdate -radix hexadecimal -radixshowbase 1 /testbench/dut/riscv_32i/jump_targetD
-add wave -noupdate -radix hexadecimal -radixshowbase 1 /testbench/dut/riscv_32i/equalD_ctrl
 add wave -noupdate -radix hexadecimal -radixshowbase 1 /testbench/dut/riscv_32i/pcplus4E
 add wave -noupdate -radix hexadecimal -radixshowbase 1 /testbench/dut/riscv_32i/aE
 add wave -noupdate -radix hexadecimal -radixshowbase 1 /testbench/dut/riscv_32i/bE
@@ -109,4 +104,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ps
 update
-WaveRestoreZoom {0 ps} {93 ps}
+WaveRestoreZoom {70 ps} {163 ps}

@@ -25,7 +25,7 @@ module hazard_unit( input logic branchD, jumpD, jalrD, br_takenD,
 					output logic [1:0] forwardAE, forwardBE,
 					output logic stallF, stallD, stallE, stallM, stallW,
 					output logic flushF, flushD, flushE, flushM, flushW
-				);
+);
 	
 	logic lwstall;
 	logic branchstall;

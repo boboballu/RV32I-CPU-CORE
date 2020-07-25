@@ -3,7 +3,8 @@
  * School: North Carolina State University
  * mail  : tkesava@ncsu.edu
  */
-
+/********************************************************************************/
+/* reference : https://docs.rtems.org/releases/rtemsdoc-4.7.3/share/rtems/html/bsp_howto/bsp_howto00021.html */
 /* stack grows from bottom to top - keep in mind */
 
 /* doesn't pick textinit function bit picks main surpricingly */

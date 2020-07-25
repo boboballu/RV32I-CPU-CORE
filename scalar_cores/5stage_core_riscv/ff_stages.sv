@@ -9,14 +9,14 @@ import dbg_pkg::*;
 // stage ctrl inputs - clk, en (active low), clear
 // data input 	  - pc 
 // output 		  - pcF
-module pc_if (	input logic clk,
+module pc_if (	input logic clk, reset,
 				input logic en, clear,
 				input logic [31:0] pc,
 				output logic [31:0] pcF 
 );
 
-	always_ff @(posedge clk) begin
-		if (clear) begin
+	always_ff @(posedge clk or negedge reset) begin
+		if (clear | !reset) begin
 			pcF <= 0;
 		end
 		else if(!en) begin
@@ -32,14 +32,14 @@ endmodule : pc_if
 // data inputs - rd, pcplus4F
 // data outputs - instnD, pcplus4D
 // riscv additions - pc
-module if_id ( 	input logic clk,
+module if_id ( 	input logic clk, reset,
 				input logic en, clear,
 				input logic	[31:0] rd, pcF, pcplus4F,
 				output logic [31:0] instnD, pcD, pcplus4D  
 );
 
-	always_ff @(posedge clk) begin
-		if (clear) begin
+	always_ff @(posedge clk or negedge reset) begin
+		if (clear | !reset) begin
 			instnD <= 0;
 			pcD <= 0;
 			pcplus4D <= 0;
@@ -63,7 +63,7 @@ endmodule : if_id
 // riscv additions - jump, pcplus4, alu_sub 
 // riscv modifications - regdst no longer required
 
-module id_ex (	input logic clk,
+module id_ex (	input logic clk, reset,
 				input logic en, clear,
 				input logic jumpD, jalrD, input logic [31:0] pcD, pcplus4D,
 				input logic regwriteD, memtoregD, memwriteD, alusrcD,
@@ -77,8 +77,8 @@ module id_ex (	input logic clk,
 				output logic [31:0] aE, bE, signimmE, output logic [4:0] rsE, rtE, rdE, output logic [31:0] utypeimmE
 );
 
-	always_ff @(posedge clk) begin
-		if (clear) begin
+	always_ff @(posedge clk or negedge reset) begin
+		if (clear | !reset) begin
 			{regwriteE, memtoregE, memwriteE, alusrcE, alucontrolE, alu_subE, funct3E} <= 'b0;
 			{rsE, rtE, rdE, aE, bE, signimmE, utypeimmE} <= 'b0;
 			{auipcE, luiE} <= 'b0;
@@ -105,7 +105,7 @@ endmodule : id_ex
 // controller outputs - regwriteM, memtoregM, memwriteM
 // data inputs - aluoutE, writedataE,   [4:0]writeregE(dest addr)
 // data outputs - aluoutM, writedataM, 	[4:0]writeregM(dest addr)
-module ex_mem (	input logic clk,
+module ex_mem (	input logic clk, reset,
 				input logic en, clear,
 				input logic [2:0] funct3E,
 				input logic regwriteE, memtoregE, memwriteE,
@@ -115,8 +115,8 @@ module ex_mem (	input logic clk,
 				output logic [31:0] aluoutM, writedataM, output logic [4:0] writeregM
 );
 
-	always_ff @(posedge clk) begin
-		if (clear) begin
+	always_ff @(posedge clk or negedge reset) begin
+		if (clear | !reset) begin
 			{regwriteM, memtoregM, memwriteM, funct3M} <= 'b0;
 			{aluoutM, writedataM, writeregM} <= 'b0;
 		end
@@ -135,7 +135,7 @@ endmodule : ex_mem
 // controller outputs- regwriteW, memtoregW
 // data inputs - aluoutM, readdataM, writeregM
 // data outputs - aluoutW, readdataW, writeregW
-module mem_wb (	input logic clk,
+module mem_wb (	input logic clk, reset,
 				input logic en, clear,
 				input logic regwriteM, memtoregM,
 				input logic [31:0] aluoutM, readdataM, input logic [4:0] writeregM,
@@ -143,8 +143,8 @@ module mem_wb (	input logic clk,
 				output logic [31:0] aluoutW, readdataW, output logic [4:0] writeregW
 );
 
-	always_ff @(posedge clk) begin
-		if (clear) begin
+	always_ff @(posedge clk or negedge reset) begin
+		if (clear | !reset) begin
 			{regwriteW, memtoregW} <= 0;
 			{aluoutW, readdataW, writeregW} <= 0;
 		end

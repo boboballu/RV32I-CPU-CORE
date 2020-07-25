@@ -19,7 +19,7 @@ uint32_t vector [] __attribute__((section(".vector_section"))) = {
     (uint32_t) &endpgm
 };
 
-void textinit () {
+void textinit (void) {
     //set up the stack pointer, using a constant defined in the linker script.
     asm("la sp, %0": : "i"(STACK_START-32)); 
     // call main and exit once main returns

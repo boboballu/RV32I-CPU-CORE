@@ -11,23 +11,21 @@ vluint64_t main_time = 0;       // Current simulation time // uint64_t type
 
 double sc_time_stamp () {       // Called by $time in Verilog
     return main_time;           // converts to double, to match
-    // what SystemC does
+                                // what SystemC does
 }
 
-int main(int argc, char** argv)
-{
+int main(int argc, char** argv) {
     // turn on trace or not?
     bool vcdTrace = true;
     VerilatedVcdC* tfp = NULL;
     
-
     Verilated::commandArgs(argc, argv);   // Remember args
     uut = new Vtop;   // Create instance
 
-    // uut->eval();
-    // uut->eval();
+    uut->eval();
+    uut->eval();
 
-    if (vcdTrace){
+    if (vcdTrace) {
         Verilated::traceEverOn(true);
         
         tfp = new VerilatedVcdC;

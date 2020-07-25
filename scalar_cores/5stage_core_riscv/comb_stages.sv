@@ -60,7 +60,7 @@ endmodule : IF_comb
 // datapath nets inputs - writeregW, instnD, pcplus4D, 
 // datapath nets outputs - a, b, equalD, signimmD, pcbranchD, jump_targetD
 // riscv addition - (in) pc, memwriteD
-module ID_comb ( input logic clk,
+module ID_comb ( input logic clk, reset,
 				 input logic [31:0] pc,
 				 input logic regwriteW,
 				 input logic [4:0] rsD, rtD,
@@ -73,7 +73,7 @@ module ID_comb ( input logic clk,
 );
 
 	wire [31:0] A_reg, B_reg;
-	regfile rf (.clk(clk),
+	regfile rf (.clk(clk), .reset(reset),
 				.we3(regwriteW),
 				.ra1(rsD), .ra2(rtD), .wa3(writeregW),
 				.wd3(resultW),
@@ -91,7 +91,7 @@ module ID_comb ( input logic clk,
 endmodule : ID_comb
 
 // register file - writes during negedge of clk
-module regfile(input logic clk,
+module regfile(input logic clk, reset,
 				input logic we3,
 				input logic [4:0] ra1, ra2, wa3,
 				input logic [31:0] wd3,
@@ -104,8 +104,13 @@ module regfile(input logic clk,
 	// register 0 hardwired to 0
 	// note: for pipelined processor, write dest port
 	// on falling edge of clk
-	always_ff @(negedge clk) begin
-		if (we3) rf[wa3] <= wd3;
+	always_ff @(negedge clk or negedge reset) begin
+		if (!reset) begin
+			rf <= '{default:'0};
+		end
+		else begin
+			if (we3) rf[wa3] <= wd3;
+		end
 	end
 	assign rd1 = (ra1 != 0) ? rf[ra1] : 0;
 	assign rd2 = (ra2 != 0) ? rf[ra2] : 0;

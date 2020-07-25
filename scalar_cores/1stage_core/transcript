@@ -1,5 +1,5 @@
 # vsim -c -do "run -all; exit" "+df=h" "+EXEC=./memfile.dat" "+D_cache_address=84" "+D_cache_data=7" testbench 
-# Start time: 18:47:51 on Jul 18,2020
+# Start time: 13:39:24 on Jul 21,2020
 # Loading sv_std.std
 # Loading work.dbg_pkg
 # Loading work.testbench_sv_unit
@@ -28,7 +28,7 @@
 # ==> Console [0x0000fffc] print - writes to the addr treated as a console print msg <==
 #  
 #  
-# Hello World ;) 
+# This is the my program ;) 
 # ð 
 #  
 # ** Note: $stop    : testbench.sv(51)
@@ -36,5 +36,5 @@
 # Break in Module testbench at testbench.sv line 51
 # Stopped at testbench.sv line 51
 #  exit
-# End time: 18:47:51 on Jul 18,2020, Elapsed time: 0:00:00
+# End time: 13:39:25 on Jul 21,2020, Elapsed time: 0:00:01
 # Errors: 0, Warnings: 0

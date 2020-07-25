@@ -86,8 +86,8 @@ module riscv_32i(	input logic clk, reset,
 						.pc(pc_genF_in)	
 	);
 	
-	pc_if pc_if_ff 	(	.clk(clk), 
-						.en(stallF), .clear(flushF | reset), 
+	pc_if pc_if_ff 	(	.clk(clk), .reset(reset),
+						.en(stallF), .clear(flushF), 
 						.pc(pc_genF_in),
 						.pcF(pc_genF_out)	
 	);
@@ -100,8 +100,8 @@ module riscv_32i(	input logic clk, reset,
 						.pcplus4F(pcplus4F)	
 	);
 	
-	if_id if_id_ff  (	.clk(clk),
-						.en(stallD), .clear((flushD | reset)),
+	if_id if_id_ff  (	.clk(clk), .reset(reset),
+						.en(stallD), .clear((flushD)),
 						.rd(instnF), .pcF(pc_genF_out) ,.pcplus4F(pcplus4F),
 						.instnD(instnD), .pcD(pcD), .pcplus4D(pcplus4D)	
 	);
@@ -115,7 +115,7 @@ module riscv_32i(	input logic clk, reset,
 						.rsD(rsD), .rtD(rtD), .rdD(rdD)
 	);
 
-	ID_comb id_comb (	.clk(clk),
+	ID_comb id_comb (	.clk(clk), .reset(reset),
 						.regwriteW(regwriteW),
 						.rsD(rsD), .rtD(rtD),
 						.jumpimmD(jumpimmD), .branchimmD(branchimmD), .stypeimmD(stypeimmD), .itypeimmD(itypeimmD),
@@ -127,8 +127,8 @@ module riscv_32i(	input logic clk, reset,
 						.a(aD), .b(bD), .signimmD(signimmD)
 	);
 	
-	id_ex id_ex_ff	(	.clk(clk), 
-						.en(stallE), .clear((flushE | reset)),
+	id_ex id_ex_ff	(	.clk(clk), .reset(reset),
+						.en(stallE), .clear((flushE)),
 						.jumpD(jumpD), .jalrD(jalrD), .pcD(pcD), .pcplus4D(pcplus4D),
 						.regwriteD(regwriteD), .memtoregD(memtoregD), .memwriteD(memwriteD), .alusrcD(alusrcD),
 						.alucontrolD(alucontrolD), .alu_subD(alu_subD), .funct3D(funct3D),
@@ -150,8 +150,8 @@ module riscv_32i(	input logic clk, reset,
 						.aluoutE(aluoutE), .writedataE(writedataE)	
 	);
 	
-	ex_mem ex_mem_ff(	.clk(clk),
-						.en(stallM), .clear(flushM | reset),
+	ex_mem ex_mem_ff(	.clk(clk), .reset(reset),
+						.en(stallM), .clear(flushM),
 						.funct3E(funct3E),
 						.regwriteE(regwriteE), .memtoregE(memtoregE), .memwriteE(memwriteE),
 						.aluoutE(aluoutE), .writedataE(writedataE), .writeregE(writeregE),
@@ -171,8 +171,8 @@ module riscv_32i(	input logic clk, reset,
 						.aluoutM_out(aluoutM_out)	
 	);
 
-	mem_wb mem_wb_ff(	.clk(clk), 
-						.en(stallW), .clear(flushW | reset),
+	mem_wb mem_wb_ff(	.clk(clk), .reset(reset),
+						.en(stallW), .clear(flushW),
 						.regwriteM(regwriteM), .memtoregM(memtoregM),
 						.aluoutM(aluoutM_out), .readdataM(readdataM), .writeregM(writeregM),
 						.regwriteW(regwriteW), .memtoregW(memtoregW),
