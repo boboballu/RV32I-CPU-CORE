@@ -11,7 +11,9 @@ module riscv_32i(	input logic clk, reset,
 					input logic [31:0] imem_instn,
 					output logic dmem_we,
 					output logic [31:0] dmem_addr, dmem_wd,
-					input logic [31:0] dmem_rd
+					output logic memaccessM,
+					input logic [31:0] dmem_rd,
+					input logic Iwait, Dwait
 					`ifdef mem_debug 
 					, output mem_debug debug
 					`endif			
@@ -34,7 +36,7 @@ module riscv_32i(	input logic clk, reset,
 	logic [31:0] readdataM, aluoutM_out; // mem_comb to mem_wb ff
 	logic [31:0] readdataW, aluoutW; // mem_wb ff to wv_comb
 	logic [31:0] resultW; // wb_comb to other stage comb modules
-	
+
 /********************************************************************************/
 	// control path nets
 	logic [6:0] opD; 
@@ -211,17 +213,20 @@ module riscv_32i(	input logic clk, reset,
 	
 	// hazard unit:
 	hazard_unit hazard_unit1
-					( 	.branchD(branchD), .jumpD(jumpD), .jalrD(jalrD), .br_takenD(br_takenD),
+					( 	.Iwait(Iwait), .Dwait(Dwait),
+						.branchD(branchD), .jumpD(jumpD), .jalrD(jalrD), .br_takenD(br_takenD),
 						.memtoregE(memtoregE), .regwriteE(regwriteE),
 						.memtoregM(memtoregM), .regwriteM(regwriteM),
 						.regwriteW(regwriteW),
 						.rsD(rsD), .rtD(rtD),
 						.rsE(rsE), .rtE(rtE),
 						.writeregE(writeregE), .writeregM(writeregM), .writeregW(writeregW),
+						.memwriteM(memwriteM),
 						.forwardAD(forwardAD), .forwardBD(forwardBD),
 						.forwardAE(forwardAE), .forwardBE(forwardBE),
 						.stallF(stallF), .stallD(stallD), .stallE(stallE), .stallM(stallM), .stallW(stallW),
-						.flushF(flushF), .flushD(flushD), .flushE(flushE), .flushM(flushM), .flushW(flushW)
+						.flushF(flushF), .flushD(flushD), .flushE(flushE), .flushM(flushM), .flushW(flushW),
+						.memaccessM(memaccessM)
 	);
 
 endmodule : riscv_32i

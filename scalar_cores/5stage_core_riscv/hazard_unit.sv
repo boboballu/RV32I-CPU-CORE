@@ -14,33 +14,27 @@
 // and (flushF, flushD, flushE, flushM, flushW) 
 `include "debug_headerfile.svh"
 import dbg_pkg::*;
-module hazard_unit( input logic branchD, jumpD, jalrD, br_takenD,
+module hazard_unit( 
+					input logic Iwait, Dwait,
+					input logic branchD, jumpD, jalrD, br_takenD,
 					input logic memtoregE, regwriteE,
 					input logic memtoregM, regwriteM,
 					input logic regwriteW,
 					input logic [4:0] rsD, rtD,
 					input logic [4:0] rsE, rtE,
 					input logic [4:0] writeregE, writeregM, writeregW,
+					input logic memwriteM,
 					output logic forwardAD, forwardBD,
 					output logic [1:0] forwardAE, forwardBE,
 					output logic stallF, stallD, stallE, stallM, stallW,
-					output logic flushF, flushD, flushE, flushM, flushW
+					output logic flushF, flushD, flushE, flushM, flushW,
+					output logic memaccessM
 );
 	
 	logic lwstall;
 	logic branchstall;
+	logic memstall;
 
-	/********************************************************************************/
-
-	// If BR_RESOLVE_D is defined, The following signals are 0
-	// If BR_RESOLVE_D - instn next to Br, will stall at Decode stage until RAW is resolved
-	assign stallE = 0;
-	assign stallM = 0;
-	assign stallW = 0;
-
-	assign flushF = 0;
-	assign flushM = 0;
-	assign flushW = 0;
 	/********************************************************************************/
 	// *******Data Forwarding***********//
 	//data forwarding:(RAW) ex-ex and mem-ex bypass
@@ -80,6 +74,21 @@ module hazard_unit( input logic branchD, jumpD, jalrD, br_takenD,
 	/********************************************************************************/
 	// *******Hazard Detection***********//
 	always_comb begin
+		// memstall:
+		memaccessM 	= (memtoregM | memwriteM);
+		memstall 	= Dwait & memaccessM;
+
+		// If BR_RESOLVE_D is defined, The following signals are 0
+		// If BR_RESOLVE_D - instn next to Br, will stall at Decode stage until RAW is resolved
+		// if memstall, stall F, D, E, M and flush W
+		stallE = memstall;
+		stallM = memstall;
+		stallW = memstall;
+
+		flushF = 0;
+		flushM = 0;
+		flushW = 0;
+		
 		//data hazard: load RAW dependency stall (load followed by alu instn)
 		lwstall = ((writeregE == rsD) || (writeregE == rtD)) && memtoregE;
 		// stallF = stallD = flushE = lwstall
@@ -89,14 +98,17 @@ module hazard_unit( input logic branchD, jumpD, jalrD, br_takenD,
 													||
 					  	( (branchD | jalrD) && memtoregM && ( (writeregM == rsD) || (writeregM == rtD) ) );
 
+
+
+		// note: A pipeline reg cant stall and flush at the sametime 
 		//StallF = StallD = FlushE = lwstall OR branchstall
-		stallF = lwstall | branchstall;
-		stallD = lwstall | branchstall;
+		stallF = lwstall | branchstall | memstall;
+		stallD = lwstall | branchstall | memstall;
 
 		// moving flushD to hazard unit since it makes more sense
 		// branch evaluation is not considered until branchstall is resolved
-		flushD =  ((!branchstall) & br_takenD) | jumpD | (jalrD & (!branchstall)) ;
-		flushE = lwstall | branchstall;
+		flushD =  ( ((!branchstall) & br_takenD) | jumpD | (jalrD & (!branchstall)) ) & (!memstall);
+		flushE =  ( lwstall | branchstall ) & (!memstall);
 
 
 	end

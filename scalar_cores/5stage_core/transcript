@@ -1,5 +1,5 @@
 # vsim -c -do "run -all; exit" "+EXEC=./test_executables/riscvtest.dat" "+D_cache_address=84" "+D_cache_data=7" testbench 
-# Start time: 14:44:48 on Jun 07,2020
+# Start time: 12:50:10 on Jul 25,2020
 # Loading sv_std.std
 # Loading work.dbg_pkg
 # Loading work.testbench_sv_unit
@@ -64,5 +64,5 @@
 # Break in Module testbench at testbench.sv line 57
 # Stopped at testbench.sv line 57
 #  exit
-# End time: 14:44:49 on Jun 07,2020, Elapsed time: 0:00:01
+# End time: 12:50:10 on Jul 25,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
