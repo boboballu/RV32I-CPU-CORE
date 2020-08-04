@@ -24,6 +24,7 @@ module hazard_unit(
 					input logic [4:0] rsE, rtE,
 					input logic [4:0] writeregE, writeregM, writeregW,
 					input logic memwriteM,
+					input logic branchW,
 					output logic forwardAD, forwardBD,
 					output logic [1:0] forwardAE, forwardBE,
 					output logic stallF, stallD, stallE, stallM, stallW,

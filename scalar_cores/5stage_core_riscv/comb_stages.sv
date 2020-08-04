@@ -100,7 +100,7 @@ module regfile(input logic clk, reset,
 	bit [31:0] rf[31:0];
 	// three ported register file
 	// read two ports combinationally
-	// write third port on rising edge of clk
+	// write third port on falling edge of clk
 	// register 0 hardwired to 0
 	// note: for pipelined processor, write dest port
 	// on falling edge of clk
