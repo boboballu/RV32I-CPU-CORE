@@ -5,6 +5,7 @@
 // decodes instruction in ID stage
 module instn_decode 	(
     input logic [31:0] instnD,
+    
     output [6:0] opD, 
     output logic [2:0] funct3D, output logic [6:0] funct7D,
     output logic [31:0] jumpimmD, branchimmD, utypeimmD, stypeimmD, itypeimmD,

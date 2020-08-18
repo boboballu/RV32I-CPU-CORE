@@ -46,9 +46,9 @@ module riscv_32i(	input logic clk, reset,
 	// control path interconnect nets
 	logic jalrD, auipcD, luiD;
 	logic branchD, br_takenD, jumpD, regwriteD, memtoregD, memwriteD, alusrcD, alu_subD; logic [2:0] alucontrolD;
-	logic branchE, jumpE, auipcE, luiE, regwriteE, memtoregE, memwriteE, alusrcE, alu_subE; logic [2:0] alucontrolE;
-	logic branchM, regwriteM, memtoregM, memwriteM;
-	logic branchW, regwriteW, memtoregW;
+	logic branchE, br_takenE, jumpE, auipcE, luiE, regwriteE, memtoregE, memwriteE, alusrcE, alu_subE; logic [2:0] alucontrolE;
+	logic branchM, br_takenM, regwriteM, memtoregM, memwriteM;
+	logic branchW, br_takenW, regwriteW, memtoregW;
 
 /********************************************************************************/
 	// hazard datapath nets
@@ -85,6 +85,7 @@ module riscv_32i(	input logic clk, reset,
 						.branchimmD(branchimmD), .jumpimmD(jumpimmD), .itypeimmD(itypeimmD),
 						.pcD(pcD), .pcplus4F(pcplus4F), 
 						.srcaD(aD),
+						
 						.pc(pc_genF_in)	
 	);
 	
@@ -99,6 +100,7 @@ module riscv_32i(	input logic clk, reset,
 	// stage 2: if_id stage 
 	IF_comb If_comb (	.pc(pc_genF_out),
 						.imem_instn(imem_instn),
+						
 						.pc_imem(pc_imem),
 						.instnF(instnF),
 						.pcplus4F(pcplus4F)	
@@ -115,6 +117,7 @@ module riscv_32i(	input logic clk, reset,
 	// stage 3: id_ex stage
 	instn_decode id_D (
 						.instnD(instnD),
+						
 						.opD(opD),
 						.funct3D(funct3D), .funct7D(funct7D),
 						.jumpimmD(jumpimmD), .branchimmD(branchimmD), .utypeimmD(utypeimmD), .stypeimmD(stypeimmD), .itypeimmD(itypeimmD),
@@ -122,6 +125,7 @@ module riscv_32i(	input logic clk, reset,
 	);
 
 	ID_comb id_comb (	.clk(clk), .reset(reset),
+						
 						.regwriteW(regwriteW),
 						.rsD(rsD), .rtD(rtD),
 						.jumpimmD(jumpimmD), .branchimmD(branchimmD), .stypeimmD(stypeimmD), .itypeimmD(itypeimmD),
@@ -130,6 +134,7 @@ module riscv_32i(	input logic clk, reset,
 						.memwriteD(memwriteD),
 						.writeregW(writeregW),
 						.resultW(resultW), .aluoutM(aluoutM),
+						
 						.a(aD), .b(bD), .signimmD(signimmD)
 	);
 	
@@ -141,14 +146,14 @@ module riscv_32i(	input logic clk, reset,
 						.alucontrolD(alucontrolD), .alu_subD(alu_subD), .funct3D(funct3D),
 						.auipcD(auipcD), .luiD(luiD),
 						.a(aD), .b(bD), .signimmD(signimmD), .rsD(rsD), .rtD(rtD), .rdD(rdD), .utypeimmD(utypeimmD),
-						.branchD(branchD), .branchimmD(branchimmD),
+						.branchD(branchD), .br_takenD(br_takenD), .branchimmD(branchimmD),
 
 						.jumpE(jumpE), .jalrE(jalrE), .pcE(pcE), .pcplus4E(pcplus4E),
 						.regwriteE(regwriteE), .memtoregE(memtoregE), .memwriteE(memwriteE), .alusrcE(alusrcE),
 						.alucontrolE(alucontrolE), .alu_subE(alu_subE), .funct3E(funct3E),
 						.auipcE(auipcE), .luiE(luiE),
 						.aE(aE), .bE(bE), .signimmE(signimmE), .rsE(rsE), .rtE(rtE), .rdE(rdE), .utypeimmE(utypeimmE),
-						.branchE(branchE), .branchimmE(branchimmE)
+						.branchE(branchE), .br_takenE(br_takenE), .branchimmE(branchimmE)
 	); 
 
 	// stage 4: ex_mem stage
@@ -157,6 +162,7 @@ module riscv_32i(	input logic clk, reset,
 						.forwardAE(forwardAE), .forwardBE(forwardBE),
 						.a(aE), .b(bE), .signimmE(signimmE), .utypeimmE(utypeimmE),
 						.resultW(resultW), .aluoutM(aluoutM),
+						
 						.aluoutE(aluoutE), .writedataE(writedataE)	
 	);
 	
@@ -166,12 +172,12 @@ module riscv_32i(	input logic clk, reset,
 						.funct3E(funct3E),
 						.regwriteE(regwriteE), .memtoregE(memtoregE), .memwriteE(memwriteE),
 						.aluoutE(aluoutE), .writedataE(writedataE), .writeregE(writeregE),
-						.branchE(branchE), .branchimmE(branchimmE),
+						.branchE(branchE), .br_takenE(br_takenE), .branchimmE(branchimmE),
 
 						.funct3M(funct3M),						
 						.regwriteM(regwriteM), .memtoregM(memtoregM), .memwriteM(memwriteM),
 						.aluoutM(aluoutM), .writedataM(writedataM), .writeregM(writeregM),
-						.branchM(branchM), .branchimmM(branchimmM)
+						.branchM(branchM), .br_takenM(br_takenM), .branchimmM(branchimmM)
 	);
 
 	// stage 5: mem_wb stage
@@ -179,7 +185,9 @@ module riscv_32i(	input logic clk, reset,
 					(	.funct3M(funct3M),
 						.memwriteM(memwriteM),
 						.aluoutM_in(aluoutM), .writedataM(writedataM),
-						.dmem_rd(dmem_rd), .dmem_addr(dmem_addr), .dmem_wd(dmem_wd), .dmem_we(dmem_we), 
+						.dmem_rd(dmem_rd), 
+						
+						.dmem_addr(dmem_addr), .dmem_wd(dmem_wd), .dmem_we(dmem_we), 
 						.readdataM(readdataM), 
 						.aluoutM_out(aluoutM_out)	
 	);
@@ -189,15 +197,16 @@ module riscv_32i(	input logic clk, reset,
 
 						.regwriteM(regwriteM), .memtoregM(memtoregM),
 						.aluoutM(aluoutM_out), .readdataM(readdataM), .writeregM(writeregM),
-						.branchM(branchM), .branchimmM(branchimmM),
+						.branchM(branchM), .br_takenM(br_takenM), .branchimmM(branchimmM),
 
 						.regwriteW(regwriteW), .memtoregW(memtoregW),
 						.aluoutW(aluoutW), .readdataW(readdataW), .writeregW(writeregW),
-						.branchW(branchW), .branchimmW(branchimmW)
+						.branchW(branchW), .br_takenW(br_takenW), .branchimmW(branchimmW)
 	);
 
 	WB_comb wb_comb (	.memtoregW(memtoregW),
 						.readdataW(readdataW), .aluoutW(aluoutW),
+						
 						.resultW(resultW)
 	);
 
@@ -206,6 +215,7 @@ module riscv_32i(	input logic clk, reset,
 	// controller:
 	controller ctrl (	.opD(opD), .funct3D(funct3D), .funct7D(funct7D),
 						//.equalD(equalD_ctrl),
+						
 						.branchD(branchD), .jumpD(jumpD), .jalrD(jalrD),
 						.regwriteD(regwriteD),
 						.memtoregD(memtoregD), .memwriteD(memwriteD),
@@ -219,6 +229,7 @@ module riscv_32i(	input logic clk, reset,
 	branch_compute branch_compute (
 						.branchD(branchD), .funct3D(funct3D),
 						.srca(aD), .srcb(bD),
+						
 						.br_takenD(br_takenD)
 	);
 	
@@ -236,6 +247,7 @@ module riscv_32i(	input logic clk, reset,
 						.writeregE(writeregE), .writeregM(writeregM), .writeregW(writeregW),
 						.memwriteM(memwriteM),
 						.branchW(branchW),
+						
 						.forwardAD(forwardAD), .forwardBD(forwardBD),
 						.forwardAE(forwardAE), .forwardBE(forwardBE),
 						.stallF(stallF), .stallD(stallD), .stallE(stallE), .stallM(stallM), .stallW(stallW),

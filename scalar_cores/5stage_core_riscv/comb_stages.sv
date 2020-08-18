@@ -14,16 +14,17 @@ module pc_gen (
 				input logic [31:0] branchimmD, jumpimmD, itypeimmD,
 				input logic [31:0] pcD, pcplus4F,
 				input logic [31:0] srcaD,
+				
 				output logic [31:0] pc
 );
 	
 	//assign pc = br_takenD ? pcbranchD : pcplus4F;
 	always_comb begin
 		casex ({br_takenD, jumpD, jalrD})
-			3'b000: pc = pcplus4F;
-			3'b010: pc = pcD + jumpimmD; // riscv - c_bus.jump
-			3'b0x1: pc = (itypeimmD + srcaD) & (32'hffff_fffe); // riscv - c_bus.jalr
-			3'b100: pc = pcD + branchimmD; // riscv - c_bus.branch
+			3'b000: pc 	= pcplus4F;
+			3'b010: pc 	= pcD + jumpimmD; // riscv - c_bus.jump
+			3'b0x1: pc 	= (itypeimmD + srcaD) & (32'hffff_fffe); // riscv - c_bus.jalr
+			3'b100: pc 	= pcD + branchimmD; // riscv - c_bus.branch
 			default: pc = pcplus4F;
 		endcase
 	end
@@ -40,13 +41,14 @@ endmodule : pc_gen
 module IF_comb (
 				input logic [31:0] pc,
 				input logic [31:0] imem_instn,
+				
 				output logic [31:0] pc_imem,
 				output logic [31:0] instnF,
 				output logic [31:0] pcplus4F
 );
 
-	assign pc_imem = pc;
-	assign instnF = imem_instn;
+	assign pc_imem 	= pc;
+	assign instnF 	= imem_instn;
 	assign pcplus4F = pc + 32'd4;
 endmodule : IF_comb
 
@@ -61,6 +63,7 @@ endmodule : IF_comb
 // datapath nets outputs - a, b, equalD, signimmD, pcbranchD, jump_targetD
 // riscv addition - (in) pc, memwriteD
 module ID_comb ( input logic clk, reset,
+				 
 				 input logic [31:0] pc,
 				 input logic regwriteW,
 				 input logic [4:0] rsD, rtD,
@@ -69,14 +72,17 @@ module ID_comb ( input logic clk, reset,
 				 input logic memwriteD,
 				 input logic [4:0] writeregW,
 				 input logic [31:0] resultW, aluoutM,
+				 
 				 output logic [31:0] a, b, signimmD
 );
 
 	wire [31:0] A_reg, B_reg;
 	regfile rf (.clk(clk), .reset(reset),
+				
 				.we3(regwriteW),
 				.ra1(rsD), .ra2(rtD), .wa3(writeregW),
 				.wd3(resultW),
+				
 				.rd1(A_reg), .rd2(B_reg)
 			   );
 
@@ -91,10 +97,12 @@ module ID_comb ( input logic clk, reset,
 endmodule : ID_comb
 
 // register file - writes during negedge of clk
-module regfile(input logic clk, reset,
+module regfile(	input logic clk, reset,
+				
 				input logic we3,
 				input logic [4:0] ra1, ra2, wa3,
 				input logic [31:0] wd3,
+				
 				output logic [31:0] rd1, rd2
 );
 	bit [31:0] rf[31:0];
@@ -130,6 +138,7 @@ module EX_comb (	input logic jumpE, jalrE, auipcE, luiE, input logic [31:0] pcE,
 					input logic [1:0] forwardAE, input logic [1:0] forwardBE,
 					input logic [31:0] a, input logic [31:0] b, input logic [31:0] signimmE, utypeimmE,
 					input logic [31:0] resultW, input logic [31:0] aluoutM,
+					
 					output logic [31:0] aluoutE, output logic [31:0] writedataE
 );
 	logic [31:0] srcAE, srcBE, srcBE_net0, aluout_net0;
@@ -157,6 +166,7 @@ module EX_comb (	input logic jumpE, jalrE, auipcE, luiE, input logic [31:0] pcE,
 
 	alu alu0 (	.srca(srcAE), .srcb(srcBE), 
 				.alucontrol(alucontrolE), .alu_sub(alu_subE),
+				
 				.aluout(aluout_net0)
 	);
 	
@@ -180,6 +190,7 @@ endmodule : EX_comb
 module alu 	(	input logic [31:0] srca, 
 				input logic [31:0] srcb, 
 				input logic [2:0] alucontrol, input logic alu_sub,
+				
 				output logic [31:0] aluout
 );
 
@@ -221,6 +232,7 @@ module MEM_comb (
 				input logic memwriteM,
 				input logic [31:0] aluoutM_in, input logic [31:0] writedataM,
 				input logic [31:0] dmem_rd,
+				
 				output logic [31:0] dmem_addr, dmem_wd,
 				output logic dmem_we,
 				output logic [31:0] readdataM, aluoutM_out
@@ -249,6 +261,7 @@ endmodule : MEM_comb
 // datapath nets outputs - resultW
 module WB_comb (input logic memtoregW,
 				input logic [31:0] readdataW, input logic [31:0] aluoutW,
+				
 				output logic [31:0] resultW
 );
 

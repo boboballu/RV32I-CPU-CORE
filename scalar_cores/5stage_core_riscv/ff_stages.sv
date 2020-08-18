@@ -19,7 +19,7 @@ module pc_if (	input logic clk, reset,
 
 	always_ff @(posedge clk or negedge reset) begin
 		if (clear | !reset) begin
-			pcF <= 0;
+			pcF <= 'b0;
 		end
 		else if(!en) begin
 			pcF <= pc;
@@ -44,14 +44,14 @@ module if_id ( 	input logic clk, reset,
 
 	always_ff @(posedge clk or negedge reset) begin
 		if (clear | !reset) begin
-			instnD <= 0;
-			pcD <= 0;
-			pcplus4D <= 0;
+			instnD 		<= 'b0;
+			pcD 		<= 'b0;
+			pcplus4D 	<= 'b0;
 		end
 		else if(!en) begin
-			instnD <= rd;
-			pcD <= pcF;
-			pcplus4D <= pcplus4F;
+			instnD 		<= rd;
+			pcD 		<= pcF;
+			pcplus4D 	<= pcplus4F;
 		end
 	end
 endmodule : if_id
@@ -75,36 +75,36 @@ module id_ex (	input logic clk, reset,
 				input logic [2:0] alucontrolD, input logic alu_subD, input logic [2:0] funct3D,
 				input logic auipcD, luiD, 
 				input logic [31:0] a, b, signimmD, input logic [4:0] rsD, rtD, rdD, input logic [31:0] utypeimmD,
-				input logic branchD, input logic [31:0] branchimmD,
+				input logic branchD, br_takenD, input logic [31:0] branchimmD,
 				
 				output logic jumpE, jalrE, output logic [31:0] pcE, pcplus4E,
 				output logic regwriteE, memtoregE, memwriteE, alusrcE,
 				output logic [2:0] alucontrolE, output logic alu_subE, output logic [2:0] funct3E,
 				output logic auipcE, luiE,
 				output logic [31:0] aE, bE, signimmE, output logic [4:0] rsE, rtE, rdE, output logic [31:0] utypeimmE,
-				output logic branchE, output logic [31:0] branchimmE
+				output logic branchE, br_takenE, output logic [31:0] branchimmE
 );
 
 	always_ff @(posedge clk or negedge reset) begin
 		if (clear | !reset) begin
-			{regwriteE, memtoregE, memwriteE, alusrcE, alucontrolE, alu_subE, funct3E} <= 'b0;
-			{rsE, rtE, rdE, aE, bE, signimmE, utypeimmE} <= 'b0;
-			{auipcE, luiE} <= 'b0;
-			{jumpE, jalrE} <= 'b0;
-			pcE 		<= 'b0;
-			pcplus4E 	<= 'b0;
-			branchE		<= 'b0;
-			branchimmE	<= 'b0;
+			{regwriteE, memtoregE, memwriteE, alusrcE, alucontrolE, alu_subE, funct3E} 	<= 'b0;
+			{rsE, rtE, rdE, aE, bE, signimmE, utypeimmE} 								<= 'b0;
+			{auipcE, luiE} 																<= 'b0;
+			{jumpE, jalrE} 																<= 'b0;
+			pcE 																		<= 'b0;
+			pcplus4E 																	<= 'b0;
+			{branchE, br_takenE} 														<= 'b0;
+			branchimmE																	<= 'b0;
 		end
 		else if (!en) begin
-			{regwriteE, memtoregE, memwriteE, alusrcE, alucontrolE, alu_subE, funct3E} <= {regwriteD, memtoregD, memwriteD, alusrcD, alucontrolD, alu_subD, funct3D};
-			{rsE, rtE, rdE, aE, bE, signimmE, utypeimmE} <= {rsD, rtD, rdD, a, b, signimmD, utypeimmD};
-			{auipcE, luiE} <= {auipcD, luiD};
-			{jumpE, jalrE} <= {jumpD, jalrD};
-			pcE			<= pcD;
-			pcplus4E 	<= pcplus4D;
-			branchE		<= branchD; 
-			branchimmE	<= branchimmD;
+			{regwriteE, memtoregE, memwriteE, alusrcE, alucontrolE, alu_subE, funct3E} 	<= {regwriteD, memtoregD, memwriteD, alusrcD, alucontrolD, alu_subD, funct3D};
+			{rsE, rtE, rdE, aE, bE, signimmE, utypeimmE} 								<= {rsD, rtD, rdD, a, b, signimmD, utypeimmD};
+			{auipcE, luiE} 																<= {auipcD, luiD};
+			{jumpE, jalrE} 																<= {jumpD, jalrD};
+			pcE																			<= pcD;
+			pcplus4E 																	<= pcplus4D;
+			{branchE, br_takenE} 														<= {branchD, br_takenD}; 
+			branchimmE																	<= branchimmD;
 		end
 	end
 endmodule : id_ex
@@ -123,26 +123,26 @@ module ex_mem (	input logic clk, reset,
 				input logic [2:0] funct3E,
 				input logic regwriteE, memtoregE, memwriteE,
 				input logic [31:0] aluoutE, writedataE, input logic [4:0] writeregE,
-				input logic branchE, input logic [31:0] branchimmE,
+				input logic branchE, br_takenE, input logic [31:0] branchimmE,
 				
 				output logic [2:0] funct3M,
 				output logic regwriteM, memtoregM, memwriteM,
 				output logic [31:0] aluoutM, writedataM, output logic [4:0] writeregM,
-				output logic branchM, output logic [31:0] branchimmM
+				output logic branchM, br_takenM, output logic [31:0] branchimmM
 );
 
 	always_ff @(posedge clk or negedge reset) begin
 		if (clear | !reset) begin
-			{regwriteM, memtoregM, memwriteM, funct3M} <= 'b0;
-			{aluoutM, writedataM, writeregM} <= 'b0;
-			branchM 	<= 'b0;
-			branchimmM 	<= 'b0; 
+			{regwriteM, memtoregM, memwriteM, funct3M} 	<= 'b0;
+			{aluoutM, writedataM, writeregM} 			<= 'b0;
+			{branchM, br_takenM} 						<= 'b0;
+			branchimmM 									<= 'b0; 
 		end
 		else if (!en) begin
-			{regwriteM, memtoregM, memwriteM, funct3M} <= {regwriteE, memtoregE, memwriteE, funct3E};
-			{aluoutM, writedataM, writeregM}  <= {aluoutE, writedataE, writeregE};
-			branchM 	<= branchE;
-			branchimmM	<= branchimmE;
+			{regwriteM, memtoregM, memwriteM, funct3M} 	<= {regwriteE, memtoregE, memwriteE, funct3E};
+			{aluoutM, writedataM, writeregM}  			<= {aluoutE, writedataE, writeregE};
+			{branchM, br_takenM} 						<= {branchE, br_takenE};
+			branchimmM									<= branchimmE;
 		end
 	end
 endmodule : ex_mem
@@ -160,25 +160,25 @@ module mem_wb (	input logic clk, reset,
 				
 				input logic regwriteM, memtoregM,
 				input logic [31:0] aluoutM, readdataM, input logic [4:0] writeregM,
-				input logic branchM, input logic [31:0] branchimmM,
+				input logic branchM, br_takenM, input logic [31:0] branchimmM,
 				
 				output logic regwriteW, memtoregW,
 				output logic [31:0] aluoutW, readdataW, output logic [4:0] writeregW,
-				output logic branchW, output logic [31:0] branchimmW
+				output logic branchW, br_takenW, output logic [31:0] branchimmW
 );
 
 	always_ff @(posedge clk or negedge reset) begin
 		if (clear | !reset) begin
-			{regwriteW, memtoregW} <= 0;
-			{aluoutW, readdataW, writeregW} <= 0;
-			branchW 	<= 'b0;
-			branchimmW 	<= 'b0;
+			{regwriteW, memtoregW} 			<= 'b0;
+			{aluoutW, readdataW, writeregW} <= 'b0;
+			{branchW, br_takenW} 			<= 'b0;
+			branchimmW 						<= 'b0;
 		end
 		else if (!en) begin
-			{regwriteW, memtoregW} <= {regwriteM, memtoregM};
+			{regwriteW, memtoregW} 			<= {regwriteM, memtoregM};
 			{aluoutW, readdataW, writeregW} <= {aluoutM, readdataM, writeregM};
-			branchW 	<= branchM;
-			branchimmW 	<= branchimmM;
+			{branchW, br_takenW}			<= {branchM, branchM};
+			branchimmW 						<= branchimmM;
 		end
 	end
 endmodule : mem_wb

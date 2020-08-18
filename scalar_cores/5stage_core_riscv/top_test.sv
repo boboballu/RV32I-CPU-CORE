@@ -6,7 +6,7 @@
 `include "debug_headerfile.svh"
 import dbg_pkg::*;
 
-module top(input logic clk, reset,
+module top(	input logic clk, reset,
 			output logic [31:0] writedata, dataadr,
 			output logic [31:0] readdata, pc, instr,
 			output logic memwrite

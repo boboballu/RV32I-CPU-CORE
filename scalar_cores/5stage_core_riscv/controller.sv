@@ -3,8 +3,8 @@
 // mail  : tkesava@ncsu.edu
 /********************************************************************************/
 module controller	(   
-                    input logic [6:0] opD,
-                    input logic  [2:0] funct3D, input logic [6:0] funct7D,
+                    input logic [6:0] opD, input logic  [2:0] funct3D, input logic [6:0] funct7D,
+                    
                     output logic branchD, jumpD, jalrD,
                     output logic memtoregD, memwriteD,
                     output logic alusrcD,
