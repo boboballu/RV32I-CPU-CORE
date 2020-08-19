@@ -10,9 +10,6 @@ module top(	input logic clk, reset,
 			output logic [31:0] writedata, dataadr,
 			output logic [31:0] readdata, pc, instr,
 			output logic memwrite
-			`ifdef mem_debug
-			, output mem_debug debug
-			`endif
 );
 	// logic [31:0] pc, instr, readdata;
 	// instantiate processor and memories
@@ -28,9 +25,6 @@ module top(	input logic clk, reset,
 			.memaccessM(memaccessM),
 			.dmem_rd(readdata),
 			.Iwait(Iwait), .Dwait(Dwait)
-			`ifdef mem_debug
-			, .debug(debug)
-			`endif
 	);
 
 	mem_bus Bus();

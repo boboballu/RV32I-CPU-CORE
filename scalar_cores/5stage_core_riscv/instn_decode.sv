@@ -2,6 +2,7 @@
 // School: North Carolina State University
 // mail  : tkesava@ncsu.edu
 /********************************************************************************/
+`include "debug_headerfile.svh"
 // decodes instruction in ID stage
 module instn_decode 	(
     input logic [31:0] instnD,

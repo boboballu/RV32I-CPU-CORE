@@ -2,6 +2,7 @@
 // School: North Carolina State University
 // mail  : tkesava@ncsu.edu
 /********************************************************************************/
+`include "debug_headerfile.svh"
 // all combinational circuitry in the datapath is put together in respective modules stage-wise.   
 import dbg_pkg::*;
 
@@ -24,7 +25,7 @@ module pc_gen (
 			3'b000: pc 	= pcplus4F;
 			3'b010: pc 	= pcD + jumpimmD; // riscv - c_bus.jump
 			3'b0x1: pc 	= (itypeimmD + srcaD) & (32'hffff_fffe); // riscv - c_bus.jalr
-			3'b100: pc 	= pcD + branchimmD; // riscv - c_bus.branch
+			3'b1xx: pc 	= pcD + branchimmD; // riscv - c_bus.branch
 			default: pc = pcplus4F;
 		endcase
 	end

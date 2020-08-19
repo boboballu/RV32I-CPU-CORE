@@ -24,7 +24,6 @@ module hazard_unit(
 					input logic [4:0] rsE, rtE,
 					input logic [4:0] writeregE, writeregM, writeregW,
 					input logic memwriteM,
-					input logic branchW,
 					
 					output logic forwardAD, forwardBD,
 					output logic [1:0] forwardAE, forwardBE,
@@ -80,39 +79,34 @@ module hazard_unit(
 		memaccessM 	= (memtoregM | memwriteM);
 		memstall 	= Dwait & memaccessM;
 
-		// If BR_RESOLVE_D is defined, The following signals are 0
-		// If BR_RESOLVE_D - instn next to Br, will stall at Decode stage until RAW is resolved
-		// if memstall, stall F, D, E, M and flush W
-		stallE = memstall;
-		stallM = memstall;
-		stallW = memstall;
-
-		flushF = 0;
-		flushM = 0;
-		flushW = 0;
-		
 		//data hazard: load RAW dependency stall (load followed by alu instn)
 		lwstall = ((writeregE == rsD) || (writeregE == rtD)) && memtoregE;
 		// stallF = stallD = flushE = lwstall
 
 		// control hazard : stall during branch
+		
 		branchstall = 	( (branchD | jalrD) && regwriteE && ( (writeregE == rsD) || (writeregE == rtD) ) )
 													||
 					  	( (branchD | jalrD) && memtoregM && ( (writeregM == rsD) || (writeregM == rtD) ) );
 
-
-
 		// note: A pipeline reg cant stall and flush at the sametime 
 		//StallF = StallD = FlushE = lwstall OR branchstall
+		
+		// If BR_RESOLVE_D is defined, The following signals are 0
+		// If BR_RESOLVE_D - instn next to Br, will stall at Decode stage until RAW is resolved
+		// if memstall, stall F, D, E, M and flush W
 		stallF = lwstall | branchstall | memstall;
 		stallD = lwstall | branchstall | memstall;
-
+		stallE = memstall;
+		stallM = memstall;
+		stallW = memstall;
 		// moving flushD to hazard unit since it makes more sense
 		// branch evaluation is not considered until branchstall is resolved
+		flushF = 0;
 		flushD =  ( ((!branchstall) & br_takenD) | jumpD | (jalrD & (!branchstall)) ) & (!memstall);
 		flushE =  ( lwstall | branchstall ) & (!memstall);
-
-
+		flushM = 0;
+		flushW = 0;
 	end
 	`pragma protect end
 	// Intelectual Property - protection ends here

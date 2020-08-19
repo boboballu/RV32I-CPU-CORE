@@ -13,6 +13,8 @@ add wave -noupdate -radix hexadecimal -radixshowbase 1 /testbench/dut/riscv_32i/
 add wave -noupdate -radix hexadecimal -radixshowbase 1 /testbench/dut/riscv_32i/pc_genF_out
 add wave -noupdate -radix hexadecimal -radixshowbase 1 /testbench/dut/riscv_32i/pcD
 add wave -noupdate -radix hexadecimal -radixshowbase 1 /testbench/dut/riscv_32i/pcE
+add wave -noupdate -radix hexadecimal -radixshowbase 1 /testbench/dut/riscv_32i/pcM
+add wave -noupdate -radix hexadecimal -radixshowbase 1 /testbench/dut/riscv_32i/pcW
 add wave -noupdate -radix hexadecimal -radixshowbase 1 /testbench/dut/riscv_32i/instnF
 add wave -noupdate -radix hexadecimal -radixshowbase 1 /testbench/dut/riscv_32i/pcplus4F
 add wave -noupdate -radix hexadecimal -radixshowbase 1 /testbench/dut/riscv_32i/instnD
@@ -89,7 +91,7 @@ add wave -noupdate -radix hexadecimal -radixshowbase 1 /testbench/dut/riscv_32i/
 add wave -noupdate -radix hexadecimal -radixshowbase 1 /testbench/dut/riscv_32i/flushM
 add wave -noupdate -radix hexadecimal -radixshowbase 1 /testbench/dut/riscv_32i/flushW
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {1543 ps} 0}
+WaveRestoreCursors {{Cursor 1} {122 ps} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 279
 configure wave -valuecolwidth 100
@@ -105,4 +107,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ps
 update
-WaveRestoreZoom {1512 ps} {1605 ps}
+WaveRestoreZoom {14 ps} {109 ps}

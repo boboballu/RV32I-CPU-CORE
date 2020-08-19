@@ -2,6 +2,7 @@
 // School: North Carolina State University
 // mail  : tkesava@ncsu.edu
 /********************************************************************************/
+`include "debug_headerfile.svh"
 // this file has all pipeline stages (flip-flops) for the processor
 import dbg_pkg::*;
 
@@ -120,12 +121,12 @@ endmodule : id_ex
 module ex_mem (	input logic clk, reset,
 				input logic en, clear,
 				
-				input logic [2:0] funct3E,
+				input logic [2:0] funct3E, input logic [31:0] pcE,
 				input logic regwriteE, memtoregE, memwriteE,
 				input logic [31:0] aluoutE, writedataE, input logic [4:0] writeregE,
 				input logic branchE, br_takenE, input logic [31:0] branchimmE,
 				
-				output logic [2:0] funct3M,
+				output logic [2:0] funct3M, output logic [31:0] pcM,
 				output logic regwriteM, memtoregM, memwriteM,
 				output logic [31:0] aluoutM, writedataM, output logic [4:0] writeregM,
 				output logic branchM, br_takenM, output logic [31:0] branchimmM
@@ -133,12 +134,14 @@ module ex_mem (	input logic clk, reset,
 
 	always_ff @(posedge clk or negedge reset) begin
 		if (clear | !reset) begin
+			pcM											<= 'b0;
 			{regwriteM, memtoregM, memwriteM, funct3M} 	<= 'b0;
 			{aluoutM, writedataM, writeregM} 			<= 'b0;
 			{branchM, br_takenM} 						<= 'b0;
 			branchimmM 									<= 'b0; 
 		end
 		else if (!en) begin
+			pcM											<= pcE;
 			{regwriteM, memtoregM, memwriteM, funct3M} 	<= {regwriteE, memtoregE, memwriteE, funct3E};
 			{aluoutM, writedataM, writeregM}  			<= {aluoutE, writedataE, writeregE};
 			{branchM, br_takenM} 						<= {branchE, br_takenE};
@@ -158,10 +161,12 @@ endmodule : ex_mem
 module mem_wb (	input logic clk, reset,
 				input logic en, clear,
 				
+				input logic [2:0] funct3M, input logic [31:0] pcM,
 				input logic regwriteM, memtoregM,
 				input logic [31:0] aluoutM, readdataM, input logic [4:0] writeregM,
 				input logic branchM, br_takenM, input logic [31:0] branchimmM,
 				
+				output logic [2:0] funct3W, output logic [31:0] pcW,
 				output logic regwriteW, memtoregW,
 				output logic [31:0] aluoutW, readdataW, output logic [4:0] writeregW,
 				output logic branchW, br_takenW, output logic [31:0] branchimmW
@@ -169,12 +174,16 @@ module mem_wb (	input logic clk, reset,
 
 	always_ff @(posedge clk or negedge reset) begin
 		if (clear | !reset) begin
+			funct3W							<= 'b0;
+			pcW								<= 'b0;
 			{regwriteW, memtoregW} 			<= 'b0;
 			{aluoutW, readdataW, writeregW} <= 'b0;
 			{branchW, br_takenW} 			<= 'b0;
 			branchimmW 						<= 'b0;
 		end
 		else if (!en) begin
+			funct3W							<= funct3M;
+			pcW								<= pcM;
 			{regwriteW, memtoregW} 			<= {regwriteM, memtoregM};
 			{aluoutW, readdataW, writeregW} <= {aluoutM, readdataM, writeregM};
 			{branchW, br_takenW}			<= {branchM, branchM};

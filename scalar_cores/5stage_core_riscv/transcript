@@ -1,5 +1,5 @@
 # vsim -c -do "run -all; exit" "+EXEC=./memfile.dat" "+D_cache_address=84" "+D_cache_data=7" testbench 
-# Start time: 22:29:11 on Aug 17,2020
+# Start time: 15:10:14 on Aug 18,2020
 # Loading sv_std.std
 # Loading work.dbg_pkg
 # Loading work.testbench_sv_unit
@@ -14,6 +14,7 @@
 # Loading work.pc_if
 # Loading work.IF_comb
 # Loading work.if_id
+# Loading work.instn_decode_sv_unit
 # Loading work.instn_decode
 # Loading work.ID_comb
 # Loading work.regfile
@@ -24,9 +25,11 @@
 # Loading work.MEM_comb
 # Loading work.mem_wb
 # Loading work.WB_comb
+# Loading work.controller_sv_unit
 # Loading work.controller
 # Loading work.maindec
 # Loading work.aludec
+# Loading work.branch_compute_sv_unit
 # Loading work.branch_compute
 # Loading work.hazard_unit_sv_unit
 # Loading work.hazard_unit
@@ -45,10 +48,10 @@
 # Hello World ;) 
 # ð 
 #  
-# ** Note: $stop    : testbench.sv(45)
+# ** Note: $stop    : testbench.sv(40)
 #    Time: 20 ns  Iteration: 0  Instance: /testbench
-# Break in Module testbench at testbench.sv line 45
-# Stopped at testbench.sv line 45
+# Break in Module testbench at testbench.sv line 40
+# Stopped at testbench.sv line 40
 #  exit
-# End time: 22:29:12 on Aug 17,2020, Elapsed time: 0:00:01
+# End time: 15:10:14 on Aug 18,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0

@@ -14,16 +14,13 @@ module riscv_32i(	input logic clk, reset,
 					output logic memaccessM,
 					input logic [31:0] dmem_rd,
 					input logic Iwait, Dwait
-					`ifdef mem_debug 
-					, output mem_debug debug
-					`endif			
 );
 
 /********************************************************************************/
 	// Datapath of the processor - stagewise datapath nets
 	logic [31:0] pc_genF_in;  // pc_gen_comb to to pc_gen_IF ff
 	logic [31:0] pc_genF_out; // pc_gen_if ff to if_comb
-	logic [31:0] pcD, pcE;// pcM, pcW; // pc in all the ff stages
+	logic [31:0] pcD, pcE, pcM, pcW; // pc in all the ff stages
 	logic [31:0] instnF, pcplus4F;  // if comb to if_id ff
 	logic [31:0] instnD, pcplus4D;  // if_id ff to id_comb
 	logic [31:0] jumpimmD, branchimmD, utypeimmD, itypeimmD, stypeimmD; // all imm's
@@ -40,7 +37,7 @@ module riscv_32i(	input logic clk, reset,
 /********************************************************************************/
 	// control path nets
 	logic [6:0] opD; 
-	logic [2:0] funct3D, funct3E, funct3M;
+	logic [2:0] funct3D, funct3E, funct3M, funct3W;
 	logic [6:0] funct7D;// op and funct - inputs to the controller
 	
 	// control path interconnect nets
@@ -49,7 +46,7 @@ module riscv_32i(	input logic clk, reset,
 	logic branchE, br_takenE, jumpE, auipcE, luiE, regwriteE, memtoregE, memwriteE, alusrcE, alu_subE; logic [2:0] alucontrolE;
 	logic branchM, br_takenM, regwriteM, memtoregM, memwriteM;
 	logic branchW, br_takenW, regwriteW, memtoregW;
-
+	logic br_actual;
 /********************************************************************************/
 	// hazard datapath nets
 	logic [4:0] rsD, rtD, rdD; // reg source & dest addresses - for hazard datapath
@@ -68,15 +65,9 @@ module riscv_32i(	input logic clk, reset,
 	// hazard: Datapath
 	assign writeregE = rdE;
 /********************************************************************************/
-	// debugging at mem stage
-	`ifdef mem_debug
-	assign debug.dmem_we = dmem_we;
-	assign debug.dmem_addr = dmem_addr;
-	assign debug.dmem_wd = dmem_wd;
-	assign debug.dmem_rd = dmem_rd;
-	assign debug.regwriteM = regwriteM;
-	assign debug.memtoregM = memtoregM;
-	`endif 
+ 
+/********************************************************************************/
+	//assign br_takenD = 0; // static predictor -> predicted not taken
 /********************************************************************************/
 	// Datapath: connecting stage_comb to stage_ff		
 	// stage 1: pc_if stage
@@ -169,12 +160,12 @@ module riscv_32i(	input logic clk, reset,
 	ex_mem ex_mem_ff(	.clk(clk), .reset(reset),
 						.en(stallM), .clear(flushM),
 						
-						.funct3E(funct3E),
+						.funct3E(funct3E), .pcE(pcE),
 						.regwriteE(regwriteE), .memtoregE(memtoregE), .memwriteE(memwriteE),
 						.aluoutE(aluoutE), .writedataE(writedataE), .writeregE(writeregE),
 						.branchE(branchE), .br_takenE(br_takenE), .branchimmE(branchimmE),
 
-						.funct3M(funct3M),						
+						.funct3M(funct3M), .pcM(pcM),
 						.regwriteM(regwriteM), .memtoregM(memtoregM), .memwriteM(memwriteM),
 						.aluoutM(aluoutM), .writedataM(writedataM), .writeregM(writeregM),
 						.branchM(branchM), .br_takenM(br_takenM), .branchimmM(branchimmM)
@@ -195,10 +186,12 @@ module riscv_32i(	input logic clk, reset,
 	mem_wb mem_wb_ff(	.clk(clk), .reset(reset),
 						.en(stallW), .clear(flushW),
 
+						.funct3M(funct3M), .pcM(pcM),
 						.regwriteM(regwriteM), .memtoregM(memtoregM),
 						.aluoutM(aluoutM_out), .readdataM(readdataM), .writeregM(writeregM),
 						.branchM(branchM), .br_takenM(br_takenM), .branchimmM(branchimmM),
 
+						.funct3W(funct3W), .pcW(pcW),
 						.regwriteW(regwriteW), .memtoregW(memtoregW),
 						.aluoutW(aluoutW), .readdataW(readdataW), .writeregW(writeregW),
 						.branchW(branchW), .br_takenW(br_takenW), .branchimmW(branchimmW)
@@ -246,7 +239,6 @@ module riscv_32i(	input logic clk, reset,
 						.rsE(rsE), .rtE(rtE),
 						.writeregE(writeregE), .writeregM(writeregM), .writeregW(writeregW),
 						.memwriteM(memwriteM),
-						.branchW(branchW),
 						
 						.forwardAD(forwardAD), .forwardBD(forwardBD),
 						.forwardAE(forwardAE), .forwardBE(forwardBE),

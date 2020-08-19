@@ -2,6 +2,8 @@
 // School: North Carolina State University
 // mail  : tkesava@ncsu.edu
 /********************************************************************************/
+`include "debug_headerfile.svh"
+
 module controller	(   
                     input logic [6:0] opD, input logic  [2:0] funct3D, input logic [6:0] funct7D,
                     

@@ -2,6 +2,8 @@
 // School: North Carolina State University
 // mail  : tkesava@ncsu.edu
 /********************************************************************************/
+`include "debug_headerfile.svh"
+
 // takes care of all load instns
 function automatic logic [31:0] load_compute 	(	
                                 input logic [2:0] funct3,
