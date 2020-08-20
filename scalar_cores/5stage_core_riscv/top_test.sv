@@ -102,7 +102,12 @@ interface mem_bus;
 	// Data wait simulation logic: if Daddr[3:2] is 2'b11 then wait is set
 	// mealy state-machine implementation for Dwait
 	assign Iwait = 0;
-
+	
+	`ifndef DWAIT
+	assign Dwait = 0;
+	`endif
+	
+	`ifdef DWAIT
 	parameter s0=2'd0, s1=2'd1, s2=2'd2;
 	reg [1:0] cur_state, next_state;
 	
@@ -136,7 +141,7 @@ interface mem_bus;
 					end
 		endcase
 	end
-
+	`endif
 endinterface : mem_bus
 
 /********************************************************************************/

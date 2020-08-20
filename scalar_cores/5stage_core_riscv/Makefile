@@ -21,6 +21,8 @@ design:
 	vlog -sv ff_stages.sv
 	vlog -sv controller.sv
 	vlog -sv hazard_unit.sv
+	vlog -sv BTB.sv
+	vlog -sv Bpred.sv
 	vlog -sv main.sv
 
 packages: 

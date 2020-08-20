@@ -65,16 +65,21 @@ module riscv_32i(	input logic clk, reset,
 	// hazard: Datapath
 	assign writeregE = rdE;
 /********************************************************************************/
- 
-/********************************************************************************/
-	//assign br_takenD = 0; // static predictor -> predicted not taken
+ 	//assign br_takenD = 0; // static predictor -> predicted not taken
+	// branch predictor and BTB interface
+	logic [31:0] branchimmF;
+	logic BTBHitF, BpredF;
+	logic BTBHitD, BpredD;
 /********************************************************************************/
 	// Datapath: connecting stage_comb to stage_ff		
 	// stage 1: pc_if stage
 	pc_gen pc_gen_comb (
+						.branchD(branchD),
 						.br_takenD(br_takenD), .jumpD(jumpD), .jalrD(jalrD),
-						.branchimmD(branchimmD), .jumpimmD(jumpimmD), .itypeimmD(itypeimmD),
-						.pcD(pcD), .pcplus4F(pcplus4F), 
+						.BTBHitF(1'b0), .BpredF(1'b0),
+						.BTBHitD(1'b0), .BpredD(1'b0),
+						.branchimmF(32'b0), .branchimmD(branchimmD), .jumpimmD(jumpimmD), .itypeimmD(itypeimmD),
+						.pcF(pc_genF_out), .pcplus4F(pcplus4F), .pcD(pcD), .pcplus4D(pcplus4D), 
 						.srcaD(aD),
 						
 						.pc(pc_genF_in)	

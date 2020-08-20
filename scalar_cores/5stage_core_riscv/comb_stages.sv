@@ -11,22 +11,52 @@ import dbg_pkg::*;
 // Datapath nets inputs - pcplus4F[Fetch], pcbranchD[Decode], jump_targetD
 // Datapath nets putput - pc [flopped in pc register]
 module pc_gen (
-				input logic br_takenD, jumpD, jalrD,
-				input logic [31:0] branchimmD, jumpimmD, itypeimmD,
-				input logic [31:0] pcD, pcplus4F,
+				input logic branchD,
+				input logic br_takenD, jumpD, jalrD, 
+				input logic BTBHitF, BpredF, 
+				input logic BTBHitD, BpredD,
+				input logic [31:0] branchimmF, branchimmD, jumpimmD, itypeimmD,
+				input logic [31:0] pcF, pcplus4F, pcD, pcplus4D,
 				input logic [31:0] srcaD,
 				
 				output logic [31:0] pc
 );
 	
 	//assign pc = br_takenD ? pcbranchD : pcplus4F;
+
+	// always_comb begin
+	// 	casex ({br_takenD, jumpD, jalrD})
+	// 		3'b000: pc 	= pcplus4F;
+	// 		3'b010: pc 	= pcD + jumpimmD; // riscv - c_bus.jump
+	// 		3'b0x1: pc 	= (itypeimmD + srcaD) & (32'hffff_fffe); // riscv - c_bus.jalr
+	// 		3'b1xx: pc 	= pcD + branchimmD; // riscv - c_bus.branch
+	// 		default: pc = pcplus4F;
+	// 	endcase
+	// end
+
 	always_comb begin
-		casex ({br_takenD, jumpD, jalrD})
-			3'b000: pc 	= pcplus4F;
-			3'b010: pc 	= pcD + jumpimmD; // riscv - c_bus.jump
-			3'b0x1: pc 	= (itypeimmD + srcaD) & (32'hffff_fffe); // riscv - c_bus.jalr
-			3'b1xx: pc 	= pcD + branchimmD; // riscv - c_bus.branch
-			default: pc = pcplus4F;
+		casez ({branchD, BTBHitD, BpredD, br_takenD, jumpD, jalrD, BTBHitF, BpredF})
+			// if branch and BTBHit (@ Decode)
+			8'b1110????: pc = pcplus4D;				// branch miss predicted taken at fetch; recover to pcplus4D
+			8'b1101????: pc = pcD + branchimmD;		// branch miss predicted not taken at fetch; recover to branchimmD
+
+			// if branch and BTBMiss (@ Decode)
+			8'b1011????: pc = pcD + branchimmD;		// branch to branchimmD 
+			8'b1001????: pc = pcD + branchimmD;		// branch to branchimmD
+
+			8'b000010??: pc = pcD + jumpimmD;		// Jump instn
+			8'b000001??: pc = (itypeimmD + srcaD) & (32'hffff_fffe); // jalr instn
+
+			// @ fetch
+			8'b????0011: pc = pcF + branchimmF; 	// BTBHit, branch predicted taken, branch pc
+			8'b????0010: pc = pcplus4F;				// BTBHit, branch predicted not taken, pcplus4F
+			8'b????0001: pc = pcplus4F;				// BTBMiss, branch is predicted not taken
+			8'b????0000: pc = pcplus4F;				// BTBMiss, branch is predicted not taken
+
+			default: 	begin
+							pc = pcplus4F;
+							//assert(0);
+						end
 		endcase
 	end
 endmodule : pc_gen
