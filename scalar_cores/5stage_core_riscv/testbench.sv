@@ -103,7 +103,7 @@ module testbench();
 	always @(reset, memwrite) begin
 		if (memwrite) begin
 			if (dataadr == CONSOLE_ADDR) begin
-				$write("%c", writedata);
+				$write("%d", writedata);
 			end
 		end	
 	end

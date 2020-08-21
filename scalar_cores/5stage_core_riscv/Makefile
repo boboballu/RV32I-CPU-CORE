@@ -24,7 +24,7 @@ design:
 	vlog -sv BTB.sv
 	vlog -sv Bpred.sv
 	vlog -sv main.sv
-
+	vlog -sv L1_cache.sv
 packages: 
 	vlog -sv packages.sv
 
