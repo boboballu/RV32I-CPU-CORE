@@ -30,7 +30,7 @@ module Bpred (
     // writing to / updating the predictor
     always_ff @ (posedge clk or negedge reset) begin
         if (!reset) begin
-            BIMODAL_TABLE <= '{default:'0};
+            BIMODAL_TABLE <= '{default:2};
         end
         else begin
             if (BpredWriteD) begin

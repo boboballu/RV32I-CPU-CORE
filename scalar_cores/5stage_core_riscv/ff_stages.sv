@@ -39,8 +39,10 @@ module if_id ( 	input logic clk, reset,
 				input logic en, clear,
 				
 				input logic	[31:0] rd, pcF, pcplus4F,
+				input logic BTBHitF, BpredF,
 				
-				output logic [31:0] instnD, pcD, pcplus4D  
+				output logic [31:0] instnD, pcD, pcplus4D,
+				output logic BTBHitD, BpredD
 );
 
 	always_ff @(posedge clk or negedge reset) begin
@@ -48,11 +50,13 @@ module if_id ( 	input logic clk, reset,
 			instnD 		<= 'b0;
 			pcD 		<= 'b0;
 			pcplus4D 	<= 'b0;
+			{BTBHitD, BpredD}	<= 'b0;
 		end
 		else if(!en) begin
 			instnD 		<= rd;
 			pcD 		<= pcF;
 			pcplus4D 	<= pcplus4F;
+			{BTBHitD, BpredD}	<= {BTBHitF, BpredF};
 		end
 	end
 endmodule : if_id

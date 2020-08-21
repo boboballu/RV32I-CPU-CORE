@@ -11,10 +11,10 @@ module BTB (
             
             input logic [31:0] pcF, pcD,
             input logic BTBWriteD,
-            input logic [31:0] branchimmD, funct3D,
+            input logic [31:0] branchimmD, input logic [2:0] funct3D,
             
             output logic BTBHit,
-            output logic [31:0] branchimmF, output logic [2:0] funct3F
+            output logic [31:0] branchimmF//, output logic [2:0] funct3F
 );
 
     // 4 byte instn, so 2 lsb bits discarded
@@ -50,7 +50,7 @@ module BTB (
 
     assign BTBHit       = (BTB[index].tag == tag);
     assign branchimmF   = BTB[index].branchimm;
-    assign funct3F      = BTB[index].funct3;
+    //assign funct3F      = BTB[index].funct3;
 
     // BTB write in Decode if BTB miss at fetch
     // 1) If BTBWriteD
@@ -58,7 +58,7 @@ module BTB (
     
     always_ff @(posedge clk or negedge reset) begin
         if (!reset) begin
-			BTB <= '{default:'0};
+			BTB <= '{default:'1};
         end
         else begin
             if (BTBWriteD) begin

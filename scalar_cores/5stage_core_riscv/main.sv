@@ -73,16 +73,28 @@ module riscv_32i(	input logic clk, reset,
 /********************************************************************************/
 	// Datapath: connecting stage_comb to stage_ff		
 	// stage 1: pc_if stage
-	pc_gen pc_gen_comb (
-						.branchD(branchD),
-						.br_takenD(br_takenD), .jumpD(jumpD), .jalrD(jalrD),
-						.BTBHitF(1'b0), .BpredF(1'b0),
-						.BTBHitD(1'b0), .BpredD(1'b0),
-						.branchimmF(32'b0), .branchimmD(branchimmD), .jumpimmD(jumpimmD), .itypeimmD(itypeimmD),
-						.pcF(pc_genF_out), .pcplus4F(pcplus4F), .pcD(pcD), .pcplus4D(pcplus4D), 
-						.srcaD(aD),
+	// pc_gen pc_gen_comb (
+	// 					.branchD(branchD),
+	// 					.br_takenD(br_takenD), .jumpD(jumpD), .jalrD(jalrD),
+	// 					.BTBHitF(1'b0), .BpredF(1'b0),
+	// 					.BTBHitD(1'b0), .BpredD(1'b0),
+	// 					.branchimmF(32'b0), .branchimmD(branchimmD), .jumpimmD(jumpimmD), .itypeimmD(itypeimmD),
+	// 					.pcF(pc_genF_out), .pcplus4F(pcplus4F), .pcD(pcD), .pcplus4D(pcplus4D), 
+	// 					.srcaD(aD),
 						
-						.pc(pc_genF_in)	
+	// 					.pc(pc_genF_in)	
+	// );
+
+	pc_gen pc_gen_comb (
+		.branchD(branchD),
+		.br_takenD(br_takenD), .jumpD(jumpD), .jalrD(jalrD),
+		.BTBHitF(BTBHitF), .BpredF(BpredF),
+		.BTBHitD(BTBHitD), .BpredD(BpredD),
+		.branchimmF(branchimmF), .branchimmD(branchimmD), .jumpimmD(jumpimmD), .itypeimmD(itypeimmD),
+		.pcF(pc_genF_out), .pcplus4F(pcplus4F), .pcD(pcD), .pcplus4D(pcplus4D), 
+		.srcaD(aD),
+		
+		.pc(pc_genF_in)	
 	);
 	
 	pc_if pc_if_ff 	(	.clk(clk), .reset(reset),
@@ -106,8 +118,10 @@ module riscv_32i(	input logic clk, reset,
 						.en(stallD), .clear((flushD)),
 
 						.rd(instnF), .pcF(pc_genF_out) ,.pcplus4F(pcplus4F),
+						.BTBHitF(BTBHitF), .BpredF(BpredF),
 						
-						.instnD(instnD), .pcD(pcD), .pcplus4D(pcplus4D)	
+						.instnD(instnD), .pcD(pcD), .pcplus4D(pcplus4D),
+						.BTBHitD(BTBHitD), .BpredD(BpredD)	
 	);
 
 	// stage 3: id_ex stage
@@ -236,7 +250,8 @@ module riscv_32i(	input logic clk, reset,
 	// hazard unit:
 	hazard_unit hazard_unit1
 					( 	.Iwait(Iwait), .Dwait(Dwait),
-						.branchD(branchD), .jumpD(jumpD), .jalrD(jalrD), .br_takenD(br_takenD),
+						.branchD(branchD), .BTBHitD(BTBHitD), .BpredD(BpredD), .br_takenD(br_takenD), 
+						.jumpD(jumpD), .jalrD(jalrD), 
 						.memtoregE(memtoregE), .regwriteE(regwriteE),
 						.memtoregM(memtoregM), .regwriteM(regwriteM),
 						.regwriteW(regwriteW),
@@ -251,5 +266,30 @@ module riscv_32i(	input logic clk, reset,
 						.flushF(flushF), .flushD(flushD), .flushE(flushE), .flushM(flushM), .flushW(flushW),
 						.memaccessM(memaccessM)
 	);
+
+
+/********************************************************************************/
+	// BTB
+	BTB BTB(.clk(clk), .reset(reset),
+			
+			.pcF(pc_genF_out), .pcD(pcD),
+			.BTBWriteD( ( (!BTBHitD) & branchD ) ),
+			.branchimmD(branchimmD), .funct3D(funct3D),
+			
+			.BTBHit(BTBHitF),
+			.branchimmF(branchimmF)//, .funct3F()
+	);
+
+	// Branch predictor
+	Bpred Bpred (
+		.clk(clk), .reset(reset),
+		
+		.pcF(pc_genF_out), .pcD(pcD),
+		.br_takenD(br_takenD), .BpredWriteD(branchD),
+		
+		.BpredF(BpredF)
+	);
+
+/********************************************************************************/
 
 endmodule : riscv_32i

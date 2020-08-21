@@ -44,8 +44,8 @@ module pc_gen (
 			8'b1011????: pc = pcD + branchimmD;		// branch to branchimmD 
 			8'b1001????: pc = pcD + branchimmD;		// branch to branchimmD
 
-			8'b000010??: pc = pcD + jumpimmD;		// Jump instn
-			8'b000001??: pc = (itypeimmD + srcaD) & (32'hffff_fffe); // jalr instn
+			8'b0???10??: pc = pcD + jumpimmD;		// Jump instn
+			8'b0???01??: pc = (itypeimmD + srcaD) & (32'hffff_fffe); // jalr instn
 
 			// @ fetch
 			8'b????0011: pc = pcF + branchimmF; 	// BTBHit, branch predicted taken, branch pc

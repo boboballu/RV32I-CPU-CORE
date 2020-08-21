@@ -19,10 +19,12 @@ module testbench();
 	int D_cache_address, D_cache_data;
 	// instantiate device to be tested
 	top dut (.clk(clk), .reset(reset), 
+
 			.writedata(writedata), .dataadr(dataadr),
             .readdata(readdata), .pc(pc), .instr(instr), 
 			.memwrite(memwrite)
 	);
+	
 	// initialize test
 	initial begin
 		if ( !$value$plusargs("D_cache_address=%d", D_cache_address)) begin
@@ -89,11 +91,11 @@ module testbench();
 	        end
 			instn_cycle++;
 		end
-		// if (memwrite) begin
-		// 	if (dataadr == CONSOLE_ADDR) begin
-		// 		$write("%c", writedata);
-		// 	end
-		// end
+		if (memwrite) begin
+			if (dataadr == CONSOLE_ADDR) begin
+				$write("%d", writedata);
+			end
+		end
 	end
 
 	`else

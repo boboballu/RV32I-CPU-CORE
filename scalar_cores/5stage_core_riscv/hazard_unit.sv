@@ -16,7 +16,8 @@
 import dbg_pkg::*;
 module hazard_unit( 
 					input logic Iwait, Dwait,
-					input logic branchD, jumpD, jalrD, br_takenD,
+					input logic branchD, BTBHitD, BpredD, br_takenD,
+					input logic jumpD, jalrD, 
 					input logic memtoregE, regwriteE,
 					input logic memtoregM, regwriteM,
 					input logic regwriteW,
@@ -77,7 +78,7 @@ module hazard_unit(
 	always_comb begin
 		// memstall:
 		memaccessM 	= (memtoregM | memwriteM);
-		memstall 	= Dwait & memaccessM;
+		memstall 	= (Dwait & memaccessM) | Iwait;
 
 		//data hazard: load RAW dependency stall (load followed by alu instn)
 		lwstall = ((writeregE == rsD) || (writeregE == rtD)) && memtoregE;
@@ -103,7 +104,11 @@ module hazard_unit(
 		// moving flushD to hazard unit since it makes more sense
 		// branch evaluation is not considered until branchstall is resolved
 		flushF = 0;
-		flushD =  ( ((!branchstall) & br_takenD) | jumpD | (jalrD & (!branchstall)) ) & (!memstall);
+		//flushD =  ( ((!branchstall) & br_takenD) | jumpD | (jalrD & (!branchstall)) ) & (!memstall);
+		flushD =  ( ((!branchstall) & ((!BTBHitD) & br_takenD | BTBHitD & (BpredD != br_takenD) ) )
+					| jumpD 
+					| (jalrD & (!branchstall)) 
+					) & (!memstall);
 		flushE =  ( lwstall | branchstall ) & (!memstall);
 		flushM = 0;
 		flushW = 0;

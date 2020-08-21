@@ -88,7 +88,11 @@ interface mem_bus;
 
 	// Imem part
 	initial begin
+		`ifdef MEM_BINARY
+		$readmemb(EXEC, MEM);
+		`else
 		$readmemh(EXEC, MEM);
+		`endif
 	end
 	assign Iinstn = MEM[Iaddr[31:2]];
 

@@ -1,5 +1,5 @@
-# vsim -c -do "run -all; exit" "+EXEC=./memfile.dat" "+D_cache_address=84" "+D_cache_data=7" testbench 
-# Start time: 23:11:41 on Aug 19,2020
+# vsim "+EXEC=./memfile.dat" "+D_cache_address=84" "+D_cache_data=7" testbench 
+# Start time: 23:59:10 on Aug 20,2020
 # Loading sv_std.std
 # Loading work.dbg_pkg
 # Loading work.testbench_sv_unit
@@ -33,10 +33,15 @@
 # Loading work.branch_compute
 # Loading work.hazard_unit_sv_unit
 # Loading work.hazard_unit
+# Loading work.BTB_sv_unit
+# Loading work.BTB
+# Loading work.Bpred_sv_unit
+# Loading work.Bpred
 # Loading work.mem_bus
 # Loading work.imem
 # Loading work.dmem
-# run -all
+do wave.do
+run
 # testbench.dut.Bus found +EXEC=./memfile.dat
 # testbench found +D_cache_address=         84
 # testbench found +D_cache_data=          7
@@ -45,13 +50,6 @@
 # ==> Console [0x0000fffc] print - writes to the addr treated as a console print msg <==
 #  
 #  
-# Hello World ;) 
-# ð 
-#  
-# ** Note: $stop    : testbench.sv(40)
-#    Time: 20 ns  Iteration: 0  Instance: /testbench
-# Break in Module testbench at testbench.sv line 40
-# Stopped at testbench.sv line 40
-#  exit
-# End time: 23:11:41 on Aug 19,2020, Elapsed time: 0:00:00
+run
+# End time: 23:59:57 on Aug 20,2020, Elapsed time: 0:00:47
 # Errors: 0, Warnings: 0
