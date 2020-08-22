@@ -43,7 +43,7 @@ module riscv_32i(	input logic clk, reset,
 	// control path interconnect nets
 	logic jalrD, auipcD, luiD;
 	logic branchD, br_takenD, jumpD, regwriteD, memtoregD, memwriteD, alusrcD, alu_subD; logic [2:0] alucontrolD;
-	logic branchE, br_takenE, jumpE, auipcE, luiE, regwriteE, memtoregE, memwriteE, alusrcE, alu_subE; logic [2:0] alucontrolE;
+	logic branchE, br_takenE, jumpE, jalrE, auipcE, luiE, regwriteE, memtoregE, memwriteE, alusrcE, alu_subE; logic [2:0] alucontrolE;
 	logic branchM, br_takenM, regwriteM, memtoregM, memwriteM;
 	logic branchW, br_takenW, regwriteW, memtoregW;
 	logic br_actual;

@@ -15,8 +15,6 @@ module testbench();
 	logic memwrite;
 	int instn_cycle = 1;
 
-	// mem check variables filled from command line args
-	int D_cache_address, D_cache_data;
 	// instantiate device to be tested
 	top dut (.clk(clk), .reset(reset), 
 
@@ -27,15 +25,6 @@ module testbench();
 	
 	// initialize test
 	initial begin
-		if ( !$value$plusargs("D_cache_address=%d", D_cache_address)) begin
-	        $display("WARN: +D_cache_address plusarg not found on command line");
-	    end
-	    if ( !$value$plusargs("D_cache_data=%d", D_cache_data)) begin
-	        $display("WARN: +D_cache_data plusarg not found on command line");
-	    end
-	    $display("%m found +D_cache_address=%d", D_cache_address);
-	   	$display("%m found +D_cache_data=%d", D_cache_data);
-
 		# EXE_TIME;
 		// terminal footer
 		$display (); $display ();
@@ -59,6 +48,55 @@ module testbench();
 	
 /********************************************************************************/
 	// check results
+	`ifdef wb_debug
+		// debug at writeback stage
+	string instn_type;// [4] = {"reg-reg", "load", "store", "branch"};
+	logic memaccessW;
+	logic jumpM, jalrM;
+	logic jumpW, jalrW;
+	always@ (posedge clk or negedge reset) begin
+		if (!reset) begin
+			memaccessW 		<= 'b0;
+			{jumpW, jumpM} 	<= 'b0;
+		end
+		else begin
+			memaccessW 	<= dut.memaccessM;
+			jumpM 		<= dut.riscv_32i.jumpE;
+			jumpW		<= jumpM;
+		end
+	end
+	always@ (negedge clk) begin	
+		if (reset) begin
+			if (dut.riscv_32i.regwriteW) begin
+				if (dut.riscv_32i.memtoregW)
+					instn_type = "load";
+				else if (jumpW)
+					instn_type = "jump";
+				else if (jalrW)
+					instn_type = "jalr";
+				else
+					instn_type = "reg-reg";
+			end
+			else begin
+				if (memaccessW)
+					instn_type = "store";
+				if (dut.riscv_32i.branchW)
+					instn_type = "branch";
+				else
+					instn_type = "bbl";
+			end
+			
+			instn_cycle++;
+		end
+	end
+
+	always @ (dut.riscv_32i.pcW) begin
+		$display ("instn_cycle: %d; PC: %x; %s; data: %d", 
+						instn_cycle, dut.riscv_32i.pcW, instn_type, dut.riscv_32i.resultW
+				);
+	end
+	`endif
+/********************************************************************************/
 	`ifdef mem_debug
 	always @(negedge clk) begin
 		if (reset) begin
@@ -97,13 +135,13 @@ module testbench();
 			end
 		end
 	end
-
 	`else
-	
+/********************************************************************************/
+	// normal console print
 	always @(reset, memwrite) begin
 		if (memwrite) begin
 			if (dataadr == CONSOLE_ADDR) begin
-				$write("%d", writedata);
+				$write("%c", writedata);
 			end
 		end	
 	end

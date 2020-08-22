@@ -1,5 +1,6 @@
 onerror {resume}
 quietly WaveActivateNextPane {} 0
+add wave -noupdate /testbench/dut/imem/Iwait
 add wave -noupdate /testbench/dut/riscv_32i/Dwait
 add wave -noupdate -radix hexadecimal -radixshowbase 1 /testbench/dut/riscv_32i/clk
 add wave -noupdate -radix hexadecimal -radixshowbase 1 /testbench/dut/riscv_32i/reset

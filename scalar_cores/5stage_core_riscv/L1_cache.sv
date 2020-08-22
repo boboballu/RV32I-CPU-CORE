@@ -97,8 +97,10 @@ module unified_L1_cache (mem_bus Bus);
 		if (Bus.Dwe) MEM[Bus.Daddr[31:2]] <= Bus.Dwritedata;
 	end
 
-	assign Bus.Iwait = 0;
-	
+	//assign Bus.Iwait = 0;
+
+    mem_wait_data #( .LSB_BITS(2'b11) ) waitI (.clk(Bus.clk), .addr(Bus.Iaddr), .wait_data(Bus.Iwait));
+
 	`ifdef DWAIT
 	mem_wait_data #( .LSB_BITS(2'b11) ) waitD (.clk(Bus.clk), .addr(Bus.Daddr), .wait_data(Bus.Dwait));
 	`else

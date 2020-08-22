@@ -1,5 +1,5 @@
 # vsim -c -do "run -all; exit" "+EXEC=./memfile.dat" "+D_cache_address=84" "+D_cache_data=7" testbench 
-# Start time: 13:07:07 on Aug 21,2020
+# Start time: 12:44:43 on Aug 22,2020
 # Loading sv_std.std
 # Loading work.dbg_pkg
 # Loading work.testbench_sv_unit
@@ -39,23 +39,140 @@
 # Loading work.Bpred
 # Loading work.mem_bus
 # Loading work.unified_L1_cache
+# Loading work.mem_wait_data
 # Loading work.imem
 # Loading work.dmem
 # run -all
 # testbench.dut.L1_cache found +EXEC=./memfile.dat
-# testbench found +D_cache_address=         84
-# testbench found +D_cache_data=          7
+# instn_cycle:           1; PC: 00000000; ; data:          0
 #  
 #  
 # ==> Console [0x0000fffc] print - writes to the addr treated as a console print msg <==
 #  
 #  
-#          0         1         1         2         3         5         8        13        21        34        55        89 
+# instn_cycle:           8; PC: 00000004; reg-reg; data: 4294967292
+# instn_cycle:           9; PC: 00000008; bbl; data: 4294967288
+# instn_cycle:          10; PC: 0000000c; bbl; data:          0
+# instn_cycle:          13; PC: 00000010; reg-reg; data:      65536
+# instn_cycle:          16; PC: 00000014; jump; data:      65488
+# instn_cycle:          17; PC: 00000018; jump; data:         28
+# instn_cycle:          18; PC: 00000000; jump; data:          0
+# instn_cycle:          19; PC: 0000005c; bbl; data:        252
+# instn_cycle:          22; PC: 00000060; reg-reg; data:  543452274
+# instn_cycle:          23; PC: 00000064; load; data:  169879867
+# instn_cycle:          24; PC: 00000068; load; data: 1819043144
+# instn_cycle:          25; PC: 0000006c; load; data: 1867980911
+# instn_cycle:          28; PC: 00000070; load; data:          0
+# instn_cycle:          29; PC: 00000074; load; data:      65456
+# instn_cycle:          30; PC: 00000078; reg-reg; data:      65464
+# instn_cycle:          31; PC: 0000007c; bbl; data:      65468
+# instn_cycle:          34; PC: 00000080; bbl; data:      65472
+# instn_cycle:          35; PC: 00000084; bbl; data:      65456
+# instn_cycle:          36; PC: 00000088; bbl; data:      65460
+# instn_cycle:          37; PC: 0000008c; bbl; data:      65473
+# instn_cycle:          40; PC: 00000090; bbl; data:      65474
+# instn_cycle:          41; PC: 00000094; bbl; data:      65475
+# instn_cycle:          42; PC: 00000098; bbl; data:      65476
+# instn_cycle:          43; PC: 0000009c; bbl; data:      65477
+# instn_cycle:          46; PC: 000000a0; bbl; data:      65478
+# instn_cycle:          47; PC: 000000a4; bbl; data:      65479
+# instn_cycle:          48; PC: 000000a8; bbl; data:      65480
+# instn_cycle:          49; PC: 000000ac; bbl; data:      65481
+# instn_cycle:          52; PC: 000000b0; bbl; data:      65482
+# instn_cycle:          53; PC: 000000b4; bbl; data:      65483
+# instn_cycle:          54; PC: 000000b8; bbl; data:      65484
+# instn_cycle:          55; PC: 000000bc; bbl; data:      65485
+# instn_cycle:          58; PC: 000000c0; bbl; data:      65457
+# instn_cycle:          59; PC: 000000c4; reg-reg; data:         72
+# instn_cycle:          60; PC: 000000c8; reg-reg; data:      65536
+# Hinstn_cycle:          61; PC: 000000cc; reg-reg; data:      65532
+# instn_cycle:          64; PC: 000000d0; bbl; data:        101
+# instn_cycle:          65; PC: 000000d4; load; data:         72
+# instn_cycle:          66; PC: 000000d8; load; data:      65458
+# instn_cycle:          69; PC: 000000dc; reg-reg; data:      65532
+# instn_cycle:          70; PC: 000000e0; reg-reg; data:        101
+# instn_cycle:          71; PC: 00000000; branch; data:          0
+# einstn_cycle:          72; PC: 000000cc; bbl; data:      65532
+# instn_cycle:          75; PC: 000000d0; bbl; data:        108
+# instn_cycle:          76; PC: 000000d4; load; data:        101
+# instn_cycle:          79; PC: 000000d8; load; data:      65459
+# instn_cycle:          80; PC: 000000dc; reg-reg; data:      65532
+# instn_cycle:          81; PC: 000000e0; reg-reg; data:        108
+# linstn_cycle:          82; PC: 000000cc; branch; data:      65532
+# instn_cycle:          85; PC: 000000d0; bbl; data:        108
+# instn_cycle:          86; PC: 000000d4; load; data:        108
+# instn_cycle:          89; PC: 000000d8; load; data:      65460
+# instn_cycle:          90; PC: 000000dc; reg-reg; data:      65532
+# instn_cycle:          91; PC: 000000e0; reg-reg; data:        108
+# linstn_cycle:          92; PC: 000000cc; branch; data:      65532
+# instn_cycle:          95; PC: 000000d0; bbl; data:        111
+# instn_cycle:          96; PC: 000000d4; load; data:        108
+# instn_cycle:          99; PC: 000000d8; load; data:      65461
+# instn_cycle:         100; PC: 000000dc; reg-reg; data:      65532
+# instn_cycle:         101; PC: 000000e0; reg-reg; data:        111
+# oinstn_cycle:         102; PC: 000000cc; branch; data:      65532
+# instn_cycle:         105; PC: 000000d0; bbl; data:         32
+# instn_cycle:         106; PC: 000000d4; load; data:        111
+# instn_cycle:         109; PC: 000000d8; load; data:      65462
+# instn_cycle:         110; PC: 000000dc; reg-reg; data:      65532
+# instn_cycle:         111; PC: 000000e0; reg-reg; data:         32
+#  instn_cycle:         112; PC: 000000cc; branch; data:      65532
+# instn_cycle:         115; PC: 000000d0; bbl; data:         87
+# instn_cycle:         116; PC: 000000d4; load; data:         32
+# instn_cycle:         119; PC: 000000d8; load; data:      65463
+# instn_cycle:         120; PC: 000000dc; reg-reg; data:      65532
+# instn_cycle:         121; PC: 000000e0; reg-reg; data:         87
+# Winstn_cycle:         122; PC: 000000cc; branch; data:      65532
+# instn_cycle:         125; PC: 000000d0; bbl; data:        111
+# instn_cycle:         126; PC: 000000d4; load; data:         87
+# instn_cycle:         129; PC: 000000d8; load; data:      65464
+# instn_cycle:         130; PC: 000000dc; reg-reg; data:      65532
+# instn_cycle:         131; PC: 000000e0; reg-reg; data:        111
+# oinstn_cycle:         132; PC: 000000cc; branch; data:      65532
+# instn_cycle:         135; PC: 000000d0; bbl; data:        114
+# instn_cycle:         136; PC: 000000d4; load; data:        111
+# instn_cycle:         139; PC: 000000d8; load; data:      65465
+# instn_cycle:         140; PC: 000000dc; reg-reg; data:      65532
+# instn_cycle:         141; PC: 000000e0; reg-reg; data:        114
+# rinstn_cycle:         142; PC: 000000cc; branch; data:      65532
+# instn_cycle:         145; PC: 000000d0; bbl; data:        108
+# instn_cycle:         146; PC: 000000d4; load; data:        114
+# instn_cycle:         149; PC: 000000d8; load; data:      65466
+# instn_cycle:         150; PC: 000000dc; reg-reg; data:      65532
+# instn_cycle:         151; PC: 000000e0; reg-reg; data:        108
+# linstn_cycle:         152; PC: 000000cc; branch; data:      65532
+# instn_cycle:         155; PC: 000000d0; bbl; data:        100
+# instn_cycle:         156; PC: 000000d4; load; data:        108
+# instn_cycle:         159; PC: 000000d8; load; data:      65467
+# instn_cycle:         160; PC: 000000dc; reg-reg; data:      65532
+# instn_cycle:         161; PC: 000000e0; reg-reg; data:        100
+# dinstn_cycle:         162; PC: 000000cc; branch; data:      65532
+# instn_cycle:         165; PC: 000000d0; bbl; data:         32
+# instn_cycle:         166; PC: 000000d4; load; data:        100
+# instn_cycle:         169; PC: 000000d8; load; data:      65468
+# instn_cycle:         170; PC: 000000dc; reg-reg; data:      65532
+# instn_cycle:         171; PC: 000000e0; reg-reg; data:         32
+#  instn_cycle:         172; PC: 000000cc; branch; data:      65532
+# instn_cycle:         175; PC: 000000d0; bbl; data:         59
+# instn_cycle:         176; PC: 000000d4; load; data:         32
+# instn_cycle:         179; PC: 000000d8; load; data:      65469
+# instn_cycle:         180; PC: 000000dc; reg-reg; data:      65532
+# instn_cycle:         181; PC: 000000e0; reg-reg; data:         59
+# ;instn_cycle:         182; PC: 000000cc; branch; data:      65532
+# instn_cycle:         185; PC: 000000d0; bbl; data:         41
+# instn_cycle:         186; PC: 000000d4; load; data:         59
+# instn_cycle:         189; PC: 000000d8; load; data:      65470
+# instn_cycle:         190; PC: 000000dc; reg-reg; data:      65532
+# instn_cycle:         191; PC: 000000e0; reg-reg; data:         41
+# )instn_cycle:         192; PC: 000000cc; branch; data:      65532
+# instn_cycle:         195; PC: 000000d0; bbl; data:         32
+# instn_cycle:         196; PC: 000000d4; load; data:         41
 #  
-# ** Note: $stop    : testbench.sv(42)
-#    Time: 10 ns  Iteration: 0  Instance: /testbench
-# Break in Module testbench at testbench.sv line 42
-# Stopped at testbench.sv line 42
+#  
+# ** Note: $stop    : testbench.sv(31)
+#    Time: 2 ns  Iteration: 0  Instance: /testbench
+# Break in Module testbench at testbench.sv line 31
+# Stopped at testbench.sv line 31
 #  exit
-# End time: 13:07:07 on Aug 21,2020, Elapsed time: 0:00:00
+# End time: 12:44:44 on Aug 22,2020, Elapsed time: 0:00:01
 # Errors: 0, Warnings: 0
