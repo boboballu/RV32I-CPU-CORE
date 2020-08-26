@@ -2,10 +2,11 @@
 // School: North Carolina State University
 // mail  : tkesava@ncsu.edu
 /********************************************************************************/
+`define COMB_STAGES
 `include "debug_headerfile.svh"
-// all combinational circuitry in the datapath is put together in respective modules stage-wise.   
 import dbg_pkg::*;
 
+// all combinational circuitry in the datapath is put together in respective modules stage-wise.   
 // 0th module in the machinary - purely combinatioal
 // control signals - br_takenD
 // Datapath nets inputs - pcplus4F[Fetch], pcbranchD[Decode], jump_targetD
@@ -228,22 +229,22 @@ module alu 	(	input logic [31:0] srca,
 	always_comb begin
 		if (!alu_sub) begin
 			case(alucontrol)
-				3'b000: aluout <= srca + srcb; // ADD
-				3'b001: aluout <= srca << srcb[4:0]; // SLL
-				3'b010: aluout <= ( signed'(srca) < signed'(srcb) ); // SLT
-				3'b011: aluout <= (srca < srcb) ? 32'd1 : 32'd0; // SLTU
-				3'b100: aluout <= srca ^ srcb; // XOR
-				3'b101: aluout <= srca >> srcb[4:0]; // SRL
-				3'b110: aluout <= srca | srcb; // OR
-				3'b111: aluout <= srca & srcb; // AND
+				3'b000: aluout = srca + srcb; // ADD
+				3'b001: aluout = srca << srcb[4:0]; // SLL
+				3'b010: aluout = ( signed'(srca) < signed'(srcb) ); // SLT
+				3'b011: aluout = (srca < srcb) ? 32'd1 : 32'd0; // SLTU
+				3'b100: aluout = srca ^ srcb; // XOR
+				3'b101: aluout = srca >> srcb[4:0]; // SRL
+				3'b110: aluout = srca | srcb; // OR
+				3'b111: aluout = srca & srcb; // AND
 				default: aluout<= 32'bx;
 			endcase
 		end
 		else begin
 			case (alucontrol)
-				3'b000:	aluout <= srca - srcb; // SUB, BEQ
-				3'b101: aluout <= {srca, srca} >> srcb[4:0]; // SRA
-				default: aluout<= 32'bx;
+				3'b000:	aluout = srca - srcb; // SUB, BEQ
+				3'b101: aluout = {srca, srca} >> srcb[4:0]; // SRA
+				default: aluout= 32'bx;
 			endcase
 		end
 	end

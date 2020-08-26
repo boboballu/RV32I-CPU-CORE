@@ -4,6 +4,7 @@
 /********************************************************************************/
 // master (golden) testbench, checking all the features (uses adHoc testing)
 // master testbench updated (15/7/2020)- mimics terminal by dumping writes to the address 'd65532
+`define TESTBENCH
 `include "debug_headerfile.svh"
 import dbg_pkg::*;
 
@@ -48,7 +49,7 @@ module testbench();
 	
 /********************************************************************************/
 	// check results
-	`ifdef wb_debug
+`ifdef WB_DEBUG
 		// debug at writeback stage
 	string instn_type;// [4] = {"reg-reg", "load", "store", "branch"};
 	logic memaccessW;
@@ -95,14 +96,15 @@ module testbench();
 						instn_cycle, dut.riscv_32i.pcW, instn_type, dut.riscv_32i.resultW
 				);
 	end
-	`endif
+
+`endif
 /********************************************************************************/
-	`ifdef mem_debug
+`ifdef MEM_DEBUG
 	always @(negedge clk) begin
 		if (reset) begin
 			if (memwrite) begin
 				$display ("instn_cycle : %d pc %x store : dataadr: %d writedata: %x", instn_cycle, dut.riscv_32i.pcM, dataadr, $signed(writedata));
-				if (dataadr===D_cache_address & $signed(writedata)===D_cache_data) begin
+				if (dataadr === D_cache_address & $signed(writedata) === D_cache_data) begin
 					$display("Simulation succeeded");
 					$stop;
 				end
@@ -135,16 +137,19 @@ module testbench();
 			end
 		end
 	end
-	`else
+
+`else
 /********************************************************************************/
 	// normal console print
-	always @(reset, memwrite) begin
+	always @(reset, memwrite, dataadr) begin
 		if (memwrite) begin
 			if (dataadr == CONSOLE_ADDR) begin
-				$write("%c", writedata);
+				$write(CONSOLE_FORMAT, writedata);
 			end
 		end	
 	end
 	
-	`endif
+`endif
 endmodule : testbench
+
+/********************************************************************************/

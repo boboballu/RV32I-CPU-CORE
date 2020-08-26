@@ -2,10 +2,11 @@
 // School: North Carolina State University
 // mail  : tkesava@ncsu.edu
 /********************************************************************************/
+`define FF_STAGES
 `include "debug_headerfile.svh"
-// this file has all pipeline stages (flip-flops) for the processor
 import dbg_pkg::*;
 
+// this file has all pipeline stages (flip-flops) for the processor
 // 1st stage - pc_IF stage
 // stage ctrl inputs - clk, en (active low), clear
 // data input 	  - pc 

@@ -2,8 +2,9 @@
 // School: North Carolina State University
 // mail  : tkesava@ncsu.edu
 /********************************************************************************/
-import dbg_pkg::*;
+`define MAIN
 `include "debug_headerfile.svh"
+import dbg_pkg::*;
 
 /********************************************************************************/
 module riscv_32i(	input logic clk, reset,

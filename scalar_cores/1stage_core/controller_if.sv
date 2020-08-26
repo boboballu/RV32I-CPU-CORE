@@ -2,6 +2,8 @@
 // School: North Carolina State University
 // mail  : tkesava@ncsu.edu
 /********************************************************************************/
+`define CONTROLLER_IF
+`include "debug_headerfile.svh"
 interface controller_if (input [31:0] instr);
 	//logic [31:0] instr;
 	logic [6:0] op; logic  [2:0] funct3; logic [6:0] funct7;

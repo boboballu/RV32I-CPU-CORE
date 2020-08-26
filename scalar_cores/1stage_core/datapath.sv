@@ -2,13 +2,14 @@
 // School: North Carolina State University
 // mail  : tkesava@ncsu.edu
 /********************************************************************************/
-`define DBG
+`define DATAPATH
+`include "debug_headerfile.svh"
 module datapath(input logic clk, reset,
 				controller_if c_bus,
 				output logic [31:0] pc,
 				output logic [31:0] aluout, writedata,
 				input logic [31:0] readdata
-				`ifdef DBG
+				`ifdef MEM_DEBUG
 				, output logic [31:0] result
 				`endif
 );
@@ -24,7 +25,7 @@ module datapath(input logic clk, reset,
 	logic [31:0] signimm, branchimm, jumpimm, stypeimm, itypeimm, utypeimm;
 	logic [31:0] srca, srcb;
 	
-	`ifndef DBG
+	`ifndef MEM_DEBUG
 		logic [31:0] result;
 	`endif
 	
@@ -44,24 +45,9 @@ module datapath(input logic clk, reset,
 				);
 	// stype and itype corresponds lw sw and imm instns - goes through ALU
 	assign signimm = c_bus.memwrite ? stypeimm : itypeimm; // ld st addresses are computed in alu.
-	// always_comb begin
-	// 	case({c_bus.memwrite, c_bus.auipc, c_bus.lui, c_bus.branch, c_bus.jump, c_bus.jalr})
-	// 		000000: signimm = itypeimm;
-	// 		100000: signimm = stypeimm;
-	// 		010000: signimm = utypeimm;
-	// 		001000: signimm = utypeimm;
-	// 		000100: signimm = branchimm;
-	// 		000010: signimm = jumpimm;
-	// 		000001: signimm = itypeimm;
-	// 		default: begin 
-	// 					$display("%t ==> %b", $time, {c_bus.memwrite, c_bus.auipc, c_bus.lui, c_bus.branch, c_bus.jump, c_bus.jalr});
-	// 					signimm = 32'bx;
-	// 				 end
-	// 	endcase
-	// end
 
-	always_ff @(posedge clk, posedge reset) begin
-		if (reset) begin
+	always_ff @(posedge clk or negedge reset) begin
+		if (!reset) begin
 			pc <= 0;
 		end
 		else begin
@@ -131,7 +117,7 @@ module alu 	(	input logic [31:0] srca,
 				3'b101: aluout = srca >> srcb[4:0]; // SRL
 				3'b110: aluout = srca | srcb; // OR
 				3'b111: aluout = srca & srcb; // AND
-				default: aluout<= 32'bx;
+				default: aluout<= 32'b0;
 			endcase
 		end
 		else begin
@@ -139,7 +125,7 @@ module alu 	(	input logic [31:0] srca,
 				3'b000:	aluout = srca - srcb; // SUB, BEQ
 				/* verilator lint_off WIDTH */
 				3'b101: aluout = {({srca, srca} >> srcb[4:0])}; // SRA
-				default: aluout = 32'bx;
+				default: aluout = 32'b0;
 			endcase
 		end
 	end

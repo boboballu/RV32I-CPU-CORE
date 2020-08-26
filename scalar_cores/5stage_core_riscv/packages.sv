@@ -2,6 +2,8 @@
 // School: North Carolina State University
 // mail  : tkesava@ncsu.edu
 /********************************************************************************/
+`define PACKAGES
+`include "debug_headerfile.svh"
 // This package is included in all the files
 // Serves only for debugging purposes - Debug done in mem stage
 package dbg_pkg;

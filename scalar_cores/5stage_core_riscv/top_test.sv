@@ -3,6 +3,7 @@
 // mail  : tkesava@ncsu.edu
 /********************************************************************************/
 // the top module used for test and verification //
+`define TOP_TEST
 `include "debug_headerfile.svh"
 import dbg_pkg::*;
 

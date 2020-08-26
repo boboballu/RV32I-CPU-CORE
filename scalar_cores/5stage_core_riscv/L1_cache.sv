@@ -9,6 +9,10 @@
 // mem_wait_data        - model for L1 cache miss 
 /********************************************************************************/
 // unified L1 Instn and Data cache : interface
+`define L1_CACHE
+`include "debug_headerfile.svh"
+import dbg_pkg::*;
+
 interface mem_bus;
 	logic clk;
 	logic [31:0] Iaddr, Iinstn;
@@ -97,9 +101,11 @@ module unified_L1_cache (mem_bus Bus);
 		if (Bus.Dwe) MEM[Bus.Daddr[31:2]] <= Bus.Dwritedata;
 	end
 
-	//assign Bus.Iwait = 0;
-
+	`ifdef IWAIT
     mem_wait_data #( .LSB_BITS(2'b11) ) waitI (.clk(Bus.clk), .addr(Bus.Iaddr), .wait_data(Bus.Iwait));
+	`else
+	assign Bus.Iwait = 0;
+	`endif
 
 	`ifdef DWAIT
 	mem_wait_data #( .LSB_BITS(2'b11) ) waitD (.clk(Bus.clk), .addr(Bus.Daddr), .wait_data(Bus.Dwait));

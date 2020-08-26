@@ -2,7 +2,9 @@
 // School: North Carolina State University
 // mail  : tkesava@ncsu.edu
 /********************************************************************************/
+`define LS_COMPUTE
 `include "debug_headerfile.svh"
+import dbg_pkg::*;
 
 // takes care of all load instns
 function automatic logic [31:0] load_compute 	(	

@@ -2,14 +2,14 @@
 // School: North Carolina State University
 // mail  : tkesava@ncsu.edu
 /********************************************************************************/
-`define DBG
-//`define verilator
+`define TOP_TEST
+`include "debug_headerfile.svh"
 import dbg_pkg::*; 
 
 module top(	input logic clk, reset,
 			output logic [31:0] writedata, dataadr,
 			output logic memwrite
-			`ifdef DBG
+			`ifdef MEM_DEBUG
 			, output mem_debug dbg
 			`endif
 );
@@ -21,7 +21,7 @@ module top(	input logic clk, reset,
 						.memwrite(memwrite), 
 						.aluout(dataadr), .writedata(writedata), 
 						.readdata(readdata)
-						`ifdef DBG
+						`ifdef MEM_DEBUG
 						, .dbg(dbg)
 						`endif
 	);
@@ -62,7 +62,6 @@ interface mem_bus;
 	// get the binary file from commandline args
 	// commenting for verilator
 
-	`ifndef verilator
 	string EXEC;
 	initial begin
 		if ( !$value$plusargs("EXEC=%s", EXEC)) begin
@@ -71,7 +70,6 @@ interface mem_bus;
 	    end
 	    $display("%m found +EXEC=%s", EXEC);
 	end
-	`endif
 
 	// end comment
 	
@@ -79,10 +77,10 @@ interface mem_bus;
 
 	// Imem part
 	initial begin
-		`ifdef verilator
-		$readmemh("/root/Heterogeneous-multicore/scalar_cores/1stage_core/memfile.dat", MEM);
+		`ifdef MEM_BINARY
+		$readmemb(EXEC, MEM);
 		`else
-		/*commenting for verilator*/ $readmemh(EXEC, MEM);
+		$readmemh(EXEC, MEM);
 		`endif
 	end
 	/* verilator lint_off WIDTH */

@@ -4,7 +4,10 @@
 /********************************************************************************/
 // branch compute - connects to the controller in the decode stage
 // identifies the branch instruction and computes taken/not taken
+`define BRANCH_COMPUTE
 `include "debug_headerfile.svh"
+import dbg_pkg::*;
+
 module branch_compute ( input logic branchD, input logic [2:0] funct3D,
                         input logic [31:0] srca, srcb,
                         

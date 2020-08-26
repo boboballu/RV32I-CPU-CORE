@@ -2,7 +2,9 @@
 // School: North Carolina State University
 // mail  : tkesava@ncsu.edu
 /********************************************************************************/
+`define BPRED
 `include "debug_headerfile.svh"
+import dbg_pkg::*;
 
 // A bimodal branch predictor
 

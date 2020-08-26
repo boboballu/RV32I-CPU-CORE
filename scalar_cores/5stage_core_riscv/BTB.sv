@@ -2,7 +2,9 @@
 // School: North Carolina State University
 // mail  : tkesava@ncsu.edu
 /********************************************************************************/
+`define BTB
 `include "debug_headerfile.svh"
+import dbg_pkg::*;
 
 // This file contains the BTB
 

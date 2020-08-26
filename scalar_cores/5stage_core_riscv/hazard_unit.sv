@@ -4,6 +4,9 @@
 /********************************************************************************/
 // hazard_unit - takes care of * Data Forwarding logic * RAW Hazard detection
 // * takes care of flush and stall in the pipeline
+`define HAZARD_UNIT
+`include "debug_headerfile.svh"
+import dbg_pkg::*;
 
 // inputs - jump/branch information (branchD, jumpD, br_takenD)
 // memory and register control information to solve RAW hazard (memtoregE, memtoregM, regwriteE, retwriteM, regwriteW)
@@ -12,8 +15,6 @@
 // forward control signals (forwardAD, forwardBD, forwardAE, forwardBE)
 // all stall and flush signals for the pipeline regs (stallF, stallD, stallE, stallM, stallW)
 // and (flushF, flushD, flushE, flushM, flushW) 
-`include "debug_headerfile.svh"
-import dbg_pkg::*;
 module hazard_unit( 
 					input logic Iwait, Dwait,
 					input logic branchD, BTBHitD, BpredD, br_takenD,

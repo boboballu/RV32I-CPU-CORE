@@ -2,6 +2,8 @@
 // School: North Carolina State University
 // mail  : tkesava@ncsu.edu
 /********************************************************************************/
+`define CONTROLLER
+`include "debug_headerfile.svh"
 module controller	(	controller_if c_bus );
 
 	logic [1:0] aluop;
