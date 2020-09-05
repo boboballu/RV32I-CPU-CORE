@@ -5,24 +5,31 @@
 
 ## can use both gcc and g++; 
 ##Personally I feel there is no difference between gcc and g++ these days
+
+## Baremetal binary with math (Arthmetic) libraries 
+## https://stackoverflow.com/questions/57021029/how-to-link-math-library-when-building-bare-metal-application-with-custom-linker
+
 cc=riscv64-unknown-elf-g++
 objdump = riscv64-unknown-elf-objdump
 objcopy = riscv64-unknown-elf-objcopy
+# cc=riscv-none-embed-g++
+# objdump = riscv-none-embed-objdump
+# objcopy = riscv-none-embed-objcopy
 # CFLAGS=-O0 -m32 -march=RV32I
 CFLAGS=-march=rv32i -mabi=ilp32
-OPT=-O3
-ccFs:=main.cc init.cc
+OPT=-O1
+ccFs:=main.cc init1.cc
 ASMs:=init.s
-OBJ:=init.o main.o 
+OBJ:=init.o init1.o main.o 
 
 exe: $(OBJ)
-	$(cc) -o $@ $^ $(CFLAGS) -T link.ld -nostdlib
+	$(cc) -o $@ $^ $(CFLAGS) -Xlinker -T -Xlinker link.ld -nostdlib -nostartfiles -ffreestanding -lgcc
 
 %.o: %.cc $(ccFs)
-	$(cc) -c -o $@ $< $(OPT) $(CFLAGS)
+	$(cc) -c -o $@ $< $(OPT) $(CFLAGS) -nostdlib -nostartfiles -ffreestanding
 
-# %.o: %.s $(ASMs)
-# 	$(cc) -c -o $@ $< $(CFLAGS)
+%.o: %.s $(ASMs)
+	$(cc) -c -o $@ $< $(CFLAGS)
 
 disassembly.dump:
 	sed 's/^/.word 0x/' exe.dat > disassembly.s

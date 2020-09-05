@@ -63,7 +63,7 @@ module testbench();
 	always @(negedge clk) begin
 		if (reset) begin
 			if ((dbg.instn_type_str[dbg.op] != "illegal") && (dbg.instn_type_str[dbg.op] != "J") && (dbg.pc != 'hc)) begin
-				$write ("%t; pc: %d; op: %s; rd :%d; rs1: %d; rs2: %d;\n", $time, dbg.pc, dbg.instn_type_str[dbg.op], dbg.rd, dbg.rs1, dbg.rs2);
+				$write ("%t; pc: %x; op: %s; rd :%d; rs1: %d; rs2: %d;\n", $time, dbg.pc, dbg.instn_type_str[dbg.op], dbg.rd, dbg.rs1, dbg.rs2);
 			end
 		end
 		if (dbg.instn_type_str[dbg.op] == "LW") begin

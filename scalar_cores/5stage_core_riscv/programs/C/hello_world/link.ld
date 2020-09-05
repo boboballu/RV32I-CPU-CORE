@@ -15,12 +15,14 @@ __sp = 0x0FFF0;
 SECTIONS
 {
     .text.init : {
+        *(.text.initx)
         *(.text.init0)
         *(.text.init1)
     }
 
     .text : {
         *(.text)
+        *(.text.*)
     }
 
     .rodata : {

@@ -10,7 +10,8 @@
 // A reset handler
 #define STACK_START 0x0FFF0
 int main(); // main definition
-void textinit () __attribute__((section(".text.init0"), optimize(0)));
+
+extern "C" void textinit () __attribute__((section(".text.init0"), optimize(0)));
 void endpgm (void) __attribute__((section(".text.init1"), optimize(0)));
 
 uint32_t vector [] __attribute__((section(".vector_section"))) = {
@@ -21,7 +22,7 @@ uint32_t vector [] __attribute__((section(".vector_section"))) = {
 
 void textinit (void) {
     //set up the stack pointer, using a constant defined in the linker script.
-    asm("la sp, %0": : "i"(STACK_START-32)); 
+    // asm("la sp, %0": : "i"(STACK_START-32)); 
     // call main and exit once main returns
     main();
     endpgm();
