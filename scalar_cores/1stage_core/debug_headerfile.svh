@@ -8,7 +8,7 @@
 //`define DUMP_VCD
 
 // datapath.sv, testbench.sv, core_top.sv : debug_headerfile is instanced in all the files
-`define MEM_DEBUG
+//`define MEM_DEBUG
 
 // top_test.sv : uncomment this def for bin mem file read
 //`define MEM_BINARY
@@ -26,8 +26,7 @@ string CONSOLE_FORMAT = "%c"; // %c
 int CONSOLE_ADDR = 65532;   // console output address
 int EXE_TIME	 = 300000;   // execution time in ps / clock period is 10ps
 
-int D_cache_address = 84;   // Unit mem_debug test; mem store address 
+int D_cache_address = 84;   // Unit mem_debug test; mem store address
 int D_cache_data    = 7;    // Unit mem_debug test; mem store value
 `endif
 /********************************************************************************/
-

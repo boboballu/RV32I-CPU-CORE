@@ -24,21 +24,21 @@ module datapath(input logic clk, reset,
 	logic [31:0] pcplus4;
 	logic [31:0] signimm, branchimm, jumpimm, stypeimm, itypeimm, utypeimm;
 	logic [31:0] srca, srcb;
-	
+
 	`ifndef MEM_DEBUG
 		logic [31:0] result;
 	`endif
-	
+
 	logic [31:0] srcb_net0;
-	
+
 	logic [2:0] funct3;
 	logic [6:0] funct7;
 
 	// pcplus4
 	assign pcplus4 = pc + 32'd4;
 
-	instn_decode instn_decode 
-				(	.instr(c_bus.instr), 
+	instn_decode instn_decode
+				(	.instr(c_bus.instr),
 					.funct3(funct3), .funct7(funct7),
 					.jumpimm(jumpimm), .branchimm(branchimm), .utypeimm(utypeimm), .itypeimm(itypeimm), .stypeimm(stypeimm),
 					.rs1(rs1), .rs2(rs2), .rd(rd)
@@ -54,7 +54,7 @@ module datapath(input logic clk, reset,
 			casez( {c_bus.pcsrc, c_bus.jump, c_bus.jalr} )
 				3'b000: pc <= pcplus4;
 				3'b010: pc <= pc + jumpimm; // riscv - c_bus.jump
-				3'b0?1: pc <= (itypeimm + srca) & (32'hffff_fffe); // riscv - c_bus.jalr
+				3'b001: pc <= (itypeimm + srca) & (32'hffff_fffe); // riscv - c_bus.jalr
 				3'b100: pc <= pc + branchimm; // riscv - c_bus.branch
 				default pc <= pcplus4;
 			endcase
@@ -63,13 +63,13 @@ module datapath(input logic clk, reset,
 
 
 	// register file logic
-	regfile rf(	.clk(clk), .we3(c_bus.regwrite), 
-				.rs1(rs1), .rs2(rs2), .rd(rd), 
-				.wd3(result), 
+	regfile rf(	.clk(clk), .we3(c_bus.regwrite),
+				.rs1(rs1), .rs2(rs2), .rd(rd),
+				.wd3(result),
 				.rs1_data(srca), .rs2_data(srcb_net0)); // riscv - rs1 and rs2
 	// ALU logic
 	assign srcb = c_bus.alusrc ? signimm : srcb_net0; // srcb mux
-	alu alu(.srca(srca), .srcb(srcb), .alucontrol(c_bus.alucontrol), 
+	alu alu(.srca(srca), .srcb(srcb), .alucontrol(c_bus.alucontrol),
 			.alu_sub(c_bus.alu_sub), .aluout(aluout));
 
 	always_comb begin
@@ -99,12 +99,12 @@ endmodule : datapath
 /// Generic blocks /////
 
 /// ALU  //////
-module alu 	(	input logic [31:0] srca, 
-				input logic [31:0] srcb, 
+module alu 	(	input logic [31:0] srca,
+				input logic [31:0] srcb,
 				input logic [2:0] alucontrol, input logic alu_sub,
 				output logic [31:0] aluout /*output logic c_bus.br_taken*/
 );
-	
+
 	//assign c_bus.br_taken = (aluout == 32'd0) ? 1 : 0;
 	always_comb begin
 		if (!alu_sub) begin
@@ -114,7 +114,7 @@ module alu 	(	input logic [31:0] srca,
 				3'b010: aluout = ( signed'(srca) < signed'(srcb) ) ? 32'd1 : 32'd0; // SLT
 				3'b011: aluout = (srca < srcb) ? 32'd1 : 32'd0; // SLTU
 				3'b100: aluout = srca ^ srcb; // XOR
-				3'b101: begin 	aluout = srca >> srcb[4:0]; 
+				3'b101: begin 	aluout = srca >> srcb[4:0];
 								$display("srl: srca %d ; srcb %d", srca, srcb);
 						end// SRL
 				3'b110: aluout = srca | srcb; // OR
@@ -166,7 +166,7 @@ module instn_decode 	(
 	assign funct7 = instr[31:25];
 
 	// source and destination reg addrs
-	assign rs1 = instr[19:15]; 
+	assign rs1 = instr[19:15];
 	assign rs2 = instr[24:20];
 	assign rd  = instr[11:7]; // dest reg
 
@@ -176,6 +176,6 @@ module instn_decode 	(
 	assign utypeimm  = {instr[31:12], {12'b0}}; // riscv - for lui and auipc
 	// stype and itype corresponds lw sw and imm instns - goes through ALU
 	assign stypeimm  = {{20{instr[31]}},instr[31:25], instr[11:7]}; // store
-	assign itypeimm  = {{20{instr[31]}}, instr[31:20]}; // load, jalr
+	assign itypeimm  = {{20{instr[31]}}, instr[31:20]}; // load, jalr and imm-arth
 
 endmodule : instn_decode

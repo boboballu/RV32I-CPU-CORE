@@ -25,15 +25,15 @@ interface controller_if (input [31:0] instr);
 	assign funct3 = instr[14:12];
 	assign funct7 = instr[31:25];
 
-	modport ctrl(	input instr, 
-					input br_taken,
-					output branch, jump, jalr, 
+	modport ctrl(	input instr,
+					input br_taken, op, funct3, funct7,
+					output branch, jump, jalr,
 					memtoreg, memwrite, pcsrc, alusrc, regwrite,
 					alucontrol, alu_sub, auipc, lui
 	);
-	modport dp 	( 	input instr, 
-					output br_taken,
-					input branch, jump, jalr, 
+	modport dp 	( 	input instr,
+					output br_taken, op, funct3, funct7,
+					input branch, jump, jalr,
 					memtoreg, memwrite, pcsrc, alusrc, regwrite,
 					alucontrol, alu_sub, auipc, lui
 	);
