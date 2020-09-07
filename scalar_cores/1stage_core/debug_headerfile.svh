@@ -24,7 +24,7 @@
 string CONSOLE_FORMAT = "%c"; // %c
 // testbench.sv : variables
 int CONSOLE_ADDR = 65532;   // console output address
-int EXE_TIME	 = 300000;   // execution time in ps / clock period is 10ps
+int EXE_TIME	 = 50000;   // execution time in ps / clock period is 10ps
 
 int D_cache_address = 84;   // Unit mem_debug test; mem store address
 int D_cache_data    = 7;    // Unit mem_debug test; mem store value

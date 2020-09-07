@@ -1,0 +1,37 @@
+# vsim -c -do "run -all; exit" "+EXEC=./memfile.dat" testbench 
+# Start time: 16:28:15 on Sep 07,2020
+# Loading sv_std.std
+# Loading work.dbg_pkg
+# Loading work.testbench_sv_unit
+# Loading work.testbench
+# Loading work.top_test_sv_unit
+# Loading work.top
+# Loading work.core_top_sv_unit
+# Loading work.riscv_32i
+# Loading work.controller_if
+# Loading work.controller
+# Loading work.maindec
+# Loading work.aludec
+# Loading work.datapath
+# Loading work.instn_decode
+# Loading work.regfile
+# Loading work.alu
+# Loading work.mem_bus
+# Loading work.imem
+# Loading work.dmem
+# run -all
+# testbench.dut.Bus found +EXEC=./memfile.dat
+#  
+#  
+# ==> Console [0x0000fffc] print - writes to the addr treated as a console print msg <==
+#  
+#  
+# 65520 
+#  
+# ** Note: $stop    : testbench.sv(44)
+#    Time: 50 ns  Iteration: 0  Instance: /testbench
+# Break in Module testbench at testbench.sv line 44
+# Stopped at testbench.sv line 44
+#  exit
+# End time: 16:28:15 on Sep 07,2020, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0

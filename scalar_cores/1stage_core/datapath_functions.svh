@@ -101,10 +101,10 @@ function automatic logic br_compute(
 			3'b001: br_taken = ( signed'(srca) != signed'(srcb) ); // BNE
 			3'b100: br_taken = ( signed'(srca) <  signed'(srcb) ); // BLT
 			3'b101: br_taken = ( signed'(srca) >= signed'(srcb) ); // BGE
-			3'b110: begin 	br_taken = ( unsigned'(srca) < unsigned'(srcb) );
-							$display("blt: srca %d ; srcb %d", srca, srcb);
+			3'b110: begin 	br_taken = (srca < srcb);
+							//$display("blt: srca %d ; srcb %d", srca, srcb);
 					end 				   // BLTU
-			3'b111: br_taken = ( unsigned'(srca) >= unsigned'(srcb) );				   // BGEU
+			3'b111: br_taken = (srca >= srcb );				   // BGEU
 			default: br_taken = 1'b0;
 		endcase
 	end

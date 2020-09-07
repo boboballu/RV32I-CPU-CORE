@@ -78,7 +78,7 @@ int main()
 	//tx = tx+16;
 	volatile int* tx_int = (volatile int*) 65532;
 	char number[10];
-	mini_itoa(108, 10, 0, 0, number, 0);
+	mini_itoa((int)(__sp), 10, 0, 0, number, 0);
 	i = 0;
 	while (number[i] != '\0') {
  		write_char((int)number[i]);

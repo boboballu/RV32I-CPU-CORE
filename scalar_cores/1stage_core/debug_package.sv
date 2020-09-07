@@ -9,7 +9,7 @@ package dbg_pkg;
 	typedef struct {
 		logic [31:0] pc;
     	string instn_type_str [logic[6:0]] = '{
-	    7'b0110011:	"RTYPE",
+	    	7'b0110011:	"RTYPE",
 			7'b0000011: "LW",
 			7'b0100011: "SW",
 			7'b0010011: "Imm",

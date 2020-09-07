@@ -9,7 +9,7 @@ cli: clean work compile
 all: clean work compile run
 
 run:
-	vsim -novopt +EXEC=$(exe) testbench
+	vsim +EXEC=$(exe) testbench
 
 compile:
 	vlog -sv -lint debug_package.sv

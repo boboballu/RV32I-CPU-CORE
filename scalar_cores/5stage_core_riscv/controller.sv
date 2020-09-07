@@ -51,7 +51,7 @@ module maindec	(	input logic [6:0] opD,
             7'b0110011: begin controls = 9'b100000000;   aluop = 2'b10; end // RTYPE
             7'b0000011: begin controls = 9'b110010000;   aluop = 2'b00; end // LW
             7'b0100011: begin controls = 9'b010100000;   aluop = 2'b00; end // SW
-            7'b0010011: begin controls = 9'b110000000;   aluop = 2'b00; end // Immediate
+            7'b0010011: begin controls = 9'b110000000;   aluop = 2'b11; end // Immediate
             7'b1100011: begin controls = 9'b001000000;   aluop = 2'b01; end // Branch
             7'b1101111: begin controls = 9'b100001000;   aluop = 2'b00; end // JAL - Jump
             7'b1100111: begin controls = 9'b100000100;	 aluop = 2'b00; end // JALR
@@ -70,9 +70,17 @@ module aludec(
 
     always_comb begin
         case(aluop)
-            2'b00: 	 begin alucontrolD = 3'b000; alu_subD = 1'b0; end       // add (for lw/sw/immediate/J)
-            2'b01: 	 begin alucontrolD = 3'b000; alu_subD = 1'b1; end       // sub (for branch)
-            default: begin alucontrolD = funct3D; alu_subD = funct7D[5]; end   // R-type 
+            2'b00:  begin alucontrolD = 3'b000; alu_subD = 1'b0; end       // add (for lw/sw/J)
+            2'b01:  begin alucontrolD = 3'b000; alu_subD = 1'b1; end       // sub (for beq) - this doesnt make sence now since branch is taken care by branch_compute
+            2'b10:  begin alucontrolD = funct3D; alu_subD = funct7D[5]; end   // R-type
+            2'b11:  begin
+                        alucontrolD = funct3D; 
+					    if (funct3D == 3'b101)
+						    alu_subD = funct7D[5]; 
+					    else
+						    alu_subD = 1'b0;
+                    end // Imm-arth
+            default: begin alucontrolD = 3'b000; alu_subD = 1'b0; end // defaults to add
         endcase
     end
 endmodule : aludec
