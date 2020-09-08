@@ -1,37 +1,659 @@
 # vsim -c -do "run -all; exit" "+EXEC=./memfile.dat" testbench 
-# Start time: 16:28:15 on Sep 07,2020
+# Start time: 18:08:06 on Sep 08,2020
+# ** Note: (vsim-3812) Design is being optimized...
+# ** Warning: testbench.sv(9): (vopt-2605) empty port name in port list.
+# //  ModelSim SE-64 10.6c Jul 25 2017Linux 3.10.0-1127.19.1.el7.x86_64
+# //
+# //  Copyright 1991-2017 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
 # Loading sv_std.std
-# Loading work.dbg_pkg
-# Loading work.testbench_sv_unit
-# Loading work.testbench
-# Loading work.top_test_sv_unit
-# Loading work.top
-# Loading work.core_top_sv_unit
-# Loading work.riscv_32i
-# Loading work.controller_if
-# Loading work.controller
-# Loading work.maindec
-# Loading work.aludec
-# Loading work.datapath
-# Loading work.instn_decode
-# Loading work.regfile
-# Loading work.alu
-# Loading work.mem_bus
-# Loading work.imem
-# Loading work.dmem
+# Loading work.dbg_pkg(fast)
+# Loading work.core_top_sv_unit(fast)
+# Loading work.top_test_sv_unit(fast)
+# Loading work.testbench_sv_unit(fast)
+# Loading work.testbench(fast)
+# Loading work.controller(fast)
+# Loading work.datapath(fast)
 # run -all
 # testbench.dut.Bus found +EXEC=./memfile.dat
+# ** Warning: (vsim-8233) top_test.sv(81): Index xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx into array dimension [131071:0] is out of bounds.
+#    Time: 0 ns  Iteration: 0  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx into array dimension [131071:0] is out of bounds.
+#    Time: 0 ns  Iteration: 0  Instance: /testbench/dut/Bus
 #  
 #  
 # ==> Console [0x0000fffc] print - writes to the addr treated as a console print msg <==
 #  
 #  
-# 65520 
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741805 into array dimension [131071:0] is out of bounds.
+#    Time: 270 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741823 into array dimension [131071:0] is out of bounds.
+#    Time: 300 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741715 into array dimension [131071:0] is out of bounds.
+#    Time: 320 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741823 into array dimension [131071:0] is out of bounds.
+#    Time: 320 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073725446 into array dimension [131071:0] is out of bounds.
+#    Time: 330 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741821 into array dimension [131071:0] is out of bounds.
+#    Time: 340 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741717 into array dimension [131071:0] is out of bounds.
+#    Time: 350 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073725449 into array dimension [131071:0] is out of bounds.
+#    Time: 370 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741819 into array dimension [131071:0] is out of bounds.
+#    Time: 380 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741720 into array dimension [131071:0] is out of bounds.
+#    Time: 390 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073725454 into array dimension [131071:0] is out of bounds.
+#    Time: 410 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741814 into array dimension [131071:0] is out of bounds.
+#    Time: 420 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741725 into array dimension [131071:0] is out of bounds.
+#    Time: 430 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073725464 into array dimension [131071:0] is out of bounds.
+#    Time: 450 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741804 into array dimension [131071:0] is out of bounds.
+#    Time: 460 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741735 into array dimension [131071:0] is out of bounds.
+#    Time: 470 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073725484 into array dimension [131071:0] is out of bounds.
+#    Time: 490 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741784 into array dimension [131071:0] is out of bounds.
+#    Time: 500 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741755 into array dimension [131071:0] is out of bounds.
+#    Time: 510 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073725524 into array dimension [131071:0] is out of bounds.
+#    Time: 530 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741744 into array dimension [131071:0] is out of bounds.
+#    Time: 540 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741795 into array dimension [131071:0] is out of bounds.
+#    Time: 550 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073725604 into array dimension [131071:0] is out of bounds.
+#    Time: 570 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741664 into array dimension [131071:0] is out of bounds.
+#    Time: 580 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073725764 into array dimension [131071:0] is out of bounds.
+#    Time: 610 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741504 into array dimension [131071:0] is out of bounds.
+#    Time: 620 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073726084 into array dimension [131071:0] is out of bounds.
+#    Time: 650 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741184 into array dimension [131071:0] is out of bounds.
+#    Time: 660 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073726724 into array dimension [131071:0] is out of bounds.
+#    Time: 690 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073740544 into array dimension [131071:0] is out of bounds.
+#    Time: 700 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073728004 into array dimension [131071:0] is out of bounds.
+#    Time: 730 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073739264 into array dimension [131071:0] is out of bounds.
+#    Time: 740 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073730564 into array dimension [131071:0] is out of bounds.
+#    Time: 770 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073736704 into array dimension [131071:0] is out of bounds.
+#    Time: 780 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073735684 into array dimension [131071:0] is out of bounds.
+#    Time: 810 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073731584 into array dimension [131071:0] is out of bounds.
+#    Time: 820 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073737724 into array dimension [131071:0] is out of bounds.
+#    Time: 870 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073740284 into array dimension [131071:0] is out of bounds.
+#    Time: 1030 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741564 into array dimension [131071:0] is out of bounds.
+#    Time: 1070 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741724 into array dimension [131071:0] is out of bounds.
+#    Time: 1230 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741731 into array dimension [131071:0] is out of bounds.
+#    Time: 1240 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741804 into array dimension [131071:0] is out of bounds.
+#    Time: 1270 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741723 into array dimension [131071:0] is out of bounds.
+#    Time: 1280 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741814 into array dimension [131071:0] is out of bounds.
+#    Time: 1430 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741716 into array dimension [131071:0] is out of bounds.
+#    Time: 1440 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741819 into array dimension [131071:0] is out of bounds.
+#    Time: 1470 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741715 into array dimension [131071:0] is out of bounds.
+#    Time: 1480 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741821 into array dimension [131071:0] is out of bounds.
+#    Time: 1510 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741715 into array dimension [131071:0] is out of bounds.
+#    Time: 1520 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741823 into array dimension [131071:0] is out of bounds.
+#    Time: 1650 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741778 into array dimension [131071:0] is out of bounds.
+#    Time: 1670 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741823 into array dimension [131071:0] is out of bounds.
+#    Time: 1670 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073725446 into array dimension [131071:0] is out of bounds.
+#    Time: 1680 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741821 into array dimension [131071:0] is out of bounds.
+#    Time: 1690 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741780 into array dimension [131071:0] is out of bounds.
+#    Time: 1700 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073725449 into array dimension [131071:0] is out of bounds.
+#    Time: 1720 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741819 into array dimension [131071:0] is out of bounds.
+#    Time: 1730 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741783 into array dimension [131071:0] is out of bounds.
+#    Time: 1740 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073725454 into array dimension [131071:0] is out of bounds.
+#    Time: 1760 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741814 into array dimension [131071:0] is out of bounds.
+#    Time: 1770 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741788 into array dimension [131071:0] is out of bounds.
+#    Time: 1780 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073725464 into array dimension [131071:0] is out of bounds.
+#    Time: 1800 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741804 into array dimension [131071:0] is out of bounds.
+#    Time: 1810 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741798 into array dimension [131071:0] is out of bounds.
+#    Time: 1820 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073725484 into array dimension [131071:0] is out of bounds.
+#    Time: 1840 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741784 into array dimension [131071:0] is out of bounds.
+#    Time: 1850 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741818 into array dimension [131071:0] is out of bounds.
+#    Time: 1860 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073725524 into array dimension [131071:0] is out of bounds.
+#    Time: 1880 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741744 into array dimension [131071:0] is out of bounds.
+#    Time: 1890 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073725604 into array dimension [131071:0] is out of bounds.
+#    Time: 1920 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741664 into array dimension [131071:0] is out of bounds.
+#    Time: 1930 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073725764 into array dimension [131071:0] is out of bounds.
+#    Time: 1960 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741504 into array dimension [131071:0] is out of bounds.
+#    Time: 1970 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073726084 into array dimension [131071:0] is out of bounds.
+#    Time: 2 us  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741184 into array dimension [131071:0] is out of bounds.
+#    Time: 2010 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073726724 into array dimension [131071:0] is out of bounds.
+#    Time: 2040 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073740544 into array dimension [131071:0] is out of bounds.
+#    Time: 2050 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073728004 into array dimension [131071:0] is out of bounds.
+#    Time: 2080 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073739264 into array dimension [131071:0] is out of bounds.
+#    Time: 2090 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073730564 into array dimension [131071:0] is out of bounds.
+#    Time: 2120 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073736704 into array dimension [131071:0] is out of bounds.
+#    Time: 2130 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073735684 into array dimension [131071:0] is out of bounds.
+#    Time: 2160 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073731584 into array dimension [131071:0] is out of bounds.
+#    Time: 2170 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073737724 into array dimension [131071:0] is out of bounds.
+#    Time: 2220 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073740284 into array dimension [131071:0] is out of bounds.
+#    Time: 2380 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741564 into array dimension [131071:0] is out of bounds.
+#    Time: 2420 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741724 into array dimension [131071:0] is out of bounds.
+#    Time: 2580 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741794 into array dimension [131071:0] is out of bounds.
+#    Time: 2590 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741804 into array dimension [131071:0] is out of bounds.
+#    Time: 2620 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741786 into array dimension [131071:0] is out of bounds.
+#    Time: 2630 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741814 into array dimension [131071:0] is out of bounds.
+#    Time: 2780 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741779 into array dimension [131071:0] is out of bounds.
+#    Time: 2790 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741819 into array dimension [131071:0] is out of bounds.
+#    Time: 2820 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741778 into array dimension [131071:0] is out of bounds.
+#    Time: 2830 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741821 into array dimension [131071:0] is out of bounds.
+#    Time: 2860 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741778 into array dimension [131071:0] is out of bounds.
+#    Time: 2870 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741810 into array dimension [131071:0] is out of bounds.
+#    Time: 2920 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073740186 into array dimension [131071:0] is out of bounds.
+#    Time: 2920 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741805 into array dimension [131071:0] is out of bounds.
+#    Time: 2990 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741823 into array dimension [131071:0] is out of bounds.
+#    Time: 3020 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741715 into array dimension [131071:0] is out of bounds.
+#    Time: 3040 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741823 into array dimension [131071:0] is out of bounds.
+#    Time: 3040 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073740188 into array dimension [131071:0] is out of bounds.
+#    Time: 3050 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741821 into array dimension [131071:0] is out of bounds.
+#    Time: 3060 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741717 into array dimension [131071:0] is out of bounds.
+#    Time: 3070 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073740191 into array dimension [131071:0] is out of bounds.
+#    Time: 3090 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741819 into array dimension [131071:0] is out of bounds.
+#    Time: 3100 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741720 into array dimension [131071:0] is out of bounds.
+#    Time: 3110 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073740196 into array dimension [131071:0] is out of bounds.
+#    Time: 3130 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741814 into array dimension [131071:0] is out of bounds.
+#    Time: 3140 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741725 into array dimension [131071:0] is out of bounds.
+#    Time: 3150 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073740206 into array dimension [131071:0] is out of bounds.
+#    Time: 3170 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741804 into array dimension [131071:0] is out of bounds.
+#    Time: 3180 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741735 into array dimension [131071:0] is out of bounds.
+#    Time: 3190 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073740226 into array dimension [131071:0] is out of bounds.
+#    Time: 3210 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741784 into array dimension [131071:0] is out of bounds.
+#    Time: 3220 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741755 into array dimension [131071:0] is out of bounds.
+#    Time: 3230 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073740266 into array dimension [131071:0] is out of bounds.
+#    Time: 3250 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741744 into array dimension [131071:0] is out of bounds.
+#    Time: 3260 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741795 into array dimension [131071:0] is out of bounds.
+#    Time: 3270 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073740346 into array dimension [131071:0] is out of bounds.
+#    Time: 3290 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741664 into array dimension [131071:0] is out of bounds.
+#    Time: 3300 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073740506 into array dimension [131071:0] is out of bounds.
+#    Time: 3330 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741504 into array dimension [131071:0] is out of bounds.
+#    Time: 3340 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073740826 into array dimension [131071:0] is out of bounds.
+#    Time: 3370 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741184 into array dimension [131071:0] is out of bounds.
+#    Time: 3380 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741466 into array dimension [131071:0] is out of bounds.
+#    Time: 3410 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073740544 into array dimension [131071:0] is out of bounds.
+#    Time: 3420 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073740902 into array dimension [131071:0] is out of bounds.
+#    Time: 3470 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741542 into array dimension [131071:0] is out of bounds.
+#    Time: 3570 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741779 into array dimension [131071:0] is out of bounds.
+#    Time: 3580 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741702 into array dimension [131071:0] is out of bounds.
+#    Time: 3670 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741731 into array dimension [131071:0] is out of bounds.
+#    Time: 3680 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741782 into array dimension [131071:0] is out of bounds.
+#    Time: 3710 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741723 into array dimension [131071:0] is out of bounds.
+#    Time: 3720 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741822 into array dimension [131071:0] is out of bounds.
+#    Time: 3750 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741719 into array dimension [131071:0] is out of bounds.
+#    Time: 3760 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741823 into array dimension [131071:0] is out of bounds.
+#    Time: 4130 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741778 into array dimension [131071:0] is out of bounds.
+#    Time: 4150 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741823 into array dimension [131071:0] is out of bounds.
+#    Time: 4150 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073740188 into array dimension [131071:0] is out of bounds.
+#    Time: 4160 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741821 into array dimension [131071:0] is out of bounds.
+#    Time: 4170 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741780 into array dimension [131071:0] is out of bounds.
+#    Time: 4180 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073740191 into array dimension [131071:0] is out of bounds.
+#    Time: 4200 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741819 into array dimension [131071:0] is out of bounds.
+#    Time: 4210 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741783 into array dimension [131071:0] is out of bounds.
+#    Time: 4220 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073740196 into array dimension [131071:0] is out of bounds.
+#    Time: 4240 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741814 into array dimension [131071:0] is out of bounds.
+#    Time: 4250 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741788 into array dimension [131071:0] is out of bounds.
+#    Time: 4260 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073740206 into array dimension [131071:0] is out of bounds.
+#    Time: 4280 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741804 into array dimension [131071:0] is out of bounds.
+#    Time: 4290 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741798 into array dimension [131071:0] is out of bounds.
+#    Time: 4300 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073740226 into array dimension [131071:0] is out of bounds.
+#    Time: 4320 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741784 into array dimension [131071:0] is out of bounds.
+#    Time: 4330 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741818 into array dimension [131071:0] is out of bounds.
+#    Time: 4340 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073740266 into array dimension [131071:0] is out of bounds.
+#    Time: 4360 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741744 into array dimension [131071:0] is out of bounds.
+#    Time: 4370 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073740346 into array dimension [131071:0] is out of bounds.
+#    Time: 4400 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741664 into array dimension [131071:0] is out of bounds.
+#    Time: 4410 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073740506 into array dimension [131071:0] is out of bounds.
+#    Time: 4440 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741504 into array dimension [131071:0] is out of bounds.
+#    Time: 4450 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073740826 into array dimension [131071:0] is out of bounds.
+#    Time: 4480 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741184 into array dimension [131071:0] is out of bounds.
+#    Time: 4490 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741466 into array dimension [131071:0] is out of bounds.
+#    Time: 4520 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073740544 into array dimension [131071:0] is out of bounds.
+#    Time: 4530 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073740902 into array dimension [131071:0] is out of bounds.
+#    Time: 4580 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741542 into array dimension [131071:0] is out of bounds.
+#    Time: 4680 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741702 into array dimension [131071:0] is out of bounds.
+#    Time: 4780 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741794 into array dimension [131071:0] is out of bounds.
+#    Time: 4790 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741782 into array dimension [131071:0] is out of bounds.
+#    Time: 4820 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741786 into array dimension [131071:0] is out of bounds.
+#    Time: 4830 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741822 into array dimension [131071:0] is out of bounds.
+#    Time: 4860 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741782 into array dimension [131071:0] is out of bounds.
+#    Time: 4870 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741810 into array dimension [131071:0] is out of bounds.
+#    Time: 5160 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741660 into array dimension [131071:0] is out of bounds.
+#    Time: 5160 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741805 into array dimension [131071:0] is out of bounds.
+#    Time: 5230 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741823 into array dimension [131071:0] is out of bounds.
+#    Time: 5260 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741715 into array dimension [131071:0] is out of bounds.
+#    Time: 5280 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741823 into array dimension [131071:0] is out of bounds.
+#    Time: 5280 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741662 into array dimension [131071:0] is out of bounds.
+#    Time: 5290 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741821 into array dimension [131071:0] is out of bounds.
+#    Time: 5300 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741717 into array dimension [131071:0] is out of bounds.
+#    Time: 5310 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741665 into array dimension [131071:0] is out of bounds.
+#    Time: 5330 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741819 into array dimension [131071:0] is out of bounds.
+#    Time: 5340 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741720 into array dimension [131071:0] is out of bounds.
+#    Time: 5350 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741670 into array dimension [131071:0] is out of bounds.
+#    Time: 5370 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741814 into array dimension [131071:0] is out of bounds.
+#    Time: 5380 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741725 into array dimension [131071:0] is out of bounds.
+#    Time: 5390 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741680 into array dimension [131071:0] is out of bounds.
+#    Time: 5410 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741804 into array dimension [131071:0] is out of bounds.
+#    Time: 5420 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741735 into array dimension [131071:0] is out of bounds.
+#    Time: 5430 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741700 into array dimension [131071:0] is out of bounds.
+#    Time: 5450 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741784 into array dimension [131071:0] is out of bounds.
+#    Time: 5460 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741755 into array dimension [131071:0] is out of bounds.
+#    Time: 5470 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741740 into array dimension [131071:0] is out of bounds.
+#    Time: 5490 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741744 into array dimension [131071:0] is out of bounds.
+#    Time: 5500 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741795 into array dimension [131071:0] is out of bounds.
+#    Time: 5510 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741820 into array dimension [131071:0] is out of bounds.
+#    Time: 5530 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741664 into array dimension [131071:0] is out of bounds.
+#    Time: 5540 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741667 into array dimension [131071:0] is out of bounds.
+#    Time: 5590 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741747 into array dimension [131071:0] is out of bounds.
+#    Time: 5600 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741747 into array dimension [131071:0] is out of bounds.
+#    Time: 5690 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741723 into array dimension [131071:0] is out of bounds.
+#    Time: 5700 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741787 into array dimension [131071:0] is out of bounds.
+#    Time: 5730 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741719 into array dimension [131071:0] is out of bounds.
+#    Time: 5740 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741807 into array dimension [131071:0] is out of bounds.
+#    Time: 5770 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741717 into array dimension [131071:0] is out of bounds.
+#    Time: 5780 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741817 into array dimension [131071:0] is out of bounds.
+#    Time: 5810 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741716 into array dimension [131071:0] is out of bounds.
+#    Time: 5820 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741822 into array dimension [131071:0] is out of bounds.
+#    Time: 5850 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741715 into array dimension [131071:0] is out of bounds.
+#    Time: 5860 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741823 into array dimension [131071:0] is out of bounds.
+#    Time: 6050 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741778 into array dimension [131071:0] is out of bounds.
+#    Time: 6070 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741823 into array dimension [131071:0] is out of bounds.
+#    Time: 6070 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741662 into array dimension [131071:0] is out of bounds.
+#    Time: 6080 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741821 into array dimension [131071:0] is out of bounds.
+#    Time: 6090 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741780 into array dimension [131071:0] is out of bounds.
+#    Time: 6100 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741665 into array dimension [131071:0] is out of bounds.
+#    Time: 6120 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741819 into array dimension [131071:0] is out of bounds.
+#    Time: 6130 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741783 into array dimension [131071:0] is out of bounds.
+#    Time: 6140 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741670 into array dimension [131071:0] is out of bounds.
+#    Time: 6160 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741814 into array dimension [131071:0] is out of bounds.
+#    Time: 6170 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741788 into array dimension [131071:0] is out of bounds.
+#    Time: 6180 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741680 into array dimension [131071:0] is out of bounds.
+#    Time: 6200 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741804 into array dimension [131071:0] is out of bounds.
+#    Time: 6210 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741798 into array dimension [131071:0] is out of bounds.
+#    Time: 6220 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741700 into array dimension [131071:0] is out of bounds.
+#    Time: 6240 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741784 into array dimension [131071:0] is out of bounds.
+#    Time: 6250 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741818 into array dimension [131071:0] is out of bounds.
+#    Time: 6260 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741740 into array dimension [131071:0] is out of bounds.
+#    Time: 6280 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741744 into array dimension [131071:0] is out of bounds.
+#    Time: 6290 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741820 into array dimension [131071:0] is out of bounds.
+#    Time: 6320 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741664 into array dimension [131071:0] is out of bounds.
+#    Time: 6330 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741667 into array dimension [131071:0] is out of bounds.
+#    Time: 6380 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741810 into array dimension [131071:0] is out of bounds.
+#    Time: 6390 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741747 into array dimension [131071:0] is out of bounds.
+#    Time: 6480 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741786 into array dimension [131071:0] is out of bounds.
+#    Time: 6490 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741787 into array dimension [131071:0] is out of bounds.
+#    Time: 6520 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741782 into array dimension [131071:0] is out of bounds.
+#    Time: 6530 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741807 into array dimension [131071:0] is out of bounds.
+#    Time: 6560 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741780 into array dimension [131071:0] is out of bounds.
+#    Time: 6570 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741817 into array dimension [131071:0] is out of bounds.
+#    Time: 6600 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741779 into array dimension [131071:0] is out of bounds.
+#    Time: 6610 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741822 into array dimension [131071:0] is out of bounds.
+#    Time: 6640 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741778 into array dimension [131071:0] is out of bounds.
+#    Time: 6650 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741810 into array dimension [131071:0] is out of bounds.
+#    Time: 6760 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741807 into array dimension [131071:0] is out of bounds.
+#    Time: 6760 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741805 into array dimension [131071:0] is out of bounds.
+#    Time: 6830 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741823 into array dimension [131071:0] is out of bounds.
+#    Time: 6860 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741715 into array dimension [131071:0] is out of bounds.
+#    Time: 6880 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741823 into array dimension [131071:0] is out of bounds.
+#    Time: 6880 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741810 into array dimension [131071:0] is out of bounds.
+#    Time: 6890 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741821 into array dimension [131071:0] is out of bounds.
+#    Time: 6900 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741717 into array dimension [131071:0] is out of bounds.
+#    Time: 6910 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741812 into array dimension [131071:0] is out of bounds.
+#    Time: 6930 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741819 into array dimension [131071:0] is out of bounds.
+#    Time: 6940 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741720 into array dimension [131071:0] is out of bounds.
+#    Time: 6950 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741817 into array dimension [131071:0] is out of bounds.
+#    Time: 6970 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741814 into array dimension [131071:0] is out of bounds.
+#    Time: 6980 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741725 into array dimension [131071:0] is out of bounds.
+#    Time: 6990 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741820 into array dimension [131071:0] is out of bounds.
+#    Time: 7030 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741717 into array dimension [131071:0] is out of bounds.
+#    Time: 7040 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741822 into array dimension [131071:0] is out of bounds.
+#    Time: 7190 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741715 into array dimension [131071:0] is out of bounds.
+#    Time: 7200 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741823 into array dimension [131071:0] is out of bounds.
+#    Time: 7330 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741778 into array dimension [131071:0] is out of bounds.
+#    Time: 7350 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741823 into array dimension [131071:0] is out of bounds.
+#    Time: 7350 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741810 into array dimension [131071:0] is out of bounds.
+#    Time: 7360 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741821 into array dimension [131071:0] is out of bounds.
+#    Time: 7370 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741780 into array dimension [131071:0] is out of bounds.
+#    Time: 7380 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741812 into array dimension [131071:0] is out of bounds.
+#    Time: 7400 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741819 into array dimension [131071:0] is out of bounds.
+#    Time: 7410 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741783 into array dimension [131071:0] is out of bounds.
+#    Time: 7420 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741817 into array dimension [131071:0] is out of bounds.
+#    Time: 7440 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741814 into array dimension [131071:0] is out of bounds.
+#    Time: 7450 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741788 into array dimension [131071:0] is out of bounds.
+#    Time: 7460 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741820 into array dimension [131071:0] is out of bounds.
+#    Time: 7500 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741780 into array dimension [131071:0] is out of bounds.
+#    Time: 7510 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741822 into array dimension [131071:0] is out of bounds.
+#    Time: 7660 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741778 into array dimension [131071:0] is out of bounds.
+#    Time: 7670 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741810 into array dimension [131071:0] is out of bounds.
+#    Time: 7720 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741822 into array dimension [131071:0] is out of bounds.
+#    Time: 7720 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741805 into array dimension [131071:0] is out of bounds.
+#    Time: 7790 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741823 into array dimension [131071:0] is out of bounds.
+#    Time: 7820 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741715 into array dimension [131071:0] is out of bounds.
+#    Time: 7840 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741823 into array dimension [131071:0] is out of bounds.
+#    Time: 7840 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741823 into array dimension [131071:0] is out of bounds.
+#    Time: 7870 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741715 into array dimension [131071:0] is out of bounds.
+#    Time: 7880 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741823 into array dimension [131071:0] is out of bounds.
+#    Time: 8010 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741778 into array dimension [131071:0] is out of bounds.
+#    Time: 8030 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741823 into array dimension [131071:0] is out of bounds.
+#    Time: 8030 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741823 into array dimension [131071:0] is out of bounds.
+#    Time: 8060 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741778 into array dimension [131071:0] is out of bounds.
+#    Time: 8070 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741810 into array dimension [131071:0] is out of bounds.
+#    Time: 8120 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741823 into array dimension [131071:0] is out of bounds.
+#    Time: 8220 ns  Iteration: 4  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741823 into array dimension [131071:0] is out of bounds.
+#    Time: 8300 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741823 into array dimension [131071:0] is out of bounds.
+#    Time: 8420 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# 6** Warning: (vsim-8233) top_test.sv(85): Index 1073741579 into array dimension [131071:0] is out of bounds.
+#    Time: 8460 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741823 into array dimension [131071:0] is out of bounds.
+#    Time: 8520 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# 5** Warning: (vsim-8233) top_test.sv(85): Index 1073741578 into array dimension [131071:0] is out of bounds.
+#    Time: 8560 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741823 into array dimension [131071:0] is out of bounds.
+#    Time: 8620 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# 5** Warning: (vsim-8233) top_test.sv(85): Index 1073741578 into array dimension [131071:0] is out of bounds.
+#    Time: 8660 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741823 into array dimension [131071:0] is out of bounds.
+#    Time: 8720 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# 2** Warning: (vsim-8233) top_test.sv(85): Index 1073741578 into array dimension [131071:0] is out of bounds.
+#    Time: 8760 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741823 into array dimension [131071:0] is out of bounds.
+#    Time: 8820 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# 0** Warning: (vsim-8233) top_test.sv(85): Index 1073741577 into array dimension [131071:0] is out of bounds.
+#    Time: 8860 ns  Iteration: 3  Instance: /testbench/dut/Bus
+# ** Warning: (vsim-8233) top_test.sv(85): Index 1073741816 into array dimension [131071:0] is out of bounds.
+#    Time: 8910 ns  Iteration: 3  Instance: /testbench/dut/Bus
 #  
-# ** Note: $stop    : testbench.sv(44)
-#    Time: 50 ns  Iteration: 0  Instance: /testbench
-# Break in Module testbench at testbench.sv line 44
-# Stopped at testbench.sv line 44
+#  
+# ** Note: $stop    : testbench.sv(58)
+#    Time: 50 us  Iteration: 0  Instance: /testbench
+# Break at testbench.sv line 58
+# Stopped at testbench.sv line 58
 #  exit
-# End time: 16:28:15 on Sep 07,2020, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
+# End time: 18:08:07 on Sep 08,2020, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 310

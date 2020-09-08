@@ -4,26 +4,20 @@
 /********************************************************************************/
 `define TOP_TEST
 `include "debug_headerfile.svh"
-import dbg_pkg::*; 
+import dbg_pkg::*;
 
 module top(	input logic clk, reset,
 			output logic [31:0] writedata, dataadr,
 			output logic memwrite
-			`ifdef MEM_DEBUG
-			, output mem_debug dbg
-			`endif
 );
 
 	logic [31:0] pc, instr, readdata;
 	// instantiate processor and memories
-	riscv_32i riscv_32i(.clk(clk), .reset(reset), 
-						.pc(pc), .instr(instr), 
-						.memwrite(memwrite), 
-						.aluout(dataadr), .writedata(writedata), 
+	riscv_32i riscv_32i(.clk(clk), .reset(reset),
+						.pc(pc), .instr(instr),
+						.memwrite(memwrite),
+						.aluout(dataadr), .writedata(writedata),
 						.readdata(readdata)
-						`ifdef MEM_DEBUG
-						, .dbg(dbg)
-						`endif
 	);
 
 	mem_bus Bus();
@@ -36,7 +30,7 @@ module dmem(input logic clk, we,
 			output logic [31:0] rd,
 			mem_bus Bus
 );
-	
+
 	assign Bus.clk = clk;
 	assign Bus.Daddr = a;
 	assign Bus.Dwe = we;
@@ -50,7 +44,7 @@ module imem(input logic [31:0] a,
 			mem_bus Bus
 );
 	assign Bus.Iaddr = a;
-	assign rd  = Bus.Iinstn;	
+	assign rd  = Bus.Iinstn;
 endmodule : imem
 
 interface mem_bus;
@@ -58,7 +52,7 @@ interface mem_bus;
 	logic [31:0] Iaddr, Iinstn;
 	logic [31:0] Daddr, Dreaddata, Dwritedata;
 	logic Dwe;
-	
+
 	// get the binary file from commandline args
 	// commenting for verilator
 
@@ -72,7 +66,7 @@ interface mem_bus;
 	end
 
 	// end comment
-	
+
 	bit [31:0] MEM [131071:0]; // 512 KB of memory
 
 	// Imem part

@@ -9,9 +9,6 @@ module datapath(input logic clk, reset,
 				output logic [31:0] pc,
 				output logic [31:0] aluout, writedata,
 				input logic [31:0] readdata
-				`ifdef MEM_DEBUG
-				, output logic [31:0] result
-				`endif
 );
 
 /********************************************************************************/
@@ -25,9 +22,7 @@ module datapath(input logic clk, reset,
 	logic [31:0] signimm, branchimm, jumpimm, stypeimm, itypeimm, utypeimm;
 	logic [31:0] srca, srcb;
 
-	`ifndef MEM_DEBUG
-		logic [31:0] result;
-	`endif
+	logic [31:0] result;
 
 	logic [31:0] srcb_net0;
 

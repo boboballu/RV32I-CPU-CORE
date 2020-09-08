@@ -4,7 +4,7 @@
 /********************************************************************************/
 `define TESTBENCH
 `include "debug_headerfile.svh"
-import dbg_pkg::*; 
+import dbg_pkg::*;
 
 module testbench();
 	logic clk;
@@ -14,20 +14,34 @@ module testbench();
 
 	// mem check variables filled from command line args
 	integer D_cache_address, D_cache_data;
-	
+
 	// debug variable
 	`ifdef MEM_DEBUG
 	mem_debug dbg;
-	`endif	
+	assign dbg.pc 	 = dut.pc;
+	assign dbg.op 	 = dut.riscv_32i.c_bus.instr[6:0];
+	assign dbg.rs1 	 = dut.riscv_32i.c_bus.instr[19:15];
+	assign dbg.rs2   = dut.riscv_32i.c_bus.instr[24:20];
+	assign dbg.rd    = dut.riscv_32i.c_bus.instr[11:7];
+
+	assign dbg.result= dut.riscv_32i.datapath.result;
+
+	assign dbg.dmem_we   = dut.riscv_32i.c_bus.memwrite;
+	assign dbg.dmem_addr = dut.riscv_32i.aluout;
+	assign dbg.dmem_wd   = dut.riscv_32i.writedata;
+	assign dbg.dmem_rd   = dut.riscv_32i.readdata;
+
+	assign dbg.alusrc   = dut.riscv_32i.c_bus.alusrc;
+	assign dbg.regwrite = dut.riscv_32i.c_bus.regwrite;
+	assign dbg.memtoreg = dut.riscv_32i.c_bus.memtoreg;
+	`endif
+
 	// instantiate device to be tested
-	top dut (.clk(clk), .reset(reset), 
-			.writedata(writedata), .dataadr(dataadr), 
+	top dut (.clk(clk), .reset(reset),
+			.writedata(writedata), .dataadr(dataadr),
 			.memwrite(memwrite)
-			`ifdef MEM_DEBUG
-			, .dbg(dbg)
-			`endif
 	);
-	
+
 	// dump var for gtkwave
 	`ifdef DUMP_VCD
 	 initial begin
@@ -51,18 +65,18 @@ module testbench();
 		$display (); $display ();
 		$display ("==> Console [0x%08x] print - writes to the addr treated as a console print msg <==", 65532);
 		$display (); $display ();
-	end	
+	end
 	// generate clock to sequence tests
 	always begin
 		clk <= 1; # 5; clk <= 0; # 5;
 	end
-	
+
 /********************************************************************************/
 	// check results
 `ifdef MEM_DEBUG
 	always @(negedge clk) begin
 		if (reset) begin
-			if ((dbg.instn_type_str[dbg.op] != "illegal") && (dbg.instn_type_str[dbg.op] != "J")) //&& (dbg.pc != 'hc)) 
+			if ((dbg.instn_type_str[dbg.op] != "illegal") && (dbg.instn_type_str[dbg.op] != "J")) //&& (dbg.pc != 'hc))
 			begin
 				$write ("%t; pc: %x; op: %s; rd :%d; rs1: %d; rs2: %d;\n", $time, dbg.pc, dbg.instn_type_str[dbg.op], dbg.rd, dbg.rs1, dbg.rs2);
 			end
