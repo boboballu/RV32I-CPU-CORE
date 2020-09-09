@@ -15,22 +15,22 @@ all: clean work compile testbench
 compile: packages design all_tbs
 
 design:
-	vlog -sv instn_decode.sv
-	vlog -sv branch_compute.sv
-	vlog -sv comb_stages.sv
-	vlog -sv ff_stages.sv
-	vlog -sv controller.sv
-	vlog -sv hazard_unit.sv
-	vlog -sv BTB.sv
-	vlog -sv Bpred.sv
-	vlog -sv main.sv
-	vlog -sv L1_cache.sv
+	vlog -sv -lint instn_decode.sv
+	vlog -sv -lint branch_compute.sv
+	vlog -sv -lint comb_stages.sv
+	vlog -sv -lint ff_stages.sv
+	vlog -sv -lint controller.sv
+	vlog -sv -lint hazard_unit.sv
+	vlog -sv -lint BTB.sv
+	vlog -sv -lint Bpred.sv
+	vlog -sv -lint main.sv
+	vlog -sv -lint L1_cache.sv
 packages: 
-	vlog -sv packages.sv
+	vlog -sv -lint packages.sv
 
 all_tbs:
-	vlog -sv top_test.sv
-	vlog -sv testbench.sv
+	vlog -sv -lint top_test.sv
+	vlog -sv -lint testbench.sv
 
 testbench:
 	vsim +EXEC=$(exe) +D_cache_address=$(d_addr) +D_cache_data=$(d_data) testbench

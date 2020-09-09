@@ -10,6 +10,7 @@ module testbench();
 	logic clk;
 	logic reset;
 	logic [31:0] writedata, dataadr;
+	logic [31:0] readdata, pc, instr;
 	logic memwrite;
 
 	// mem check variables filled from command line args
@@ -39,6 +40,7 @@ module testbench();
 	// instantiate device to be tested
 	top dut (.clk(clk), .reset(reset),
 			.writedata(writedata), .dataadr(dataadr),
+			.readdata(readdata), .pc(pc), .instr(instr), 
 			.memwrite(memwrite)
 	);
 

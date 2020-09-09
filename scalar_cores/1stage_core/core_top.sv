@@ -10,7 +10,9 @@ module riscv_32i(input logic clk, reset,
 			input logic [31:0] instr,
 			output logic memwrite,
 			output logic [31:0] aluout, writedata,
-			input logic [31:0] readdata
+			output logic memaccess,
+			input logic [31:0] readdata,
+			input logic Iwait, Dwait
 );
 
 	assign memwrite = c_bus.memwrite;
@@ -22,7 +24,9 @@ module riscv_32i(input logic clk, reset,
 							.c_bus(c_bus.dp),
 							.pc(pc),
 							.aluout(aluout), .writedata(writedata),
-							.readdata(readdata)
+							.readdata(readdata),
+							.memaccess(memaccess),
+							.Iwait(Iwait), .Dwait(Dwait)
 	);
 
 endmodule : riscv_32i

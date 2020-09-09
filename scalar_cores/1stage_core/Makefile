@@ -17,6 +17,7 @@ compile:
 	vlog -sv -lint datapath.sv
 	vlog -sv -lint controller.sv
 	vlog -sv -lint core_top.sv
+	vlog -sv -lint L1_cache.sv
 	vlog -sv -lint top_test.sv
 	vlog -sv -lint testbench.sv
 

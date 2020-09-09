@@ -5,10 +5,13 @@
 `define DATAPATH
 `include "debug_headerfile.svh"
 module datapath(input logic clk, reset,
+				
 				controller_if c_bus,
 				output logic [31:0] pc,
 				output logic [31:0] aluout, writedata,
-				input logic [31:0] readdata
+				input logic [31:0] readdata,
+				output logic memaccess,
+				input logic Iwait, Dwait
 );
 
 /********************************************************************************/
@@ -29,8 +32,14 @@ module datapath(input logic clk, reset,
 	logic [2:0] funct3;
 	logic [6:0] funct7;
 
-	// pcplus4
+	logic en_pc_reg;
+
+	// pcplus4 adder
 	assign pcplus4 = pc + 32'd4;
+	// en_pc_reg: hold PC if Iwait or Dwait is high
+	assign en_pc_reg = Iwait | Dwait;
+	// memaccess: datapath output : is fet if either memtoreg or memwrite is high
+	assign memaccess = c_bus.memtoreg | c_bus.memwrite; 
 
 	instn_decode instn_decode
 				(	.instr(c_bus.instr),
@@ -46,19 +55,22 @@ module datapath(input logic clk, reset,
 			pc <= 0;
 		end
 		else begin
-			casez( {c_bus.pcsrc, c_bus.jump, c_bus.jalr} )
-				3'b000: pc <= pcplus4;
-				3'b010: pc <= pc + jumpimm; // riscv - c_bus.jump
-				3'b001: pc <= (itypeimm + srca) & (32'hffff_fffe); // riscv - c_bus.jalr
-				3'b100: pc <= pc + branchimm; // riscv - c_bus.branch
-				default pc <= pcplus4;
-			endcase
+			if (!en_pc_reg) begin
+				casez( {c_bus.pcsrc, c_bus.jump, c_bus.jalr} )
+					3'b000: pc <= pcplus4;
+					3'b010: pc <= pc + jumpimm; // riscv - c_bus.jump
+					3'b001: pc <= (itypeimm + srca) & (32'hffff_fffe); // riscv - c_bus.jalr
+					3'b100: pc <= pc + branchimm; // riscv - c_bus.branch
+					default pc <= pcplus4;
+				endcase
+			end
 		end
 	end
 
 
 	// register file logic
-	regfile rf(	.clk(clk), .we3(c_bus.regwrite),
+	regfile rf(	.clk(clk), .reset(reset),
+				.we3(c_bus.regwrite),
 				.rs1(rs1), .rs2(rs2), .rd(rd),
 				.wd3(result),
 				.rs1_data(srca), .rs2_data(srcb_net0)); // riscv - rs1 and rs2
@@ -128,14 +140,15 @@ module alu 	(	input logic [31:0] srca,
 	end
 endmodule : alu
 
-module regfile	(	input logic clk,
+module regfile	(	input logic clk, reset,
+
 					input logic we3,
 					input logic [4:0] rs1, rs2, rd,
 					input logic [31:0] wd3,
+
 					output logic [31:0] rs1_data, rs2_data
 );
 	bit [31:0] rf[31:0];
-
 	// three ported register file
 	// read two ports combinationally
 	// write third port on rising edge of clk
@@ -143,8 +156,13 @@ module regfile	(	input logic clk,
 	// note: for pipelined processor, write third port
 	// on falling edge of clk
 
-	always_ff @(posedge clk) begin
-		if (we3) rf[rd] <= wd3;
+	always_ff @(posedge clk or negedge reset) begin
+		if (!reset) begin
+			rf <= '{default:'0};
+		end
+		else begin
+			if (we3) rf[rd] <= wd3;
+		end
 	end
 	assign rs1_data = (rs1 != 0) ? rf[rs1] : 0;
 	assign rs2_data = (rs2 != 0) ? rf[rs2] : 0;
