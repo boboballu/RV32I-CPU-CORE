@@ -27,3 +27,43 @@
 # End of Stack Trace
 
 
+# Current time Fri Sep 11 14:26:12 2020
+# Program = vsim
+# Id = "10.7c"
+# Version = "2018.08"
+# Date = "Aug 17 2018"
+# Platform = "linux"
+# Signature = 02bd7e6dc62a0ca6b2a6a40e42040327
+# 0    0x08b7ac40: '<unknown (@0x8b7ac40)>'
+# 1    0x08b709a3: '<unknown (@0x8b709a3)>'
+# 2    0x08b70a27: '<unknown (@0x8b70a27)>'
+# 3    0x08b759b9: '<unknown (@0x8b759b9)>'
+# 4    0x08b73504: '<unknown (@0x8b73504)>'
+# 5    0x08b73999: '<unknown (@0x8b73999)>'
+# 6    0x08b79022: '<unknown (@0x8b79022)>'
+# 7    0xf6394437: 'debug_package.sv:27'
+# 8    0x08304fac: '<unknown (@0x8304fac)>'
+# 9    0x084b41d2: '<unknown (@0x84b41d2)>'
+# 10   0x084b4c21: '<unknown (@0x84b4c21)>'
+# 11   0x08571167: '<unknown (@0x8571167)>'
+# 12   0x085744a4: '<unknown (@0x85744a4)>'
+# 13   0x089d191e: '<unknown (@0x89d191e)>'
+# 14   0x089c7069: '<unknown (@0x89c7069)>'
+# 15   0x0903609b: '<unknown (@0x903609b)>'
+# 16   0x0903568a: '<unknown (@0x903568a)>'
+# 17   0x0903ac13: '<unknown (@0x903ac13)>'
+# 18   0x0903ad2a: '<unknown (@0x903ad2a)>'
+# 19   0x0903c3d1: '<unknown (@0x903c3d1)>'
+# 20   0x0903c746: '<unknown (@0x903c746)>'
+# 21   0x08bb5735: '<unknown (@0x8bb5735)>'
+# 22   0x090e4447: '<unknown (@0x90e4447)>'
+# 23   0x0913e70c: '<unknown (@0x913e70c)>'
+# 24   0x09141568: '<unknown (@0x9141568)>'
+# 25   0x090fd938: '<unknown (@0x90fd938)>'
+# 26   0x090fdc45: '<unknown (@0x90fdc45)>'
+# 27   0x08f41f40: '<unknown (@0x8f41f40)>'
+# 28   0x08715e73: '<unknown (@0x8715e73)>'
+# 29   0x085ceda2: '<unknown (@0x85ceda2)>'
+# End of Stack Trace
+
+

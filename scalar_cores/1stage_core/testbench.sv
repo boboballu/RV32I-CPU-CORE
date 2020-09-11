@@ -19,28 +19,30 @@ module testbench();
 	// debug variable
 	`ifdef MEM_DEBUG
 	mem_debug dbg;
-	assign dbg.pc 	 = dut.pc;
-	assign dbg.op 	 = dut.riscv_32i.c_bus.instr[6:0];
-	assign dbg.rs1 	 = dut.riscv_32i.c_bus.instr[19:15];
-	assign dbg.rs2   = dut.riscv_32i.c_bus.instr[24:20];
-	assign dbg.rd    = dut.riscv_32i.c_bus.instr[11:7];
+	assign dbg.funct3 		= dut.riscv_32i.c_bus.instr[14:12];
+	assign dbg.alu_sub_funct7 = dut.riscv_32i.c_bus.instr[30];
+	assign dbg.pc 	 			= dut.pc;
+	assign dbg.op 	 			= dut.riscv_32i.c_bus.instr[6:0];
+	assign dbg.rs1 	 			= dut.riscv_32i.c_bus.instr[19:15];
+	assign dbg.rs2   			= dut.riscv_32i.c_bus.instr[24:20];
+	assign dbg.rd    			= dut.riscv_32i.c_bus.instr[11:7];
 
-	assign dbg.result= dut.riscv_32i.datapath.result;
+	assign dbg.result			= dut.riscv_32i.datapath.result;
 
-	assign dbg.dmem_we   = dut.riscv_32i.c_bus.memwrite;
-	assign dbg.dmem_addr = dut.riscv_32i.aluout;
-	assign dbg.dmem_wd   = dut.riscv_32i.writedata;
-	assign dbg.dmem_rd   = dut.riscv_32i.readdata;
+	assign dbg.dmem_we   	= dut.riscv_32i.c_bus.memwrite;
+	assign dbg.dmem_addr 	= dut.riscv_32i.aluout;
+	assign dbg.dmem_wd   	= dut.riscv_32i.writedata;
+	assign dbg.dmem_rd   	= dut.riscv_32i.readdata;
 
-	assign dbg.alusrc   = dut.riscv_32i.c_bus.alusrc;
-	assign dbg.regwrite = dut.riscv_32i.c_bus.regwrite;
-	assign dbg.memtoreg = dut.riscv_32i.c_bus.memtoreg;
+	assign dbg.alusrc   	= dut.riscv_32i.c_bus.alusrc;
+	assign dbg.regwrite 	= dut.riscv_32i.c_bus.regwrite;
+	assign dbg.memtoreg 	= dut.riscv_32i.c_bus.memtoreg;
 	`endif
 
 	// instantiate device to be tested
 	top dut (.clk(clk), .reset(reset),
 			.writedata(writedata), .dataadr(dataadr),
-			.readdata(readdata), .pc(pc), .instr(instr), 
+			.readdata(readdata), .pc(pc), .instr(instr),
 			.memwrite(memwrite)
 	);
 
@@ -78,9 +80,9 @@ module testbench();
 `ifdef MEM_DEBUG
 	always @(negedge clk) begin
 		if (reset) begin
-			if ((dbg.instn_type_str[dbg.op] != "illegal") && (dbg.instn_type_str[dbg.op] != "J")) //&& (dbg.pc != 'hc))
+			if ((dbg.instn_type_str[dbg.op] != "INVALID") && (dbg.instn_type_str[dbg.op] != "J")) //&& (dbg.pc != 'hc))
 			begin
-				$write ("%t; pc: %x; op: %s; rd :%d; rs1: %d; rs2: %d;\n", $time, dbg.pc, dbg.instn_type_str[dbg.op], dbg.rd, dbg.rs1, dbg.rs2);
+				$write ("%t; pc: %x; op: %s; instr: %s; rd :%d; rs1: %d; rs2: %d;\n", $time, dbg.pc, dbg.instn_type_str[dbg.op], dbg.instn_str[dbg.op][dbg.funct3][dbg.alu_sub_funct7], dbg.rd, dbg.rs1, dbg.rs2);
 			end
 		end
 		if (dbg.instn_type_str[dbg.op] == "LW") begin

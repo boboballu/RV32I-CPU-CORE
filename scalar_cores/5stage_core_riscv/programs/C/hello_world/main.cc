@@ -2,16 +2,16 @@
 // School: North Carolina State University
 // mail  : tkesava@ncsu.edu
 /********************************************************************************/
-// accessing variable defined in linker 
+// accessing variable defined in linker
 //https://stackoverflow.com/questions/48561217/how-to-get-value-of-variable-defined-in-ld-linker-script-from-c
 extern unsigned int __sp[];
 
 //char write_char (int c); // __attribute__((optimize(0)));
-/*volatile*/ 
+/*volatile*/
 
 char write_char(int c)  {
-	int ret = 0;	
-	volatile int* tx = (volatile int*) 65532;
+	int ret = 0;
+	volatile int* tx = (volatile int*) 65536;
 	*tx = c;
 	if (*tx == c)
 		ret = 1;
@@ -67,16 +67,16 @@ mini_itoa(int value, unsigned int radix, unsigned int uppercase, unsigned int un
 int main()
 {
 	char a[30] = "Hello World ;) \n";
-	
+
 	int i=0;
 	// while (a[i] != '\0') {
 	// 	write_char((int)a[i]);
 	// //	*tx = a[i];
 	// 	i++;
 	// //	tx = tx + 1;
-	// }  
+	// }
 	//tx = tx+16;
-	volatile int* tx_int = (volatile int*) 65532;
+	// volatile int* tx_int = (volatile int*) 65536;
 	char number[10];
 	mini_itoa((int)(__sp), 10, 0, 0, number, 0);
 	i = 0;

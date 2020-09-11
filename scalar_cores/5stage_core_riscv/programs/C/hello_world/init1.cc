@@ -8,26 +8,19 @@
 // this file contains the .textinit section, which calls main
 // vector table for IO's, section pointers etc
 // A reset handler
-#define STACK_START 0x0FFF0
+#define STACK_START 0x0FFFF
 int main(); // main definition
 
 extern "C" void textinit () __attribute__((section(".text.init0"), optimize(0)));
-void endpgm (void) __attribute__((section(".text.init1"), optimize(0)));
 
 uint32_t vector [] __attribute__((section(".vector_section"))) = {
     STACK_START,
-    (uint32_t) textinit,
-    (uint32_t) &endpgm
+    (uint32_t) &textinit,
 };
 
 void textinit (void) {
     //set up the stack pointer, using a constant defined in the linker script.
-    // asm("la sp, %0": : "i"(STACK_START-32)); 
+    // asm("la sp, %0": : "i"(STACK_START-32));
     // call main and exit once main returns
     main();
-    endpgm();
-}
-void endpgm () {
-    // wait forever
-    while(1);
 }

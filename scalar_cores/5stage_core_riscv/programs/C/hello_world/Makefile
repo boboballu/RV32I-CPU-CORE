@@ -3,10 +3,10 @@
 ## mail  : tkesava@ncsu.edu
 ##*******************************************************************************##
 
-## can use both gcc and g++; 
+## can use both gcc and g++;
 ##Personally I feel there is no difference between gcc and g++ these days
 
-## Baremetal binary with math (Arthmetic) libraries 
+## Baremetal binary with math (Arthmetic) libraries
 ## https://stackoverflow.com/questions/57021029/how-to-link-math-library-when-building-bare-metal-application-with-custom-linker
 
 cc=riscv64-unknown-elf-g++
@@ -15,12 +15,15 @@ objcopy = riscv64-unknown-elf-objcopy
 # cc=riscv-none-embed-g++
 # objdump = riscv-none-embed-objdump
 # objcopy = riscv-none-embed-objcopy
-# CFLAGS=-O0 -m32 -march=RV32I
-CFLAGS=-march=rv32i -mabi=ilp32
+
+# OLD Compiler Args - Grendel
+CFLAGS=-m32 -march=RV32I
+# NEW Compiler Args - Personal Machine
+#CFLAGS=-march=rv32i -mabi=ilp32
 OPT=-O1
 ccFs:=main.cc init1.cc
 ASMs:=init.s
-OBJ:=init.o init1.o main.o 
+OBJ:=init.o init1.o main.o
 
 exe: $(OBJ)
 	$(cc) -o $@ $^ $(CFLAGS) -Xlinker -T -Xlinker link.ld -nostdlib -nostartfiles -ffreestanding -lgcc
@@ -42,7 +45,7 @@ exe.dump:
 exe.bin:
 	$(objcopy) -O binary --only-section=.text* --only-section=.rodata* --only-section=.data* exe exe.bin
 
-exe.dat:	
+exe.dat:
 	hexdump -v -e '"%08x\n"' exe.bin > exe.dat
 
 all: exe exe.dump exe.bin exe.dat disassembly.dump
