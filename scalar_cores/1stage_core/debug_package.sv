@@ -6,14 +6,36 @@
 `include "debug_headerfile.svh"
 package dbg_pkg;
 
+typedef string str_6b_1dassoc_t [logic[6:0]];
+typedef string str_6b_2b_1b_3dassoc_t [logic[6:0]][logic[2:0]][logic];
+
 `ifdef MEM_DEBUG
 
 	typedef struct {
 
 		logic [31:0] pc;
 
+		str_6b_1dassoc_t instn_type_str;
+		str_6b_2b_1b_3dassoc_t instn_str;
+
+		logic [6:0] op;
+		logic [2:0] funct3;
+		logic alu_sub_funct7;
+		logic [4:0] rs1, rs2, rd;
+
+		logic [31:0] result;
+		logic dmem_we;
+		logic [31:0] dmem_addr; logic [31:0] dmem_wd;
+		logic [31:0] dmem_rd;
+		logic alusrc;
+		logic regwrite; logic memtoreg;
+
+	} mem_debug;
+
+	function str_6b_1dassoc_t initialize_instn_type_str ();
+		str_6b_1dassoc_t ret;
 		// 1D associaative array : [op]
-		string instn_type_str [logic[6:0]] = '{
+		ret = '{
 			7'b0110011:	"RTYPE",
 			7'b0000011: "LW",
 			7'b0100011: "SW",
@@ -25,9 +47,14 @@ package dbg_pkg;
 			7'b0110111: "lui",
 			default: "INVALID"
 		};
+		
+		return ret;
+	endfunction : initialize_instn_type_str
 
+	function str_6b_2b_1b_3dassoc_t initialize_instn_str ();
+		str_6b_2b_1b_3dassoc_t ret;
 		// 3D associative array : [op][funct3][alu_sub_funct7]
-		string instn_str [logic[6:0]][logic[2:0]][logic] = '{
+		ret = '{
 			// RTYPE INSTNS
 			7'b0110011: '{
 											3'b000: '{1'b0:"ADD", 1'b1:"SUB"},
@@ -99,20 +126,8 @@ package dbg_pkg;
 			default: '{default:'{default:"INVALID"}}
 		};
 
-
-		logic [6:0] op;
-		logic [2:0] funct3;
-		logic alu_sub_funct7;
-		logic [4:0] rs1, rs2, rd;
-
-		logic [31:0] result;
-		logic dmem_we;
-		logic [31:0] dmem_addr; logic [31:0] dmem_wd;
-		logic [31:0] dmem_rd;
-		logic alusrc;
-		logic regwrite; logic memtoreg;
-
-	} mem_debug;
+		return ret;
+	endfunction : initialize_instn_str
 
 `endif
 

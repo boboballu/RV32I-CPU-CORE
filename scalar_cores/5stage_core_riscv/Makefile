@@ -4,15 +4,13 @@
 #********************************************************************************#
 
 exe ?= ./memfile.dat
-d_addr ?= 84
-d_data ?= 7
 
 # Enable lint
 #lint=-lint
 lint=
 
 cli: clean work compile
-	vsim -c -do "run -all; exit" +EXEC=$(exe) +D_cache_address=$(d_addr) +D_cache_data=$(d_data) testbench
+	vsim -c -do "run -all; exit" +EXEC=$(exe) testbench
 
 all: clean work compile testbench
 
@@ -29,6 +27,7 @@ design:
 	vlog -sv $(lint) Bpred.sv
 	vlog -sv $(lint) main.sv
 	vlog -sv $(lint) L1_cache.sv
+
 packages:
 	vlog -sv $(lint) packages.sv
 

@@ -19,8 +19,8 @@ module testbench();
 	// debug variable
 	`ifdef MEM_DEBUG
 	mem_debug dbg;
-	assign dbg.funct3 		= dut.riscv_32i.c_bus.instr[14:12];
-	assign dbg.alu_sub_funct7 = dut.riscv_32i.c_bus.instr[30];
+	assign dbg.funct3 			= dut.riscv_32i.c_bus.instr[14:12];
+	assign dbg.alu_sub_funct7 	= dut.riscv_32i.c_bus.instr[30];
 	assign dbg.pc 	 			= dut.pc;
 	assign dbg.op 	 			= dut.riscv_32i.c_bus.instr[6:0];
 	assign dbg.rs1 	 			= dut.riscv_32i.c_bus.instr[19:15];
@@ -46,6 +46,15 @@ module testbench();
 			.memwrite(memwrite)
 	);
 
+	// debug variable
+	`ifdef MEM_DEBUG
+	// initialize the associative arrays for mem_debug
+	initial begin
+		dbg.instn_type_str 	= initialize_instn_type_str();
+		dbg.instn_str 		= initialize_instn_str();
+	end
+	`endif
+	
 	// dump var for gtkwave
 	`ifdef DUMP_VCD
 	 initial begin

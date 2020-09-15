@@ -16,10 +16,10 @@
 bool vcdTrace = false;
 VerilatedVcdC* tfp = NULL;
 
-#define CONSOLE_FORMAT "%d" // %c
+#define CONSOLE_FORMAT "%c" // %d
 // testbench.cc : variables
 uint32_t EXE_TIME = 3000;
-uint32_t CONSOLE_ADDR = 65532;
+uint32_t CONSOLE_ADDR = 65536;
 
 using namespace std;
 
