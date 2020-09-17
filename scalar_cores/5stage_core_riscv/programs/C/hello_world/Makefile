@@ -9,21 +9,32 @@
 ## Baremetal binary with math (Arthmetic) libraries
 ## https://stackoverflow.com/questions/57021029/how-to-link-math-library-when-building-bare-metal-application-with-custom-linker
 
+## riscv official compiler binaries - with multilib support
 cc=riscv64-unknown-elf-g++
 objdump = riscv64-unknown-elf-objdump
 objcopy = riscv64-unknown-elf-objcopy
+
+## riscv xpack installer - binaries
+## https://xpack.github.io/riscv-none-embed-gcc/install/
 # cc=riscv-none-embed-g++
 # objdump = riscv-none-embed-objdump
 # objcopy = riscv-none-embed-objcopy
 
 # OLD Compiler Args - Grendel
-CFLAGS=-m32 -march=RV32I
+#CFLAGS=-m32 -march=RV32I
 # NEW Compiler Args - Personal Machine
-#CFLAGS=-march=rv32i -mabi=ilp32
-OPT=-O1
-ccFs:=main.cc init1.cc
+CFLAGS=-march=rv32i -mabi=ilp32
+OPT=-O3
+ccFs:=main.cc init1.cc myClib.cc
 ASMs:=init.s
-OBJ:=init.o init1.o main.o
+OBJ:=init.o init1.o main.o myClib.o
+
+# -nostdlib 	: is a 'ld' linker option; has no effect in 'cc' compiler
+# -nostartfiles : is a 'cc' option; has no effect in linker
+# -freestanding	: is a 'cc' option; has no effect in linker 
+# -lgcc			: includes multilib libraries; picks all necessary Math 'arthmetic libraries' for rv32i mul, div etc
+
+# gcc calls linker 'ld' for linking - internal call
 
 exe: $(OBJ)
 	$(cc) -o $@ $^ $(CFLAGS) -Xlinker -T -Xlinker link.ld -nostdlib -nostartfiles -ffreestanding -lgcc

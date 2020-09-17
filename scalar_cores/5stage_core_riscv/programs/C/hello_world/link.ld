@@ -7,35 +7,64 @@
 /* reference : https://docs.rtems.org/releases/rtemsdoc-4.7.3/share/rtems/html/bsp_howto/bsp_howto00021.html */
 /* stack grows from bottom to top - keep in mind */
 
-/* doesn't pick textinit function bit picks main surpricingly */
-/* ENTRY(write_char) */
+/* doesn't pick textinit function but picks main surpricingly */
 
-__sp = 0x0FFFF;
+OUTPUT_ARCH( "riscv" )
+
+/* ram is word addressable and 1 word is 4 bytes */
+/* 64k bytes implies 4k words in ram */
+MEMORY {
+  ram      (rwx): ORIGIN = 0x00000000, LENGTH = 64k   
+}
+
+/* linker symbols goes here */
+/* __sp = 0x0FFFF; */
+
+/* ENTRY(_START) */
 
 SECTIONS
 {
-    .text.init : {
-        *(.text.initx)
-        *(.text.init0)
-    }
-
-    .text : {
+    .text (ORIGIN(ram)) : {
+        PROVIDE(_stext = .);
+        *(.init)
+        *(.init.*)
         *(.text)
-        *(.text.*)
-    }
+        PROVIDE(_etext = .);
+    } > ram
 
+    .vector : {
+        . = ALIGN(4);
+        PROVIDE(_svector = .);
+        *(.vector*)
+        . = ALIGN(4);
+        PROVIDE(_evector = .);
+    } > ram
+    
     .rodata : {
+        . = ALIGN(4);
+        PROVIDE(_srodata = .);
     	*(.rodata)
     	*(.rodata.*)
-    }
+        . = ALIGN(4);
+        PROVIDE(_erodata = .);
+    } > ram
 
     .data : {
-        *(.vector_section)
-        *(.sbss)
-        *(COMMON)
-        *(.bss)
-        *(.sdata)
+        . = ALIGN(4);
+        PROVIDE(_sdata = .);
         *(.data*)
-        *(.got*)
-    }
+        . = ALIGN(4);
+        PROVIDE(_edata = .);
+    } > ram
+
+    .bss : {
+        . = ALIGN(4);
+        PROVIDE(_sbss = .);
+        *(.bss*)
+        . = ALIGN(4);
+        PROVIDE(_ebss = .);
+    } > ram
+
+    PROVIDE(__sp = ORIGIN(ram) + LENGTH(ram));
+    PROVIDE(__console_addr = .);
 }

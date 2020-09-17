@@ -3,23 +3,26 @@
 // mail  : tkesava@ncsu.edu
 /********************************************************************************/
 #include <stdint.h>
+#include "myClib.h"
 
 // init source file in C
-// this file contains the .textinit section, which calls main
+// this file contains the .textinit section, which calls main,
 // vector table for IO's, section pointers etc
 // A reset handler
-#define STACK_START 0x0FFFF
 int main(); // main definition
 
-extern "C" void textinit () __attribute__((section(".text.init0"), optimize(0)));
+// extern "C" is mandatory to make this function callable in assembly
+// https://embeddedartistry.com/blog/2017/05/01/mixing-c-and-c-extern-c/
+// The above site talks abt transitioning from C and C++; But it's same for C or C++ to Asm
+extern "C" void textinit () __attribute__((section(".init.text0"), optimize(0)));
 
 uint32_t vector [] __attribute__((section(".vector_section"))) = {
-    STACK_START,
+    (uint32_t) __sp,
     (uint32_t) &textinit,
 };
 
 void textinit (void) {
-    //set up the stack pointer, using a constant defined in the linker script.
+    // reinitialize stack pointer if necessary; using a constant defined in the linker script.
     // asm("la sp, %0": : "i"(STACK_START-32));
     // call main and exit once main returns
     main();
