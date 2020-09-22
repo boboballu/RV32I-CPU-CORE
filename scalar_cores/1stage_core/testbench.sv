@@ -76,7 +76,7 @@ module testbench();
 	initial begin
 		reset <= 0; # 22; reset <= 1;
 		$display (); $display ();
-		$display ("==> Console [0x%08x] print - writes to the addr treated as a console print msg <==", 65532);
+		$display ("==> Console [0x%08x] print - writes to the addr treated as a console print msg <==", CONSOLE_ADDR);
 		$display (); $display ();
 	end
 	// generate clock to sequence tests

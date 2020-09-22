@@ -20,6 +20,7 @@ MEMORY {
 /* linker symbols goes here */
 /* __sp = 0x0FFFF; */
 __console_addr = 0x10004;
+
 /* ENTRY(_START) */
 
 SECTIONS
@@ -65,8 +66,6 @@ SECTIONS
         PROVIDE(_ebss = .);
     } > ram
 
-    PROVIDE(__sp = (ORIGIN(ram) + LENGTH(ram) - 4));
-    /* # Problem with linker is, it provides symbols in 4byte word boundary
-    # I am not sure whether this fact is correct, but ut sets stack to 65536!
-    # This overflows the stack, since my memory ranges only from 0 to 65535 */
+    PROVIDE(__sp = ORIGIN(ram) + LENGTH(ram));
+    /* PROVIDE(__console_addr = .); */
 }

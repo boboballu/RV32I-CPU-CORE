@@ -70,7 +70,7 @@ module datapath(input logic clk, reset,
 
 	// register file logic
 	regfile rf(	.clk(clk), .reset(reset),
-				.we3(c_bus.regwrite),
+				.en_pc_reg(en_pc_reg), .we3(c_bus.regwrite),
 				.rs1(rs1), .rs2(rs2), .rd(rd),
 				.wd3(result),
 				.rs1_data(srca), .rs2_data(srcb_net0)); // riscv - rs1 and rs2
@@ -142,7 +142,7 @@ endmodule : alu
 
 module regfile	(	input logic clk, reset,
 
-					input logic we3,
+					input logic en_pc_reg, we3,
 					input logic [4:0] rs1, rs2, rd,
 					input logic [31:0] wd3,
 
@@ -161,7 +161,9 @@ module regfile	(	input logic clk, reset,
 			rf <= '{default:'0};
 		end
 		else begin
-			if (we3) rf[rd] <= wd3;
+			if (!en_pc_reg) begin
+				if (we3) rf[rd] <= wd3;
+			end
 		end
 	end
 	assign rs1_data = (rs1 != 0) ? rf[rs1] : 0;
