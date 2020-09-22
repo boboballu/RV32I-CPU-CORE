@@ -1,59 +1,46 @@
 # vsim -c -do "run -all; exit" "+EXEC=./memfile.dat" testbench 
-# Start time: 00:07:26 on Sep 17,2020
+# Start time: 18:19:08 on Sep 22,2020
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6c Jul 25 2017Linux 3.10.0-1127.19.1.el7.x86_64
+# //
+# //  Copyright 1991-2017 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
 # Loading sv_std.std
-# Loading work.dbg_pkg
-# Loading work.testbench_sv_unit
-# Loading work.testbench
-# Loading work.top_test_sv_unit
-# Loading work.top
-# Loading work.main_sv_unit
-# Loading work.riscv_32i
-# Loading work.comb_stages_sv_unit
-# Loading work.pc_gen
-# Loading work.ff_stages_sv_unit
-# Loading work.pc_if
-# Loading work.IF_comb
-# Loading work.if_id
-# Loading work.instn_decode
-# Loading work.ID_comb
-# Loading work.regfile
-# Loading work.id_ex
-# Loading work.EX_comb
-# Loading work.alu
-# Loading work.ex_mem
-# Loading work.MEM_comb
-# Loading work.mem_wb
-# Loading work.WB_comb
-# Loading work.controller_sv_unit
-# Loading work.controller
-# Loading work.maindec
-# Loading work.aludec
-# Loading work.branch_compute_sv_unit
-# Loading work.branch_compute
-# Loading work.hazard_unit_sv_unit
-# Loading work.hazard_unit
-# Loading work.BTB_sv_unit
-# Loading work.BTB
-# Loading work.Bpred_sv_unit
-# Loading work.Bpred
-# Loading work.L1_cache_sv_unit
-# Loading work.mem_bus
-# Loading work.unified_L1_cache
-# Loading work.imem
-# Loading work.dmem
+# Loading work.dbg_pkg(fast)
+# Loading work.L1_cache_sv_unit(fast)
+# Loading work.Bpred_sv_unit(fast)
+# Loading work.BTB_sv_unit(fast)
+# Loading work.hazard_unit_sv_unit(fast)
+# Loading work.branch_compute_sv_unit(fast)
+# Loading work.controller_sv_unit(fast)
+# Loading work.ff_stages_sv_unit(fast)
+# Loading work.comb_stages_sv_unit(fast)
+# Loading work.main_sv_unit(fast)
+# Loading work.top_test_sv_unit(fast)
+# Loading work.testbench_sv_unit(fast)
+# Loading work.testbench(fast)
 # run -all
 # testbench.dut.L1_cache found +EXEC=./memfile.dat
 #  
 #  
-# ==> Console [0x00010000] print - writes to the addr treated as a console print msg <==
+# ==> Console [0x00010004] print - writes to the addr treated as a console print msg <==
 #  
 #  
-#  
+# PASSED! 
 #  
 # ** Note: $stop    : testbench.sv(32)
-#    Time: 50 ns  Iteration: 0  Instance: /testbench
-# Break in Module testbench at testbench.sv line 32
+#    Time: 20 ms  Iteration: 0  Instance: /testbench
+# Break at testbench.sv line 32
 # Stopped at testbench.sv line 32
 #  exit
-# End time: 00:07:26 on Sep 17,2020, Elapsed time: 0:00:00
+# End time: 18:19:12 on Sep 22,2020, Elapsed time: 0:00:04
 # Errors: 0, Warnings: 0

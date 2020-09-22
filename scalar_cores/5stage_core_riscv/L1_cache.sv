@@ -6,7 +6,7 @@
 // mem_bus interface    - defines the interface between core and L1 cache
 // Imem and Dmem modules- modules that are interfaced with the core
 // unified_l1_cache     - L1 cache module; 2 ported memory module
-// mem_wait_data        - model for L1 cache miss 
+// mem_wait_data        - model for L1 cache miss
 /********************************************************************************/
 // unified L1 Instn and Data cache : interface
 `define L1_CACHE
@@ -17,19 +17,19 @@ interface mem_bus;
 	logic clk;
 	logic [31:0] Iaddr, Iinstn;
 	logic [31:0] Daddr, Dreaddata, Dwritedata;
-	logic Dwe; 
+	logic Dwe;
 	logic Dwait, Iwait;
 	logic Dmemaccess;
 
 	modport Imem (	input Iinstn, Iwait,
-					
+
 					output Iaddr
 	);
 
 	modport Dmem (	input Dreaddata, Dwait,
 
 					output clk,
-					
+
 					output Daddr, Dwe, Dwritedata, Dmemaccess
 	);
 
@@ -42,7 +42,7 @@ interface mem_bus;
 	);
 endinterface : mem_bus
 
-// imem & dmem connects to the mem_bus and CPU 
+// imem & dmem connects to the mem_bus and CPU
 module dmem(input logic clk, we,
 			input logic [31:0] a, wd,
 			input logic Dmemaccess,
@@ -68,7 +68,7 @@ module imem(input logic [31:0] a,
 );
 	assign Bus.Iaddr 		= a;
 	assign rd  				= Bus.Iinstn;
-	assign Iwait			= Bus.Iwait;	
+	assign Iwait			= Bus.Iwait;
 endmodule : imem
 
 module unified_L1_cache (mem_bus Bus);
@@ -83,7 +83,7 @@ module unified_L1_cache (mem_bus Bus);
 	end
 
 	// unified Instn and Data memory
-	bit [31:0] MEM [131071:0]; // 512 KB of memory
+	bit [31:0] MEM [RAM_SIZE-1:0]; // 256 KB of memory
 
 	// Imem read memory
 	initial begin
@@ -112,7 +112,7 @@ module unified_L1_cache (mem_bus Bus);
 	`else
 	assign Bus.Dwait = 0;
 	`endif
-	
+
 endmodule : unified_L1_cache
 
 /********************************************************************************/

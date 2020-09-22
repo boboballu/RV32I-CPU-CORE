@@ -1,0 +1,112 @@
+Archive member included to satisfy reference by file (symbol)
+
+/afs/eos.ncsu.edu/dist/riscv/bin/../lib/gcc/riscv64-unknown-elf/4.9.2/32/libgcc.a(div.o)
+                              myClib.o (__udivsi3)
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+ram              0x0000000000000000 0x0000000000010000 xrw
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+LOAD init.o
+LOAD init1.o
+LOAD main.o
+LOAD myClib.o
+                0x0000000000010004                __console_addr = 0x10004
+
+.text           0x0000000000000000      0xae4
+                0x0000000000000000                PROVIDE (_stext, .)
+ *(.init)
+ .init          0x0000000000000000       0x10 init.o
+ *(.init.*)
+ .init.text0    0x0000000000000010       0x24 init1.o
+                0x0000000000000010                textinit
+ *(.text)
+ .text          0x0000000000000034        0x0 init.o
+ .text          0x0000000000000034        0x0 init1.o
+ .text          0x0000000000000034      0x6ec main.o
+                0x00000000000001c4                sort(unsigned int, int*)
+                0x0000000000000584                verify(int, int*, int*)
+                0x00000000000006c0                main
+ .text          0x0000000000000720      0x310 myClib.o
+                0x0000000000000720                write_char(char)
+                0x0000000000000784                itoa(int, unsigned int, unsigned int, unsigned int, char*, unsigned int)
+                0x0000000000000994                write_string(char*)
+ .text          0x0000000000000a30       0xb4 /afs/eos.ncsu.edu/dist/riscv/bin/../lib/gcc/riscv64-unknown-elf/4.9.2/32/libgcc.a(div.o)
+                0x0000000000000a30                __divsi3
+                0x0000000000000a38                __udivsi3
+                0x0000000000000a80                __umodsi3
+                0x0000000000000ab4                __modsi3
+                0x0000000000000ae4                PROVIDE (_etext, .)
+
+.vector         0x0000000000000ae4        0x8
+                0x0000000000000ae4                . = ALIGN (0x4)
+                0x0000000000000ae4                PROVIDE (_svector, .)
+ *(.vector*)
+ .vector_section
+                0x0000000000000ae4        0x8 init1.o
+                0x0000000000000ae4                vector
+                0x0000000000000aec                . = ALIGN (0x4)
+                0x0000000000000aec                PROVIDE (_evector, .)
+
+.rodata         0x0000000000000aec       0x14
+                0x0000000000000aec                . = ALIGN (0x4)
+                0x0000000000000aec                PROVIDE (_srodata, .)
+ *(.rodata)
+ .rodata        0x0000000000000aec       0x14 main.o
+ *(.rodata.*)
+                0x0000000000000b00                . = ALIGN (0x4)
+                0x0000000000000b00                PROVIDE (_erodata, .)
+
+.eh_frame       0x0000000000000b00      0x128
+ .eh_frame      0x0000000000000b00       0x34 init1.o
+ .eh_frame      0x0000000000000b34       0x98 main.o
+                                         0xac (size before relaxing)
+ .eh_frame      0x0000000000000bcc       0x5c myClib.o
+                                         0x70 (size before relaxing)
+
+.rela.dyn       0x0000000000000c28        0x0
+ .rela.init     0x0000000000000c28        0x0 init.o
+ .rela.vector_section
+                0x0000000000000c28        0x0 init.o
+ .rela.init.text0
+                0x0000000000000c28        0x0 init.o
+ .rela.text     0x0000000000000c28        0x0 init.o
+
+.data           0x0000000000000c28     0x4000
+                0x0000000000000c28                . = ALIGN (0x4)
+                0x0000000000000c28                PROVIDE (_sdata, .)
+ *(.data*)
+ .data          0x0000000000000c28        0x0 init.o
+ .data          0x0000000000000c28        0x0 init1.o
+ .data          0x0000000000000c28     0x4000 main.o
+                0x0000000000000c28                input_data
+                0x0000000000002c28                verify_data
+ .data          0x0000000000004c28        0x0 myClib.o
+ .data          0x0000000000004c28        0x0 /afs/eos.ncsu.edu/dist/riscv/bin/../lib/gcc/riscv64-unknown-elf/4.9.2/32/libgcc.a(div.o)
+                0x0000000000004c28                . = ALIGN (0x4)
+                0x0000000000004c28                PROVIDE (_edata, .)
+
+.bss            0x0000000000004c28        0x0
+                0x0000000000004c28                . = ALIGN (0x4)
+                0x0000000000004c28                PROVIDE (_sbss, .)
+ *(.bss*)
+ .bss           0x0000000000004c28        0x0 init.o
+ .bss           0x0000000000004c28        0x0 init1.o
+ .bss           0x0000000000004c28        0x0 main.o
+ .bss           0x0000000000004c28        0x0 myClib.o
+ .bss           0x0000000000004c28        0x0 /afs/eos.ncsu.edu/dist/riscv/bin/../lib/gcc/riscv64-unknown-elf/4.9.2/32/libgcc.a(div.o)
+                0x0000000000004c28                . = ALIGN (0x4)
+                0x0000000000004c28                PROVIDE (_ebss, .)
+                0x000000000000fffc                PROVIDE (__sp, ((ORIGIN (ram) + 0x10000) - 0x4))
+LOAD /afs/eos.ncsu.edu/dist/riscv/bin/../lib/gcc/riscv64-unknown-elf/4.9.2/32/libgcc.a
+OUTPUT(exe elf32-littleriscv)
+
+.comment        0x0000000000000000       0x11
+ .comment       0x0000000000000000       0x11 init1.o
+                                         0x12 (size before relaxing)
+ .comment       0x0000000000000011       0x12 main.o
+ .comment       0x0000000000000011       0x12 myClib.o

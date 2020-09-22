@@ -14,20 +14,23 @@
 // top_test.sv : uncomment this def for bin mem file read
 //`define MEM_BINARY
 
-// top_test.sv : uncomment for IWAIT - IMEM cache miss wait model
-// top_test.sv : uncomment for DWAIT - DMEM cache miss wait model
-// `define IWAIT
-// `define DWAIT
-
 /********************************************************************************/
 `ifdef TESTBENCH
 // testbench.sv : console print format specifier
 string CONSOLE_FORMAT = "%c"; // %d
 // testbench.sv : variables
-int CONSOLE_ADDR = 65536;   // console output address
-int EXE_TIME	 = 50000;   // execution time in ps / clock period is 10ps
+int CONSOLE_ADDR = 65540;   // console output address
+int EXE_TIME	 = 20000000;   // execution time in ps / clock period is 10ps
 
 int D_cache_address = 84;   // Unit mem_debug test; mem store address
 int D_cache_data    = 7;    // Unit mem_debug test; mem store value
+`endif
+/********************************************************************************/
+`ifdef L1_CACHE
+parameter RAM_SIZE = 65536;      // 65536 words; which is 65536*4 bytes = 256kB
+// top_test.sv : uncomment for IWAIT - IMEM cache miss wait model
+// top_test.sv : uncomment for DWAIT - DMEM cache miss wait model
+// `define IWAIT
+// `define DWAIT
 `endif
 /********************************************************************************/
