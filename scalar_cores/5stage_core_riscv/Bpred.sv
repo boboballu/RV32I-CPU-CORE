@@ -8,7 +8,8 @@ import dbg_pkg::*;
 
 // A bimodal branch predictor
 
-module Bpred (
+module Bpred #(parameter INDEX_SIZE = 10)
+(
     input logic clk, reset,
 
     input logic [31:0] pcF, pcD,
@@ -16,7 +17,6 @@ module Bpred (
     
     output BpredF
 );
-    parameter INDEX_SIZE = 10;
     // BIMODAL TABLE definition
     logic [1:0] BIMODAL_TABLE [(2**INDEX_SIZE)-1:0];
 

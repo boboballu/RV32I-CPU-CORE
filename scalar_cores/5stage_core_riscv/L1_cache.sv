@@ -72,6 +72,7 @@ module imem(input logic [31:0] a,
 endmodule : imem
 
 module unified_L1_cache (mem_bus Bus);
+	parameter RAM_SIZE = 65536;
 	// get the binary file from commandline args
 	string EXEC;
 	initial begin

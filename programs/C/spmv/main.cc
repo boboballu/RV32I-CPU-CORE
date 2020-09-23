@@ -48,7 +48,7 @@ int verifyDouble (int size, double* result_data, double* verify_data) {
     }
   }
   if (ret == 1)
-    write_string("PASSED!");
+    write_string("PASSED!"); write_char('\n');
   return ret;
 }
 

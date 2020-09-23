@@ -271,18 +271,21 @@ module riscv_32i(	input logic clk, reset,
 
 /********************************************************************************/
 	// BTB
-	BTB BTB(.clk(clk), .reset(reset),
-			
-			.pcF(pc_genF_out), .pcD(pcD),
-			.BTBWriteD( ( (!BTBHitD) & branchD ) ),
-			.branchimmD(branchimmD), .funct3D(funct3D),
-			
-			.BTBHit(BTBHitF),
-			.branchimmF(branchimmF)//, .funct3F()
+	BTB #(.INDEX_SIZE(`BTB_INDEX_SIZE), .TAG_SIZE(`BTB_TAG_SIZE)) BTB
+	(	
+		.clk(clk), .reset(reset),
+		
+		.pcF(pc_genF_out), .pcD(pcD),
+		.BTBWriteD( ( (!BTBHitD) & branchD ) ),
+		.branchimmD(branchimmD), .funct3D(funct3D),
+		
+		.BTBHit(BTBHitF),
+		.branchimmF(branchimmF)//, .funct3F()
 	);
 
 	// Branch predictor
-	Bpred Bpred (
+	Bpred #(.INDEX_SIZE(`BPRED_INDEX_SIZE)) Bpred
+	(
 		.clk(clk), .reset(reset),
 		
 		.pcF(pc_genF_out), .pcD(pcD),

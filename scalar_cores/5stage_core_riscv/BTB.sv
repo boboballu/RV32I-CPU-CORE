@@ -8,7 +8,9 @@ import dbg_pkg::*;
 
 // This file contains the BTB
 
-module BTB (    
+module BTB #(parameter TAG_SIZE = 20,
+             parameter INDEX_SIZE = 10)
+(    
             input logic clk, reset,
             
             input logic [31:0] pcF, pcD,
@@ -21,8 +23,6 @@ module BTB (
 
     // 4 byte instn, so 2 lsb bits discarded
     // TAG_SIZE + INDEX_SIZE = 30
-    parameter TAG_SIZE = 20;
-    parameter INDEX_SIZE = 10;
 
     typedef struct packed {
         logic [TAG_SIZE-1:0] tag;

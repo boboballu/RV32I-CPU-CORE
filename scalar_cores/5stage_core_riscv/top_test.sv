@@ -29,7 +29,7 @@ module top(	input logic clk, reset,
 	);
 
 	mem_bus Bus();
-	unified_L1_cache L1_cache (.Bus(Bus));
+	unified_L1_cache #(.RAM_SIZE(`L1_SIZE)) L1_cache (.Bus(Bus));
 	imem imem(.a(pc), .rd(instr), .Iwait(Iwait), .Bus(Bus));
 	dmem dmem(	.clk(clk), .we(memwrite), .a(dataadr), 
 				.wd(writedata), .Dmemaccess(memaccessM),

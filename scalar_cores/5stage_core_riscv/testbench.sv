@@ -104,6 +104,7 @@ module testbench();
 		if (reset) begin
 			if (memwrite) begin
 				$display ("instn_cycle : %d pc %x store : dataadr: %d writedata: %x", instn_cycle, dut.riscv_32i.pcM, dataadr, $signed(writedata));
+				// D_cache_address and D_cache_data not used for testing anymore
 				if (dataadr === D_cache_address & $signed(writedata) === D_cache_data) begin
 					$display("Simulation succeeded");
 					$stop;

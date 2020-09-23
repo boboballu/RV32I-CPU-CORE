@@ -21,9 +21,9 @@ objcopy = riscv64-unknown-elf-objcopy
 # objcopy = riscv-none-embed-objcopy
 
 # OLD Compiler Args - Grendel
-CFLAGS=-m32 -march=RV32I
+#CFLAGS=-m32 -march=RV32I
 # NEW Compiler Args - Personal Machine
-#CFLAGS=-march=rv32i -mabi=ilp32
+CFLAGS=-march=rv32i -mabi=ilp32
 
 OPT=-O3
 ccFs:=main.cc init1.cc myClib.cc

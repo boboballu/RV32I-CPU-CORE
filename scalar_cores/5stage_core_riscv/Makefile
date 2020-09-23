@@ -7,12 +7,13 @@ exe ?= ./memfile.dat
 
 # Enable lint
 #lint=-lint
+# Disable lint
 lint=
 
 cli: clean work compile
 	vsim -c -do "run -all; exit" +EXEC=$(exe) testbench
 
-all: clean work compile testbench
+gui: clean work compile testbench
 
 compile: packages design all_tbs
 
@@ -36,7 +37,7 @@ all_tbs:
 	vlog -sv $(lint) testbench.sv
 
 testbench:
-	vsim +EXEC=$(exe) +D_cache_address=$(d_addr) +D_cache_data=$(d_data) testbench
+	vsim +EXEC=$(exe) testbench
 
 work:
 	vlib work
