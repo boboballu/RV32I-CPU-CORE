@@ -1,5 +1,5 @@
 # vsim -c -do "run -all; exit" "+EXEC=./memfile.dat" testbench 
-# Start time: 18:29:20 on Sep 23,2020
+# Start time: 23:17:17 on Oct 11,2020
 # Loading sv_std.std
 # Loading work.dbg_pkg
 # Loading work.testbench_sv_unit
@@ -48,13 +48,12 @@
 # ==> Console [0x00010004] print - writes to the addr treated as a console print msg <==
 #  
 #  
-# Hello World ;) 
-# 65532 
+# Hello World :) => 0000000a 
 #  
 # ** Note: $stop    : testbench.sv(32)
 #    Time: 200 ns  Iteration: 0  Instance: /testbench
 # Break in Module testbench at testbench.sv line 32
 # Stopped at testbench.sv line 32
 #  exit
-# End time: 18:29:21 on Sep 23,2020, Elapsed time: 0:00:01
+# End time: 23:17:18 on Oct 11,2020, Elapsed time: 0:00:01
 # Errors: 0, Warnings: 0

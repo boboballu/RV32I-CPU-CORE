@@ -103,13 +103,27 @@ module unified_L1_cache (mem_bus Bus);
 	end
 
 	`ifdef IWAIT
-    mem_wait_data #( .LSB_BITS(2'b11) ) waitI (.clk(Bus.clk), .addr(Bus.Iaddr), .wait_data(Bus.Iwait));
+	// not using the state-machine wait - which is an over thought implementation; completely unnecessary
+	// mem_wait_data #( .LSB_BITS(2'b11) ) waitI (.clk(Bus.clk), .addr(Bus.Iaddr), .wait_data(Bus.Iwait));
+	always @(posedge Bus.clk) begin
+		if ($urandom_range(0, 7) == 7)
+			Bus.Iwait = 1;
+		else
+			Bus.Iwait = 0;
+	end
 	`else
 	assign Bus.Iwait = 0;
 	`endif
 
 	`ifdef DWAIT
-	mem_wait_data #( .LSB_BITS(2'b11) ) waitD (.clk(Bus.clk), .addr(Bus.Daddr), .wait_data(Bus.Dwait));
+	// not using the state-machine wait - which is an over thought implementation; completely unnecessary
+	// mem_wait_data #( .LSB_BITS(2'b11) ) waitD (.clk(Bus.clk), .addr(Bus.Daddr), .wait_data(Bus.Dwait));
+	always @(posedge Bus.clk) begin
+		if ($urandom_range(0, 7) == 7)
+			Bus.Dwait = 1;
+		else
+			Bus.Dwait = 0;
+	end
 	`else
 	assign Bus.Dwait = 0;
 	`endif
@@ -117,6 +131,7 @@ module unified_L1_cache (mem_bus Bus);
 endmodule : unified_L1_cache
 
 /********************************************************************************/
+// An over thought cache miss model - unnecessary as of today : 10/11/2020
 // A Mealey State-machine model, which adds wait for mem access to location whose 2 LSB bits are '11
 // if addr[3:2] is 2'b11 then wait is set
 module mem_wait_data (	input logic clk,

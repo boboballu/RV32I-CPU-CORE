@@ -1,29 +1,26 @@
 # vsim -c -do "run -all; exit" "+EXEC=./memfile.dat" testbench 
-# Start time: 18:17:37 on Sep 22,2020
-# ** Note: (vsim-3812) Design is being optimized...
-# //  Questa Sim
-# //  Version 10.7c linux Aug 17 2018
-# //
-# //  Copyright 1991-2018 Mentor Graphics Corporation
-# //  All Rights Reserved.
-# //
-# //  QuestaSim and its associated documentation contain trade
-# //  secrets and commercial or financial information that are the property of
-# //  Mentor Graphics Corporation and are privileged, confidential,
-# //  and exempt from disclosure under the Freedom of Information Act,
-# //  5 U.S.C. Section 552. Furthermore, this information
-# //  is prohibited from disclosure under the Trade Secrets Act,
-# //  18 U.S.C. Section 1905.
-# //
+# Start time: 23:24:44 on Oct 11,2020
 # Loading sv_std.std
-# Loading work.dbg_pkg(fast)
-# Loading work.L1_cache_sv_unit(fast)
-# Loading work.core_top_sv_unit(fast)
-# Loading work.top_test_sv_unit(fast)
-# Loading work.testbench_sv_unit(fast)
-# Loading work.testbench(fast)
-# Loading work.controller(fast)
-# Loading work.datapath(fast)
+# Loading work.dbg_pkg
+# Loading work.testbench_sv_unit
+# Loading work.testbench
+# Loading work.top_test_sv_unit
+# Loading work.top
+# Loading work.core_top_sv_unit
+# Loading work.riscv_32i
+# Loading work.controller_if
+# Loading work.controller
+# Loading work.maindec
+# Loading work.aludec
+# Loading work.datapath
+# Loading work.instn_decode
+# Loading work.regfile
+# Loading work.alu
+# Loading work.L1_cache_sv_unit
+# Loading work.mem_bus
+# Loading work.unified_L1_cache
+# Loading work.imem
+# Loading work.dmem
 # run -all
 # testbench.dut.L1_cache found +EXEC=./memfile.dat
 #  
@@ -31,12 +28,12 @@
 # ==> Console [0x00010004] print - writes to the addr treated as a console print msg <==
 #  
 #  
-# PASSED! 
+# Hello World :) => 0000000a 
 #  
 # ** Note: $stop    : testbench.sv(71)
-#    Time: 10 ms  Iteration: 0  Instance: /testbench
-# Break at testbench.sv line 71
+#    Time: 200 ns  Iteration: 0  Instance: /testbench
+# Break in Module testbench at testbench.sv line 71
 # Stopped at testbench.sv line 71
 #  exit
-# End time: 18:17:39 on Sep 22,2020, Elapsed time: 0:00:02
+# End time: 23:24:44 on Oct 11,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0

@@ -12,7 +12,7 @@
 .section .init
 # entry point of execution
 entry:
-    la    sp, __sp          # set up the stack pointer, using a constant defined in the linker script.
-    call  textinit          # call the main function
+    la    sp, __sp      # set up the stack pointer, using a constant defined in the linker script.
+    call  textinit      # call the main function
 end:
     j end               # loop when finished if there is no environment to return to.

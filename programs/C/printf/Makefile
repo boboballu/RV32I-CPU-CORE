@@ -26,9 +26,9 @@ objcopy = riscv64-unknown-elf-objcopy
 CFLAGS=-march=rv32i -mabi=ilp32
 
 OPT=-O3
-ccFs:=main.cc init1.cc myClib.cc
+ccFs:=init1.cc myClib.cc main.cc
 ASMs:=init.s
-OBJ:=init.o init1.o main.o myClib.o
+OBJ:=init.o init1.o myClib.o main.o
 
 # -nostdlib 	: is a 'ld' linker option; has no effect in 'cc' compiler
 # -nostartfiles : is a 'cc' option; has no effect in linker
