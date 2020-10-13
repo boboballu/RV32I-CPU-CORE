@@ -1,10 +1,10 @@
 onerror {resume}
 quietly WaveActivateNextPane {} 0
-add wave -noupdate /testbench/dut/imem/Iwait
-add wave -noupdate /testbench/dut/riscv_32i/Dwait
+add wave -noupdate /testbench/dut/imem/imem_wait
+add wave -noupdate /testbench/dut/dmem/dmem_wait
 add wave -noupdate -radix hexadecimal -radixshowbase 1 /testbench/dut/riscv_32i/clk
 add wave -noupdate -radix hexadecimal -radixshowbase 1 /testbench/dut/riscv_32i/reset
-add wave -noupdate -radix hexadecimal -radixshowbase 1 /testbench/dut/riscv_32i/pc_imem
+add wave -noupdate /testbench/dut/riscv_32i/imem_pc_addr
 add wave -noupdate -radix hexadecimal -radixshowbase 1 /testbench/dut/riscv_32i/imem_instn
 add wave -noupdate -radix hexadecimal -radixshowbase 1 /testbench/dut/riscv_32i/dmem_we
 add wave -noupdate -radix hexadecimal -radixshowbase 1 /testbench/dut/riscv_32i/dmem_addr
@@ -96,7 +96,7 @@ add wave -noupdate /testbench/dut/riscv_32i/BpredF
 add wave -noupdate /testbench/dut/riscv_32i/BTBHitD
 add wave -noupdate /testbench/dut/riscv_32i/BpredD
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {13 ps} 0}
+WaveRestoreCursors {{Cursor 1} {141 ns} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 279
 configure wave -valuecolwidth 100
@@ -112,4 +112,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ps
 update
-WaveRestoreZoom {10 ps} {107 ps}
+WaveRestoreZoom {0 ns} {921 ns}

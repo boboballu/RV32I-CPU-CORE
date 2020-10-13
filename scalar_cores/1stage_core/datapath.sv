@@ -5,11 +5,12 @@
 `define DATAPATH
 `include "debug_headerfile.svh"
 module datapath(input logic clk, reset,
-				
+
 				controller_if c_bus,
 				output logic [31:0] pc,
 				output logic [31:0] aluout, writedata,
 				input logic [31:0] readdata,
+				output logic [3:0] dmem_mask,
 				output logic memaccess,
 				input logic Iwait, Dwait
 );
@@ -39,7 +40,7 @@ module datapath(input logic clk, reset,
 	// en_pc_reg: hold PC if Iwait or Dwait is high
 	assign en_pc_reg = Iwait | Dwait;
 	// memaccess: datapath output : is fet if either memtoreg or memwrite is high
-	assign memaccess = c_bus.memtoreg | c_bus.memwrite; 
+	assign memaccess = c_bus.memtoreg | c_bus.memwrite;
 
 	instn_decode instn_decode
 				(	.instr(c_bus.instr),
@@ -95,7 +96,8 @@ module datapath(input logic clk, reset,
 		else begin
 			result = aluout;
 		end
-		writedata = store_compute (funct3, aluout, readdata, srcb_net0);
+
+		store_compute (funct3, aluout, srcb_net0, dmem_mask, writedata);
 		c_bus.br_taken  = br_compute (c_bus.branch, funct3, srca, srcb);
 	end
 

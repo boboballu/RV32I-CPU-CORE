@@ -15,70 +15,70 @@ import dbg_pkg::*;
 
 interface mem_bus;
 	logic clk;
-	
-	// instruction mem interface signals
-	logic [31:0] Iaddr, Iinstn;
-	logic Iwait, Imemaccess;
 
-	// data mem interface signals 
-	logic [31:0] Daddr, Dreaddata, Dwritedata;
-	logic Dwe;
-	logic Dwait, Dmemaccess;
+	// instruction mem interface signals
+	logic [31:0] imem_addr, imem_instn;
+	logic imem_wait, imem_req;
+
+	// data mem interface signals
+	logic [31:0] dmem_addr, dmem_rd, dmem_wd;
+	logic dmem_we;
+	logic dmem_wait, dmem_req;
 	logic [3:0] dmem_mask;
 
-	modport Imem (	input Iinstn, Iwait,
+	modport Imem (	input imem_instn, imem_wait,
 
-					output Iaddr, Imemaccess
+					output imem_addr, imem_req
 	);
 
-	modport Dmem (	input Dreaddata, Dwait,
+	modport Dmem (	input dmem_rd, dmem_wait,
 
 					output clk,
 
-					output Daddr, Dwe, Dwritedata, Dmemaccess, dmem_mask
+					output dmem_addr, dmem_we, dmem_wd, dmem_req, dmem_mask
 	);
 
 	modport L1_cache (
 					input clk,
 
-					input Iaddr, Daddr, Dwe, Dwritedata, Dmemaccess,
+					input imem_addr, dmem_addr, dmem_we, dmem_wd, dmem_req,
 
-					output Iinstn, Dreaddata, Iwait, Dwait
+					output imem_instn, dmem_rd, imem_wait, dmem_wait
 	);
 endinterface : mem_bus
 
 // imem & dmem connects to the mem_bus and CPU
-module dmem(input logic clk, we,
-
-			input logic [31:0] a, wd,
+module dmem(input logic clk,
+			dmem_we,
+			input logic [31:0] dmem_addr, dmem_wd,
 			input logic [3:0] dmem_mask,
-			input logic Dmemaccess,
+			input logic dmem_req,
 
-			output logic [31:0] rd,
-			output logic Dwait,
+			output logic [31:0] dmem_rd,
+			output logic dmem_wait,
 			mem_bus Bus
 );
 
-	assign Bus.clk 			= clk;
-	assign Bus.Daddr 		= a;
-	assign Bus.Dwe 			= we;
-	assign Bus.Dwritedata 	= wd;
-	assign Bus.Dmemaccess	= Dmemaccess;
-	assign Bus.dmem_mask	= dmem_mask;
-	assign rd 				= Bus.Dreaddata;
-	assign Dwait 			= Bus.Dwait;
+	assign Bus.clk 					= clk;
+	assign Bus.dmem_addr 		= dmem_addr;
+	assign Bus.dmem_we 			= dmem_we;
+	assign Bus.dmem_wd 			= dmem_wd;
+	assign Bus.dmem_req			= dmem_req;
+	assign Bus.dmem_mask		= dmem_mask;
+	assign dmem_rd 					= Bus.dmem_rd;
+	assign dmem_wait 				= Bus.dmem_wait;
 endmodule : dmem
 
-module imem(input logic [31:0] a,
-			input logic Imemaccess,
-			output logic [31:0] rd,
-			output logic Iwait,
+module imem(input logic [31:0] imem_addr,
+			input logic imem_req,
+			output logic [31:0] imem_instn,
+			output logic imem_wait,
 			mem_bus Bus
 );
-	assign Bus.Iaddr 		= a;
-	assign Bus.Imemaccess	= Imemaccess;
-	assign rd  				= Bus.Iinstn;
-	assign Iwait			= Bus.Iwait;
+	assign Bus.imem_addr 		= imem_addr;
+	assign Bus.imem_req			= imem_req;
+	assign imem_instn  			= Bus.imem_instn;
+	assign imem_wait				= Bus.imem_wait;
 endmodule : imem
 
 module unified_L1_cache (mem_bus Bus);
@@ -105,45 +105,45 @@ module unified_L1_cache (mem_bus Bus);
 		`endif
 	end
 
-	// Imem read - returns instn only if Imemaccess is 1
-	assign Bus.Iinstn = Bus.Imemaccess ? MEM[Bus.Iaddr[31:2]] : 'b0;
+	// Imem read - returns instn only if imem_req is 1
+	assign Bus.imem_instn = Bus.imem_req ? MEM[Bus.imem_addr[31:2]] : 'b0;
 
 	// Dmem read and write implementation
-	assign Bus.Dreaddata = Bus.Dmemaccess ? MEM[Bus.Daddr[31:2]] : 'b0;
+	assign Bus.dmem_rd = Bus.dmem_req ? MEM[Bus.dmem_addr[31:2]] : 'b0;
 	always_ff @(posedge Bus.clk) begin
-		if (Bus.Dwe) begin
-			// MEM[Bus.Daddr[31:2]] <= Bus.Dwritedata;
-			if ( Bus.dmem_mask[0] ) MEM[Bus.Daddr[31:2]][7:0] 	<= Bus.Dwritedata[7:0];
-			if ( Bus.dmem_mask[1] ) MEM[Bus.Daddr[31:2]][15:8] 	<= Bus.Dwritedata[15:8];
-			if ( Bus.dmem_mask[2] ) MEM[Bus.Daddr[31:2]][23:16] <= Bus.Dwritedata[23:16];
-			if ( Bus.dmem_mask[3] ) MEM[Bus.Daddr[31:2]][31:24] <= Bus.Dwritedata[31:24];
+		if (Bus.dmem_we) begin
+			// MEM[Bus.dmem_addr[31:2]] <= Bus.dmem_wd;
+			if ( Bus.dmem_mask[0] ) MEM[Bus.dmem_addr[31:2]][7:0] 	<= Bus.dmem_wd[7:0];
+			if ( Bus.dmem_mask[1] ) MEM[Bus.dmem_addr[31:2]][15:8] 	<= Bus.dmem_wd[15:8];
+			if ( Bus.dmem_mask[2] ) MEM[Bus.dmem_addr[31:2]][23:16] <= Bus.dmem_wd[23:16];
+			if ( Bus.dmem_mask[3] ) MEM[Bus.dmem_addr[31:2]][31:24] <= Bus.dmem_wd[31:24];
 		end
 	end
 
-	`ifdef IWAIT
+	`ifdef imem_wait
 	// not using the state-machine wait - which is an over thought implementation; completely unnecessary
-	// mem_wait_data #( .LSB_BITS(2'b11) ) waitI (.clk(Bus.clk), .addr(Bus.Iaddr), .wait_data(Bus.Iwait));
+	// mem_wait_data #( .LSB_BITS(2'b11) ) waitI (.clk(Bus.clk), .addr(Bus.imem_addr), .wait_data(Bus.imem_wait));
 	always @(posedge Bus.clk) begin
 		if ($urandom_range(0, 7) == 7)
-			Bus.Iwait = 1;
+			Bus.imem_wait = 1;
 		else
-			Bus.Iwait = 0;
+			Bus.imem_wait = 0;
 	end
 	`else
-	assign Bus.Iwait = 0;
+	assign Bus.imem_wait = 0;
 	`endif
 
-	`ifdef DWAIT
+	`ifdef dmem_wait
 	// not using the state-machine wait - which is an over thought implementation; completely unnecessary
-	// mem_wait_data #( .LSB_BITS(2'b11) ) waitD (.clk(Bus.clk), .addr(Bus.Daddr), .wait_data(Bus.Dwait));
+	// mem_wait_data #( .LSB_BITS(2'b11) ) waitD (.clk(Bus.clk), .addr(Bus.dmem_addr), .wait_data(Bus.dmem_wait));
 	always @(posedge Bus.clk) begin
 		if ($urandom_range(0, 7) == 7)
-			Bus.Dwait = 1;
+			Bus.dmem_wait = 1;
 		else
-			Bus.Dwait = 0;
+			Bus.dmem_wait = 0;
 	end
 	`else
-	assign Bus.Dwait = 0;
+	assign Bus.dmem_wait = 0;
 	`endif
 
 endmodule : unified_L1_cache

@@ -7,7 +7,7 @@
 import dbg_pkg::*;
 
 // takes care of all load instns
-function automatic logic [31:0] load_compute 	(	
+function automatic logic [31:0] load_compute 	(
                                 input logic [2:0] funct3,
                                 input logic [31:0] aluout, readdata
                                 //output logic [31:0] result
@@ -51,17 +51,17 @@ function automatic logic [31:0] load_compute 	(
                     result = readdata;
                 end
     endcase
-    
+
     return result;
 endfunction : load_compute
 
 // new store_compute implementation 10/12/2020- masking is taken care in the Dmem controller
-function store_compute 	(	
+function void store_compute 	(	
     input logic [2:0] funct3,
     input logic [31:0] aluout, srcb_net0,
 
     output logic [3:0] dmem_mask,
-    output logic [31:0] writedata 
+    output logic [31:0] writedata
 );
     //logic [31:0] writedata;
 
@@ -76,7 +76,7 @@ function store_compute 	(
                     endcase
                 end
         3'b001: begin // SH
-                    case (aluout[1]) 
+                    case (aluout[1])
                         1'b0: begin writedata = {16'b0, srcb_net0[15:0]}; dmem_mask = 4'b0011; end
                         1'b1: begin writedata = {srcb_net0[15:0], 16'b0}; dmem_mask = 4'b1100; end
                         default: begin writedata = 32'bx; dmem_mask = 4'bx; end
@@ -92,10 +92,10 @@ endfunction : store_compute
 // and then does the masking in cpu core, and finally stores back the masked value to the Dmem.
 // takes care all store instns
 /*
-function automatic logic [31:0] store_compute 	(	
+function automatic logic [31:0] store_compute 	(
                             input logic [2:0] funct3,
                             input logic [31:0] aluout, readdata, srcb_net0
-                            //output logic [31:0] writedata 
+                            //output logic [31:0] writedata
 );
 
     logic [31:0] writedata;
@@ -111,7 +111,7 @@ function automatic logic [31:0] store_compute 	(
                     endcase
                 end
         3'b001: begin // SH
-                    case (aluout[1]) 
+                    case (aluout[1])
                         1'b0: writedata = {readdata[31:16], srcb_net0[15:0]};
                         1'b1: writedata = {srcb_net0[15:0], readdata[15:0]};
                         default: writedata = 32'bx;

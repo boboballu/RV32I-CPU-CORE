@@ -1,3 +1,4 @@
+
 // Author: Tarun Govind Kesavamurthi
 // School: North Carolina State University
 // mail  : tkesava@ncsu.edu
@@ -6,27 +7,35 @@
 `include "debug_headerfile.svh"
 import dbg_pkg::*;
 module riscv_32i(input logic clk, reset,
-			output logic [31:0] pc,
-			input logic [31:0] instr,
-			output logic memwrite,
-			output logic [31:0] aluout, writedata,
-			output logic memaccess,
-			input logic [31:0] readdata,
-			input logic Iwait, Dwait
+
+			// instruction mem interface signals
+			output logic [31:0] imem_pc_addr,
+			output logic imem_req,
+			input logic [31:0] imem_instn,
+			input logic imem_wait,
+
+			// data mem interface signals
+			output logic dmem_we,
+			output logic [31:0] dmem_addr, dmem_wd,
+			output logic [3:0] dmem_mask,
+			output logic dmem_req,
+			input logic [31:0] dmem_rd,
+			input logic dmem_wait
 );
 
-	assign memwrite = c_bus.memwrite;
-
+	assign dmem_we = c_bus.memwrite;
+	assign imem_req = 1;
 /********************************************************************************/
-	controller_if c_bus(.instr(instr));
+	controller_if c_bus(.instr(imem_instn));
 	controller controller( 	.c_bus(c_bus.ctrl) 	);
 	datapath datapath	(	.clk(clk), .reset(reset),
 							.c_bus(c_bus.dp),
-							.pc(pc),
-							.aluout(aluout), .writedata(writedata),
-							.readdata(readdata),
-							.memaccess(memaccess),
-							.Iwait(Iwait), .Dwait(Dwait)
+							.pc(imem_pc_addr),
+							.aluout(dmem_addr), .writedata(dmem_wd),
+							.readdata(dmem_rd),
+							.dmem_mask(dmem_mask),
+							.memaccess(dmem_req),
+							.Iwait(imem_wait), .Dwait(dmem_wait)
 	);
 
 endmodule : riscv_32i

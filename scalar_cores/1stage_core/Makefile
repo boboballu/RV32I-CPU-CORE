@@ -6,14 +6,16 @@ exe ?= ./memfile.dat
 
 # Enable lint
 #lint=-lint
+# Disable lint
 lint=
 
 cli: clean work compile
 	vsim -c -do "run -all; exit" +EXEC=$(exe) testbench
 
-all: clean work compile run
+gui: clean work compile
+	vsim -novopt +EXEC=$(exe) testbench
 
-run:
+gui_opt: clean work compile
 	vsim +EXEC=$(exe) testbench
 
 compile:

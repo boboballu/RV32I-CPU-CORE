@@ -10,10 +10,10 @@ import dbg_pkg::*;
 module riscv_32i(	input logic clk, reset,
 
 					// Instruction mem interface signals
-					output logic [31:0] pc_imem,
+					output logic [31:0] imem_pc_addr,
 					output logic imem_req,
 					input logic [31:0] imem_instn,
-					input logic Iwait,
+					input logic imem_wait,
 
 					// data mem interface signals
 					output logic dmem_we,
@@ -21,11 +21,11 @@ module riscv_32i(	input logic clk, reset,
 					output logic [3:0]  dmem_mask,
 					output logic dmem_req,
 					input logic [31:0] dmem_rd,
-					input logic  Dwait
+					input logic  dmem_wait
 );
 
 // imem_req is always 1 as of now
-assign imem_req = 1;
+//assign imem_req = 1;
 
 /********************************************************************************/
 	// Datapath of the processor - stagewise datapath nets
@@ -47,10 +47,10 @@ assign imem_req = 1;
 
 /********************************************************************************/
 	// control path nets
-	logic [6:0] opD; 
+	logic [6:0] opD;
 	logic [2:0] funct3D, funct3E, funct3M, funct3W;
 	logic [6:0] funct7D;// op and funct - inputs to the controller
-	
+
 	// control path interconnect nets
 	logic jalrD, auipcD, luiD;
 	logic branchD, br_takenD, jumpD, regwriteD, memtoregD, memwriteD, alusrcD, alu_subD; logic [2:0] alucontrolD;
@@ -72,7 +72,7 @@ assign imem_req = 1;
 	// stall nets
 	logic stallF, stallD, stallE, stallM, stallW;
 	logic flushF, flushD, flushE, flushM, flushW;
-/********************************************************************************/	
+/********************************************************************************/
 	// hazard: Datapath
 	assign writeregE = rdE;
 /********************************************************************************/
@@ -82,7 +82,7 @@ assign imem_req = 1;
 	logic BTBHitF, BpredF;
 	logic BTBHitD, BpredD;
 /********************************************************************************/
-	// Datapath: connecting stage_comb to stage_ff		
+	// Datapath: connecting stage_comb to stage_ff
 	// stage 1: pc_if stage
 	// pc_gen pc_gen_comb (
 	// 					.branchD(branchD),
@@ -90,10 +90,10 @@ assign imem_req = 1;
 	// 					.BTBHitF(1'b0), .BpredF(1'b0),
 	// 					.BTBHitD(1'b0), .BpredD(1'b0),
 	// 					.branchimmF(32'b0), .branchimmD(branchimmD), .jumpimmD(jumpimmD), .itypeimmD(itypeimmD),
-	// 					.pcF(pc_genF_out), .pcplus4F(pcplus4F), .pcD(pcD), .pcplus4D(pcplus4D), 
+	// 					.pcF(pc_genF_out), .pcplus4F(pcplus4F), .pcD(pcD), .pcplus4D(pcplus4D),
 	// 					.srcaD(aD),
-						
-	// 					.pc(pc_genF_in)	
+
+	// 					.pc(pc_genF_in)
 	// );
 
 	pc_gen pc_gen_comb (
@@ -102,43 +102,43 @@ assign imem_req = 1;
 		.BTBHitF(BTBHitF), .BpredF(BpredF),
 		.BTBHitD(BTBHitD), .BpredD(BpredD),
 		.branchimmF(branchimmF), .branchimmD(branchimmD), .jumpimmD(jumpimmD), .itypeimmD(itypeimmD),
-		.pcF(pc_genF_out), .pcplus4F(pcplus4F), .pcD(pcD), .pcplus4D(pcplus4D), 
+		.pcF(pc_genF_out), .pcplus4F(pcplus4F), .pcD(pcD), .pcplus4D(pcplus4D),
 		.srcaD(aD),
-		
-		.pc(pc_genF_in)	
-	);
-	
-	pc_if pc_if_ff 	(	.clk(clk), .reset(reset),
-						.en(stallF), .clear(flushF), 
-						
-						.pc(pc_genF_in),
-						
-						.pcF(pc_genF_out)	
+
+		.pc(pc_genF_in)
 	);
 
-	// stage 2: if_id stage 
+	pc_if pc_if_ff 	(	.clk(clk), .reset(reset),
+						.en(stallF), .clear(flushF),
+
+						.pc(pc_genF_in),
+
+						.pcF(pc_genF_out)
+	);
+
+	// stage 2: if_id stage
 	IF_comb If_comb (	.pc(pc_genF_out),
 						.imem_instn(imem_instn),
-						
-						.pc_imem(pc_imem),
+
+						.imem_pc_addr(imem_pc_addr),
 						.instnF(instnF),
-						.pcplus4F(pcplus4F)	
+						.pcplus4F(pcplus4F)
 	);
-	
+
 	if_id if_id_ff  (	.clk(clk), .reset(reset),
 						.en(stallD), .clear((flushD)),
 
 						.rd(instnF), .pcF(pc_genF_out) ,.pcplus4F(pcplus4F),
 						.BTBHitF(BTBHitF), .BpredF(BpredF),
-						
+
 						.instnD(instnD), .pcD(pcD), .pcplus4D(pcplus4D),
-						.BTBHitD(BTBHitD), .BpredD(BpredD)	
+						.BTBHitD(BTBHitD), .BpredD(BpredD)
 	);
 
 	// stage 3: id_ex stage
 	instn_decode id_D (
 						.instnD(instnD),
-						
+
 						.opD(opD),
 						.funct3D(funct3D), .funct7D(funct7D),
 						.jumpimmD(jumpimmD), .branchimmD(branchimmD), .utypeimmD(utypeimmD), .stypeimmD(stypeimmD), .itypeimmD(itypeimmD),
@@ -146,7 +146,7 @@ assign imem_req = 1;
 	);
 
 	ID_comb id_comb (	.clk(clk), .reset(reset),
-						
+
 						.regwriteW(regwriteW),
 						.rsD(rsD), .rtD(rtD),
 						.jumpimmD(jumpimmD), .branchimmD(branchimmD), .stypeimmD(stypeimmD), .itypeimmD(itypeimmD),
@@ -155,10 +155,10 @@ assign imem_req = 1;
 						.memwriteD(memwriteD),
 						.writeregW(writeregW),
 						.resultW(resultW), .aluoutM(aluoutM),
-						
+
 						.a(aD), .b(bD), .signimmD(signimmD)
 	);
-	
+
 	id_ex id_ex_ff	(	.clk(clk), .reset(reset),
 						.en(stallE), .clear((flushE)),
 
@@ -175,7 +175,7 @@ assign imem_req = 1;
 						.auipcE(auipcE), .luiE(luiE),
 						.aE(aE), .bE(bE), .signimmE(signimmE), .rsE(rsE), .rtE(rtE), .rdE(rdE), .utypeimmE(utypeimmE),
 						.branchE(branchE), .br_takenE(br_takenE), .branchimmE(branchimmE)
-	); 
+	);
 
 	// stage 4: ex_mem stage
 	EX_comb ex_comb (	.jumpE(jumpE),.jalrE(jalrE), .auipcE(auipcE), .luiE(luiE), .pcE(pcE), .pcplus4E(pcplus4E),
@@ -183,13 +183,13 @@ assign imem_req = 1;
 						.forwardAE(forwardAE), .forwardBE(forwardBE),
 						.a(aE), .b(bE), .signimmE(signimmE), .utypeimmE(utypeimmE),
 						.resultW(resultW), .aluoutM(aluoutM),
-						
-						.aluoutE(aluoutE), .writedataE(writedataE)	
+
+						.aluoutE(aluoutE), .writedataE(writedataE)
 	);
-	
+
 	ex_mem ex_mem_ff(	.clk(clk), .reset(reset),
 						.en(stallM), .clear(flushM),
-						
+
 						.funct3E(funct3E), .pcE(pcE),
 						.regwriteE(regwriteE), .memtoregE(memtoregE), .memwriteE(memwriteE),
 						.aluoutE(aluoutE), .writedataE(writedataE), .writeregE(writeregE),
@@ -202,16 +202,16 @@ assign imem_req = 1;
 	);
 
 	// stage 5: mem_wb stage
-	MEM_comb mem_comb 
+	MEM_comb mem_comb
 					(	.funct3M(funct3M),
 						.memwriteM(memwriteM),
 						.aluoutM_in(aluoutM), .writedataM(writedataM),
-						.dmem_rd(dmem_rd), 
-						
-						.dmem_addr(dmem_addr), .dmem_wd(dmem_wd), 
+						.dmem_rd(dmem_rd),
+
+						.dmem_addr(dmem_addr), .dmem_wd(dmem_wd),
 						.dmem_mask(dmem_mask),
-						.dmem_we(dmem_we), 
-						.readdataM(readdataM), .aluoutM_out(aluoutM_out)	
+						.dmem_we(dmem_we),
+						.readdataM(readdataM), .aluoutM_out(aluoutM_out)
 	);
 
 	mem_wb mem_wb_ff(	.clk(clk), .reset(reset),
@@ -230,16 +230,16 @@ assign imem_req = 1;
 
 	WB_comb wb_comb (	.memtoregW(memtoregW),
 						.readdataW(readdataW), .aluoutW(aluoutW),
-						
+
 						.resultW(resultW)
 	);
 
 /********************************************************************************/
-	
+
 	// controller:
 	controller ctrl (	.opD(opD), .funct3D(funct3D), .funct7D(funct7D),
 						//.equalD(equalD_ctrl),
-						
+
 						.branchD(branchD), .jumpD(jumpD), .jalrD(jalrD),
 						.regwriteD(regwriteD),
 						.memtoregD(memtoregD), .memwriteD(memwriteD),
@@ -253,17 +253,17 @@ assign imem_req = 1;
 	branch_compute branch_compute (
 						.branchD(branchD), .funct3D(funct3D),
 						.srca(aD), .srcb(bD),
-						
+
 						.br_takenD(br_takenD)
 	);
-	
+
 /********************************************************************************/
-	
+
 	// hazard unit:
 	hazard_unit hazard_unit1
-					( 	.Iwait(Iwait), .Dwait(Dwait),
-						.branchD(branchD), .BTBHitD(BTBHitD), .BpredD(BpredD), .br_takenD(br_takenD), 
-						.jumpD(jumpD), .jalrD(jalrD), 
+					( 	.imem_wait(imem_wait), .dmem_wait(dmem_wait),
+						.branchD(branchD), .BTBHitD(BTBHitD), .BpredD(BpredD), .br_takenD(br_takenD),
+						.jumpD(jumpD), .jalrD(jalrD),
 						.memtoregE(memtoregE), .regwriteE(regwriteE),
 						.memtoregM(memtoregM), .regwriteM(regwriteM),
 						.regwriteW(regwriteW),
@@ -271,25 +271,25 @@ assign imem_req = 1;
 						.rsE(rsE), .rtE(rtE),
 						.writeregE(writeregE), .writeregM(writeregM), .writeregW(writeregW),
 						.memwriteM(memwriteM),
-						
+
 						.forwardAD(forwardAD), .forwardBD(forwardBD),
 						.forwardAE(forwardAE), .forwardBE(forwardBE),
 						.stallF(stallF), .stallD(stallD), .stallE(stallE), .stallM(stallM), .stallW(stallW),
 						.flushF(flushF), .flushD(flushD), .flushE(flushE), .flushM(flushM), .flushW(flushW),
-						.memaccessM(dmem_req)
+						.imem_req(imem_req), .dmem_req(dmem_req)
 	);
 
 
 /********************************************************************************/
 	// BTB
 	BTB #(.INDEX_SIZE(`BTB_INDEX_SIZE), .TAG_SIZE(`BTB_TAG_SIZE)) BTB
-	(	
+	(
 		.clk(clk), .reset(reset),
-		
+
 		.pcF(pc_genF_out), .pcD(pcD),
 		.BTBWriteD( ( (!BTBHitD) & branchD ) ),
 		.branchimmD(branchimmD), .funct3D(funct3D),
-		
+
 		.BTBHit(BTBHitF),
 		.branchimmF(branchimmF)//, .funct3F()
 	);
@@ -298,10 +298,10 @@ assign imem_req = 1;
 	Bpred #(.INDEX_SIZE(`BPRED_INDEX_SIZE)) Bpred
 	(
 		.clk(clk), .reset(reset),
-		
+
 		.pcF(pc_genF_out), .pcD(pcD),
 		.br_takenD(br_takenD), .BpredWriteD(branchD),
-		
+
 		.BpredF(BpredF)
 	);
 

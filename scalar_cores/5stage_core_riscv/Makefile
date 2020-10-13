@@ -13,7 +13,11 @@ lint=
 cli: clean work compile
 	vsim -c -do "run -all; exit" +EXEC=$(exe) testbench
 
-gui: clean work compile testbench
+gui: clean work compile
+	vsim -novopt +EXEC=$(exe) testbench
+
+gui_opt: clean work compile
+	vsim +EXEC=$(exe) testbench
 
 compile: packages design all_tbs
 
@@ -35,9 +39,6 @@ packages:
 all_tbs:
 	vlog -sv $(lint) top_test.sv
 	vlog -sv $(lint) testbench.sv
-
-testbench:
-	vsim +EXEC=$(exe) testbench
 
 work:
 	vlib work
