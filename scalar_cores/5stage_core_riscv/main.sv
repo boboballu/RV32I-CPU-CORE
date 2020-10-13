@@ -8,14 +8,24 @@ import dbg_pkg::*;
 
 /********************************************************************************/
 module riscv_32i(	input logic clk, reset,
+
+					// Instruction mem interface signals
 					output logic [31:0] pc_imem,
+					output logic imem_req,
 					input logic [31:0] imem_instn,
+					input logic Iwait,
+
+					// data mem interface signals
 					output logic dmem_we,
 					output logic [31:0] dmem_addr, dmem_wd,
-					output logic memaccessM,
+					output logic [3:0]  dmem_mask,
+					output logic dmem_req,
 					input logic [31:0] dmem_rd,
-					input logic Iwait, Dwait
+					input logic  Dwait
 );
+
+// imem_req is always 1 as of now
+assign imem_req = 1;
 
 /********************************************************************************/
 	// Datapath of the processor - stagewise datapath nets
@@ -198,9 +208,10 @@ module riscv_32i(	input logic clk, reset,
 						.aluoutM_in(aluoutM), .writedataM(writedataM),
 						.dmem_rd(dmem_rd), 
 						
-						.dmem_addr(dmem_addr), .dmem_wd(dmem_wd), .dmem_we(dmem_we), 
-						.readdataM(readdataM), 
-						.aluoutM_out(aluoutM_out)	
+						.dmem_addr(dmem_addr), .dmem_wd(dmem_wd), 
+						.dmem_mask(dmem_mask),
+						.dmem_we(dmem_we), 
+						.readdataM(readdataM), .aluoutM_out(aluoutM_out)	
 	);
 
 	mem_wb mem_wb_ff(	.clk(clk), .reset(reset),
@@ -265,7 +276,7 @@ module riscv_32i(	input logic clk, reset,
 						.forwardAE(forwardAE), .forwardBE(forwardBE),
 						.stallF(stallF), .stallD(stallD), .stallE(stallE), .stallM(stallM), .stallW(stallW),
 						.flushF(flushF), .flushD(flushD), .flushE(flushE), .flushM(flushM), .flushW(flushW),
-						.memaccessM(memaccessM)
+						.memaccessM(dmem_req)
 	);
 
 

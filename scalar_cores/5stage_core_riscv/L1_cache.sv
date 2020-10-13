@@ -15,22 +15,27 @@ import dbg_pkg::*;
 
 interface mem_bus;
 	logic clk;
+	
+	// instruction mem interface signals
 	logic [31:0] Iaddr, Iinstn;
+	logic Iwait, Imemaccess;
+
+	// data mem interface signals 
 	logic [31:0] Daddr, Dreaddata, Dwritedata;
 	logic Dwe;
-	logic Dwait, Iwait;
-	logic Dmemaccess;
+	logic Dwait, Dmemaccess;
+	logic [3:0] dmem_mask;
 
 	modport Imem (	input Iinstn, Iwait,
 
-					output Iaddr
+					output Iaddr, Imemaccess
 	);
 
 	modport Dmem (	input Dreaddata, Dwait,
 
 					output clk,
 
-					output Daddr, Dwe, Dwritedata, Dmemaccess
+					output Daddr, Dwe, Dwritedata, Dmemaccess, dmem_mask
 	);
 
 	modport L1_cache (
@@ -44,8 +49,11 @@ endinterface : mem_bus
 
 // imem & dmem connects to the mem_bus and CPU
 module dmem(input logic clk, we,
+
 			input logic [31:0] a, wd,
+			input logic [3:0] dmem_mask,
 			input logic Dmemaccess,
+
 			output logic [31:0] rd,
 			output logic Dwait,
 			mem_bus Bus
@@ -55,18 +63,20 @@ module dmem(input logic clk, we,
 	assign Bus.Daddr 		= a;
 	assign Bus.Dwe 			= we;
 	assign Bus.Dwritedata 	= wd;
+	assign Bus.Dmemaccess	= Dmemaccess;
+	assign Bus.dmem_mask	= dmem_mask;
 	assign rd 				= Bus.Dreaddata;
 	assign Dwait 			= Bus.Dwait;
-	assign Bus.Dmemaccess	= Dmemaccess;
-
 endmodule : dmem
 
 module imem(input logic [31:0] a,
+			input logic Imemaccess,
 			output logic [31:0] rd,
 			output logic Iwait,
 			mem_bus Bus
 );
 	assign Bus.Iaddr 		= a;
+	assign Bus.Imemaccess	= Imemaccess;
 	assign rd  				= Bus.Iinstn;
 	assign Iwait			= Bus.Iwait;
 endmodule : imem
@@ -94,12 +104,20 @@ module unified_L1_cache (mem_bus Bus);
 		$readmemh(EXEC, MEM);
 		`endif
 	end
-	assign Bus.Iinstn = MEM[Bus.Iaddr[31:2]];
+
+	// Imem read - returns instn only if Imemaccess is 1
+	assign Bus.Iinstn = Bus.Imemaccess ? MEM[Bus.Iaddr[31:2]] : 'b0;
 
 	// Dmem read and write implementation
 	assign Bus.Dreaddata = Bus.Dmemaccess ? MEM[Bus.Daddr[31:2]] : 'b0;
 	always_ff @(posedge Bus.clk) begin
-		if (Bus.Dwe) MEM[Bus.Daddr[31:2]] <= Bus.Dwritedata;
+		if (Bus.Dwe) begin
+			// MEM[Bus.Daddr[31:2]] <= Bus.Dwritedata;
+			if ( Bus.dmem_mask[0] ) MEM[Bus.Daddr[31:2]][7:0] 	<= Bus.Dwritedata[7:0];
+			if ( Bus.dmem_mask[1] ) MEM[Bus.Daddr[31:2]][15:8] 	<= Bus.Dwritedata[15:8];
+			if ( Bus.dmem_mask[2] ) MEM[Bus.Daddr[31:2]][23:16] <= Bus.Dwritedata[23:16];
+			if ( Bus.dmem_mask[3] ) MEM[Bus.Daddr[31:2]][31:24] <= Bus.Dwritedata[31:24];
+		end
 	end
 
 	`ifdef IWAIT
@@ -134,6 +152,7 @@ endmodule : unified_L1_cache
 // An over thought cache miss model - unnecessary as of today : 10/11/2020
 // A Mealey State-machine model, which adds wait for mem access to location whose 2 LSB bits are '11
 // if addr[3:2] is 2'b11 then wait is set
+/*
 module mem_wait_data (	input logic clk,
                         input logic [31:0] addr,
                         output logic wait_data
@@ -173,3 +192,4 @@ module mem_wait_data (	input logic clk,
 		endcase
 	end
 endmodule : mem_wait_data
+*/

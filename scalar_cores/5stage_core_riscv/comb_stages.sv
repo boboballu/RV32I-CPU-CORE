@@ -266,6 +266,7 @@ module MEM_comb (
 				input logic [31:0] dmem_rd,
 				
 				output logic [31:0] dmem_addr, dmem_wd,
+				output logic [3:0] dmem_mask,
 				output logic dmem_we,
 				output logic [31:0] readdataM, aluoutM_out
 );
@@ -281,7 +282,9 @@ module MEM_comb (
 		aluoutM_out = aluoutM_in;
 		dmem_we 	= memwriteM;
 		readdataM 	= load_compute (funct3M, aluoutM_in, dmem_rd);
-		dmem_wd 	= store_compute(funct3M, aluoutM_in, dmem_rd, writedataM);
+		//dmem_wd 	= store_compute(funct3M, aluoutM_in, dmem_rd, writedataM);
+		// new store_compute implementation - 10/12/2020
+		store_compute (funct3M, aluoutM_in, writedataM, dmem_mask, dmem_wd);
 	end
 	
 endmodule : MEM_comb

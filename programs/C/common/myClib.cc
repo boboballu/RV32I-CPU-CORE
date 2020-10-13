@@ -35,7 +35,7 @@ unsigned int write_string(char* ch) {
 // _putc - puts a char in print_addr; always returns 1
 int _putc(int ch, volatile int* print_addr) {
 	*print_addr = (int) ch;
-	*print_addr = (int) '\0';
+	// *print_addr = (int) '\0';
 	return 1;
 }
 /********************************************************************************/
