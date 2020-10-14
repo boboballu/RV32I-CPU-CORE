@@ -37,7 +37,9 @@ VL_MODULE(Vtop) {
     // Internals; generally not touched by application code
     // Anonymous structures to workaround compiler member-count bugs
     struct {
-        CData/*0:0*/ top__DOT__memaccessM;
+        CData/*0:0*/ top__DOT__dmem_req;
+        CData/*0:0*/ top__DOT__imem_req;
+        CData/*3:0*/ top__DOT__dmem_mask;
         CData/*2:0*/ top__DOT__riscv_32i__DOT__funct3E;
         CData/*2:0*/ top__DOT__riscv_32i__DOT__funct3M;
         CData/*2:0*/ top__DOT__riscv_32i__DOT__funct3W;
@@ -99,10 +101,10 @@ VL_MODULE(Vtop) {
         IData/*31:0*/ top__DOT__riscv_32i__DOT__itypeimmD;
         IData/*31:0*/ top__DOT__riscv_32i__DOT__aD;
         IData/*31:0*/ top__DOT__riscv_32i__DOT__bD;
-        IData/*31:0*/ top__DOT__riscv_32i__DOT__pcplus4E;
-        IData/*31:0*/ top__DOT__riscv_32i__DOT__aE;
     };
     struct {
+        IData/*31:0*/ top__DOT__riscv_32i__DOT__pcplus4E;
+        IData/*31:0*/ top__DOT__riscv_32i__DOT__aE;
         IData/*31:0*/ top__DOT__riscv_32i__DOT__bE;
         IData/*31:0*/ top__DOT__riscv_32i__DOT__signimmE;
         IData/*31:0*/ top__DOT__riscv_32i__DOT__utypeimmE;
@@ -130,7 +132,8 @@ VL_MODULE(Vtop) {
     // Internals; generally not touched by application code
     CData/*2:0*/ top__DOT__riscv_32i__DOT__BTB__DOT____Vlvbound2;
     CData/*2:0*/ __Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__load_compute__0__funct3;
-    CData/*2:0*/ __Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__funct3;
+    CData/*2:0*/ __Vtask_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__funct3;
+    CData/*3:0*/ __Vtask_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__dmem_mask;
     CData/*6:0*/ __Vtableidx1;
     CData/*0:0*/ __Vclklast__TOP__clk;
     CData/*0:0*/ __Vclklast__TOP__reset;
@@ -140,11 +143,9 @@ VL_MODULE(Vtop) {
     IData/*31:0*/ __Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__load_compute__0__aluout;
     IData/*31:0*/ __Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__load_compute__0__readdata;
     IData/*31:0*/ __Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__load_compute__0__result;
-    IData/*31:0*/ __Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__Vfuncout;
-    IData/*31:0*/ __Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__aluout;
-    IData/*31:0*/ __Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__readdata;
-    IData/*31:0*/ __Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__srcb_net0;
-    IData/*31:0*/ __Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__writedata;
+    IData/*31:0*/ __Vtask_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__aluout;
+    IData/*31:0*/ __Vtask_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__srcb_net0;
+    IData/*31:0*/ __Vtask_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__writedata;
     CData/*0:0*/ __Vm_traceActivity[5];
     static SData/*8:0*/ __Vtable1_top__DOT__riscv_32i__DOT__ctrl__DOT__maindec__DOT__controls[128];
     static CData/*1:0*/ __Vtable1_top__DOT__riscv_32i__DOT__ctrl__DOT__aluop[128];

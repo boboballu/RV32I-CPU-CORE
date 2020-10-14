@@ -40,6 +40,7 @@ VL_MODULE(Vtop) {
     
     // LOCAL SIGNALS
     // Internals; generally not touched by application code
+    CData/*3:0*/ top__DOT__dmem_mask;
     CData/*1:0*/ top__DOT__riscv_32i__DOT__controller__DOT__aluop;
     SData/*8:0*/ top__DOT__riscv_32i__DOT__controller__DOT__maindec__DOT__controls;
     IData/*31:0*/ top__DOT__riscv_32i__DOT__datapath__DOT__pcplus4;
@@ -49,13 +50,14 @@ VL_MODULE(Vtop) {
     IData/*31:0*/ top__DOT__riscv_32i__DOT__datapath__DOT__result;
     IData/*31:0*/ top__DOT__riscv_32i__DOT__datapath__DOT__srcb_net0;
     IData/*31:0*/ top__DOT__riscv_32i__DOT__datapath__DOT__rf__DOT__rf[32];
-    IData/*31:0*/ top__DOT__L1_cache__DOT__MEM[131072];
+    IData/*31:0*/ top__DOT__L1_cache__DOT__MEM[65536];
     std::string top__DOT__L1_cache__DOT__EXEC;
     
     // LOCAL VARIABLES
     // Internals; generally not touched by application code
     CData/*2:0*/ __Vfunc_top__DOT__riscv_32i__DOT__datapath__DOT__load_compute__0__funct3;
-    CData/*2:0*/ __Vfunc_top__DOT__riscv_32i__DOT__datapath__DOT__store_compute__1__funct3;
+    CData/*2:0*/ __Vtask_top__DOT__riscv_32i__DOT__datapath__DOT__store_compute__1__funct3;
+    CData/*3:0*/ __Vtask_top__DOT__riscv_32i__DOT__datapath__DOT__store_compute__1__dmem_mask;
     CData/*0:0*/ __Vfunc_top__DOT__riscv_32i__DOT__datapath__DOT__br_compute__2__Vfuncout;
     CData/*0:0*/ __Vfunc_top__DOT__riscv_32i__DOT__datapath__DOT__br_compute__2__branch;
     CData/*2:0*/ __Vfunc_top__DOT__riscv_32i__DOT__datapath__DOT__br_compute__2__funct3;
@@ -67,14 +69,12 @@ VL_MODULE(Vtop) {
     IData/*31:0*/ __Vfunc_top__DOT__riscv_32i__DOT__datapath__DOT__load_compute__0__aluout;
     IData/*31:0*/ __Vfunc_top__DOT__riscv_32i__DOT__datapath__DOT__load_compute__0__readdata;
     IData/*31:0*/ __Vfunc_top__DOT__riscv_32i__DOT__datapath__DOT__load_compute__0__result;
-    IData/*31:0*/ __Vfunc_top__DOT__riscv_32i__DOT__datapath__DOT__store_compute__1__Vfuncout;
-    IData/*31:0*/ __Vfunc_top__DOT__riscv_32i__DOT__datapath__DOT__store_compute__1__aluout;
-    IData/*31:0*/ __Vfunc_top__DOT__riscv_32i__DOT__datapath__DOT__store_compute__1__readdata;
-    IData/*31:0*/ __Vfunc_top__DOT__riscv_32i__DOT__datapath__DOT__store_compute__1__srcb_net0;
-    IData/*31:0*/ __Vfunc_top__DOT__riscv_32i__DOT__datapath__DOT__store_compute__1__writedata;
+    IData/*31:0*/ __Vtask_top__DOT__riscv_32i__DOT__datapath__DOT__store_compute__1__aluout;
+    IData/*31:0*/ __Vtask_top__DOT__riscv_32i__DOT__datapath__DOT__store_compute__1__srcb_net0;
+    IData/*31:0*/ __Vtask_top__DOT__riscv_32i__DOT__datapath__DOT__store_compute__1__writedata;
     IData/*31:0*/ __Vfunc_top__DOT__riscv_32i__DOT__datapath__DOT__br_compute__2__srca;
     IData/*31:0*/ __Vfunc_top__DOT__riscv_32i__DOT__datapath__DOT__br_compute__2__srcb;
-    CData/*0:0*/ __Vm_traceActivity[2];
+    CData/*0:0*/ __Vm_traceActivity[3];
     static SData/*8:0*/ __Vtable1_top__DOT__riscv_32i__DOT__controller__DOT__maindec__DOT__controls[128];
     static CData/*1:0*/ __Vtable1_top__DOT__riscv_32i__DOT__controller__DOT__aluop[128];
     
@@ -127,6 +127,7 @@ VL_MODULE(Vtop) {
     static void _initial__TOP__1(Vtop__Syms* __restrict vlSymsp) VL_ATTR_COLD;
     static void _sequent__TOP__2(Vtop__Syms* __restrict vlSymsp);
     static void _sequent__TOP__3(Vtop__Syms* __restrict vlSymsp);
+    static void _sequent__TOP__5(Vtop__Syms* __restrict vlSymsp);
     static void _settle__TOP__4(Vtop__Syms* __restrict vlSymsp) VL_ATTR_COLD;
   private:
     static void traceChgSub0(void* userp, VerilatedVcd* tracep);

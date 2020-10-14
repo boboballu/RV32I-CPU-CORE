@@ -31,7 +31,7 @@ LOAD main.o
 LOAD myClib.o
                 0x0000000000010004                __console_addr = 0x10004
 
-.text           0x0000000000000000     0x1a04
+.text           0x0000000000000000     0x1e44
                 [!provide]                        PROVIDE (_stext = .)
  *(.init)
  .init          0x0000000000000000       0x10 init.o
@@ -45,102 +45,109 @@ LOAD myClib.o
                 0x0000000000000038                spmv(int, double const*, int const*, double const*, int const*, double*)
                 0x000000000000042c                verifyDouble(int, double*, double*)
                 0x00000000000005b4                main
- .text          0x0000000000000660      0x314 myClib.o
+ .text          0x0000000000000660      0x754 myClib.o
                 0x0000000000000660                write_char(char)
-                0x00000000000006c4                itoa(int, unsigned int, unsigned int, unsigned int, char*, unsigned int)
-                0x00000000000008d8                write_string(char*)
- .text          0x0000000000000974      0x7d8 /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a(adddf3.o)
-                0x0000000000000974                __adddf3
- .text          0x000000000000114c       0x8c /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a(eqdf2.o)
-                0x000000000000114c                __eqdf2
-                0x000000000000114c                __nedf2
- .text          0x00000000000011d8      0x688 /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a(muldf3.o)
-                0x00000000000011d8                __muldf3
- .text          0x0000000000001860       0x80 /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a(fixdfsi.o)
-                0x0000000000001860                __fixdfsi
- .text          0x00000000000018e0       0x24 /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a(muldi3.o)
-                0x00000000000018e0                __mulsi3
- .text          0x0000000000001904       0xb4 /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a(div.o)
-                0x0000000000001904                __divsi3
-                0x000000000000190c                __udivsi3
-                0x0000000000001954                __umodsi3
-                0x0000000000001988                __modsi3
- .text          0x00000000000019b8       0x4c /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a(_clzsi2.o)
-                0x00000000000019b8                __clzsi2
- .text          0x0000000000001a04        0x0 /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a(_clz.o)
+                0x00000000000006c4                write_string(char*)
+                0x0000000000000760                _putc(int, int volatile*)
+                0x0000000000000794                _puts(char*, unsigned int, int volatile*)
+                0x0000000000000804                _strlen(char const*)
+                0x0000000000000850                itoa(int, unsigned int, unsigned int, unsigned int, char*, unsigned int)
+                0x0000000000000a64                printf_impl(int volatile*, char const*, void*)
+                0x0000000000000cc8                addr_printf(int volatile*, char const*, ...)
+                0x0000000000000d3c                _printf(char const*, ...)
+ .text          0x0000000000000db4      0x7d8 /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a(adddf3.o)
+                0x0000000000000db4                __adddf3
+ .text          0x000000000000158c       0x8c /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a(eqdf2.o)
+                0x000000000000158c                __eqdf2
+                0x000000000000158c                __nedf2
+ .text          0x0000000000001618      0x688 /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a(muldf3.o)
+                0x0000000000001618                __muldf3
+ .text          0x0000000000001ca0       0x80 /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a(fixdfsi.o)
+                0x0000000000001ca0                __fixdfsi
+ .text          0x0000000000001d20       0x24 /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a(muldi3.o)
+                0x0000000000001d20                __mulsi3
+ .text          0x0000000000001d44       0xb4 /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a(div.o)
+                0x0000000000001d44                __divsi3
+                0x0000000000001d4c                __udivsi3
+                0x0000000000001d94                __umodsi3
+                0x0000000000001dc8                __modsi3
+ .text          0x0000000000001df8       0x4c /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a(_clzsi2.o)
+                0x0000000000001df8                __clzsi2
+ .text          0x0000000000001e44        0x0 /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a(_clz.o)
                 [!provide]                        PROVIDE (_etext = .)
 
-.vector         0x0000000000001a04        0x8
-                0x0000000000001a04                . = ALIGN (0x4)
+.vector         0x0000000000001e44        0x8
+                0x0000000000001e44                . = ALIGN (0x4)
                 [!provide]                        PROVIDE (_svector = .)
  *(.vector*)
  .vector_section
-                0x0000000000001a04        0x8 init1.o
-                0x0000000000001a04                vector
-                0x0000000000001a0c                . = ALIGN (0x4)
+                0x0000000000001e44        0x8 init1.o
+                0x0000000000001e44                vector
+                0x0000000000001e4c                . = ALIGN (0x4)
                 [!provide]                        PROVIDE (_evector = .)
 
-.rodata         0x0000000000001a10     0x98e0
-                0x0000000000001a10                . = ALIGN (0x4)
+.rodata         0x0000000000001e50     0x9964
+                0x0000000000001e50                . = ALIGN (0x4)
                 [!provide]                        PROVIDE (_srodata = .)
  *(.rodata)
- .rodata        0x0000000000001a10     0x97a4 main.o
- .rodata        0x000000000000b1b4       0x3c /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a(muldf3.o)
- .rodata        0x000000000000b1f0      0x100 /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a(_clz.o)
-                0x000000000000b1f0                __clz_tab
+ .rodata        0x0000000000001e50     0x97a4 main.o
+ .rodata        0x000000000000b5f4       0x84 myClib.o
+ .rodata        0x000000000000b678       0x3c /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a(muldf3.o)
+ .rodata        0x000000000000b6b4      0x100 /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a(_clz.o)
+                0x000000000000b6b4                __clz_tab
  *(.rodata.*)
-                0x000000000000b2f0                . = ALIGN (0x4)
+                0x000000000000b7b4                . = ALIGN (0x4)
                 [!provide]                        PROVIDE (_erodata = .)
 
-.eh_frame       0x000000000000b2f0      0x148
- .eh_frame      0x000000000000b2f0       0x3c init1.o
- .eh_frame      0x000000000000b32c       0x94 main.o
+.eh_frame       0x000000000000b7b4      0x230
+ .eh_frame      0x000000000000b7b4       0x3c init1.o
+ .eh_frame      0x000000000000b7f0       0x94 main.o
                                          0xa8 (size before relaxing)
- .eh_frame      0x000000000000b3c0       0x78 myClib.o
-                                         0x8c (size before relaxing)
+ .eh_frame      0x000000000000b884      0x160 myClib.o
+                                        0x174 (size before relaxing)
 
-.rela.dyn       0x000000000000b438        0x0
- .rela.init     0x000000000000b438        0x0 init.o
+.rela.dyn       0x000000000000b9e4        0x0
+ .rela.init     0x000000000000b9e4        0x0 init.o
  .rela.vector_section
-                0x000000000000b438        0x0 init.o
- .rela.text     0x000000000000b438        0x0 init.o
+                0x000000000000b9e4        0x0 init.o
+ .rela.text     0x000000000000b9e4        0x0 init.o
 
-.data           0x000000000000b438        0x0
-                0x000000000000b438                . = ALIGN (0x4)
+.data           0x000000000000b9e4        0x0
+                0x000000000000b9e4                . = ALIGN (0x4)
                 [!provide]                        PROVIDE (_sdata = .)
  *(.data*)
- .data          0x000000000000b438        0x0 init.o
- .data          0x000000000000b438        0x0 init1.o
- .data          0x000000000000b438        0x0 main.o
- .data          0x000000000000b438        0x0 myClib.o
- .data          0x000000000000b438        0x0 /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a(adddf3.o)
- .data          0x000000000000b438        0x0 /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a(eqdf2.o)
- .data          0x000000000000b438        0x0 /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a(muldf3.o)
- .data          0x000000000000b438        0x0 /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a(fixdfsi.o)
- .data          0x000000000000b438        0x0 /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a(muldi3.o)
- .data          0x000000000000b438        0x0 /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a(div.o)
- .data          0x000000000000b438        0x0 /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a(_clzsi2.o)
- .data          0x000000000000b438        0x0 /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a(_clz.o)
-                0x000000000000b438                . = ALIGN (0x4)
+ .data          0x000000000000b9e4        0x0 init.o
+ .data          0x000000000000b9e4        0x0 init1.o
+ .data          0x000000000000b9e4        0x0 main.o
+ .data          0x000000000000b9e4        0x0 myClib.o
+ .data          0x000000000000b9e4        0x0 /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a(adddf3.o)
+ .data          0x000000000000b9e4        0x0 /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a(eqdf2.o)
+ .data          0x000000000000b9e4        0x0 /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a(muldf3.o)
+ .data          0x000000000000b9e4        0x0 /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a(fixdfsi.o)
+ .data          0x000000000000b9e4        0x0 /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a(muldi3.o)
+ .data          0x000000000000b9e4        0x0 /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a(div.o)
+ .data          0x000000000000b9e4        0x0 /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a(_clzsi2.o)
+ .data          0x000000000000b9e4        0x0 /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a(_clz.o)
+                0x000000000000b9e4                . = ALIGN (0x4)
                 [!provide]                        PROVIDE (_edata = .)
 
-.bss            0x000000000000b438        0x0
-                0x000000000000b438                . = ALIGN (0x4)
+.bss            0x000000000000b9e4        0x0
+                0x000000000000b9e4                . = ALIGN (0x4)
                 [!provide]                        PROVIDE (_sbss = .)
  *(.bss*)
- .bss           0x000000000000b438        0x0 init.o
- .bss           0x000000000000b438        0x0 init1.o
- .bss           0x000000000000b438        0x0 main.o
- .bss           0x000000000000b438        0x0 myClib.o
- .bss           0x000000000000b438        0x0 /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a(adddf3.o)
- .bss           0x000000000000b438        0x0 /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a(eqdf2.o)
- .bss           0x000000000000b438        0x0 /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a(muldf3.o)
- .bss           0x000000000000b438        0x0 /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a(fixdfsi.o)
- .bss           0x000000000000b438        0x0 /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a(muldi3.o)
- .bss           0x000000000000b438        0x0 /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a(div.o)
- .bss           0x000000000000b438        0x0 /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a(_clzsi2.o)
- .bss           0x000000000000b438        0x0 /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a(_clz.o)
-                0x000000000000b438                . = ALIGN (0x4)
+ .bss           0x000000000000b9e4        0x0 init.o
+ .bss           0x000000000000b9e4        0x0 init1.o
+ .bss           0x000000000000b9e4        0x0 main.o
+ .bss           0x000000000000b9e4        0x0 myClib.o
+ .bss           0x000000000000b9e4        0x0 /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a(adddf3.o)
+ .bss           0x000000000000b9e4        0x0 /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a(eqdf2.o)
+ .bss           0x000000000000b9e4        0x0 /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a(muldf3.o)
+ .bss           0x000000000000b9e4        0x0 /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a(fixdfsi.o)
+ .bss           0x000000000000b9e4        0x0 /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a(muldi3.o)
+ .bss           0x000000000000b9e4        0x0 /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a(div.o)
+ .bss           0x000000000000b9e4        0x0 /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a(_clzsi2.o)
+ .bss           0x000000000000b9e4        0x0 /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a(_clz.o)
+                0x000000000000b9e4                . = ALIGN (0x4)
                 [!provide]                        PROVIDE (_ebss = .)
                 0x000000000000fffc                PROVIDE (__sp = ((ORIGIN (ram) + LENGTH (ram)) - 0x4))
 LOAD /opt/riscv/lib/gcc/riscv64-unknown-elf/10.1.0/rv32i/ilp32/libgcc.a

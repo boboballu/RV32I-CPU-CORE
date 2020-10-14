@@ -37,9 +37,9 @@ void Vtop::_initial__TOP__1(Vtop__Syms* __restrict vlSymsp) {
     if (VL_UNLIKELY((! VL_VALUEPLUSARGS_INN(64,std::string("EXEC=%s"),
                                             vlTOPp->top__DOT__L1_cache__DOT__EXEC)))) {
         VL_WRITEF("FATAL: +EXEC plusarg not found on command line\n");
-        VL_WRITEF("[%0t] %%Error: L1_cache.sv:81: Assertion failed in %Ntop.L1_cache\n",
+        VL_WRITEF("[%0t] %%Error: L1_cache.sv:91: Assertion failed in %Ntop.L1_cache\n",
                   64,VL_TIME_UNITED_Q(1),vlSymsp->name());
-        VL_STOP_MT("../L1_cache.sv", 81, "");
+        VL_STOP_MT("../L1_cache.sv", 91, "");
     }
     VL_WRITEF("%Ntop.L1_cache found +EXEC=%@\n",vlSymsp->name(),
               64,&(vlTOPp->top__DOT__L1_cache__DOT__EXEC));
@@ -56,6 +56,62 @@ void Vtop::_settle__TOP__5(Vtop__Syms* __restrict vlSymsp) {
     vlTOPp->top__DOT__riscv_32i__DOT__resultW = ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__memtoregW)
                                                   ? vlTOPp->top__DOT__riscv_32i__DOT__readdataW
                                                   : vlTOPp->top__DOT__riscv_32i__DOT__aluoutW);
+    vlTOPp->__Vtask_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__srcb_net0 
+        = vlTOPp->top__DOT__riscv_32i__DOT__writedataM;
+    vlTOPp->__Vtask_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__aluout 
+        = vlTOPp->top__DOT__riscv_32i__DOT__aluoutM;
+    vlTOPp->__Vtask_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__funct3 
+        = vlTOPp->top__DOT__riscv_32i__DOT__funct3M;
+    if ((0U == (IData)(vlTOPp->__Vtask_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__funct3))) {
+        if ((2U & vlTOPp->__Vtask_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__aluout)) {
+            if ((1U & vlTOPp->__Vtask_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__aluout)) {
+                vlTOPp->__Vtask_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__writedata 
+                    = (0xff000000U & (vlTOPp->__Vtask_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__srcb_net0 
+                                      << 0x18U));
+                vlTOPp->__Vtask_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__dmem_mask = 8U;
+            } else {
+                vlTOPp->__Vtask_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__writedata 
+                    = (0xff0000U & (vlTOPp->__Vtask_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__srcb_net0 
+                                    << 0x10U));
+                vlTOPp->__Vtask_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__dmem_mask = 4U;
+            }
+        } else {
+            if ((1U & vlTOPp->__Vtask_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__aluout)) {
+                vlTOPp->__Vtask_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__writedata 
+                    = (0xff00U & (vlTOPp->__Vtask_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__srcb_net0 
+                                  << 8U));
+                vlTOPp->__Vtask_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__dmem_mask = 2U;
+            } else {
+                vlTOPp->__Vtask_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__writedata 
+                    = (0xffU & vlTOPp->__Vtask_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__srcb_net0);
+                vlTOPp->__Vtask_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__dmem_mask = 1U;
+            }
+        }
+    } else {
+        if ((1U == (IData)(vlTOPp->__Vtask_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__funct3))) {
+            if ((2U & vlTOPp->__Vtask_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__aluout)) {
+                if ((2U & vlTOPp->__Vtask_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__aluout)) {
+                    vlTOPp->__Vtask_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__writedata 
+                        = (0xffff0000U & (vlTOPp->__Vtask_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__srcb_net0 
+                                          << 0x10U));
+                    vlTOPp->__Vtask_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__dmem_mask = 0xcU;
+                } else {
+                    vlTOPp->__Vtask_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__writedata = 0U;
+                    vlTOPp->__Vtask_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__dmem_mask = 0U;
+                }
+            } else {
+                vlTOPp->__Vtask_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__writedata 
+                    = (0xffffU & vlTOPp->__Vtask_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__srcb_net0);
+                vlTOPp->__Vtask_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__dmem_mask = 3U;
+            }
+        } else {
+            vlTOPp->__Vtask_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__writedata 
+                = vlTOPp->__Vtask_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__srcb_net0;
+            vlTOPp->__Vtask_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__dmem_mask = 0xfU;
+        }
+    }
+    vlTOPp->top__DOT__dmem_mask = vlTOPp->__Vtask_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__dmem_mask;
+    vlTOPp->writedata = vlTOPp->__Vtask_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__writedata;
     vlTOPp->dataadr = vlTOPp->top__DOT__riscv_32i__DOT__aluoutM;
     vlTOPp->top__DOT__riscv_32i__DOT__forwardAE = (
                                                    (((0U 
@@ -283,8 +339,6 @@ void Vtop::_settle__TOP__5(Vtop__Syms* __restrict vlSymsp) {
              : ((2U == (IData)(vlTOPp->top__DOT__riscv_32i__DOT__forwardBE))
                  ? vlTOPp->top__DOT__riscv_32i__DOT__aluoutM
                  : 0U)));
-    vlTOPp->instr = vlTOPp->top__DOT__L1_cache__DOT__MEM
-        [(0xffffU & (vlTOPp->pc >> 2U))];
     vlTOPp->top__DOT__riscv_32i__DOT__br_takenD = (
                                                    ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__ctrl__DOT__maindec__DOT__controls) 
                                                     >> 6U) 
@@ -410,8 +464,8 @@ void Vtop::_settle__TOP__5(Vtop__Syms* __restrict vlSymsp) {
                              + vlTOPp->top__DOT__riscv_32i__DOT__branchimmF)
                           : ((IData)(4U) + vlTOPp->top__DOT__riscv_32i__DOT__pc_genF_out))
                       : ((IData)(4U) + vlTOPp->top__DOT__riscv_32i__DOT__pc_genF_out)))));
-    vlTOPp->top__DOT__memaccessM = ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__memtoregM) 
-                                    | (IData)(vlTOPp->top__DOT__riscv_32i__DOT__memwriteM));
+    vlTOPp->top__DOT__dmem_req = ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__memtoregM) 
+                                  | (IData)(vlTOPp->top__DOT__riscv_32i__DOT__memwriteM));
     vlTOPp->top__DOT__riscv_32i__DOT__hazard_unit1__DOT__memstall = 0U;
     vlTOPp->top__DOT__riscv_32i__DOT__hazard_unit1__DOT__lwstall 
         = ((((IData)(vlTOPp->top__DOT__riscv_32i__DOT__rdE) 
@@ -461,7 +515,12 @@ void Vtop::_settle__TOP__5(Vtop__Syms* __restrict vlSymsp) {
                                                       & (~ (IData)(vlTOPp->top__DOT__riscv_32i__DOT__hazard_unit1__DOT__branchstall)))));
     vlTOPp->top__DOT__riscv_32i__DOT__flushE = ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__hazard_unit1__DOT__lwstall) 
                                                 | (IData)(vlTOPp->top__DOT__riscv_32i__DOT__hazard_unit1__DOT__branchstall));
-    vlTOPp->readdata = ((IData)(vlTOPp->top__DOT__memaccessM)
+    vlTOPp->top__DOT__imem_req = (1U & (~ (IData)(vlTOPp->top__DOT__riscv_32i__DOT__stallF)));
+    vlTOPp->instr = ((IData)(vlTOPp->top__DOT__imem_req)
+                      ? vlTOPp->top__DOT__L1_cache__DOT__MEM
+                     [(0xffffU & (vlTOPp->pc >> 2U))]
+                      : 0U);
+    vlTOPp->readdata = ((IData)(vlTOPp->top__DOT__dmem_req)
                          ? vlTOPp->top__DOT__L1_cache__DOT__MEM
                         [(0xffffU & (vlTOPp->dataadr 
                                      >> 2U))] : 0U);
@@ -542,44 +601,6 @@ void Vtop::_settle__TOP__5(Vtop__Syms* __restrict vlSymsp) {
     vlTOPp->__Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__load_compute__0__Vfuncout 
         = vlTOPp->__Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__load_compute__0__result;
     vlTOPp->top__DOT__riscv_32i__DOT__readdataM = vlTOPp->__Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__load_compute__0__Vfuncout;
-    vlTOPp->__Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__srcb_net0 
-        = vlTOPp->top__DOT__riscv_32i__DOT__writedataM;
-    vlTOPp->__Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__readdata 
-        = vlTOPp->readdata;
-    vlTOPp->__Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__aluout 
-        = vlTOPp->top__DOT__riscv_32i__DOT__aluoutM;
-    vlTOPp->__Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__funct3 
-        = vlTOPp->top__DOT__riscv_32i__DOT__funct3M;
-    vlTOPp->__Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__writedata 
-        = ((0U == (IData)(vlTOPp->__Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__funct3))
-            ? ((2U & vlTOPp->__Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__aluout)
-                ? ((1U & vlTOPp->__Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__aluout)
-                    ? ((0xff000000U & (vlTOPp->__Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__srcb_net0 
-                                       << 0x18U)) | 
-                       (0xffffffU & vlTOPp->__Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__readdata))
-                    : ((0xff000000U & vlTOPp->__Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__readdata) 
-                       | ((0xff0000U & (vlTOPp->__Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__srcb_net0 
-                                        << 0x10U)) 
-                          | (0xffffU & vlTOPp->__Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__readdata))))
-                : ((1U & vlTOPp->__Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__aluout)
-                    ? ((0xffff0000U & vlTOPp->__Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__readdata) 
-                       | ((0xff00U & (vlTOPp->__Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__srcb_net0 
-                                      << 8U)) | (0xffU 
-                                                 & vlTOPp->__Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__readdata)))
-                    : ((0xffffff00U & vlTOPp->__Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__readdata) 
-                       | (0xffU & vlTOPp->__Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__srcb_net0))))
-            : ((1U == (IData)(vlTOPp->__Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__funct3))
-                ? ((2U & vlTOPp->__Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__aluout)
-                    ? ((2U & vlTOPp->__Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__aluout)
-                        ? ((0xffff0000U & (vlTOPp->__Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__srcb_net0 
-                                           << 0x10U)) 
-                           | (0xffffU & vlTOPp->__Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__readdata))
-                        : 0U) : ((0xffff0000U & vlTOPp->__Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__readdata) 
-                                 | (0xffffU & vlTOPp->__Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__srcb_net0)))
-                : vlTOPp->__Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__srcb_net0));
-    vlTOPp->__Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__Vfuncout 
-        = vlTOPp->__Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__writedata;
-    vlTOPp->writedata = vlTOPp->__Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__Vfuncout;
 }
 
 void Vtop::_eval_initial(Vtop__Syms* __restrict vlSymsp) {
@@ -621,7 +642,9 @@ void Vtop::_ctor_var_reset() {
     pc = VL_RAND_RESET_I(32);
     instr = VL_RAND_RESET_I(32);
     memwrite = VL_RAND_RESET_I(1);
-    top__DOT__memaccessM = VL_RAND_RESET_I(1);
+    top__DOT__dmem_req = VL_RAND_RESET_I(1);
+    top__DOT__imem_req = VL_RAND_RESET_I(1);
+    top__DOT__dmem_mask = VL_RAND_RESET_I(4);
     top__DOT__riscv_32i__DOT__pc_genF_in = VL_RAND_RESET_I(32);
     top__DOT__riscv_32i__DOT__pc_genF_out = VL_RAND_RESET_I(32);
     top__DOT__riscv_32i__DOT__pcD = VL_RAND_RESET_I(32);
@@ -719,12 +742,11 @@ void Vtop::_ctor_var_reset() {
     __Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__load_compute__0__aluout = VL_RAND_RESET_I(32);
     __Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__load_compute__0__readdata = VL_RAND_RESET_I(32);
     __Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__load_compute__0__result = VL_RAND_RESET_I(32);
-    __Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__Vfuncout = VL_RAND_RESET_I(32);
-    __Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__funct3 = VL_RAND_RESET_I(3);
-    __Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__aluout = VL_RAND_RESET_I(32);
-    __Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__readdata = VL_RAND_RESET_I(32);
-    __Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__srcb_net0 = VL_RAND_RESET_I(32);
-    __Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__writedata = VL_RAND_RESET_I(32);
+    __Vtask_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__funct3 = VL_RAND_RESET_I(3);
+    __Vtask_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__aluout = VL_RAND_RESET_I(32);
+    __Vtask_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__srcb_net0 = VL_RAND_RESET_I(32);
+    __Vtask_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__dmem_mask = VL_RAND_RESET_I(4);
+    __Vtask_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__writedata = VL_RAND_RESET_I(32);
     __Vtableidx1 = 0;
     __Vtable1_top__DOT__riscv_32i__DOT__ctrl__DOT__maindec__DOT__controls[0] = 0U;
     __Vtable1_top__DOT__riscv_32i__DOT__ctrl__DOT__maindec__DOT__controls[1] = 0U;

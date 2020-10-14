@@ -18,8 +18,8 @@ VerilatedVcdC* tfp = NULL;
 
 #define CONSOLE_FORMAT "%c" // %d
 // testbench.cc : variables
-uint32_t EXE_TIME = 3000;
-uint32_t CONSOLE_ADDR = 65536;
+uint32_t EXE_TIME = 10000000;
+uint32_t CONSOLE_ADDR = 65540;
 
 using namespace std;
 
