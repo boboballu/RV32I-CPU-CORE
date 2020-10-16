@@ -124,7 +124,7 @@ VL_MODULE(Vtop) {
         WData/*56319:0*/ top__DOT__riscv_32i__DOT__BTB__DOT__BTB[1760];
         IData/*31:0*/ top__DOT__riscv_32i__DOT__id_comb__DOT__rf__DOT__rf[32];
         CData/*1:0*/ top__DOT__riscv_32i__DOT__Bpred__DOT__BIMODAL_TABLE[1024];
-        IData/*31:0*/ top__DOT__L1_cache__DOT__MEM[65536];
+        IData/*31:0*/ top__DOT__L1_cache__DOT__MEM[16384];
     };
     std::string top__DOT__L1_cache__DOT__EXEC;
     

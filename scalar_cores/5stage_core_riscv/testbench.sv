@@ -136,6 +136,10 @@ module testbench();
 			if (dataadr == CONSOLE_ADDR) begin
 				$write("%d", writedata);
 			end
+			else if (dataadr == HALT_ADDR) begin
+				$display("\nHALT");
+				$stop;
+			end
 		end
 	end
 
@@ -146,6 +150,10 @@ module testbench();
 		if (memwrite) begin
 			if (dataadr == CONSOLE_ADDR) begin
 				$write(CONSOLE_FORMAT, writedata);
+			end
+			else if (dataadr == HALT_ADDR) begin
+				$display("\n");
+				$stop;
 			end
 		end	
 	end

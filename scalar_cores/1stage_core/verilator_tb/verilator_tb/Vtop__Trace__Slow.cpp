@@ -395,14 +395,14 @@ void Vtop::traceFullSub0(void* userp, VerilatedVcd* tracep) {
                                                 >> 0x1eU))
                                          : (IData)(vlTOPp->top__DOT__riscv_32i__DOT__controller__DOT__aluop)))));
         tracep->fullIData(oldp+74,(vlTOPp->top__DOT__L1_cache__DOT__MEM
-                                   [(0xffffU & (vlTOPp->pc 
+                                   [(0x3fffU & (vlTOPp->pc 
                                                 >> 2U))]),32);
         tracep->fullIData(oldp+75,(((1U & (((IData)(vlTOPp->top__DOT__riscv_32i__DOT__controller__DOT__maindec__DOT__controls) 
                                             >> 4U) 
                                            | ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__controller__DOT__maindec__DOT__controls) 
                                               >> 5U)))
                                      ? vlTOPp->top__DOT__L1_cache__DOT__MEM
-                                    [(0xffffU & (vlTOPp->dataadr 
+                                    [(0x3fffU & (vlTOPp->dataadr 
                                                  >> 2U))]
                                      : 0U)),32);
         tracep->fullCData(oldp+76,((0x7fU & vlTOPp->instr)),7);

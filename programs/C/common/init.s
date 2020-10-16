@@ -15,4 +15,8 @@ entry:
     la    sp, __sp      # set up the stack pointer, using a constant defined in the linker script.
     call  textinit      # call the main function
 end:
-    j end               # loop when finished if there is no environment to return to.
+    addi t1, t1, 1
+    la t2, 65548
+    sw t1, 0(t2)
+loop:
+    j loop               # loop when finished if there is no environment to return to.

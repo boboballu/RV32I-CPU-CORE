@@ -19,6 +19,7 @@ VerilatedVcdC* tfp = NULL;
 #define CONSOLE_FORMAT "%c" // %c
 // testbench.cc : variables
 uint32_t EXE_TIME = 10000000;
+uint32_t HALT_ADDR = 65548;
 uint32_t CONSOLE_ADDR = 65540;
 
 using namespace std;
@@ -81,6 +82,10 @@ int main(int argc, char** argv) {
             if ((uut->dataadr == CONSOLE_ADDR)) {
                 // printf("%d : => %d\n",main_time, uut->writedata);
                 printf(CONSOLE_FORMAT, uut->writedata); fflush(stdout); // flush the io file buffer everytime
+            }
+            else if (uut->dataadr == HALT_ADDR) {
+                printf("\n\n");
+                exit(0);
             }
         }
 

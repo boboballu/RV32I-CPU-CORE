@@ -14,6 +14,8 @@ sudo apt-get install libelf-dev
 Compile it like this:
 
 g++ -O3 -Wall -lelf emulator.cpp -o emulator
+or
+g++ emulator.cpp -l elf -o emulator
 
 
 It is compatible to Spike for the command line arguments, which means you can run
@@ -80,7 +82,7 @@ original copyright:
 #include <gelf.h>
 
 // uncomment this for an instruction trace and other debug outputs
-//#define DEBUG_OUTPUT
+#define DEBUG_OUTPUT
 
 // memory mapped registers
 #define MTIME_ADDR 0x40000000
@@ -88,7 +90,7 @@ original copyright:
 #define UART_TX_ADDR 0x40002000
 
 // emulator RAM
-#define RAM_SIZE 0x10000
+#define RAM_SIZE 0x40000
 uint8_t ram[RAM_SIZE];
 
 // special memory mapped registers
@@ -748,6 +750,9 @@ void write_mtimecmp(uint64_t value)
 
 int target_write_u32(uint32_t addr, uint32_t val)
 {
+    if ((addr) == 65540) {
+        printf("%c", (char) val);
+    }
     if (addr & 3) {
         pending_exception = CAUSE_MISALIGNED_STORE;
         pending_tval = addr;
@@ -1021,6 +1026,7 @@ void execute_instruction()
             raise_exception(CAUSE_ILLEGAL_INSTRUCTION, insn);
             return;
         }
+        
         break;
     case 0x13:
         funct3 = (insn >> 12) & 7;

@@ -43,7 +43,7 @@ void Vtop::_initial__TOP__1(Vtop__Syms* __restrict vlSymsp) {
     }
     VL_WRITEF("%Ntop.L1_cache found +EXEC=%@\n",vlSymsp->name(),
               64,&(vlTOPp->top__DOT__L1_cache__DOT__EXEC));
-    VL_READMEM_N(true, 32, 65536, 0, VL_CVT_PACK_STR_NN(vlTOPp->top__DOT__L1_cache__DOT__EXEC)
+    VL_READMEM_N(true, 32, 16384, 0, VL_CVT_PACK_STR_NN(vlTOPp->top__DOT__L1_cache__DOT__EXEC)
                  , vlTOPp->top__DOT__L1_cache__DOT__MEM
                  , 0, ~0ULL);
 }
@@ -518,11 +518,11 @@ void Vtop::_settle__TOP__5(Vtop__Syms* __restrict vlSymsp) {
     vlTOPp->top__DOT__imem_req = (1U & (~ (IData)(vlTOPp->top__DOT__riscv_32i__DOT__stallF)));
     vlTOPp->instr = ((IData)(vlTOPp->top__DOT__imem_req)
                       ? vlTOPp->top__DOT__L1_cache__DOT__MEM
-                     [(0xffffU & (vlTOPp->pc >> 2U))]
+                     [(0x3fffU & (vlTOPp->pc >> 2U))]
                       : 0U);
     vlTOPp->readdata = ((IData)(vlTOPp->top__DOT__dmem_req)
                          ? vlTOPp->top__DOT__L1_cache__DOT__MEM
-                        [(0xffffU & (vlTOPp->dataadr 
+                        [(0x3fffU & (vlTOPp->dataadr 
                                      >> 2U))] : 0U);
     vlTOPp->__Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__load_compute__0__readdata 
         = vlTOPp->readdata;
@@ -734,7 +734,7 @@ void Vtop::_ctor_var_reset() {
     { int __Vi0=0; for (; __Vi0<1024; ++__Vi0) {
             top__DOT__riscv_32i__DOT__Bpred__DOT__BIMODAL_TABLE[__Vi0] = VL_RAND_RESET_I(2);
     }}
-    { int __Vi0=0; for (; __Vi0<65536; ++__Vi0) {
+    { int __Vi0=0; for (; __Vi0<16384; ++__Vi0) {
             top__DOT__L1_cache__DOT__MEM[__Vi0] = 0;
     }}
     __Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__load_compute__0__Vfuncout = VL_RAND_RESET_I(32);

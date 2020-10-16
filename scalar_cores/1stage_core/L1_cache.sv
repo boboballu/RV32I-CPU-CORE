@@ -94,7 +94,7 @@ module unified_L1_cache (mem_bus Bus);
 	end
 
 	// unified Instn and Data memory
-	bit [31:0] MEM [RAM_SIZE-1:0]; // 256 KB of memory
+	bit [31:0] MEM [(RAM_SIZE/4)-1:0]; // 64 KB of memory
 
 	// Imem read memory
 	initial begin

@@ -12,7 +12,7 @@
 OUTPUT_ARCH( "riscv" )
 
 /* ram is word addressable and 1 word is 4 bytes */
-/* 64k bytes implies 4k words in ram */
+/* 64k bytes implies 16k words in ram */
 MEMORY {
   ram      (rwx): ORIGIN = 0x00000000, LENGTH = 64k   
 }
