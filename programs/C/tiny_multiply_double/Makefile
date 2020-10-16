@@ -25,7 +25,7 @@ objcopy = riscv-none-embed-objcopy
 # NEW Compiler Args - Personal Machine
 CFLAGS=-march=rv32i -mabi=ilp32
 
-OPT=
+OPT=-O3
 ccFs:=init1.cc myClib.cc main.cc
 ASMs:=init.s
 OBJ:=init.o init1.o myClib.o main.o
