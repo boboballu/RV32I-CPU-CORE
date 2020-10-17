@@ -1,5 +1,5 @@
 # vsim -c -do "run -all; exit" "+EXEC=./memfile.dat" testbench 
-# Start time: 19:25:22 on Oct 16,2020
+# Start time: 05:37:27 on Oct 17,2020
 # Loading sv_std.std
 # Loading work.dbg_pkg
 # Loading work.testbench_sv_unit
@@ -28,13 +28,12 @@
 # ==> Console [0x00010004] print - writes to the addr treated as a console print msg <==
 #  
 #  
-# Hello World ;) 
-# 65532
+# fraction part : 4929
 # 
 # ** Note: $stop    : testbench.sv(133)
-#    Time: 11400 ps  Iteration: 5  Instance: /testbench
+#    Time: 22100 ps  Iteration: 5  Instance: /testbench
 # Break in Module testbench at testbench.sv line 133
 # Stopped at testbench.sv line 133
 #  exit
-# End time: 19:25:23 on Oct 16,2020, Elapsed time: 0:00:01
+# End time: 05:37:27 on Oct 17,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0

@@ -1,38 +1,23 @@
-# vsim -c -do "run -all; exit" test 
-# Start time: 13:54:57 on May 24,2020
-# Loading /tmp/tkesava@engr-ras-206.eos.ncsu.edu_dpi_10975/linux_gcc-5.3.0/export_tramp.so
-# ** Note: (vsim-8009) Loading existing optimized design _opt
-# //  Questa Sim
-# //  Version 10.7c linux Aug 17 2018
-# //
-# //  Copyright 1991-2018 Mentor Graphics Corporation
-# //  All Rights Reserved.
-# //
-# //  QuestaSim and its associated documentation contain trade
-# //  secrets and commercial or financial information that are the property of
-# //  Mentor Graphics Corporation and are privileged, confidential,
-# //  and exempt from disclosure under the Freedom of Information Act,
-# //  5 U.S.C. Section 552. Furthermore, this information
-# //  is prohibited from disclosure under the Trade Secrets Act,
-# //  18 U.S.C. Section 1905.
-# //
-# Loading sv_std.std
-# Loading work.test(fast)
-# Compiling /tmp/tkesava@engr-ras-206.eos.ncsu.edu_dpi_10975/linux_gcc-5.3.0/exportwrapper.c
-# Loading /tmp/tkesava@engr-ras-206.eos.ncsu.edu_dpi_10975/linux_gcc-5.3.0/vsim_auto_compile.so
-# run -all
-# a is x
-# (C++) a is 3
-# Scope is test
-# (SV) b is 1
-# a is 1
-# (C++) a is 1
-# Scope is test
-# (SV) b is 1
-# a is z
-# (C++) a is 2
-# Scope is test
-# (SV) b is 0
-#  exit
-# End time: 13:54:58 on May 24,2020, Elapsed time: 0:00:01
-# Errors: 0, Warnings: 0
+# vsim -c test -do "run -all;quit" 
+# Start time: 20:46:26 on Oct 16,2020
+# ** Warning: (vsim-7032) The 32-bit glibc RPM does not appear to be installed on this machine.  Calls to gcc may fail.
+# 
+# ** Warning: (vsim-7032) The 32-bit glibc RPM does not appear to be installed on this machine.  Calls to gcc may fail.
+# 
+# ** Fatal: (vsim-3827) Could not compile 'export_tramp.so': cmd = '/usr/bin/gcc   -shared -fPIC -m32  -g  -I. -I"/opt/intelFPGA_pro/20.2/modelsim_ase/include" -I"/opt/intelFPGA_pro/20.2/modelsim_ase/../oem/include" -o "/tmp/root@41f64e1738c0_dpi_10233/linuxaloem_gcc-7/export_tramp.so" "/tmp/root@41f64e1738c0_dpi_10233/linuxaloem_gcc-7/export_tramp.S"'
+# (vsim-50) A call to system(/usr/bin/gcc   -shared -fPIC -m32  -g  -I. -I"/opt/intelFPGA_pro/20.2/modelsim_ase/include" -I"/opt/intelFPGA_pro/20.2/modelsim_ase/../oem/include" -o "/tmp/root@41f64e1738c0_dpi_10233/linuxaloem_gcc-7/export_tramp.so" "/tmp/root@41f64e1738c0_dpi_10233/linuxaloem_gcc-7/export_tramp.S" >'/tmp/questatmp.UsIDIn' 2>&1) returned error code '1'.
+# The logfile contains the following messages:
+# /usr/bin/ld: cannot find crti.o: No such file or directory
+# /usr/bin/ld: skipping incompatible /usr/lib/gcc/x86_64-linux-gnu/7/libgcc.a when searching for -lgcc
+# /usr/bin/ld: cannot find -lgcc
+# /usr/bin/ld: skipping incompatible /usr/lib/gcc/x86_64-linux-gnu/7/libgcc.a when searching for -lgcc
+# /usr/bin/ld: cannot find -lgcc
+# collect2: error: ld returned 1 exit status
+# 
+# No such file or directory. (errno = ENOENT)
+# 
+# 
+# FATAL ERROR while loading design
+# Error loading design
+# End time: 20:46:27 on Oct 16,2020, Elapsed time: 0:00:01
+# Errors: 1, Warnings: 2

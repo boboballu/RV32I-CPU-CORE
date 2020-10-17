@@ -1,6 +1,10 @@
 .word 0x00010117
 .word 0xffc10113
-.word 0x008000ef
+.word 0x018000ef
+.word 0x00130313
+.word 0x000103b7
+.word 0x00c38393
+.word 0x0063a023
 .word 0x0000006f
 .word 0xff010113
 .word 0x00112623
@@ -484,10 +488,10 @@
 .word 0x02812423
 .word 0x03010413
 .word 0x000017b7
-.word 0x3887a783
+.word 0x3987a783
 .word 0xfef42623
 .word 0x000017b7
-.word 0x38c7a783
+.word 0x39c7a783
 .word 0xfef42423
 .word 0xfe842583
 .word 0xfec42503
@@ -509,7 +513,7 @@
 .word 0x00050793
 .word 0xfcf42e23
 .word 0x000017b7
-.word 0x3907a583
+.word 0x3a07a583
 .word 0xfdc42503
 .word 0x118000ef
 .word 0x00050793
@@ -519,7 +523,7 @@
 .word 0xfcf42c23
 .word 0xfd842583
 .word 0x000017b7
-.word 0x37478513
+.word 0x38478513
 .word 0xeedff0ef
 .word 0x00000793
 .word 0x00078513
@@ -1242,7 +1246,7 @@
 .word 0x40a70533
 .word 0x00008067
 .word 0x0000fffc
-.word 0x00000010
+.word 0x00000020
 .word 0x63617266
 .word 0x6e6f6974
 .word 0x72617020

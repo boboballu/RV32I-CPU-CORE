@@ -63,7 +63,7 @@ function automatic logic [31:0] load_compute 	(
 		3'b001:	begin // LH
 					case (aluout[1])
 						1'b0: result = {{16{readdata[15]}} , readdata[15:0]};
-						1'b1: result = {{16{readdata[15]}} , readdata[31:16]};
+						1'b1: result = {{16{readdata[31]}} , readdata[31:16]};
 						default result = 32'b0;
 					endcase
 				end
