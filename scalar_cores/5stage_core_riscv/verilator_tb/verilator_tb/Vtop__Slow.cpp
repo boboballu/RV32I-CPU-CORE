@@ -558,7 +558,7 @@ void Vtop::_settle__TOP__5(Vtop__Syms* __restrict vlSymsp) {
                             ? ((0xffff0000U & ((- (IData)(
                                                           (1U 
                                                            & (vlTOPp->__Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__load_compute__0__readdata 
-                                                              >> 0xfU)))) 
+                                                              >> 0x1fU)))) 
                                                << 0x10U)) 
                                | (0xffffU & (vlTOPp->__Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__load_compute__0__readdata 
                                              >> 0x10U)))

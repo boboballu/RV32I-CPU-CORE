@@ -423,13 +423,9 @@ VL_INLINE_OPT void Vtop::_sequent__TOP__2(Vtop__Syms* __restrict vlSymsp) {
                                     ? (vlTOPp->top__DOT__riscv_32i__DOT__ex_comb__DOT__srcAE 
                                        - vlTOPp->top__DOT__riscv_32i__DOT__ex_comb__DOT__srcBE)
                                     : ((5U == (IData)(vlTOPp->top__DOT__riscv_32i__DOT__alucontrolE))
-                                        ? (IData)((
-                                                   (((QData)((IData)(vlTOPp->top__DOT__riscv_32i__DOT__ex_comb__DOT__srcAE)) 
-                                                     << 0x20U) 
-                                                    | (QData)((IData)(vlTOPp->top__DOT__riscv_32i__DOT__ex_comb__DOT__srcAE))) 
-                                                   >> 
-                                                   (0x1fU 
-                                                    & vlTOPp->top__DOT__riscv_32i__DOT__ex_comb__DOT__srcBE)))
+                                        ? (vlTOPp->top__DOT__riscv_32i__DOT__ex_comb__DOT__srcAE 
+                                           >> (0x1fU 
+                                               & vlTOPp->top__DOT__riscv_32i__DOT__ex_comb__DOT__srcBE))
                                         : 0U)) : ((4U 
                                                    & (IData)(vlTOPp->top__DOT__riscv_32i__DOT__alucontrolE))
                                                    ? 
@@ -1376,7 +1372,7 @@ VL_INLINE_OPT void Vtop::_multiclk__TOP__7(Vtop__Syms* __restrict vlSymsp) {
                             ? ((0xffff0000U & ((- (IData)(
                                                           (1U 
                                                            & (vlTOPp->__Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__load_compute__0__readdata 
-                                                              >> 0xfU)))) 
+                                                              >> 0x1fU)))) 
                                                << 0x10U)) 
                                | (0xffffU & (vlTOPp->__Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__load_compute__0__readdata 
                                              >> 0x10U)))

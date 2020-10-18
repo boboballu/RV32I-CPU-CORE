@@ -7,7 +7,7 @@
 
 using namespace std;
 
-//extern "C" void helloFromSV(svBit);
+extern "C" void helloFromSV(svBit);
 
 void helloFromCpp(svLogic a) {
   // 0 is 0

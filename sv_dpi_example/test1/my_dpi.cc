@@ -10,6 +10,7 @@
  * Settings when this file was generated:
  *   PLATFORM = 'linuxaloem'
  */
+
 #ifndef INCLUDED_MY_DPI
 #define INCLUDED_MY_DPI
 

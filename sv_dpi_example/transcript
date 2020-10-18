@@ -1,38 +1,30 @@
-# vsim -c -do "run -all; exit" test 
-# Start time: 13:51:07 on May 24,2020
-# Loading /tmp/tkesava@engr-ras-206.eos.ncsu.edu_dpi_9734/linux_gcc-5.3.0/export_tramp.so
-# ** Note: (vsim-8009) Loading existing optimized design _opt
-# //  Questa Sim
-# //  Version 10.7c linux Aug 17 2018
-# //
-# //  Copyright 1991-2018 Mentor Graphics Corporation
-# //  All Rights Reserved.
-# //
-# //  QuestaSim and its associated documentation contain trade
-# //  secrets and commercial or financial information that are the property of
-# //  Mentor Graphics Corporation and are privileged, confidential,
-# //  and exempt from disclosure under the Freedom of Information Act,
-# //  5 U.S.C. Section 552. Furthermore, this information
-# //  is prohibited from disclosure under the Trade Secrets Act,
-# //  18 U.S.C. Section 1905.
-# //
+# vsim -dpicpppath /usr/bin/gcc -c work.test -do "run -all; quit" 
+# Start time: 18:21:52 on Oct 17,2020
+# Loading /tmp/root@41f64e1738c0_dpi_19518/linuxaloem_gcc-7/export_tramp.so
 # Loading sv_std.std
-# Loading work.test(fast)
-# Compiling /tmp/tkesava@engr-ras-206.eos.ncsu.edu_dpi_9734/linux_gcc-5.3.0/exportwrapper.c
-# Loading /tmp/tkesava@engr-ras-206.eos.ncsu.edu_dpi_9734/linux_gcc-5.3.0/vsim_auto_compile.so
+# Loading work.test
+# ** Note: (vsim-7082) For C/C++ auto compile, choosing compiler /usr/bin/gcc set by the -dpicpppath switch.
+# Compiling /tmp/root@41f64e1738c0_dpi_19518/linuxaloem_gcc-7/exportwrapper.c
+# Loading /tmp/root@41f64e1738c0_dpi_19518/linuxaloem_gcc-7/vsim_auto_compile.so
+# ** Warning: (vsim-16074) No C/C++ auto compile object files are found for the current platform 'linuxaloem_gcc-7'.
+# However some C/C++ auto compile objects are found on the following platform(s):
+#     linuxaloem_gcc-4.7.4 
+# Please check whether you are missing the C/C++ auto compile step on the current platform.
+# 
+#    Time: 0 ps  Iteration: 0  Instance: /test File: testbench.sv
+# ** Warning: (vsim-3770) Failed to find user specified function 'helloFromCpp' in DPI C/C++ source files.
+#    Time: 0 ps  Iteration: 0  Instance: /test File: testbench.sv
 # run -all
 # a is x
-# (C++) a is 3
-# Scope is test
-# (SV) b is 1
-# a is 1
-# (C++) a is 1
-# Scope is test
-# (SV) b is 1
-# a is z
-# (C++) a is 2
-# Scope is test
-# (SV) b is 0
-#  exit
-# End time: 13:51:07 on May 24,2020, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
+# ** Fatal: (vsim-160) testbench.sv(9): Null foreign function pointer encountered when calling 'helloFromCpp'
+#    Time: 0 ps  Iteration: 0  Process: /test/#INITIAL#11 File: testbench.sv
+# Fatal error in Module test at testbench.sv line 9
+# 
+# HDL call sequence:
+# Stopped at testbench.sv 9 Module test
+# called from  testbench.sv 16 Task run
+# called from  testbench.sv 11 Module test
+# 
+#  quit
+# End time: 18:21:52 on Oct 17,2020, Elapsed time: 0:00:00
+# Errors: 1, Warnings: 2

@@ -840,13 +840,11 @@ void Vtop::traceFullSub0(void* userp, VerilatedVcd* tracep) {
                                                     : 
                                                    ((5U 
                                                      == (IData)(vlTOPp->top__DOT__riscv_32i__DOT__alucontrolE))
-                                                     ? (IData)(
-                                                               ((((QData)((IData)(vlTOPp->top__DOT__riscv_32i__DOT__ex_comb__DOT__srcAE)) 
-                                                                  << 0x20U) 
-                                                                 | (QData)((IData)(vlTOPp->top__DOT__riscv_32i__DOT__ex_comb__DOT__srcAE))) 
-                                                                >> 
-                                                                (0x1fU 
-                                                                 & vlTOPp->top__DOT__riscv_32i__DOT__ex_comb__DOT__srcBE)))
+                                                     ? 
+                                                    (vlTOPp->top__DOT__riscv_32i__DOT__ex_comb__DOT__srcAE 
+                                                     >> 
+                                                     (0x1fU 
+                                                      & vlTOPp->top__DOT__riscv_32i__DOT__ex_comb__DOT__srcBE))
                                                      : 0U))
                                                    : 
                                                   ((4U 
@@ -917,13 +915,10 @@ void Vtop::traceFullSub0(void* userp, VerilatedVcd* tracep) {
                                            ? (vlTOPp->top__DOT__riscv_32i__DOT__ex_comb__DOT__srcAE 
                                               - vlTOPp->top__DOT__riscv_32i__DOT__ex_comb__DOT__srcBE)
                                            : ((5U == (IData)(vlTOPp->top__DOT__riscv_32i__DOT__alucontrolE))
-                                               ? (IData)(
-                                                         ((((QData)((IData)(vlTOPp->top__DOT__riscv_32i__DOT__ex_comb__DOT__srcAE)) 
-                                                            << 0x20U) 
-                                                           | (QData)((IData)(vlTOPp->top__DOT__riscv_32i__DOT__ex_comb__DOT__srcAE))) 
-                                                          >> 
-                                                          (0x1fU 
-                                                           & vlTOPp->top__DOT__riscv_32i__DOT__ex_comb__DOT__srcBE)))
+                                               ? (vlTOPp->top__DOT__riscv_32i__DOT__ex_comb__DOT__srcAE 
+                                                  >> 
+                                                  (0x1fU 
+                                                   & vlTOPp->top__DOT__riscv_32i__DOT__ex_comb__DOT__srcBE))
                                                : 0U))
                                        : ((4U & (IData)(vlTOPp->top__DOT__riscv_32i__DOT__alucontrolE))
                                            ? ((2U & (IData)(vlTOPp->top__DOT__riscv_32i__DOT__alucontrolE))

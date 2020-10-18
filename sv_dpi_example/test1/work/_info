@@ -21,7 +21,7 @@ OE;O;10.7c;67
 R0
 vtest
 DXx6 sv_std 3 std 0 22 VYECXdT12H8WgbUP_5Y6:3
-!s110 1602895528
+!s110 1602958790
 !i10b 1
 !s100 fm0dkV4W^5e;ZD@cN:7ne2
 !s11b Dg1SIo80bB@j0V0VzS_@n1
@@ -32,14 +32,14 @@ d/root/Heterogeneous-multicore/sv_dpi_example/test1
 w1593395624
 8testbench.sv
 Ftestbench.sv
-!i122 2
+!i122 4
 L0 6 24
 OV;L;2020.1_3;71
 r1
 !s85 0
 31
-!s108 1602895528.000000
+!s108 1602958790.000000
 !s107 testbench.sv|
-!s90 testbench.sv|
+!s90 my_dpi.cc|testbench.sv|
 !i113 1
 R1

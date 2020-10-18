@@ -469,6 +469,139 @@ void execute_instruction()
             reg[rd] = val;
         break;
 
+    // csr instructions
+    #ifdef NOT_IMPLEMENTED
+    {
+    case 0x73:
+        funct3 = (insn >> 12) & 7;
+        imm = insn >> 20;
+        if (funct3 & 4)
+            val = rs1;
+        else
+            val = reg[rs1];
+        funct3 &= 3;
+        switch(funct3) {
+        case 1: /* csrrw */
+            if (csr_read(&val2, imm, true)) {
+                raise_exception(CAUSE_ILLEGAL_INSTRUCTION, insn);
+                return;
+            }
+            val2 = (int32_t)val2;
+            err = csr_write(imm, val);
+            if (err < 0) {
+                raise_exception(CAUSE_ILLEGAL_INSTRUCTION, insn);
+                return;
+            }
+            if (rd != 0)
+                reg[rd] = val2;
+            if (err > 0) {
+                //pc = pc + 4;
+            }
+            break;
+        case 2: /* csrrs */
+        case 3: /* csrrc */
+            if (csr_read(&val2, imm, (rs1 != 0))) {
+                raise_exception(CAUSE_ILLEGAL_INSTRUCTION, insn);
+                return;
+            }
+            val2 = (int32_t)val2;
+            if (rs1 != 0) {
+                if (funct3 == 2)
+                    val = val2 | val;
+                else
+                    val = val2 & ~val;
+                err = csr_write(imm, val);
+                if (err < 0) {
+                    raise_exception(CAUSE_ILLEGAL_INSTRUCTION, insn);
+                    return;
+                }
+            } else {
+                err = 0;
+            }
+            if (rd != 0)
+                reg[rd] = val2;
+            break;
+        case 0:
+            switch(imm) {
+            case 0x000: /* ecall */
+                if (insn & 0x000fff80) {
+                    raise_exception(CAUSE_ILLEGAL_INSTRUCTION, insn);
+                    return;
+                }
+                // compliance test specific: if bit 0 of gp (x3) is 0, it is a syscall,
+                // otherwise it is the program end, with the exit code in the bits 31:1
+                if (begin_signature) {
+                    if (reg[3] & 1) {
+#ifdef DEBUG_OUTPUT
+                        printf("program end, result: %04x\n", reg[3] >> 1);
+#endif
+                        machine_running = false;
+                        return;
+                    } else {
+#ifdef DEBUG_OUTPUT
+                        printf("syscall: %04x\n", reg[3]);
+#endif
+                        raise_exception(CAUSE_USER_ECALL + priv, 0);
+                    }
+                } else {
+                    // on real hardware, an exception is raised, the I-ECALL-01 compliance test tests this as well
+                    raise_exception(CAUSE_USER_ECALL + priv, 0);
+                    return;
+                }
+                break;
+
+            case 0x001: /* ebreak */
+                if (insn & 0x000fff80) {
+                    raise_exception(CAUSE_ILLEGAL_INSTRUCTION, insn);
+                    return;
+                }
+                raise_exception(CAUSE_BREAKPOINT, 0);
+                return;
+            case 0x102: /* sret */
+            {
+                if ((insn & 0x000fff80) || (priv < PRV_S)) {
+                    raise_exception(CAUSE_ILLEGAL_INSTRUCTION, insn);
+                    return;
+                }
+                handle_sret();
+                return;
+            }
+            break;
+            case 0x105: /* wfi */
+                // wait for interrupt: it is allowed to execute it as nop
+                break;
+            case 0x302: /* mret */
+            {
+                if ((insn & 0x000fff80) || (priv < PRV_M)) {
+                    raise_exception(CAUSE_ILLEGAL_INSTRUCTION, insn);
+                    return;
+                }
+                handle_mret();
+                return;
+            }
+            break;
+            default:
+                if ((imm >> 5) == 0x09) {
+                    /* sfence.vma */
+                    if ((insn & 0x00007f80) || (priv == PRV_U)) {
+                        raise_exception(CAUSE_ILLEGAL_INSTRUCTION, insn);
+                        return;
+                    }
+                } else {
+                    raise_exception(CAUSE_ILLEGAL_INSTRUCTION, insn);
+                    return;
+                }
+                break;
+            }
+            break;
+        default:
+            raise_exception(CAUSE_ILLEGAL_INSTRUCTION, insn);
+            return;
+        }
+        break;
+    }
+    #endif
+
     case 0x0f: /* misc-mem */
         funct3 = (insn >> 12) & 7;
         switch(funct3) {
@@ -490,6 +623,115 @@ void execute_instruction()
         }
         break;
 
+    // atomic instructions
+    #ifdef NOT_IMPLEMENTED
+    {
+    case 0x2f:
+        funct3 = (insn >> 12) & 7;
+        switch(funct3) {
+        case 2:
+        {
+            uint32_t rval;
+
+            addr = reg[rs1];
+            funct3 = insn >> 27;
+            switch(funct3) {
+            case 2: /* lr.w */
+                if (rs2 != 0) {
+                    raise_exception(CAUSE_ILLEGAL_INSTRUCTION, insn);
+                    return;
+                }
+                if (target_read_u32(&rval, addr)) {
+                    raise_exception(pending_exception, pending_tval);
+                    return;
+                }
+                val = (int32_t)rval;
+                load_res = addr;
+                break;
+            case 3: /* sc.w */
+                if (load_res == addr) {
+                    if (target_write_u32(addr, reg[rs2])) {
+                        raise_exception(pending_exception, pending_tval);
+                        return;
+                    }
+                    val = 0;
+                } else {
+                    val = 1;
+                }
+                break;
+            case 1: /* amiswap.w */
+            case 0: /* amoadd.w */
+            case 4: /* amoxor.w */
+            case 0xc: /* amoand.w */
+            case 0x8: /* amoor.w */
+            case 0x10: /* amomin.w */
+            case 0x14: /* amomax.w */
+            case 0x18: /* amominu.w */
+            case 0x1c: /* amomaxu.w */
+                if (target_read_u32(&rval, addr)) {
+                    raise_exception(pending_exception, pending_tval);
+                    return;
+                }
+                val = (int32_t)rval;
+                val2 = reg[rs2];
+                switch(funct3) {
+                case 1: /* amiswap.w */
+                    break;
+                case 0: /* amoadd.w */
+                    val2 = (int32_t)(val + val2);
+                    break;
+                case 4: /* amoxor.w */
+                    val2 = (int32_t)(val ^ val2);
+                    break;
+                case 0xc: /* amoand.w */
+                    val2 = (int32_t)(val & val2);
+                    break;
+                case 0x8: /* amoor.w */
+                    val2 = (int32_t)(val | val2);
+                    break;
+                case 0x10: /* amomin.w */
+                    if ((int32_t)val < (int32_t)val2)
+                        val2 = (int32_t)val;
+                    break;
+                case 0x14: /* amomax.w */
+                    if ((int32_t)val > (int32_t)val2)
+                        val2 = (int32_t)val;
+                    break;
+                case 0x18: /* amominu.w */
+                    if ((uint32_t)val < (uint32_t)val2)
+                        val2 = (int32_t)val;
+                    break;
+                case 0x1c: /* amomaxu.w */
+                    if ((uint32_t)val > (uint32_t)val2)
+                        val2 = (int32_t)val;
+                    break;
+                default:
+                    raise_exception(CAUSE_ILLEGAL_INSTRUCTION, insn);
+                    return;
+                }
+                if (target_write_u32(addr, val2)) {
+                    raise_exception(pending_exception, pending_tval);
+                    return;
+                }
+                break;
+            default:
+                raise_exception(CAUSE_ILLEGAL_INSTRUCTION, insn);
+                return;
+            }
+        }
+        break;
+    
+    
+        default:
+            raise_exception(CAUSE_ILLEGAL_INSTRUCTION, insn);
+            return;
+        }
+        if (rd != 0)
+            reg[rd] = val;
+        break;
+    }
+    #endif
+    
     default:
         raise_exception(CAUSE_ILLEGAL_INSTRUCTION, insn);
         return;
