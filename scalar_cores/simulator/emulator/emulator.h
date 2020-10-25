@@ -7,6 +7,12 @@
 #define __CONSOLE_OUTPUT 65540
 #define __HALT_ADDR   65548
 
+// ISA EXTENSIONS
+// #define M_TYPE_ISA
+// #define CSR_ISA
+// #define FENCE_ISA
+// #define ATOMIC_ISA
+
 // CPU state
 extern uint32_t pc;
 extern uint32_t next_pc;

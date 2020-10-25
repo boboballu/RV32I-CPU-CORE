@@ -344,6 +344,7 @@ void execute_instruction()
         }
         
         break;
+
     case 0x13:
         funct3 = (insn >> 12) & 7;
         imm = (int32_t)insn >> 20;
@@ -388,13 +389,18 @@ void execute_instruction()
         if (rd != 0)
             reg[rd] = val;
         break;
+
     case 0x33:
         imm = insn >> 25;
         val = reg[rs1];
         val2 = reg[rs2];
+        
+        // M - type instns | Multiply and Divide
+        #ifdef M_TYPE_ISA
         if (imm == 1) {
             funct3 = (insn >> 12) & 7;
             switch(funct3) {
+        
             case 0: /* mul */
                 val = (int32_t)((int32_t)val * (int32_t)val2);
                 break;
@@ -423,7 +429,9 @@ void execute_instruction()
                 raise_exception(CAUSE_ILLEGAL_INSTRUCTION, insn);
                 return;
             }
-        } else {
+        } else
+        #endif 
+        {
             if (imm & ~0x20) {
                 raise_exception(CAUSE_ILLEGAL_INSTRUCTION, insn);
                 return;
@@ -470,7 +478,7 @@ void execute_instruction()
         break;
 
     // csr instructions
-    #ifdef NOT_IMPLEMENTED
+    #ifdef CSR_ISA
     {
     case 0x73:
         funct3 = (insn >> 12) & 7;
@@ -602,6 +610,8 @@ void execute_instruction()
     }
     #endif
 
+    // fence instns
+    #ifdef FENCE_ISA
     case 0x0f: /* misc-mem */
         funct3 = (insn >> 12) & 7;
         switch(funct3) {
@@ -622,9 +632,9 @@ void execute_instruction()
             return;
         }
         break;
-
+    #endif
     // atomic instructions
-    #ifdef NOT_IMPLEMENTED
+    #ifdef ATOMIC_ISA
     {
     case 0x2f:
         funct3 = (insn >> 12) & 7;

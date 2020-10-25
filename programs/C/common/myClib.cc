@@ -110,8 +110,33 @@ unsigned int itoa(
 
 	return len;
 }
-/********************************************************************************/
 
+/********************************************************************************/
+#ifdef FLOATING_POINT
+// ftoi - input float value; output in and fr 
+int ftoi (float f, int *in, int *fr) { 
+    *in = (int) f;
+    float fraction=0;
+    fraction = f - *in;
+    fraction = (fraction > 0) ? fraction : -fraction;
+    *fr = (int) (fraction * 100000000);
+    *in = (int) (f - fraction);
+    return 0;
+}
+
+int ftoi_print(float f) {
+	int in, fr;
+	ftoi(f, &in, &fr);
+	char in_c[10], fr_c[10];
+	// _printf("%d.%d", in, fr);
+	itoa(in, 10, 0, 0, in_c, 0);
+	itoa(fr, 10, 0, 0, fr_c, 0);
+	write_string(in_c); write_char('.'); write_string(fr_c);
+	return 0;
+}
+#endif
+
+/********************************************************************************/
 // printf_impl - contains printf implementation
 int printf_impl(volatile int* print_addr, const char *fmt, va_list va) {
 	char bf[24];
@@ -124,6 +149,7 @@ int printf_impl(volatile int* print_addr, const char *fmt, va_list va) {
 			char zero_pad = 0;
 			char *ptr;
 			unsigned int len;
+			int in, fr;
 
 			ch=*(fmt++);
 
@@ -161,7 +187,13 @@ int printf_impl(volatile int* print_addr, const char *fmt, va_list va) {
 					ptr = va_arg(va, char*);
 					_puts(ptr, _strlen(ptr), print_addr);
 					break;
-
+				
+				#ifdef FLOATING_POINT
+				case 'f' :
+					ftoi_print((float)(va_arg(va, double)));
+					break;
+				#endif
+				
 				default:
 					_putc(ch, print_addr);
 					break;
@@ -171,8 +203,8 @@ int printf_impl(volatile int* print_addr, const char *fmt, va_list va) {
 end:
 	return 0;
 }
-/********************************************************************************/
 
+/********************************************************************************/
 // addr_printf - printd to the given print_addr
 int addr_printf(volatile int* print_addr, const char *fmt, ...) {
 	int ret;
@@ -184,6 +216,7 @@ int addr_printf(volatile int* print_addr, const char *fmt, ...) {
 	return ret;
 }
 
+/********************************************************************************/
 // _printf - printd to the given __console_addr
 int _printf (const char *fmt, ...) {
 	int ret;

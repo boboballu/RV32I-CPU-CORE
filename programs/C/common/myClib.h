@@ -7,14 +7,16 @@ functionality for the user-level bare-metal program */
 
 #ifndef MYCLIB
 #define MYCLIB
+#define FLOATING_POINT
 #include <stdarg.h>
 // write_char writes a char to location "__console_addr" defined in linker
 extern unsigned int _stext[], _etext[];             // text section start and end address
 extern unsigned int _svector[], _evector[];         // vector section start and end address
 extern unsigned int _srodata[], _erodata[];         // rodata section start and end address
 extern unsigned int _sdata[], _edata[];             // data section start and end address
+extern unsigned int _ssdata[], _esdata[];             // data section start and end address
+extern unsigned int _ssbss[], _esbss[];             // data section start and end address
 extern unsigned int _sbss[], _ebss[];               // .bss section start and end address
-
 
 extern unsigned int __sp[];                         // stack pointer
 extern unsigned int __console_addr[];               // output console address
@@ -33,6 +35,11 @@ unsigned int itoa   (
     char *buffer, unsigned int zero_pad
 );
 
+#ifdef FLOATING_POINT
+int ftoi (float f, int *in, int *fr);
+int ftoi_print(float f);
+#endif
+
 /********************************************************************************/
 
 int _putc(int ch, volatile int* print_addr);                    // _putc - puts a char in print_addr; always returns 1
@@ -40,6 +47,7 @@ int _puts(char *s, unsigned int len, volatile int* print_addr); // _puts - puts 
 unsigned int _strlen(const char *s);                            // _strlen - returns the length of a const string
 
 /********************************************************************************/
+
 int printf_impl(volatile int* print_addr, const char *fmt, va_list va); // printf_impl - contains printf implementation
 int addr_printf(volatile int* print_addr, const char *fmt, ...);        // addr_printf - printd to the given print_addr
 int _printf (const char *fmt, ...);                                     // _printf - printd to the given __console_addr

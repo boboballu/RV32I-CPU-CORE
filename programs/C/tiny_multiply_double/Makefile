@@ -10,22 +10,22 @@
 ## https://stackoverflow.com/questions/57021029/how-to-link-math-library-when-building-bare-metal-application-with-custom-linker
 allSectionsDir = ./sections
 ## riscv official compiler binaries - with multilib support
-# cc=riscv64-unknown-elf-gcc
-# objdump = riscv64-unknown-elf-objdump
-# objcopy = riscv64-unknown-elf-objcopy
+cc=riscv64-unknown-elf-gcc
+objdump = riscv64-unknown-elf-objdump
+objcopy = riscv64-unknown-elf-objcopy
 
 ## riscv xpack installer - binaries
 ## https://xpack.github.io/riscv-none-embed-gcc/install/
-cc=riscv-none-embed-g++
-objdump = riscv-none-embed-objdump
-objcopy = riscv-none-embed-objcopy
+# cc=riscv-none-embed-g++
+# objdump = riscv-none-embed-objdump
+# objcopy = riscv-none-embed-objcopy
 
 # OLD Compiler Args - Grendel
 #CFLAGS=-m32 -march=RV32I
 # NEW Compiler Args - Personal Machine
 CFLAGS=-march=rv32i -mabi=ilp32
 
-OPT=
+OPT=-O0
 ccFs:=init1.cc myClib.cc main.cc
 ASMs:=init.s
 OBJ:=init.o init1.o myClib.o main.o
@@ -51,12 +51,13 @@ exe.dump:
 
 exe.bin:
 	mkdir -p $(allSectionsDir)
-	$(objcopy) -O binary --only-section=.text* --only-section=.vector* --only-section=.rodata* --only-section=.data* --only-section=.bss* exe $(allSectionsDir)/exe.bin
+	$(objcopy) -O binary --only-section=.text* --only-section=.vector* --only-section=.rodata* --only-section=.data* --only-section=.sdata* --only-section=.bss* exe $(allSectionsDir)/exe.bin
 
 	$(objcopy) -O binary --only-section=.text* exe $(allSectionsDir)/text
 	$(objcopy) -O binary --only-section=.vector* exe $(allSectionsDir)/vector
 	$(objcopy) -O binary --only-section=.rodata* exe $(allSectionsDir)/rodata
 	$(objcopy) -O binary --only-section=.data* exe $(allSectionsDir)/data
+	$(objcopy) -O binary --only-section=.sdata* exe $(allSectionsDir)/sdata
 	$(objcopy) -O binary --only-section=.bss* exe $(allSectionsDir)/bss
 
 exe.dat:
@@ -66,6 +67,7 @@ exe.dat:
 	hexdump -v -e '"%08x\n"' $(allSectionsDir)/vector > $(allSectionsDir)/vector.dat
 	hexdump -v -e '"%08x\n"' $(allSectionsDir)/rodata > $(allSectionsDir)/rodata.dat
 	hexdump -v -e '"%08x\n"' $(allSectionsDir)/data > $(allSectionsDir)/data.dat
+	hexdump -v -e '"%08x\n"' $(allSectionsDir)/sdata > $(allSectionsDir)/sdata.dat
 	hexdump -v -e '"%08x\n"' $(allSectionsDir)/bss > $(allSectionsDir)/bss.dat
 disassembly.dump:
 	sed 's/^/.word 0x/' exe.dat > disassembly.s

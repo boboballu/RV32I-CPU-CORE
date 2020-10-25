@@ -57,6 +57,28 @@ SECTIONS
         PROVIDE(_edata = .);
     } > ram
 
+    /* riscv compiler a linker optimization called linker relaxation. hence as a part of it,
+    There is are new sections introduced like .sdata, .srodata, .sbss etc*/
+    .sdata : {
+        . = ALIGN(4);
+        PROVIDE(_ssdata = .);
+        /* __global_pointer$ = . + 0x800; */
+        *(.srodata.cst16) *(.srodata.cst8) *(.srodata.cst4) *(.srodata.cst2) *(.srodata .srodata.*)
+        *(.sdata .sdata.* .gnu.linkonce.s.*)
+        . = ALIGN(4);
+        PROVIDE(_esdata = .);
+    } > ram
+
+    .sbss : {
+        . = ALIGN(4);
+        PROVIDE(_ssbss = .);
+        *(.dynsbss)
+        *(.sbss .sbss.* .gnu.linkonce.sb.*)
+        *(.scommon)
+        . = ALIGN(4);
+        PROVIDE(_esbss = .);
+    } > ram
+
     .bss : {
         . = ALIGN(4);
         PROVIDE(_sbss = .);
