@@ -1,5 +1,5 @@
 # vsim -c -do "run -all; exit" "+EXEC=./memfile.dat" testbench 
-# Start time: 21:31:23 on Oct 19,2020
+# Start time: 22:38:15 on Oct 24,2020
 # Loading sv_std.std
 # Loading work.dbg_pkg
 # Loading work.testbench_sv_unit
@@ -48,14 +48,13 @@
 # ==> Console [0x00010004] print - writes to the addr treated as a console print msg <==
 #  
 #  
-# product of x and y is 0.0
-# product of x and y is -880.49291992
+# product of x and y is -2147483648.2147483647
 # 
 # 
 # ** Note: $stop    : testbench.sv(156)
-#    Time: 39190 ps  Iteration: 3  Instance: /testbench
+#    Time: 77230 ps  Iteration: 3  Instance: /testbench
 # Break in Module testbench at testbench.sv line 156
 # Stopped at testbench.sv line 156
 #  exit
-# End time: 21:31:24 on Oct 19,2020, Elapsed time: 0:00:01
+# End time: 22:38:16 on Oct 24,2020, Elapsed time: 0:00:01
 # Errors: 0, Warnings: 0
