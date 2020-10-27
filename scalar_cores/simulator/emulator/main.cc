@@ -2,15 +2,8 @@
 #include <stdlib.h>
 #include <fstream>
 #include "emulator.h"
+#include "main.h"
 
-uint32_t pc;
-uint32_t next_pc;
-uint32_t insn;
-uint32_t reg[32];
-uint8_t ram[RAM_SIZE];
-
-int load_mem (const char* filename);
-int risc_cpu ();
 
 int main (int argc, char* argv[]) 
 {
