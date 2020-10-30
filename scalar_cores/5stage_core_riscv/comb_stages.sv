@@ -243,7 +243,7 @@ module alu 	(	input logic [31:0] srca,
 		else begin
 			case (alucontrol)
 				3'b000:	aluout = srca - srcb; // SUB, BEQ
-				3'b101: aluout = srca >>> srcb[4:0]; // SRA
+				3'b101: aluout = signed'(srca) >>> srcb[4:0]; // SRA
 				default: aluout= 32'bx;
 			endcase
 		end

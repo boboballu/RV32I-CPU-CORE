@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "emulator.h"
+//#define CONSOLE_PRINT_AND_EXIT
 
 uint32_t emulator::get_insn32(uint32_t pc)
 {
@@ -71,10 +72,6 @@ int emulator::target_read_u32(uint32_t *pval, uint32_t addr)
 
 int emulator::target_write_u8(uint32_t addr, uint8_t val)
 {
-    // if (addr == 65540) {
-    //     // test for UART output, compatible with QEMU
-    //     printf("%c", val);
-    // } 
     if (addr > RAM_SIZE - 1) {
         printf("illegal write 8, PC: 0x%08x, address: 0x%08x\n", pc, addr);
         return 1;
@@ -104,15 +101,17 @@ int emulator::target_write_u16(uint32_t addr, uint16_t val)
 
 int emulator::target_write_u32(uint32_t addr, uint32_t val)
 {
+    #ifdef CONSOLE_PRINT_AND_EXIT
     if ((addr) == __CONSOLE_OUTPUT) {
         // test for UART output, compatible with QEMU
         printf("%c", (char) val);
-        //return 0;
+        return 0;
     }
     else if (addr == __HALT_ADDR) {
         printf("\n");
         exit(0);
     }
+    #endif
     if (addr > RAM_SIZE - 4)  {
         return 1;
     } else {

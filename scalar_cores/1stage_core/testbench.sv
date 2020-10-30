@@ -30,9 +30,9 @@ module testbench();
 	assign dbg.result			= dut.riscv_32i.datapath.result;
 
 	assign dbg.dmem_we   	= dut.riscv_32i.c_bus.memwrite;
-	assign dbg.dmem_addr 	= dut.riscv_32i.aluout;
-	assign dbg.dmem_wd   	= dut.riscv_32i.writedata;
-	assign dbg.dmem_rd   	= dut.riscv_32i.readdata;
+	assign dbg.dmem_addr 	= dut.riscv_32i.dmem_addr;
+	assign dbg.dmem_wd   	= dut.riscv_32i.dmem_wd;
+	assign dbg.dmem_rd   	= dut.riscv_32i.dmem_rd;
 
 	assign dbg.alusrc   	= dut.riscv_32i.c_bus.alusrc;
 	assign dbg.regwrite 	= dut.riscv_32i.c_bus.regwrite;
@@ -91,7 +91,8 @@ module testbench();
 		if (reset) begin
 			if ((dbg.instn_type_str[dbg.op] != "INVALID") && (dbg.instn_type_str[dbg.op] != "J")) //&& (dbg.pc != 'hc))
 			begin
-				$write ("%t; pc: %x; op: %s; instr: %s; rd :%d; rs1: %d; rs2: %d;\n", $time, dbg.pc, dbg.instn_type_str[dbg.op], dbg.instn_str[dbg.op][dbg.funct3][dbg.alu_sub_funct7], dbg.rd, dbg.rs1, dbg.rs2);
+				$write ("%t; pc: %x; op: %s; instr: %s; rd :%d; rs1: %d; rs2: %d; ", $time, dbg.pc, dbg.instn_type_str[dbg.op], dbg.instn_str[dbg.op][dbg.funct3][dbg.alu_sub_funct7], dbg.rd, dbg.rs1, dbg.rs2);
+				$write (" | srca: %d; srcb: %d; res: %d\n", dut.riscv_32i.datapath.srca, dut.riscv_32i.datapath.srcb, dbg.result);
 			end
 		end
 		if (dbg.instn_type_str[dbg.op] == "LW") begin

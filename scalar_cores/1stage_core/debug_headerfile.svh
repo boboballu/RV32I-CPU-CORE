@@ -8,7 +8,7 @@
 //`define DUMP_VCD
 
 // datapath.sv, testbench.sv, core_top.sv : debug_headerfile is instanced in all the files
-//`define MEM_DEBUG
+// `define MEM_DEBUG
 
 // top_test.sv : uncomment this def for bin mem file read
 //`define MEM_BINARY

@@ -1,5 +1,6 @@
-#ifndef _MAIN_H
-#define _MAIN_H
+#ifndef _EMULATOR_CHILD_H_
+#define _EMULATOR_CHILD_H_
+
 #include <stdint.h>
 #include "emulator.h"
 

@@ -6,7 +6,7 @@
 
 int main (int argc, char* argv[]) 
 {   
-    emulator_child emu;
+    emulator_child emu (1, 65540, 65548);
     // read file and populate ram
     emu.load_mem (argv[1]);
 
@@ -14,4 +14,4 @@ int main (int argc, char* argv[])
     emu.pc = 0; // initialize pc
     emu.risc_cpu();
 
-} 
+}

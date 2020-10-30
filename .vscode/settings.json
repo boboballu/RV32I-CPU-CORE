@@ -1,7 +1,8 @@
 {
     "files.associations": {
         "*.svh": "systemverilog",
-        "iosfwd": "cpp"
+        "iosfwd": "cpp",
+        "*.tcc": "cpp"
     },
     "C_Cpp.errorSquiggles": "Enabled"
 }
