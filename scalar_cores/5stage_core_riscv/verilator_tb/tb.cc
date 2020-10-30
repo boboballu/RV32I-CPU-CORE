@@ -33,7 +33,8 @@ int main(int argc, char** argv) {
     }
 
     main_time = tb1.simulate_rtl(Verilated::gotFinish(), tfp);
-    //main_time = tb1.compare_simulation(Verilated::gotFinish(), argv[2], tfp);
+    // Comparitive testbench is not complete for 5stagecore
+    // main_time = tb1.compare_simulation(Verilated::gotFinish(), argv[2], tfp);
 
     if (tfp != NULL) {
         tfp->close();

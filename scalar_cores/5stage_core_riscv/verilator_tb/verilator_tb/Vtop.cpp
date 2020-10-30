@@ -423,9 +423,9 @@ VL_INLINE_OPT void Vtop::_sequent__TOP__2(Vtop__Syms* __restrict vlSymsp) {
                                     ? (vlTOPp->top__DOT__riscv_32i__DOT__ex_comb__DOT__srcAE 
                                        - vlTOPp->top__DOT__riscv_32i__DOT__ex_comb__DOT__srcBE)
                                     : ((5U == (IData)(vlTOPp->top__DOT__riscv_32i__DOT__alucontrolE))
-                                        ? (vlTOPp->top__DOT__riscv_32i__DOT__ex_comb__DOT__srcAE 
-                                           >> (0x1fU 
-                                               & vlTOPp->top__DOT__riscv_32i__DOT__ex_comb__DOT__srcBE))
+                                        ? VL_SHIFTRS_III(32,32,5, vlTOPp->top__DOT__riscv_32i__DOT__ex_comb__DOT__srcAE, 
+                                                         (0x1fU 
+                                                          & vlTOPp->top__DOT__riscv_32i__DOT__ex_comb__DOT__srcBE))
                                         : 0U)) : ((4U 
                                                    & (IData)(vlTOPp->top__DOT__riscv_32i__DOT__alucontrolE))
                                                    ? 

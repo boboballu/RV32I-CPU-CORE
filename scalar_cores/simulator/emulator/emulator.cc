@@ -4,6 +4,12 @@
 #include "emulator.h"
 //#define CONSOLE_PRINT_AND_EXIT
 
+emulator::emulator(bool emuOutput, uint32_t consoleAddr, uint32_t haltAddr) {
+    enable_emu_output = emuOutput;
+    CONSOLE_ADDR = consoleAddr;
+    HALT_ADDR = haltAddr;
+}
+
 uint32_t emulator::get_insn32(uint32_t pc)
 {
     uint32_t ptr = pc;
@@ -101,17 +107,18 @@ int emulator::target_write_u16(uint32_t addr, uint16_t val)
 
 int emulator::target_write_u32(uint32_t addr, uint32_t val)
 {
-    #ifdef CONSOLE_PRINT_AND_EXIT
-    if ((addr) == __CONSOLE_OUTPUT) {
-        // test for UART output, compatible with QEMU
-        printf("%c", (char) val);
-        return 0;
-    }
-    else if (addr == __HALT_ADDR) {
-        printf("\n");
-        exit(0);
-    }
-    #endif
+    if (enable_emu_output) {
+        if ((addr) == CONSOLE_ADDR) {
+            // test for UART output, compatible with QEMU
+            printf("%c", (char) val);
+            return 0;
+        }
+        else if (addr == HALT_ADDR) {
+            printf("\n");
+            exit(0);
+        }
+    }  
+
     if (addr > RAM_SIZE - 4)  {
         return 1;
     } else {

@@ -4,8 +4,6 @@
 
 #define DEBUG_OUTPUT
 #define XLEN 32
-#define __CONSOLE_OUTPUT 65540
-#define __HALT_ADDR   65548
 #define RAM_SIZE 0x40000
 
 // ISA EXTENSIONS
@@ -42,7 +40,12 @@
 #define CAUSE_INTERRUPT  ((uint32_t)1 << 31)
 
 class emulator {
-    public:
+private:
+    bool enable_emu_output;
+    uint32_t CONSOLE_ADDR;
+    uint32_t HALT_ADDR;
+    
+public:
     // CPU state
     uint32_t pc;
     uint32_t next_pc;
@@ -50,6 +53,9 @@ class emulator {
     uint32_t reg[32];
     // emulator RAM
     uint8_t ram[RAM_SIZE];
+
+    // constructor to define to configs
+    emulator(bool emuOutput, uint32_t consoleAddr, uint32_t haltAddr);
 
     uint32_t get_insn32(uint32_t pc);
     int put_insn32(uint32_t pc, uint32_t insn32);

@@ -78,6 +78,7 @@ void tb::simulate_emu(bool gotFinish, const char* filename) {
 }
 
 uint64_t tb::compare_simulation(bool gotFinish, const char* filename, VerilatedVcdC* tfp) {
+    int pc_match_count = 0;
     emu = new emulator_child (0, 65540, 65548);
     emu->load_mem (filename);
     emu->pc = 0; // initialize pc
@@ -92,6 +93,8 @@ uint64_t tb::compare_simulation(bool gotFinish, const char* filename, VerilatedV
         uut->clk = uut->clk ? 0 : 1;
         uut->eval(); 
     
+        //uut->top__DOT__riscv_32i__DOT__pcW
+
         if ((uut->clk) & (main_time > 14)) {
             emu->next_pc = emu->pc + 4;
             emu->insn = emu->get_insn32(emu->pc);
@@ -99,30 +102,41 @@ uint64_t tb::compare_simulation(bool gotFinish, const char* filename, VerilatedV
         }
 
         if ((!uut->clk) & (main_time > 14)) {
-            // rtl simulation dump
-            printf("rtl pc: %08x emu pc %08x instn: %08x\n", uut->pc, emu->pc, uut->instr);
-            
-            int rf_index;
-            for (rf_index=1; rf_index<32; rf_index++) {
-                if( uut->top__DOT__riscv_32i__DOT__datapath__DOT__rf__DOT__rf[rf_index] != emu->reg[rf_index]) {
-                    break;
+            if ((emu->pc == uut->top__DOT__riscv_32i__DOT__pcW) & (emu->pc != 0)) {
+                pc_match_count = 0;
+                // rtl simulation dump
+                printf("rtl pc: %08x emu pc %08x instn: %08x\n", uut->top__DOT__riscv_32i__DOT__pcW, emu->pc, uut->instr);
+                
+                int rf_index;
+                for (rf_index=1; rf_index<32; rf_index++) {
+                    if( uut->top__DOT__riscv_32i__DOT__id_comb__DOT__rf__DOT__rf[rf_index] != emu->reg[rf_index]) {
+                        break;
+                    }
                 }
+                if (rf_index != 32) {
+                    printf("Reg file mismatch: R%d | pc: %08x |\n", rf_index, uut->top__DOT__riscv_32i__DOT__pcW);
+                    printf("RTL regfile content\n");
+                    for (int i=1; i<32; i++) {
+                        printf("R%d  %d\n", i, uut->top__DOT__riscv_32i__DOT__id_comb__DOT__rf__DOT__rf[i]);
+                    }
+                    printf("Emu regfile content\n");
+                    for (int i=1; i<32; i++) {
+                        printf("R%d  %d\n", i, emu->reg[i]);
+                    }
+                    cin.get();
+                }
+                emu->pc = emu->next_pc;
             }
-            if (rf_index != 32) {
-                printf("Reg file mismatch: R%d | pc: %08x |\n", rf_index, uut->pc);
-                printf("RTL regfile content\n");
-                for (int i=1; i<32; i++) {
-                    printf("R%d  %d\n", i, uut->top__DOT__riscv_32i__DOT__datapath__DOT__rf__DOT__rf[i]);
+            else {
+                if (emu->pc == 0) {
+                    emu->pc = emu->next_pc;
                 }
-                printf("Emu regfile content\n");
-                for (int i=1; i<32; i++) {
-                    printf("R%d  %d\n", i, emu->reg[i]);
-                }
-                cin.get();
+                printf("emu pc %08x | rtl pc %08x\n", emu->pc, uut->top__DOT__riscv_32i__DOT__pcW);
+                pc_match_count++;
             }
         }
 
-        emu->pc = emu->next_pc;
+        
         
         // for vcd
         if (tfp != NULL){

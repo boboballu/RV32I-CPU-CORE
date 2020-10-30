@@ -4,6 +4,8 @@
 #include "emulator.h"
 #include "emulator_child.h"
 
+emulator_child::emulator_child (bool emuOutput, uint32_t consoleAddr, uint32_t haltAddr) : emulator(emuOutput, consoleAddr, haltAddr) {}
+
 int emulator_child::load_mem (const char* filename) {
     uint32_t ptr = 0;
     std::ifstream trace;

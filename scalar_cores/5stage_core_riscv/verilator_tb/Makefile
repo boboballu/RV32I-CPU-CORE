@@ -15,11 +15,11 @@ verilate:
 	../main.sv \
 	../L1_cache.sv \
 	../top_test.sv \
-	--top-module top --trace -exe ../testbench.cc -Mdir verilator_tb
+	--top-module top --trace -exe ../emulator/emulator.cc ../emulator/emulator_child.cc ../tb_functions.cc ../tb.cc -Mdir verilator_tb
 	make -C verilator_tb -f Vtop.mk
 
 run:
-	./verilator_tb/Vtop +EXEC=../memfile.dat
+	./verilator_tb/Vtop +EXEC=../memfile.dat ../memfile.dat
 
 clean:
 	rm -rf verilator_tb
