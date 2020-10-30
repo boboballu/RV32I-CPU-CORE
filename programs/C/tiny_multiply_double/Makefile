@@ -25,7 +25,7 @@ objcopy = riscv64-unknown-elf-objcopy
 # NEW Compiler Args - Personal Machine
 CFLAGS=-march=rv32i -mabi=ilp32
 
-OPT=-O3
+OPT=-O0
 ccFs:=init1.cc myClib.cc main.cc
 ASMs:=init.s
 OBJ:=init.o init1.o myClib.o main.o

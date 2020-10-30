@@ -1,0 +1,40 @@
+# vsim -c -do "run -all; exit" "+EXEC=./memfile.dat" testbench 
+# Start time: 12:56:42 on Oct 30,2020
+# Loading sv_std.std
+# Loading work.dbg_pkg
+# Loading work.testbench_sv_unit
+# Loading work.testbench
+# Loading work.top_test_sv_unit
+# Loading work.top
+# Loading work.core_top_sv_unit
+# Loading work.riscv_32i
+# Loading work.controller_if
+# Loading work.controller
+# Loading work.maindec
+# Loading work.aludec
+# Loading work.datapath
+# Loading work.instn_decode
+# Loading work.regfile
+# Loading work.alu
+# Loading work.L1_cache_sv_unit
+# Loading work.mem_bus
+# Loading work.unified_L1_cache
+# Loading work.imem
+# Loading work.dmem
+# run -all
+# testbench.dut.L1_cache found +EXEC=./memfile.dat
+#  
+#  
+# ==> Console [0x00010004] print - writes to the addr treated as a console print msg <==
+#  
+#  
+# product of x and y is -880.49291992
+# 
+# 
+# ** Note: $stop    : testbench.sv(134)
+#    Time: 34420 ps  Iteration: 5  Instance: /testbench
+# Break in Module testbench at testbench.sv line 134
+# Stopped at testbench.sv line 134
+#  exit
+# End time: 12:56:42 on Oct 30,2020, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0

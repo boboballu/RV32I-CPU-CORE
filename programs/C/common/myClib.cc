@@ -114,19 +114,20 @@ unsigned int itoa(
 /********************************************************************************/
 #ifdef FLOATING_POINT
 // ftoi - input float value; output in and fr 
-int ftoi (float f, int *in, int *fr) { 
-    *in = (int) f;
+int ftoi (float f, int &in, int &fr) { 
+    in = (int) f;
     float fraction=0;
-    fraction = f - *in;
+    fraction = f - in;
     fraction = (fraction > 0) ? fraction : -fraction;
-    *fr = (int) (fraction * 100000000);
-    *in = (int) (f - fraction);
+    fr = (int) (fraction * 100000000);
+    in = (int) (f - fraction);
     return 0;
 }
 
+
 int ftoi_print(float f) {
 	int in, fr;
-	ftoi(f, &in, &fr);
+	ftoi(f, in, fr);
 	char in_c[10], fr_c[10];
 	// _printf("%d.%d", in, fr);
 	itoa(in, 10, 0, 0, in_c, 0);

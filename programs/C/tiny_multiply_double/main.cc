@@ -27,7 +27,7 @@ int main () {
     // fraction = z - in;
     // fr = (int) (fraction * 10000);
     // in = (int) (z - fraction);
-    ftoi (z, &in, &fr);
+    ftoi (z, in, fr);
     _printf("product of x and y is %d.%d\n", in, fr);
     // my_ftoi (z, in, fr);
     //  _printf("product of x and y is %d.%d\n", in, fr);

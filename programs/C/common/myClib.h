@@ -14,11 +14,11 @@ extern unsigned int _stext[], _etext[];             // text section start and en
 extern unsigned int _svector[], _evector[];         // vector section start and end address
 extern unsigned int _srodata[], _erodata[];         // rodata section start and end address
 extern unsigned int _sdata[], _edata[];             // data section start and end address
-extern unsigned int _ssdata[], _esdata[];             // data section start and end address
+extern unsigned int _ssdata[], _esdata[];           // data section start and end address
 extern unsigned int _ssbss[], _esbss[];             // data section start and end address
 extern unsigned int _sbss[], _ebss[];               // .bss section start and end address
 
-extern unsigned int __sp[];                         // stack pointer
+extern unsigned int __sp[];                         // start of stack pointer
 extern unsigned int __console_addr[];               // output console address
 
 unsigned int write_char(char ch);            // write_char - writes a char to the console; returns 1 if write is successful else 0
@@ -36,7 +36,7 @@ unsigned int itoa   (
 );
 
 #ifdef FLOATING_POINT
-int ftoi (float f, int *in, int *fr);
+int ftoi (float f, int &in, int &fr);
 int ftoi_print(float f);
 #endif
 
