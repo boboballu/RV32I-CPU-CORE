@@ -1,3 +1,7 @@
+// Author: Tarun Govind Kesavamurthi
+// School: North Carolina State University
+// mail  : tkesava@ncsu.edu
+/********************************************************************************/
 #include <stdint.h>
 /* misa CSR */
 #define MCPUID_SUPER   (1 << ('S' - 'A'))

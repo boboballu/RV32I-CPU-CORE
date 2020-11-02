@@ -84,28 +84,24 @@ module riscv_32i(	input logic clk, reset,
 /********************************************************************************/
 	// Datapath: connecting stage_comb to stage_ff
 	// stage 1: pc_if stage
-	// pc_gen pc_gen_comb (
-	// 					.branchD(branchD),
-	// 					.br_takenD(br_takenD), .jumpD(jumpD), .jalrD(jalrD),
-	// 					.BTBHitF(1'b0), .BpredF(1'b0),
-	// 					.BTBHitD(1'b0), .BpredD(1'b0),
-	// 					.branchimmF(32'b0), .branchimmD(branchimmD), .jumpimmD(jumpimmD), .itypeimmD(itypeimmD),
-	// 					.pcF(pc_genF_out), .pcplus4F(pcplus4F), .pcD(pcD), .pcplus4D(pcplus4D),
-	// 					.srcaD(aD),
-
-	// 					.pc(pc_genF_in)
-	// );
+	`ifndef BPRED
+	assign BTBHitF = 1'b0;
+	assign BTBHitD = 1'b0;
+	assign BpredF  = 1'b0;
+	assign BpredD  = 1'b0;
+	assign branchimmF = 32'b0;
+	`endif
 
 	pc_gen pc_gen_comb (
-		.branchD(branchD),
-		.br_takenD(br_takenD), .jumpD(jumpD), .jalrD(jalrD),
-		.BTBHitF(BTBHitF), .BpredF(BpredF),
-		.BTBHitD(BTBHitD), .BpredD(BpredD),
-		.branchimmF(branchimmF), .branchimmD(branchimmD), .jumpimmD(jumpimmD), .itypeimmD(itypeimmD),
-		.pcF(pc_genF_out), .pcplus4F(pcplus4F), .pcD(pcD), .pcplus4D(pcplus4D),
-		.srcaD(aD),
+						.branchD(branchD),
+						.br_takenD(br_takenD), .jumpD(jumpD), .jalrD(jalrD),
+						.BTBHitF(BTBHitF), .BpredF(BpredF),
+						.BTBHitD(BTBHitD), .BpredD(BpredD),
+						.branchimmF(branchimmF), .branchimmD(branchimmD), .jumpimmD(jumpimmD), .itypeimmD(itypeimmD),
+						.pcF(pc_genF_out), .pcplus4F(pcplus4F), .pcD(pcD), .pcplus4D(pcplus4D),
+						.srcaD(aD),
 
-		.pc(pc_genF_in)
+						.pc(pc_genF_in)
 	);
 
 	pc_if pc_if_ff 	(	.clk(clk), .reset(reset),
@@ -281,6 +277,7 @@ module riscv_32i(	input logic clk, reset,
 
 
 /********************************************************************************/
+	`ifdef BPRED
 	// BTB
 	BTB #(.INDEX_SIZE(`BTB_INDEX_SIZE), .TAG_SIZE(`BTB_TAG_SIZE)) BTB
 	(
@@ -304,6 +301,7 @@ module riscv_32i(	input logic clk, reset,
 
 		.BpredF(BpredF)
 	);
+	`endif 
 
 /********************************************************************************/
 

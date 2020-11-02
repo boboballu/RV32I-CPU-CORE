@@ -1,3 +1,7 @@
+// Author: Tarun Govind Kesavamurthi
+// School: North Carolina State University
+// mail  : tkesava@ncsu.edu
+/********************************************************************************/
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>

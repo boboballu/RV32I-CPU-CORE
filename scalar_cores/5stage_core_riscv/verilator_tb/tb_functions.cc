@@ -1,3 +1,7 @@
+// Author: Tarun Govind Kesavamurthi
+// School: North Carolina State University
+// mail  : tkesava@ncsu.edu
+/********************************************************************************/
 #include <stdio.h>
 #include <iostream>
 #include "tb_functions.h"
@@ -45,7 +49,7 @@ uint64_t tb::simulate_rtl(bool gotFinish, VerilatedVcdC* tfp) {
             }
             else if (uut->dataadr == HALT_ADDR) {
                 printf("\n\n");
-                exit(0);
+                return (main_time);
             }
         }
         // for vcd
@@ -55,11 +59,12 @@ uint64_t tb::simulate_rtl(bool gotFinish, VerilatedVcdC* tfp) {
         // stop simulation
         if (uut->dataadr == HALT_ADDR) {
                 printf("\n\n");
-                exit(0);
+                return (main_time);
         }
         
         // time passes...
-        main_time++;
+        if (uut->clk)
+            main_time++;
     }
     // Done simulating
     printf("\n\n");
@@ -78,10 +83,10 @@ void tb::simulate_emu(bool gotFinish, const char* filename) {
 }
 
 uint64_t tb::compare_simulation(bool gotFinish, const char* filename, VerilatedVcdC* tfp) {
-    int pc_match_count = 0;
     emu = new emulator_child (0, 65540, 65548);
     emu->load_mem (filename);
     emu->pc = 0; // initialize pc
+    uint32_t uut_pc_old = 0;
 
     while (!gotFinish & (main_time < EXE_TIME)) {
         // Drive clock and reset signal
@@ -92,52 +97,50 @@ uint64_t tb::compare_simulation(bool gotFinish, const char* filename, VerilatedV
 
         uut->clk = uut->clk ? 0 : 1;
         uut->eval(); 
-    
-        //uut->top__DOT__riscv_32i__DOT__pcW
 
-        if ((uut->clk) & (main_time > 14)) {
-            emu->next_pc = emu->pc + 4;
-            emu->insn = emu->get_insn32(emu->pc);
-            emu->execute_instruction();
+        if ((main_time > 14)) {
+            if (uut_pc_old != uut->top__DOT__riscv_32i__DOT__pcW) {
+                if (!uut->clk) {
+                    // nothing goes here - WB happens in neg-edge
+                }
+                if (uut->clk) {
+                    if (uut->top__DOT__riscv_32i__DOT__pcW != 0) {
+                        // emu - run 
+                        emu->next_pc = emu->pc + 4;
+                        emu->insn = emu->get_insn32(emu->pc);
+                        emu->execute_instruction();
+
+                        // rtl simulation dump
+                        printf("rtl pc: %08x emu pc %08x instn: %08x\n", uut->top__DOT__riscv_32i__DOT__pcW, emu->pc, uut->instr);
+                        
+                        // Arch reg comparison between rtl and emu
+                        int rf_index;
+                        for (rf_index=1; rf_index<32; rf_index++) {
+                            if( uut->top__DOT__riscv_32i__DOT__id_comb__DOT__rf__DOT__rf[rf_index] != emu->reg[rf_index]) {
+                                break;
+                            }
+                        }
+                        if (rf_index != 32) {
+                            printf("Reg file mismatch: R%d | pc: %08x |\n", rf_index, uut->top__DOT__riscv_32i__DOT__pcW);
+                            printf("RTL regfile content\n");
+                            for (int i=1; i<32; i++) {
+                                printf("R%d  %d\n", i, uut->top__DOT__riscv_32i__DOT__id_comb__DOT__rf__DOT__rf[i]);
+                            }
+                            printf("Emu regfile content\n");
+                            for (int i=1; i<32; i++) {
+                                printf("R%d  %d\n", i, emu->reg[i]);
+                            }
+                            cin.get();
+                        }
+
+                        // emu - update pc
+                        emu->pc = emu->next_pc;
+                    }
+                    uut_pc_old = uut->top__DOT__riscv_32i__DOT__pcW;
+                }
+            }
         }
 
-        if ((!uut->clk) & (main_time > 14)) {
-            if ((emu->pc == uut->top__DOT__riscv_32i__DOT__pcW) & (emu->pc != 0)) {
-                pc_match_count = 0;
-                // rtl simulation dump
-                printf("rtl pc: %08x emu pc %08x instn: %08x\n", uut->top__DOT__riscv_32i__DOT__pcW, emu->pc, uut->instr);
-                
-                int rf_index;
-                for (rf_index=1; rf_index<32; rf_index++) {
-                    if( uut->top__DOT__riscv_32i__DOT__id_comb__DOT__rf__DOT__rf[rf_index] != emu->reg[rf_index]) {
-                        break;
-                    }
-                }
-                if (rf_index != 32) {
-                    printf("Reg file mismatch: R%d | pc: %08x |\n", rf_index, uut->top__DOT__riscv_32i__DOT__pcW);
-                    printf("RTL regfile content\n");
-                    for (int i=1; i<32; i++) {
-                        printf("R%d  %d\n", i, uut->top__DOT__riscv_32i__DOT__id_comb__DOT__rf__DOT__rf[i]);
-                    }
-                    printf("Emu regfile content\n");
-                    for (int i=1; i<32; i++) {
-                        printf("R%d  %d\n", i, emu->reg[i]);
-                    }
-                    cin.get();
-                }
-                emu->pc = emu->next_pc;
-            }
-            else {
-                if (emu->pc == 0) {
-                    emu->pc = emu->next_pc;
-                }
-                printf("emu pc %08x | rtl pc %08x\n", emu->pc, uut->top__DOT__riscv_32i__DOT__pcW);
-                pc_match_count++;
-            }
-        }
-
-        
-        
         // for vcd
         if (tfp != NULL){
             tfp->dump (main_time);
@@ -145,14 +148,16 @@ uint64_t tb::compare_simulation(bool gotFinish, const char* filename, VerilatedV
         // stop simulation
         if (uut->dataadr == HALT_ADDR) {
                 printf("\n\n");
-                exit(0);
+                printf("RTL & EMU comparison is successful\n");
+                return (main_time);
         }
         
         // time passes...
-        main_time++;
+        if (uut->clk)
+            main_time++;
     }
     // done simulating
     printf("\n\n");
     uut->final();
-    return main_time;
+    return (main_time);
 }

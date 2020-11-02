@@ -41,6 +41,8 @@ int D_cache_data    = 7;        // Unit mem_debug test; mem store value
 /********************************************************************************/
 `ifdef MAIN
 // BTB parameters
+`define BPRED
+
 `define BTB_INDEX_SIZE      10
 `define BTB_TAG_SIZE        20
 

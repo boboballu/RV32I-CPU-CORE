@@ -1,3 +1,7 @@
+// Author: Tarun Govind Kesavamurthi
+// School: North Carolina State University
+// mail  : tkesava@ncsu.edu
+/********************************************************************************/
 #ifndef _EMULATOR_H_
 #define _EMULATOR_H_
 #include <stdint.h>

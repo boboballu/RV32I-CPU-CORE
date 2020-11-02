@@ -1,3 +1,7 @@
+// Author: Tarun Govind Kesavamurthi
+// School: North Carolina State University
+// mail  : tkesava@ncsu.edu
+/********************************************************************************/
 #include <stdio.h>
 #include <iostream>
 #include "tb_functions.h"
@@ -32,8 +36,14 @@ int main(int argc, char** argv) {
         tfp->open(vcdname.c_str());
     }
 
-    main_time = tb1.simulate_rtl(Verilated::gotFinish(), tfp);
-    //main_time = tb1.compare_simulation(Verilated::gotFinish(), argv[2], tfp);
+    switch (atoi(argv[3])) {
+        case 1: main_time = tb1.simulate_rtl(Verilated::gotFinish(), tfp); break;               // RTL simulation
+        case 2: tb1.simulate_emu(Verilated::gotFinish(), argv[2]); break;                       // EMU simulation
+        case 3: main_time = tb1.compare_simulation(Verilated::gotFinish(), argv[2], tfp); break;// RTL EMU compare
+        default: printf("wrong case: %s\n", argv[3]); 
+    }
+    //main_time = tb1.simulate_rtl(Verilated::gotFinish(), tfp);
+    main_time = tb1.compare_simulation(Verilated::gotFinish(), argv[2], tfp);
 
     if (tfp != NULL) {
         tfp->close();

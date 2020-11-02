@@ -1,5 +1,5 @@
 # vsim -c -do "run -all; exit" "+EXEC=./memfile.dat" testbench 
-# Start time: 13:02:26 on Oct 30,2020
+# Start time: 22:35:19 on Nov 01,2020
 # Loading sv_std.std
 # Loading work.dbg_pkg
 # Loading work.testbench_sv_unit
@@ -56,5 +56,5 @@
 # Break in Module testbench at testbench.sv line 156
 # Stopped at testbench.sv line 156
 #  exit
-# End time: 13:02:27 on Oct 30,2020, Elapsed time: 0:00:01
+# End time: 22:35:20 on Nov 01,2020, Elapsed time: 0:00:01
 # Errors: 0, Warnings: 0

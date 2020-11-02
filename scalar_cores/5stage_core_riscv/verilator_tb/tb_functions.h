@@ -1,3 +1,7 @@
+// Author: Tarun Govind Kesavamurthi
+// School: North Carolina State University
+// mail  : tkesava@ncsu.edu
+/********************************************************************************/
 #ifndef _TB_FINCTIONS_H_
 #define _TB_FINCTIONS_H_
 #define CONSOLE_FORMAT "%c" // %d
