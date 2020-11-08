@@ -187,15 +187,15 @@ void Vtop::traceChgSub0(void* userp, VerilatedVcd* tracep) {
                                                >> 0x1eU))
                                         : (IData)(vlTOPp->top__DOT__riscv_32i__DOT__controller__DOT__aluop)))));
         tracep->chgIData(oldp+73,(vlTOPp->top__DOT__L1_cache__DOT__MEM
-                                  [(0x3fffU & (vlTOPp->pc 
-                                               >> 2U))]),32);
+                                  [(0xfffffU & (vlTOPp->pc 
+                                                >> 2U))]),32);
         tracep->chgIData(oldp+74,(((1U & (((IData)(vlTOPp->top__DOT__riscv_32i__DOT__controller__DOT__maindec__DOT__controls) 
                                            >> 4U) | 
                                           ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__controller__DOT__maindec__DOT__controls) 
                                            >> 5U)))
                                     ? vlTOPp->top__DOT__L1_cache__DOT__MEM
-                                   [(0x3fffU & (vlTOPp->dataadr 
-                                                >> 2U))]
+                                   [(0xfffffU & (vlTOPp->dataadr 
+                                                 >> 2U))]
                                     : 0U)),32);
         tracep->chgCData(oldp+75,((0x7fU & vlTOPp->instr)),7);
     }

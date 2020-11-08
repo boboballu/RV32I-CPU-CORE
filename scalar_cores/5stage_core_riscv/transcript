@@ -1,5 +1,5 @@
-# vsim -c -do "run -all; exit" "+EXEC=./memfile.dat" testbench 
-# Start time: 22:35:19 on Nov 01,2020
+# vsim -c -do "run -all; exit" "+EXEC=firmware32.hex" testbench 
+# Start time: 14:18:56 on Nov 08,2020
 # Loading sv_std.std
 # Loading work.dbg_pkg
 # Loading work.testbench_sv_unit
@@ -42,19 +42,47 @@
 # Loading work.imem
 # Loading work.dmem
 # run -all
-# testbench.dut.L1_cache found +EXEC=./memfile.dat
+# testbench.dut.L1_cache found +EXEC=firmware32.hex
 #  
 #  
-# ==> Console [0x00010004] print - writes to the addr treated as a console print msg <==
+# ==> Console [0x00400004] print - writes to the addr treated as a console print msg <==
 #  
 #  
-# product of x and y is -880.49291992
+# Hello World, C!
+# Hello World, C++!
+# ExampleBaseClass()
+# ExampleBaseClass::print_something_virt()
+# ExampleBaseClass::print_something_novirt()
+# ~ExampleBaseClass()
+# ExampleBaseClass()
+# ExampleSubClass()
+# ExampleSubClass::print_something_virt()
+# ExampleBaseClass::print_something_novirt()
+# ~ExampleSubClass()
+# ~ExampleBaseClass()
+# 16155039
+# 38d232ae
+# 3a3dc660
+# 3d59b4fe
+# 444914d8
+# 48c9b3e4
+# 6130d459
+# 62b895cc
+# 79109b6a
+# 837c8b44
+# 8d2f4702
+# 93924a17
+# a3635c9a
+# b843b879
+# e5a121ef
+# ff00866d
+# All done.
 # 
 # 
 # ** Note: $stop    : testbench.sv(156)
-#    Time: 60820 ps  Iteration: 3  Instance: /testbench
+#    Time: 1074880 ps  Iteration: 3  Instance: /testbench
 # Break in Module testbench at testbench.sv line 156
 # Stopped at testbench.sv line 156
 #  exit
-# End time: 22:35:20 on Nov 01,2020, Elapsed time: 0:00:01
+# End time: 14:19:13 on Nov 08,2020, Elapsed time: 0:00:17
 # Errors: 0, Warnings: 0

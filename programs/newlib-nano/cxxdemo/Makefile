@@ -11,9 +11,10 @@ ccFs:=firmware.cc
 cFs:=syscalls.c
 OBJ:=firmware.o syscalls.o
 
-CFLAGS=-march=rv32i -mabi=ilp32 -MD -Os -Wall
+ARCHFLAGS=-march=rv32i -mabi=ilp32
+CFLAGS=$(ARCHFLAGS) -MD -Os -Wall
 CCFLAGS=$(CFLAGS) -std=c++11
-LDFLAGS=-march=rv32i -mabi=ilp32 -Wl,--gc-sections -T riscv.ld -lstdc++
+LDFLAGS=$(ARCHFLAGS) -Wl,--gc-sections -T riscv.ld -lstdc++
 
 firmware32.hex: firmware.elf start.elf hex8tohex32.py
 	$(RISCV_TOOLS_PREFIX)objcopy -O verilog start.elf start.tmp
@@ -21,7 +22,6 @@ firmware32.hex: firmware.elf start.elf hex8tohex32.py
 	cat start.tmp firmware.tmp > firmware.hex
 	python3 hex8tohex32.py firmware.hex > firmware32.hex
 	rm -f start.tmp firmware.tmp
-
 
 firmware.elf: $(OBJ)
 	$(CC) -o $@ $^ $(LDFLAGS)
@@ -33,7 +33,7 @@ firmware.elf: $(OBJ)
 	$(CC) -c -o $@ $< $(OPT) $(CFLAGS)
 
 start.elf: start.S start.ld
-	$(CC) -march=rv32i -mabi=ilp32 -nostdlib -o start.elf start.S -T start.ld $(LDLIBS)
+	$(CC) $(ARCHFLAGS) -nostdlib -o start.elf start.S -T start.ld $(LDLIBS)
 	chmod -x start.elf
 
 clean:

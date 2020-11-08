@@ -50,7 +50,7 @@ VL_MODULE(Vtop) {
     IData/*31:0*/ top__DOT__riscv_32i__DOT__datapath__DOT__result;
     IData/*31:0*/ top__DOT__riscv_32i__DOT__datapath__DOT__srcb_net0;
     IData/*31:0*/ top__DOT__riscv_32i__DOT__datapath__DOT__rf__DOT__rf[32];
-    IData/*31:0*/ top__DOT__L1_cache__DOT__MEM[16384];
+    IData/*31:0*/ top__DOT__L1_cache__DOT__MEM[1048576];
     std::string top__DOT__L1_cache__DOT__EXEC;
     
     // LOCAL VARIABLES

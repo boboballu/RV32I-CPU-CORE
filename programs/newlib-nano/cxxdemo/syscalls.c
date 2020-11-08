@@ -1,10 +1,18 @@
 // An extremely minimalist syscalls.c for newlib
 // Based on riscv newlib libgloss/riscv/sys_*.c
 // Written by Clifford Wolf.
+// modified by Tarun Govind Kesavamurthi
 
 #include <sys/stat.h>
 #include <unistd.h>
 #include <errno.h>
+
+#define __console_addr 	((4*1024*1024) + 4)
+
+#define __stop_addr		((4*1024*1024) + 8)
+#define __stop_execution() \
+	*(volatile int*)__stop_addr = 1;
+
 
 #define UNIMPL_FUNC(_f) ".globl " #_f "\n.type " #_f ", @function\n" #_f ":\n"
 
@@ -43,9 +51,9 @@ void unimplemented_syscall()
 {
 	const char *p = "Unimplemented system call called!\n";
 	while (*p)
-		*(volatile int*)0x10000000 = *(p++);
-	asm volatile ("ebreak");
-	__builtin_unreachable();
+		*(volatile int*)__console_addr = *(p++);
+		__stop_execution();
+		__builtin_unreachable();
 }
 
 ssize_t _read(int file, void *ptr, size_t len)
@@ -58,7 +66,7 @@ ssize_t _write(int file, const void *ptr, size_t len)
 {
 	const void *eptr = ptr + len;
 	while (ptr != eptr)
-		*(volatile int*)((4*1024*1024)+4) = *(char*)(ptr++);
+		*(volatile int*)__console_addr = *(char*)(ptr++);
 	return len;
 }
 
@@ -89,8 +97,6 @@ void *_sbrk(ptrdiff_t incr)
 
 void _exit(int exit_status)
 {
-	//asm volatile ("ebreak");
-	*(volatile int*)((4*1024*1024)+8) = 1;
+	__stop_execution();
 	__builtin_unreachable();
 }
-

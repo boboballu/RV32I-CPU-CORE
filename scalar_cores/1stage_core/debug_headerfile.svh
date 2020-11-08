@@ -18,9 +18,9 @@
 // testbench.sv : console print format specifier
 string CONSOLE_FORMAT = "%c";   // %d
 // testbench.sv : variables
-int HALT_ADDR    = 65548;       // mem[65548] is 1 indicates execution is done
-int CONSOLE_ADDR = 65540;       // console output address
-int EXE_TIME	 = 200000;      // execution time in ps / clock period is 10ps
+int HALT_ADDR    = ((4*1024*1024)+8);       // mem[400008] = 1 indicates execution is done
+int CONSOLE_ADDR = ((4*1024*1024)+4);       // console output address
+int EXE_TIME	 = 20000000;    // execution time in ps / clock period is 10ps
 
 // D_cache_address and D_cache_data not used for testing anymore
 int D_cache_address = 84;       // Unit mem_debug test; mem store address
@@ -35,7 +35,7 @@ int D_cache_data    = 7;        // Unit mem_debug test; mem store value
 `endif
 /********************************************************************************/
 `ifdef TOP_TEST
-`define L1_SIZE 65536           // 65536/4 = 16K words ; which is 65536 bytes = 64KB
+`define L1_SIZE ((4*1024*1024))           // 4M/4 = 1M words ; which is 4M bytes = 4MB
 `endif
 /********************************************************************************/
 `ifdef MAIN

@@ -27,10 +27,11 @@ int emulator_child::load_mem (const char* filename) {
     while (trace>>trace_instn_str) {
         std::stringstream ss;
         if (trace_instn_str.find("@") != std::string::npos) {
-            if (enable_emu_output) { std::cout << "section: " << trace_instn_str <<std::endl; }
             trace_instn_str.erase (0, 1);
             ss << std::hex << trace_instn_str;
             ss >> ptr;
+            ptr = ptr << 2; // make the pointer byte addressable
+            if (enable_emu_output) { std::cout<< "section: "<<std::hex<<std::setw(8)<<std::setfill('0')<<ptr<<std::endl; }
         }
         else {
             // convert hex in trace_instn_str to integer

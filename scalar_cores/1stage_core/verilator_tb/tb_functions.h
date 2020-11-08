@@ -17,9 +17,9 @@
 
 class tb {
 private:
-    uint32_t EXE_TIME = 10000000;
-    uint32_t HALT_ADDR = 65548;
-    uint32_t CONSOLE_ADDR = 65540;
+    uint32_t EXE_TIME= 10000000;
+    uint32_t HALT_ADDR= 65548;
+    uint32_t CONSOLE_ADDR= 65540;
 
 public:
     vluint64_t main_time = 0;       // Current simulation time
