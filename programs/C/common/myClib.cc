@@ -12,10 +12,7 @@ functionality for the user-level bare-metal program */
 unsigned int write_char(char ch) {
 	volatile int* tx = (volatile int*) (int)__console_addr;
 	*tx = (int)ch;
-	if (*tx == (int)ch)
-		return 1;
-	else
-		return 0;
+	return 0;
 }
 /********************************************************************************/
 

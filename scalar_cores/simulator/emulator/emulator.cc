@@ -8,23 +8,28 @@
 #include "emulator.h"
 //#define CONSOLE_PRINT_AND_EXIT
 
-emulator::emulator(bool emuOutput, uint32_t consoleAddr, uint32_t haltAddr) {
+emulator::emulator(bool emuOutput, uint32_t consoleAddr, uint32_t haltAddr, uint32_t ramSize) {
     enable_emu_output = emuOutput;
     CONSOLE_ADDR = consoleAddr;
     HALT_ADDR = haltAddr;
+    //RAM_SIZE = ramSize;
+    //ram = new uint8_t [RAM_SIZE];
+    for (int i=0; i<RAM_SIZE; i++) {
+        ram[i] = 0;
+    }
 }
 
-uint32_t emulator::get_insn32(uint32_t pc)
+uint32_t emulator::get_insn32(uint32_t ptr)
 {
-    uint32_t ptr = pc;
+    // uint32_t ptr = pc;
     if (ptr > RAM_SIZE) return 1;
     uint8_t* p = ram + ptr;
     return p[0] | (p[1] << 8) | (p[2] << 16) | (p[3] << 24);
 }
 
-int emulator::put_insn32(uint32_t pc, uint32_t insn32)
+int emulator::put_insn32(uint32_t ptr, uint32_t insn32)
 {
-    uint32_t ptr = pc;
+    //uint32_t ptr = pc;
     if ( (ptr > RAM_SIZE) | (ptr & 3) ) return 1;
     ram[ptr] =   (uint8_t) ( insn32 & (0x000000ff) );
     ram[ptr+1] = (uint8_t) ((insn32 & (0x0000ff00))>>8);
@@ -35,6 +40,7 @@ int emulator::put_insn32(uint32_t pc, uint32_t insn32)
 
 int emulator::target_read_u8(uint8_t *pval, uint32_t addr)
 {
+    //printf("readu8 PC: 0x%08x, address: 0x%08x\n", pc, addr);
     if (addr > RAM_SIZE) {
         *pval = 0;
         printf("illegal read 8, PC: 0x%08x, address: 0x%08x\n", pc, addr);
@@ -48,6 +54,7 @@ int emulator::target_read_u8(uint8_t *pval, uint32_t addr)
 
 int emulator::target_read_u16(uint16_t *pval, uint32_t addr)
 {
+    //printf("readu16 PC: 0x%08x, address: 0x%08x\n", pc, addr);
     if (addr & 1) {
         raise_exception(CAUSE_MISALIGNED_LOAD, insn);
     }
@@ -65,6 +72,7 @@ int emulator::target_read_u16(uint16_t *pval, uint32_t addr)
 
 int emulator::target_read_u32(uint32_t *pval, uint32_t addr)
 {
+    //printf("readu32 PC: 0x%08x, address: 0x%08x\n", pc, addr);
     if (addr & 3) {
         raise_exception(CAUSE_MISALIGNED_LOAD, insn);
     }
@@ -82,6 +90,7 @@ int emulator::target_read_u32(uint32_t *pval, uint32_t addr)
 
 int emulator::target_write_u8(uint32_t addr, uint8_t val)
 {
+    //printf("writeu8 PC: 0x%08x, address: 0x%08x\n", pc, addr);
     if (addr > RAM_SIZE - 1) {
         printf("illegal write 8, PC: 0x%08x, address: 0x%08x\n", pc, addr);
         return 1;
@@ -94,8 +103,10 @@ int emulator::target_write_u8(uint32_t addr, uint8_t val)
 
 int emulator::target_write_u16(uint32_t addr, uint16_t val)
 {
+    //printf("writeu16 PC: 0x%08x, address: 0x%08x\n", pc, addr);
     if (addr & 1) {
-        raise_exception(CAUSE_MISALIGNED_STORE, insn);
+        printf("illegal write 16, PC: 0x%08x, address: 0x%08x\n", pc, addr);
+        return 1;
     }
     if (addr > RAM_SIZE - 2) {
         printf("illegal write 16, PC: 0x%08x, address: 0x%08x\n", pc, addr);
@@ -111,6 +122,7 @@ int emulator::target_write_u16(uint32_t addr, uint16_t val)
 
 int emulator::target_write_u32(uint32_t addr, uint32_t val)
 {
+    //printf("writeu32 PC: 0x%08x, address: 0x%08x\n", pc, addr);
     if (enable_emu_output) {
         if ((addr) == CONSOLE_ADDR) {
             // test for UART output, compatible with QEMU
@@ -124,6 +136,7 @@ int emulator::target_write_u32(uint32_t addr, uint32_t val)
     }  
 
     if (addr > RAM_SIZE - 4)  {
+        printf("illegal write 16, PC: 0x%08x, address: 0x%08x\n", pc, addr);
         return 1;
     } else {
         uint8_t* p = ram + addr;
@@ -193,7 +206,7 @@ static uint32_t mulhu32(uint32_t a, uint32_t b)
 
 
 void emulator::raise_exception(uint32_t cause, uint32_t val) {
-    printf("Exception : cause : %u | instn %08x\n", cause, val);
+    printf("Exception : cause : %u | pc %08x | instn %08x\n", cause, pc, val);
     exit(1);
 }
 

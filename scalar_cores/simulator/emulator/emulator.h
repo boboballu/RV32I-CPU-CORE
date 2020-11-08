@@ -8,22 +8,13 @@
 
 #define DEBUG_OUTPUT
 #define XLEN 32
-#define RAM_SIZE 0x40000
+#define RAM_SIZE (4*1024*1024)
 
 // ISA EXTENSIONS
 // #define M_TYPE_ISA
 // #define CSR_ISA
 // #define FENCE_ISA
 // #define ATOMIC_ISA
-
-// // CPU state
-// extern uint32_t pc;
-// extern uint32_t next_pc;
-// extern uint32_t insn;
-// extern uint32_t reg[32];
-// // emulator RAM
-// extern uint8_t ram[RAM_SIZE];
-
 
 // exception causes
 #define CAUSE_MISALIGNED_FETCH    0x0
@@ -45,24 +36,27 @@
 
 class emulator {
 private:
-    bool enable_emu_output;
     uint32_t CONSOLE_ADDR;
     uint32_t HALT_ADDR;
     
 public:
+    bool enable_emu_output;
     // CPU state
+    // uint32_t RAM_SIZE;
     uint32_t pc;
     uint32_t next_pc;
     uint32_t insn;
     uint32_t reg[32];
+    
     // emulator RAM
     uint8_t ram[RAM_SIZE];
+    // uint8_t *ram = new uint8_t [RAM_SIZE];
 
     // constructor to define to configs
-    emulator(bool emuOutput, uint32_t consoleAddr, uint32_t haltAddr);
+    emulator(bool emuOutput, uint32_t consoleAddr, uint32_t haltAddr, uint32_t ramSize);
 
-    uint32_t get_insn32(uint32_t pc);
-    int put_insn32(uint32_t pc, uint32_t insn32);
+    uint32_t get_insn32(uint32_t ptr);
+    int put_insn32(uint32_t ptr, uint32_t insn32);
 
     int target_read_u8(uint8_t *pval, uint32_t addr);
     int target_read_u16(uint16_t *pval, uint32_t addr);

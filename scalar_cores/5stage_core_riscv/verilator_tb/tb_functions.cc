@@ -73,7 +73,7 @@ uint64_t tb::simulate_rtl(bool gotFinish, VerilatedVcdC* tfp) {
 }
 
 void tb::simulate_emu(bool gotFinish, const char* filename) {
-    emu = new emulator_child (1, 65540, 65548);
+    emu = new emulator_child (1, 65540, 65548, 0x40000);
     // read file and populate ram
     emu->load_mem (filename);
 
@@ -83,7 +83,7 @@ void tb::simulate_emu(bool gotFinish, const char* filename) {
 }
 
 uint64_t tb::compare_simulation(bool gotFinish, const char* filename, VerilatedVcdC* tfp) {
-    emu = new emulator_child (0, 65540, 65548);
+    emu = new emulator_child (0, 65540, 65548, 0x40000);
     emu->load_mem (filename);
     emu->pc = 0; // initialize pc
     uint32_t uut_pc_old = 0;
@@ -111,7 +111,7 @@ uint64_t tb::compare_simulation(bool gotFinish, const char* filename, VerilatedV
                         emu->execute_instruction();
 
                         // rtl simulation dump
-                        printf("rtl pc: %08x emu pc %08x instn: %08x\n", uut->top__DOT__riscv_32i__DOT__pcW, emu->pc, uut->instr);
+                        printf("rtl pc: %08x | emu pc: %08x | instn: %08x\n", uut->top__DOT__riscv_32i__DOT__pcW, emu->pc, uut->instr);
                         
                         // Arch reg comparison between rtl and emu
                         int rf_index;

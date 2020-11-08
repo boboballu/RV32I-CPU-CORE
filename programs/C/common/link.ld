@@ -19,7 +19,8 @@ MEMORY {
 
 /* linker symbols goes here */
 /* __sp = 0x0FFFF; */
-__console_addr = 0x10004;
+__console_addr  = 0x10004;
+__stop_addr     = 0x1000C; 
 /* ENTRY(_START) */
 
 SECTIONS

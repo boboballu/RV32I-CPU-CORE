@@ -13,7 +13,7 @@
 // disc on top of a smaller disc.
 //
 // This implementation starts with NUM_DISC discs and uses a recursive
-// algorithm to sovel the puzzle.
+// algorithm to solve the puzzle.
 
 #include "myClib.h"
 
