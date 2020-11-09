@@ -8,7 +8,7 @@
 
 #define DEBUG_OUTPUT
 #define XLEN 32
-#define RAM_SIZE (4*1024*1024)
+//#define RAM_SIZE (4*1024*1024)
 
 // ISA EXTENSIONS
 // #define M_TYPE_ISA
@@ -38,20 +38,21 @@ class emulator {
 private:
     uint32_t CONSOLE_ADDR;
     uint32_t HALT_ADDR;
-    
+
+   // emulator RAM 
+    // uint32_t ram[(RAM_SIZE/4)];
+    // uint8_t *ram = new uint8_t [RAM_SIZE];
+
 public:
     bool enable_emu_output;
     // CPU state
-    // uint32_t RAM_SIZE;
+    uint32_t RAM_SIZE;
     uint32_t pc;
     uint32_t next_pc;
     uint32_t insn;
     uint32_t reg[32];
-    
-    // emulator RAM
-    uint8_t ram[RAM_SIZE];
-    // uint8_t *ram = new uint8_t [RAM_SIZE];
 
+    uint32_t *ram;
     // constructor to define to configs
     emulator(bool emuOutput, uint32_t consoleAddr, uint32_t haltAddr, uint32_t ramSize);
 

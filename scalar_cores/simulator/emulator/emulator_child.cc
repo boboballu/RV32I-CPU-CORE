@@ -58,7 +58,7 @@ int emulator_child::risc_cpu ()
         next_pc = pc + 4;
         insn = get_insn32(pc);
         execute_instruction();
-        // printf("PC: %08x | Instn %08x\n", pc, insn);
+        printf("PC: %08x | Instn %08x\n", pc, insn);
         pc = next_pc;
     }
     return 0;
