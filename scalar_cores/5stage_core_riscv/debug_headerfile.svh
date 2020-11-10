@@ -41,6 +41,7 @@ int D_cache_data    = 7;        // Unit mem_debug test; mem store value
 /********************************************************************************/
 `ifdef MAIN
 // BTB parameters
+// enable Branch predictor and branch target buffer (BTB)
 `define BPRED
 
 `define BTB_INDEX_SIZE      10

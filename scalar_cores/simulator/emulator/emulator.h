@@ -39,23 +39,20 @@ private:
     uint32_t CONSOLE_ADDR;
     uint32_t HALT_ADDR;
 
-   // emulator RAM 
-    // uint32_t ram[(RAM_SIZE/4)];
-    // uint8_t *ram = new uint8_t [RAM_SIZE];
-
 public:
     bool enable_emu_output;
-    // CPU state
     uint32_t RAM_SIZE;
-    uint32_t pc;
-    uint32_t next_pc;
-    uint32_t insn;
+    // CPU state
+    uint32_t pc=0;
+    uint32_t next_pc=0;
+    uint32_t insn=0;
     uint32_t reg[32];
 
-    uint32_t *ram;
+    uint8_t *ram;
     // constructor to define to configs
     emulator(bool emuOutput, uint32_t consoleAddr, uint32_t haltAddr, uint32_t ramSize);
-
+    ~emulator();
+    
     uint32_t get_insn32(uint32_t ptr);
     int put_insn32(uint32_t ptr, uint32_t insn32);
 

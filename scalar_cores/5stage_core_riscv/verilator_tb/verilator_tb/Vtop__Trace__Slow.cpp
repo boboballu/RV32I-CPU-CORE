@@ -963,18 +963,18 @@ void Vtop::traceFullSub0(void* userp, VerilatedVcd* tracep) {
                                              >> 6U)))));
         tracep->fullIData(oldp+1917,(((IData)(vlTOPp->top__DOT__imem_req)
                                        ? vlTOPp->top__DOT__L1_cache__DOT__MEM
-                                      [(0x3fffU & (vlTOPp->pc 
-                                                   >> 2U))]
-                                       : 0U)),32);
+                                      [(0xfffffU & 
+                                        (vlTOPp->pc 
+                                         >> 2U))] : 0U)),32);
         tracep->fullIData(oldp+1918,(((IData)(vlTOPp->top__DOT__dmem_req)
                                        ? vlTOPp->top__DOT__L1_cache__DOT__MEM
-                                      [(0x3fffU & (vlTOPp->dataadr 
-                                                   >> 2U))]
-                                       : 0U)),32);
+                                      [(0xfffffU & 
+                                        (vlTOPp->dataadr 
+                                         >> 2U))] : 0U)),32);
         tracep->fullBit(oldp+1919,(0U));
         tracep->fullBit(oldp+1920,(vlTOPp->top__DOT__riscv_32i__DOT__br_actual));
         tracep->fullIData(oldp+1921,(0x14U),32);
         tracep->fullIData(oldp+1922,(0xaU),32);
-        tracep->fullIData(oldp+1923,(0x10000U),32);
+        tracep->fullIData(oldp+1923,(0x400000U),32);
     }
 }

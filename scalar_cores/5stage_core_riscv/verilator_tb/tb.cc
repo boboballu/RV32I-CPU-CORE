@@ -22,7 +22,7 @@ int main(int argc, char** argv) {
     // Remember args
     Verilated::commandArgs(argc, argv);
 
-    tb tb1(10000000, 65548, 65540); // (exeTime, haltAddr, consoleAddr)
+    tb tb1(100000000, ((4*1024*1024)+8), ((4*1024*1024)+4), (4*1024*1024)); // (exeTime, haltAddr, consoleAddr)
 
     if (vcdTrace) {
         Verilated::traceEverOn(true);
@@ -42,8 +42,8 @@ int main(int argc, char** argv) {
         case 3: main_time = tb1.compare_simulation(Verilated::gotFinish(), argv[2], tfp); break;// RTL EMU compare
         default: printf("wrong case: %s\n", argv[3]); 
     }
-    //main_time = tb1.simulate_rtl(Verilated::gotFinish(), tfp);
-    main_time = tb1.compare_simulation(Verilated::gotFinish(), argv[2], tfp);
+    // main_time = tb1.simulate_rtl(Verilated::gotFinish(), tfp);
+    // main_time = tb1.compare_simulation(Verilated::gotFinish(), argv[2], tfp);
 
     if (tfp != NULL) {
         tfp->close();

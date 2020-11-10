@@ -16,10 +16,11 @@ tb::tb() {
     uut->eval();
 }
 
-tb::tb(uint32_t exeTime, uint32_t haltAddr, uint32_t consoleAddr) {
+tb::tb(uint32_t exeTime, uint32_t haltAddr, uint32_t consoleAddr, uint32_t ramSize) {
     EXE_TIME = exeTime;
     HALT_ADDR = haltAddr;
     CONSOLE_ADDR = consoleAddr;
+    RAM_SIZE = ramSize;
     // Create rtl instance
     uut = new Vtop;
     // initial begin states
@@ -73,9 +74,10 @@ uint64_t tb::simulate_rtl(bool gotFinish, VerilatedVcdC* tfp) {
 }
 
 void tb::simulate_emu(bool gotFinish, const char* filename) {
-    emu = new emulator_child (1, CONSOLE_ADDR, HALT_ADDR, 0x10000);
+    emu = new emulator_child (1, CONSOLE_ADDR, HALT_ADDR, RAM_SIZE);
     // read file and populate ram
     emu->load_mem (filename);
+    printf("memory loading done - Start execution\n\n");
 
     // execute until exit
     emu->pc = 0; // initialize pc
@@ -83,10 +85,10 @@ void tb::simulate_emu(bool gotFinish, const char* filename) {
 }
 
 uint64_t tb::compare_simulation(bool gotFinish, const char* filename, VerilatedVcdC* tfp) {
-    emu = new emulator_child (0, CONSOLE_ADDR, HALT_ADDR, 0x10000);
+    emu = new emulator_child (0, CONSOLE_ADDR, HALT_ADDR, RAM_SIZE);
     emu->load_mem (filename);
     emu->pc = 0; // initialize pc
-
+    emu->next_pc = 0;
     while (!gotFinish & (main_time < EXE_TIME)) {
         // Drive clock and reset signal
         if ((main_time > 10) && (main_time < 15))
@@ -109,7 +111,7 @@ uint64_t tb::compare_simulation(bool gotFinish, const char* filename, VerilatedV
                 
                 int rf_index;
                 for (rf_index=1; rf_index<32; rf_index++) {
-                    if( uut->top__DOT__riscv_32i__DOT__datapath__DOT__rf__DOT__rf[rf_index] != emu->reg[rf_index]) {
+                    if( (uint32_t) uut->top__DOT__riscv_32i__DOT__datapath__DOT__rf__DOT__rf[rf_index] != emu->reg[rf_index]) {
                         break;
                     }
                 }

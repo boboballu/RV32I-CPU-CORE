@@ -16,10 +16,11 @@ tb::tb() {
     uut->eval();
 }
 
-tb::tb(uint32_t exeTime, uint32_t haltAddr, uint32_t consoleAddr) {
-    uint32_t EXE_TIME = exeTime;
-    uint32_t HALT_ADDR = haltAddr;
-    uint32_t CONSOLE_ADDR = consoleAddr;
+tb::tb(uint32_t exeTime, uint32_t haltAddr, uint32_t consoleAddr, uint32_t ramSize) {
+    EXE_TIME = exeTime;
+    HALT_ADDR = haltAddr;
+    CONSOLE_ADDR = consoleAddr;
+    RAM_SIZE = ramSize;
     // Create rtl instance
     uut = new Vtop;
     // initial begin states
@@ -73,7 +74,7 @@ uint64_t tb::simulate_rtl(bool gotFinish, VerilatedVcdC* tfp) {
 }
 
 void tb::simulate_emu(bool gotFinish, const char* filename) {
-    emu = new emulator_child (1, 65540, 65548, 0x40000);
+    emu = new emulator_child (1, CONSOLE_ADDR, HALT_ADDR, RAM_SIZE);
     // read file and populate ram
     emu->load_mem (filename);
 
@@ -83,7 +84,7 @@ void tb::simulate_emu(bool gotFinish, const char* filename) {
 }
 
 uint64_t tb::compare_simulation(bool gotFinish, const char* filename, VerilatedVcdC* tfp) {
-    emu = new emulator_child (0, 65540, 65548, 0x40000);
+    emu = new emulator_child (0, CONSOLE_ADDR, HALT_ADDR, RAM_SIZE);
     emu->load_mem (filename);
     emu->pc = 0; // initialize pc
     uint32_t uut_pc_old = 0;

@@ -22,7 +22,7 @@ int main(int argc, char** argv) {
     // Remember args
     Verilated::commandArgs(argc, argv);
 
-    tb tb1(100000000, ((4*1024*1024)+8), ((4*1024*1024)+4)); // (exeTime, haltAddr, consoleAddr)
+    tb tb1(100000000, ((4*1024*1024)+8), ((4*1024*1024)+4), (4*1024*1024)); // (exeTime, haltAddr, consoleAddr)
 
     if (vcdTrace) {
         Verilated::traceEverOn(true);

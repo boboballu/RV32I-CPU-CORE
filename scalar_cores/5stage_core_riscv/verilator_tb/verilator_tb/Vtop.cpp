@@ -763,10 +763,10 @@ VL_INLINE_OPT void Vtop::_sequent__TOP__3(Vtop__Syms* __restrict vlSymsp) {
     CData/*4:0*/ __Vdlyvlsb__top__DOT__L1_cache__DOT__MEM__v3;
     CData/*7:0*/ __Vdlyvval__top__DOT__L1_cache__DOT__MEM__v3;
     CData/*0:0*/ __Vdlyvset__top__DOT__L1_cache__DOT__MEM__v3;
-    SData/*13:0*/ __Vdlyvdim0__top__DOT__L1_cache__DOT__MEM__v0;
-    SData/*13:0*/ __Vdlyvdim0__top__DOT__L1_cache__DOT__MEM__v1;
-    SData/*13:0*/ __Vdlyvdim0__top__DOT__L1_cache__DOT__MEM__v2;
-    SData/*13:0*/ __Vdlyvdim0__top__DOT__L1_cache__DOT__MEM__v3;
+    IData/*19:0*/ __Vdlyvdim0__top__DOT__L1_cache__DOT__MEM__v0;
+    IData/*19:0*/ __Vdlyvdim0__top__DOT__L1_cache__DOT__MEM__v1;
+    IData/*19:0*/ __Vdlyvdim0__top__DOT__L1_cache__DOT__MEM__v2;
+    IData/*19:0*/ __Vdlyvdim0__top__DOT__L1_cache__DOT__MEM__v3;
     // Body
     __Vdlyvset__top__DOT__L1_cache__DOT__MEM__v0 = 0U;
     __Vdlyvset__top__DOT__L1_cache__DOT__MEM__v1 = 0U;
@@ -779,7 +779,7 @@ VL_INLINE_OPT void Vtop::_sequent__TOP__3(Vtop__Syms* __restrict vlSymsp) {
             __Vdlyvset__top__DOT__L1_cache__DOT__MEM__v0 = 1U;
             __Vdlyvlsb__top__DOT__L1_cache__DOT__MEM__v0 = 0U;
             __Vdlyvdim0__top__DOT__L1_cache__DOT__MEM__v0 
-                = (0x3fffU & (vlTOPp->dataadr >> 2U));
+                = (0xfffffU & (vlTOPp->dataadr >> 2U));
         }
         if ((2U & (IData)(vlTOPp->top__DOT__dmem_mask))) {
             __Vdlyvval__top__DOT__L1_cache__DOT__MEM__v1 
@@ -787,7 +787,7 @@ VL_INLINE_OPT void Vtop::_sequent__TOP__3(Vtop__Syms* __restrict vlSymsp) {
             __Vdlyvset__top__DOT__L1_cache__DOT__MEM__v1 = 1U;
             __Vdlyvlsb__top__DOT__L1_cache__DOT__MEM__v1 = 8U;
             __Vdlyvdim0__top__DOT__L1_cache__DOT__MEM__v1 
-                = (0x3fffU & (vlTOPp->dataadr >> 2U));
+                = (0xfffffU & (vlTOPp->dataadr >> 2U));
         }
         if ((4U & (IData)(vlTOPp->top__DOT__dmem_mask))) {
             __Vdlyvval__top__DOT__L1_cache__DOT__MEM__v2 
@@ -795,7 +795,7 @@ VL_INLINE_OPT void Vtop::_sequent__TOP__3(Vtop__Syms* __restrict vlSymsp) {
             __Vdlyvset__top__DOT__L1_cache__DOT__MEM__v2 = 1U;
             __Vdlyvlsb__top__DOT__L1_cache__DOT__MEM__v2 = 0x10U;
             __Vdlyvdim0__top__DOT__L1_cache__DOT__MEM__v2 
-                = (0x3fffU & (vlTOPp->dataadr >> 2U));
+                = (0xfffffU & (vlTOPp->dataadr >> 2U));
         }
         if ((8U & (IData)(vlTOPp->top__DOT__dmem_mask))) {
             __Vdlyvval__top__DOT__L1_cache__DOT__MEM__v3 
@@ -803,7 +803,7 @@ VL_INLINE_OPT void Vtop::_sequent__TOP__3(Vtop__Syms* __restrict vlSymsp) {
             __Vdlyvset__top__DOT__L1_cache__DOT__MEM__v3 = 1U;
             __Vdlyvlsb__top__DOT__L1_cache__DOT__MEM__v3 = 0x18U;
             __Vdlyvdim0__top__DOT__L1_cache__DOT__MEM__v3 
-                = (0x3fffU & (vlTOPp->dataadr >> 2U));
+                = (0xfffffU & (vlTOPp->dataadr >> 2U));
         }
     }
     if (__Vdlyvset__top__DOT__L1_cache__DOT__MEM__v0) {
@@ -1332,12 +1332,12 @@ VL_INLINE_OPT void Vtop::_multiclk__TOP__7(Vtop__Syms* __restrict vlSymsp) {
     vlTOPp->top__DOT__imem_req = (1U & (~ (IData)(vlTOPp->top__DOT__riscv_32i__DOT__stallF)));
     vlTOPp->instr = ((IData)(vlTOPp->top__DOT__imem_req)
                       ? vlTOPp->top__DOT__L1_cache__DOT__MEM
-                     [(0x3fffU & (vlTOPp->pc >> 2U))]
+                     [(0xfffffU & (vlTOPp->pc >> 2U))]
                       : 0U);
     vlTOPp->readdata = ((IData)(vlTOPp->top__DOT__dmem_req)
                          ? vlTOPp->top__DOT__L1_cache__DOT__MEM
-                        [(0x3fffU & (vlTOPp->dataadr 
-                                     >> 2U))] : 0U);
+                        [(0xfffffU & (vlTOPp->dataadr 
+                                      >> 2U))] : 0U);
     vlTOPp->__Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__load_compute__0__readdata 
         = vlTOPp->readdata;
     vlTOPp->__Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__load_compute__0__aluout 

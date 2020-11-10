@@ -20,6 +20,7 @@ private:
     uint32_t EXE_TIME= 10000000;
     uint32_t HALT_ADDR= 65548;
     uint32_t CONSOLE_ADDR= 65540;
+    uint32_t RAM_SIZE = 55536;
 
 public:
     vluint64_t main_time = 0;       // Current simulation time
@@ -28,7 +29,7 @@ public:
     Vtop *uut;                      // RTL top module
 
     tb();
-    tb(uint32_t exeTime, uint32_t haltAddr, uint32_t consoleAddr);
+    tb(uint32_t exeTime, uint32_t haltAddr, uint32_t consoleAddr, uint32_t ramSize);
     void simulate_emu(bool gotFinish, const char* filename);
     uint64_t simulate_rtl(bool gotFinish, VerilatedVcdC* tfp);
     uint64_t compare_simulation(bool gotFinish, const char* filename, VerilatedVcdC* tfp);
