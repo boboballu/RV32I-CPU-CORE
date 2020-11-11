@@ -41,4 +41,4 @@ start.elf: start.S start.ld
 clean:
 	rm -f *.o *.d *.tmp start.elf
 	rm -f firmware.elf firmware.hex firmware32.hex
-	rm -f testbench.vvp testbench.vcd
+	rm -f *.dump

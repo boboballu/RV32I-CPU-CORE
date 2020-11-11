@@ -1,6 +1,7 @@
 .section .text
 .global _ftext
 .global _pvstart
+__start_text = (4*1024*1024)
 
 _pvstart:
 /* zero-initialize all registers */
@@ -37,8 +38,8 @@ addi x30, zero, 0
 addi x31, zero, 0
 
 /* set stack pointer */
-lui sp, %hi(4*1024*1024)
-addi sp, sp, %lo(4*1024*1024)
+lui sp, %hi(__start_text)
+addi sp, sp, %lo(__start_text)
 
 /* push zeros on the stack for argc and argv */
 /* (stack is aligned to 16 bytes in riscv calling convention) */

@@ -9,7 +9,7 @@
 # https://github.com/riscv/riscv-asm-manual/blob/master/riscv-asm.md
 
 # section name like .text_init screws up. Have no idea why
-.section .init
+.section .vector
 # entry point of execution
 entry:
     la    sp, __sp      # set up the stack pointer, using a constant defined in the linker script.
