@@ -74,7 +74,7 @@ uint64_t tb::simulate_rtl(bool gotFinish, VerilatedVcdC* tfp) {
 }
 
 void tb::simulate_emu(bool gotFinish, const char* filename) {
-    emu = new emulator_child (1, CONSOLE_ADDR, HALT_ADDR, RAM_SIZE);
+    emu = new emulator_child ("stdout", CONSOLE_ADDR, HALT_ADDR, RAM_SIZE);
     // read file and populate ram
     emu->load_mem (filename);
 
@@ -84,7 +84,7 @@ void tb::simulate_emu(bool gotFinish, const char* filename) {
 }
 
 uint64_t tb::compare_simulation(bool gotFinish, const char* filename, VerilatedVcdC* tfp) {
-    emu = new emulator_child (0, CONSOLE_ADDR, HALT_ADDR, RAM_SIZE);
+    emu = new emulator_child ("runs.log", CONSOLE_ADDR, HALT_ADDR, RAM_SIZE);
     emu->load_mem (filename);
     emu->pc = 0; // initialize pc
     uint32_t uut_pc_old = 0;

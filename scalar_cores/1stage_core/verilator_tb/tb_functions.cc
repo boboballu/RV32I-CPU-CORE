@@ -74,7 +74,7 @@ uint64_t tb::simulate_rtl(bool gotFinish, VerilatedVcdC* tfp) {
 }
 
 void tb::simulate_emu(bool gotFinish, const char* filename) {
-    emu = new emulator_child (1, CONSOLE_ADDR, HALT_ADDR, RAM_SIZE);
+    emu = new emulator_child ("stdout", CONSOLE_ADDR, HALT_ADDR, RAM_SIZE);
     // read file and populate ram
     emu->load_mem (filename);
     printf("memory loading done - Start execution\n\n");
@@ -85,7 +85,7 @@ void tb::simulate_emu(bool gotFinish, const char* filename) {
 }
 
 uint64_t tb::compare_simulation(bool gotFinish, const char* filename, VerilatedVcdC* tfp) {
-    emu = new emulator_child (0, CONSOLE_ADDR, HALT_ADDR, RAM_SIZE);
+    emu = new emulator_child ("run.log", CONSOLE_ADDR, HALT_ADDR, RAM_SIZE);
     emu->load_mem (filename);
     emu->pc = 0; // initialize pc
     emu->next_pc = 0;
@@ -104,6 +104,8 @@ uint64_t tb::compare_simulation(bool gotFinish, const char* filename, VerilatedV
                 emu->next_pc = emu->pc + 4;
                 emu->insn = emu->get_insn32(emu->pc);
                 emu->execute_instruction();
+                // emu - update pc
+                emu->pc = emu->next_pc;
             }
             if (!uut->clk) {
                 // rtl simulation dump
@@ -115,6 +117,7 @@ uint64_t tb::compare_simulation(bool gotFinish, const char* filename, VerilatedV
                         break;
                     }
                 }
+
                 if (rf_index != 32) {
                     printf("Reg file mismatch: R%d | pc: %08x |\n", rf_index, uut->pc);
                     printf("RTL regfile content\n");
@@ -129,9 +132,6 @@ uint64_t tb::compare_simulation(bool gotFinish, const char* filename, VerilatedV
                 }
             }
         }
-
-        // emu - update pc
-        emu->pc = emu->next_pc;
         
         // for vcd
         if (tfp != NULL){

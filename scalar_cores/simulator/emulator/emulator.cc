@@ -6,10 +6,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "emulator.h"
+#include <iostream>
 //#define CONSOLE_PRINT_AND_EXIT
 
-emulator::emulator(bool emuOutput, uint32_t consoleAddr, uint32_t haltAddr, uint32_t ramSize) {
-    enable_emu_output = emuOutput;
+emulator::emulator(std::string output_file, uint32_t consoleAddr, uint32_t haltAddr, uint32_t ramSize) {
+    if ( output_file.compare("stdout") == 0) {
+        OUTPUT_FILE = stdout;
+    }
+    else {
+        printf("Printing to file %s\n", output_file.c_str());
+        OUTPUT_FILE = fopen(output_file.c_str(), "w");
+    }
+    
     CONSOLE_ADDR = consoleAddr;
     HALT_ADDR = haltAddr;
     RAM_SIZE = ramSize;
@@ -29,6 +37,7 @@ emulator::emulator(bool emuOutput, uint32_t consoleAddr, uint32_t haltAddr, uint
 }
 
 emulator::~emulator() {
+    fclose(OUTPUT_FILE);
     delete[] ram;
 }
 
@@ -51,10 +60,10 @@ int emulator::put_insn32(uint32_t ptr, uint32_t insn32)
 
 int emulator::target_read_u8(uint8_t *pval, uint32_t addr)
 {
-    //printf("readu8 PC: 0x%08x, address: 0x%08x\n", pc, addr);
+    //fprintf(OUTPUT_FILE, "readu8 PC: 0x%08x, address: 0x%08x\n", pc, addr);
     if (addr > RAM_SIZE) {
         *pval = 0;
-        printf("illegal read 8, PC: 0x%08x, address: 0x%08x\n", pc, addr);
+        fprintf(OUTPUT_FILE, "illegal read 8, PC: 0x%08x, address: 0x%08x\n", pc, addr);
         return 1;
     } else {
         uint8_t* p = ram + addr;
@@ -65,14 +74,18 @@ int emulator::target_read_u8(uint8_t *pval, uint32_t addr)
 
 int emulator::target_read_u16(uint16_t *pval, uint32_t addr)
 {
-    //printf("readu16 PC: 0x%08x, address: 0x%08x\n", pc, addr);
+    //fprintf(OUTPUT_FILE, "readu16 PC: 0x%08x, address: 0x%08x\n", pc, addr);
     if (addr & 1) {
         raise_exception(CAUSE_MISALIGNED_LOAD, insn);
     }
 
     if (addr > RAM_SIZE)  {
         *pval = 0;
-        printf("illegal read 16, PC: 0x%08x, address: 0x%08x\n", pc, addr);
+        fprintf(OUTPUT_FILE, "illegal read 16, PC: 0x%08x, address: 0x%08x\n", pc, addr);
+        for (int i=0; i<32; i++) {
+            fprintf(OUTPUT_FILE, "R%d : %d | ", i, reg[i]);
+        }
+        fprintf(OUTPUT_FILE, "\n");
         return 1;
     } else {
         uint8_t* p = ram + addr;
@@ -83,14 +96,15 @@ int emulator::target_read_u16(uint16_t *pval, uint32_t addr)
 
 int emulator::target_read_u32(uint32_t *pval, uint32_t addr)
 {
-    //printf("readu32 PC: 0x%08x, address: 0x%08x\n", pc, addr);
+    //fprintf(OUTPUT_FILE, "readu32 PC: 0x%08x, address: 0x%08x\n", pc, addr);
     if (addr & 3) {
+        fprintf(OUTPUT_FILE, "illegal read 32, PC: 0x%08x, address: 0x%08x\n", pc, addr);
         raise_exception(CAUSE_MISALIGNED_LOAD, insn);
     }
 
     if (addr > RAM_SIZE) {
         *pval = 0;
-        printf("illegal read 32, PC: 0x%08x, address: 0x%08x\n", pc, addr);
+        fprintf(OUTPUT_FILE, "illegal read 32, PC: 0x%08x, address: 0x%08x\n", pc, addr);
         return 1;
     } else {
         uint8_t* p = ram + addr;
@@ -101,9 +115,9 @@ int emulator::target_read_u32(uint32_t *pval, uint32_t addr)
 
 int emulator::target_write_u8(uint32_t addr, uint8_t val)
 {
-    //printf("writeu8 PC: 0x%08x, address: 0x%08x\n", pc, addr);
+    //fprintf(OUTPUT_FILE, "writeu8 PC: 0x%08x, address: 0x%08x\n", pc, addr);
     if (addr > RAM_SIZE - 1) {
-        printf("illegal write 8, PC: 0x%08x, address: 0x%08x\n", pc, addr);
+        fprintf(OUTPUT_FILE, "illegal write 8, PC: 0x%08x, address: 0x%08x\n", pc, addr);
         return 1;
     } else {
         uint8_t* p = ram + addr;
@@ -114,13 +128,17 @@ int emulator::target_write_u8(uint32_t addr, uint8_t val)
 
 int emulator::target_write_u16(uint32_t addr, uint16_t val)
 {
-    //printf("writeu16 PC: 0x%08x, address: 0x%08x\n", pc, addr);
+    //fprintf(OUTPUT_FILE, "writeu16 PC: 0x%08x, address: 0x%08x\n", pc, addr);
     if (addr & 1) {
-        printf("illegal write 16, PC: 0x%08x, address: 0x%08x\n", pc, addr);
+        fprintf(OUTPUT_FILE, "illegal write 16, PC: 0x%08x, address: 0x%08x\n", pc, addr);
         return 1;
     }
     if (addr > RAM_SIZE - 2) {
-        printf("illegal write 16, PC: 0x%08x, address: 0x%08x\n", pc, addr);
+        fprintf(OUTPUT_FILE, "illegal write 16, PC: 0x%08x, address: 0x%08x\n", pc, addr);
+        for (int i=0; i<32; i++) {
+            fprintf(OUTPUT_FILE, "R%d : %d | ", i, reg[i]);
+        }
+        fprintf(OUTPUT_FILE, "\n");
         return 1;
     } else {
         uint8_t* p = ram + addr;
@@ -133,21 +151,20 @@ int emulator::target_write_u16(uint32_t addr, uint16_t val)
 
 int emulator::target_write_u32(uint32_t addr, uint32_t val)
 {
-    //printf("writeu32 PC: 0x%08x, address: 0x%08x\n", pc, addr);
-    if (enable_emu_output) {
-        if ((addr) == CONSOLE_ADDR) {
-            // test for UART output, compatible with QEMU
-            printf("%c", (char) val);
-            return 0;
-        }
-        else if (addr == HALT_ADDR) {
-            printf("\n");
-            exit(0);
-        }
-    }  
+    //fprintf(OUTPUT_FILE, "writeu32 PC: 0x%08x, address: 0x%08x\n", pc, addr);
+    
+    if ((addr) == CONSOLE_ADDR) {
+        // test for UART output, compatible with QEMU
+        fprintf(OUTPUT_FILE, "%c", (char) val);
+        return 0;
+    }
+    else if (addr == HALT_ADDR) {
+        fprintf(OUTPUT_FILE, "\n");
+        exit(0);
+    }
 
     if (addr > RAM_SIZE - 4)  {
-        printf("illegal write 16, PC: 0x%08x, address: 0x%08x\n", pc, addr);
+        fprintf(OUTPUT_FILE, "illegal write 32, PC: 0x%08x, address: 0x%08x\n", pc, addr);
         return 1;
     } else {
         uint8_t* p = ram + addr;
@@ -217,7 +234,7 @@ static uint32_t mulhu32(uint32_t a, uint32_t b)
 
 
 void emulator::raise_exception(uint32_t cause, uint32_t val) {
-    printf("Exception : cause : %u | pc %08x | instn %08x\n", cause, pc, val);
+    fprintf(OUTPUT_FILE, "Exception : cause : %u | pc %08x | instn %08x\n", cause, pc, val);
     exit(1);
 }
 
@@ -575,13 +592,13 @@ void emulator::execute_instruction()
                 if (begin_signature) {
                     if (reg[3] & 1) {
 #ifdef DEBUG_OUTPUT
-                        printf("program end, result: %04x\n", reg[3] >> 1);
+                        fprintf(OUTPUT_FILE, "program end, result: %04x\n", reg[3] >> 1);
 #endif
                         machine_running = false;
                         return;
                     } else {
 #ifdef DEBUG_OUTPUT
-                        printf("syscall: %04x\n", reg[3]);
+                        fprintf(OUTPUT_FILE, "syscall: %04x\n", reg[3]);
 #endif
                         raise_exception(CAUSE_USER_ECALL + priv, 0);
                     }

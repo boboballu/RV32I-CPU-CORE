@@ -26,3 +26,4 @@ run:
 
 clean:
 	rm -rf verilator_tb
+	rm -rf dump *.log

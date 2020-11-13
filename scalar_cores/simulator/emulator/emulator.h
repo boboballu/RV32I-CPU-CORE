@@ -5,6 +5,7 @@
 #ifndef _EMULATOR_H_
 #define _EMULATOR_H_
 #include <stdint.h>
+#include <iostream>
 
 #define DEBUG_OUTPUT
 #define XLEN 32
@@ -40,7 +41,7 @@ private:
     uint32_t HALT_ADDR;
 
 public:
-    bool enable_emu_output;
+    FILE* OUTPUT_FILE;
     uint32_t RAM_SIZE;
     // CPU state
     uint32_t pc=0;
@@ -50,7 +51,7 @@ public:
 
     uint8_t *ram;
     // constructor to define to configs
-    emulator(bool emuOutput, uint32_t consoleAddr, uint32_t haltAddr, uint32_t ramSize);
+    emulator(std::string output_file, uint32_t consoleAddr, uint32_t haltAddr, uint32_t ramSize);
     ~emulator();
     
     uint32_t get_insn32(uint32_t ptr);

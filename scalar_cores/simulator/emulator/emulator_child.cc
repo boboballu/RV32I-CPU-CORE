@@ -11,7 +11,7 @@
 #include "emulator.h"
 #include "emulator_child.h"
 
-emulator_child::emulator_child (bool emuOutput, uint32_t consoleAddr, uint32_t haltAddr, uint32_t ramSize) : emulator(emuOutput, consoleAddr, haltAddr, ramSize) {}
+emulator_child::emulator_child (std::string output_file, uint32_t consoleAddr, uint32_t haltAddr, uint32_t ramSize) : emulator(output_file, consoleAddr, haltAddr, ramSize) {}
 
 int emulator_child::load_mem (const char* filename) {
     uint32_t ptr = 0;
@@ -31,7 +31,7 @@ int emulator_child::load_mem (const char* filename) {
             ss << std::hex << trace_instn_str;
             ss >> ptr;
             ptr = ptr << 2; // make the pointer byte addressable
-            if (enable_emu_output) { std::cout<< "section: "<<std::hex<<std::setw(8)<<std::setfill('0')<<ptr<<std::endl; }
+            fprintf(OUTPUT_FILE, "section: %08x\n", ptr);
         }
         else {
             // convert hex in trace_instn_str to integer
@@ -40,7 +40,7 @@ int emulator_child::load_mem (const char* filename) {
 
             // printf("%08x\n", trace_instn);            
             if (ptr > RAM_SIZE) {
-                if (enable_emu_output) { std::cout << "program exceeds RAM size" <<std::endl; }
+                fprintf(OUTPUT_FILE, "program exceeds RAM size\n");
                 exit(0);
                 return 0;
             }
@@ -50,6 +50,8 @@ int emulator_child::load_mem (const char* filename) {
     }
 
     trace.close();
+    fprintf(OUTPUT_FILE, "memory loading done - Start execution\n\n");
+    return 0;
 }
 
 int emulator_child::risc_cpu ()
