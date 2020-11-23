@@ -59,14 +59,14 @@ module dmem(input logic clk,
 			mem_bus Bus
 );
 
-	assign Bus.clk 					= clk;
+	assign Bus.clk 				= clk;
 	assign Bus.dmem_addr 		= dmem_addr;
 	assign Bus.dmem_we 			= dmem_we;
 	assign Bus.dmem_wd 			= dmem_wd;
 	assign Bus.dmem_req			= dmem_req;
 	assign Bus.dmem_mask		= dmem_mask;
-	assign dmem_rd 					= Bus.dmem_rd;
-	assign dmem_wait 				= Bus.dmem_wait;
+	assign dmem_rd 				= Bus.dmem_rd;
+	assign dmem_wait 			= Bus.dmem_wait;
 endmodule : dmem
 
 module imem(input logic [31:0] imem_addr,
@@ -78,7 +78,7 @@ module imem(input logic [31:0] imem_addr,
 	assign Bus.imem_addr 		= imem_addr;
 	assign Bus.imem_req			= imem_req;
 	assign imem_instn  			= Bus.imem_instn;
-	assign imem_wait				= Bus.imem_wait;
+	assign imem_wait			= Bus.imem_wait;
 endmodule : imem
 
 module unified_L1_cache (mem_bus Bus);
@@ -147,49 +147,3 @@ module unified_L1_cache (mem_bus Bus);
 	`endif
 
 endmodule : unified_L1_cache
-
-/********************************************************************************/
-// An over thought cache miss model - unnecessary as of today : 10/11/2020
-// A Mealey State-machine model, which adds wait for mem access to location whose 2 LSB bits are '11
-// if addr[3:2] is 2'b11 then wait is set
-/*
-module mem_wait_data (	input logic clk,
-                        input logic [31:0] addr,
-                        output logic wait_data
-);
-	parameter LSB_BITS = 2'b11;
-	parameter s0=2'd0, s1=2'd1, s2=2'd2;
-	reg [1:0] cur_state, next_state;
-
-	always_ff@(posedge clk) begin
-		cur_state <= next_state;
-	end
-
-	always_comb begin
-		case(cur_state)
-		s0: begin
-			if (addr[3:2] == LSB_BITS) begin
-				wait_data = 1;
-				next_state = s1;
-			end
-			else begin
-				wait_data = 0;
-				next_state = s0;
-			end
-		end
-		s1: begin
-			wait_data = 1;
-			next_state = s2;
-		end
-		s2: begin
-			wait_data = 0;
-			next_state = s0;
-		end
-		default: begin
-				next_state = s0;
-				wait_data = 0;
-			end
-		endcase
-	end
-endmodule : mem_wait_data
-*/

@@ -10,7 +10,7 @@
 
 int main (int argc, char* argv[]) 
 {   
-    //emulator_child emu (1, 65540, 65548, 0x40000);
+    //emulator_child emu (argv[2], 65540, 65548, 0x40000);
     emulator_child emu (argv[2], ((4*1024*1024)+4), ((4*1024*1024)+8), (4*1024*1024));
     
     // read file and populate ram

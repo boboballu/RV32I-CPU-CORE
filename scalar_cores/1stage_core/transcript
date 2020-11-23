@@ -1,0 +1,68 @@
+# vsim -c -do "run -all; exit" "+EXEC=./memfile32.hex" testbench 
+# Start time: 19:27:56 on Nov 13,2020
+# Loading sv_std.std
+# Loading work.dbg_pkg
+# Loading work.testbench_sv_unit
+# Loading work.testbench
+# Loading work.top_test_sv_unit
+# Loading work.top
+# Loading work.core_top_sv_unit
+# Loading work.riscv_32i
+# Loading work.controller_if
+# Loading work.controller
+# Loading work.maindec
+# Loading work.aludec
+# Loading work.datapath
+# Loading work.instn_decode
+# Loading work.regfile
+# Loading work.alu
+# Loading work.L1_cache_sv_unit
+# Loading work.mem_bus
+# Loading work.unified_L1_cache
+# Loading work.imem
+# Loading work.dmem
+# run -all
+# testbench.dut.L1_cache found +EXEC=./memfile32.hex
+#  
+#  
+# ==> Console [0x00400004] print - writes to the addr treated as a console print msg <==
+#  
+#  
+# Hello World, C!
+# Hello World, C++!
+# ExampleBaseClass()
+# ExampleBaseClass::print_something_virt()
+# ExampleBaseClass::print_something_novirt()
+# ~ExampleBaseClass()
+# ExampleBaseClass()
+# ExampleSubClass()
+# ExampleSubClass::print_something_virt()
+# ExampleBaseClass::print_something_novirt()
+# ~ExampleSubClass()
+# ~ExampleBaseClass()
+# 16155039
+# 38d232ae
+# 3a3dc660
+# 3d59b4fe
+# 444914d8
+# 48c9b3e4
+# 6130d459
+# 62b895cc
+# 79109b6a
+# 837c8b44
+# 8d2f4702
+# 93924a17
+# a3635c9a
+# b843b879
+# e5a121ef
+# ff00866d
+# All done.
+# 
+# 
+# ** Note: $stop    : testbench.sv(134)
+#    Time: 866860 ps  Iteration: 5  Instance: /testbench
+# Break in Module testbench at testbench.sv line 134
+# Stopped at testbench.sv line 134
+#  exit
+# End time: 19:28:01 on Nov 13,2020, Elapsed time: 0:00:05
+# Errors: 0, Warnings: 0

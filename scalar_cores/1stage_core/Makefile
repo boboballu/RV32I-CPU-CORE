@@ -2,7 +2,7 @@
 #School: North Carolina State University
 #mail  : tkesava@ncsu.edu
 #********************************************************************************
-exe ?= ./memfile.dat
+exe ?= ./memfile32.hex
 
 # Enable lint
 #lint=-lint

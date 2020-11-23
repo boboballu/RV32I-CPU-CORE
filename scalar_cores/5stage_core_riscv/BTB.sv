@@ -28,9 +28,9 @@ module BTB #(parameter TAG_SIZE = 20,
         logic [TAG_SIZE-1:0] tag;
         logic [2:0] funct3;
         logic [31:0] branchimm;
-    } BTB_ENTRY;
+    } BTB_ENTRY_t;
 
-    BTB_ENTRY [(2 ** INDEX_SIZE)-1:0] BTB;
+    BTB_ENTRY_t [(2 ** INDEX_SIZE)-1:0] BTB;
     
     // BTB: tag and index computation from pcF
     logic [TAG_SIZE-1:0] tag;

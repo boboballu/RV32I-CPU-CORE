@@ -14,13 +14,13 @@ OUTPUT_ARCH( "riscv" )
 /* ram is word addressable and 1 word is 4 bytes */
 /* 64k bytes implies 16k words in ram */
 MEMORY {
-  ram      (rwx): ORIGIN = 0x00000000, LENGTH = 64k   
+  ram      (rwx): ORIGIN = 0x00000000, LENGTH = 4M   
 }
 
 /* linker symbols goes here */
 /* __sp = 0x0FFFF; */
-__console_addr  = 0x10004;
-__stop_addr     = 0x1000C; 
+__console_addr  = ((4*1024*1024) + 4);
+__stop_addr     = ((4*1024*1024) + 8); 
 /* ENTRY(_START) */
 
 SECTIONS
