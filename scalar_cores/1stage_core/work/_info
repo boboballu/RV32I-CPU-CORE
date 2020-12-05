@@ -11,7 +11,7 @@ cModel Technology
 Z0 d/root/Heterogeneous-multicore/scalar_cores/1stage_core
 valu
 Z1 DXx6 sv_std 3 std 0 22 VYECXdT12H8WgbUP_5Y6:3
-Z2 !s110 1605313674
+Z2 !s110 1607134807
 !i10b 1
 !s100 Wzbj_P0Yk>mQj9Mz_d3Bz3
 Z3 !s11b Dg1SIo80bB@j0V0VzS_@n1
@@ -28,7 +28,7 @@ Z8 OV;L;2020.1_3;71
 r1
 !s85 0
 31
-Z9 !s108 1605313674.000000
+Z9 !s108 1607134807.000000
 Z10 !s107 datapath_functions.svh|debug_headerfile.svh|datapath.sv|
 Z11 !s90 -sv|datapath.sv|
 !i113 1
@@ -58,31 +58,6 @@ Z16 !s107 debug_headerfile.svh|controller.sv|
 Z17 !s90 -sv|controller.sv|
 !i113 1
 o-sv
-R12
-Xcache_types
-R1
-Z18 !s110 1605813913
-!i10b 1
-!s100 H[kR]0^gf5T33Vbm?][<^1
-R3
-IdWeGOLb:Xo[I?JRYgTjGI2
-VdWeGOLb:Xo[I?JRYgTjGI2
-S1
-R0
-Z19 w1605813824
-Z20 8L1_cache_new_tbi.sv
-Z21 FL1_cache_new_tbi.sv
-!i122 41
-L0 3 0
-R8
-r1
-!s85 0
-31
-Z22 !s108 1605813913.000000
-!s107 L1_cache_new_tbi.sv|
-Z23 !s90 -lint|L1_cache_new_tbi.sv|
-!i113 1
-Z24 o-lint
 R12
 vcontroller
 R1
@@ -123,12 +98,12 @@ w1599492355
 8controller_if.sv
 Fcontroller_if.sv
 !i122 1
-Z25 L0 7 0
+Z18 L0 7 0
 R8
 r1
 !s85 0
 31
-Z26 !s108 1605313673.000000
+R9
 !s107 debug_headerfile.svh|controller_if.sv|
 !s90 -sv|controller_if.sv|
 !i113 1
@@ -136,7 +111,7 @@ o-sv
 R12
 Xcore_top_sv_unit
 R1
-Z27 DXx4 work 7 dbg_pkg 0 22 9j[<IH1I?mNm82?<[I7zV2
+Z19 DXx4 work 7 dbg_pkg 0 22 9j[<IH1I?mNm82?<[I7zV2
 R2
 VWJU3KdF8;6MBHlec>ZZ130
 r1
@@ -147,17 +122,17 @@ IWJU3KdF8;6MBHlec>ZZ130
 !i103 1
 S1
 R0
-Z28 w1604956068
-Z29 8core_top.sv
-Z30 Fcore_top.sv
-Z31 Fdebug_headerfile.svh
+Z20 w1604956068
+Z21 8core_top.sv
+Z22 Fcore_top.sv
+Z23 Fdebug_headerfile.svh
 !i122 4
-Z32 L0 8 0
+Z24 L0 8 0
 R8
 31
 R9
-Z33 !s107 debug_headerfile.svh|core_top.sv|
-Z34 !s90 -sv|core_top.sv|
+Z25 !s107 debug_headerfile.svh|core_top.sv|
+Z26 !s90 -sv|core_top.sv|
 !i113 1
 o-sv
 R12
@@ -171,11 +146,11 @@ IDYUC3c25P`CI>ezDceHDN3
 R4
 S1
 R0
-R28
+R20
 R6
 R7
 Fdatapath_functions.svh
-R31
+R23
 !i122 2
 L0 7 296
 R8
@@ -190,7 +165,7 @@ o-sv
 R12
 Xdbg_pkg
 R1
-!s110 1605313673
+R2
 !i10b 1
 !s100 UIn_6M>:Z[aFUAdajC`?X2
 R3
@@ -198,16 +173,16 @@ I9j[<IH1I?mNm82?<[I7zV2
 V9j[<IH1I?mNm82?<[I7zV2
 S1
 R0
-w1600141953
+w1605573042
 8debug_package.sv
 Fdebug_package.sv
 !i122 0
-R25
+R18
 R8
 r1
 !s85 0
 31
-R26
+R9
 !s107 debug_headerfile.svh|debug_package.sv|
 !s90 -sv|debug_package.sv|
 !i113 1
@@ -215,8 +190,8 @@ o-sv
 R12
 vdmem
 R1
-R27
-Z35 DXx4 work 16 L1_cache_sv_unit 0 22 BmZ18FNE4CWMKDg3P6keh2
+R19
+Z27 DXx4 work 16 L1_cache_sv_unit 0 22 BmZ18FNE4CWMKDg3P6keh2
 R2
 R4
 r1
@@ -224,26 +199,26 @@ r1
 !i10b 1
 !s100 J0C[7^<Ag23mlOBl^;9Ke3
 Ii3Ozi?`d2=U8aJ[;UJ7LW0
-Z36 !s105 L1_cache_sv_unit
+Z28 !s105 L1_cache_sv_unit
 S1
 R0
-Z37 w1605312485
-Z38 8L1_cache.sv
-Z39 FL1_cache.sv
+Z29 w1605312485
+Z30 8L1_cache.sv
+Z31 FL1_cache.sv
 !i122 5
 L0 51 20
 R8
 31
 R9
-Z40 !s107 debug_headerfile.svh|L1_cache.sv|
-Z41 !s90 -sv|L1_cache.sv|
+Z32 !s107 debug_headerfile.svh|L1_cache.sv|
+Z33 !s90 -sv|L1_cache.sv|
 !i113 1
 o-sv
 R12
 vimem
 R1
+R19
 R27
-R35
 R2
 R4
 r1
@@ -251,19 +226,19 @@ r1
 !i10b 1
 !s100 5:1YhjFY:0lX8eWJfjzO^1
 I=OX0A8F@jTIX]7E>UlQ<93
-R36
+R28
 S1
 R0
-R37
-R38
-R39
+R29
+R30
+R31
 !i122 5
 L0 72 11
 R8
 31
 R9
-R40
-R41
+R32
+R33
 !i113 1
 o-sv
 R12
@@ -292,36 +267,9 @@ R11
 !i113 1
 o-sv
 R12
-XL1_cache_new_tbi_sv_unit
-R1
-Z42 DXx4 work 11 cache_types 0 22 dWeGOLb:Xo[I?JRYgTjGI2
-R18
-VlD>kd0Zm?`3nIGXFD2_PL0
-r1
-!s85 0
-!i10b 1
-!s100 [4EB6AC<iH6A]eabe;Uk>2
-IlD>kd0Zm?`3nIGXFD2_PL0
-!i103 1
-S1
-R0
-R19
-R20
-R21
-!i122 41
-L0 23 0
-R8
-31
-R22
-Z43 !s107 L1_cache_new_tbi.sv|
-R23
-!i113 1
-R24
-R12
-n@l1_cache_new_tbi_sv_unit
 XL1_cache_sv_unit
 R1
-R27
+R19
 R2
 VBmZ18FNE4CWMKDg3P6keh2
 r1
@@ -332,17 +280,17 @@ IBmZ18FNE4CWMKDg3P6keh2
 !i103 1
 S1
 R0
-R37
-R38
-R39
+R29
+R30
 R31
+R23
 !i122 5
 L0 14 0
 R8
 31
 R9
-R40
-R41
+R32
+R33
 !i113 1
 o-sv
 R12
@@ -374,8 +322,8 @@ o-sv
 R12
 Ymem_bus
 R1
+R19
 R27
-R35
 R2
 R4
 r1
@@ -383,19 +331,19 @@ r1
 !i10b 1
 !s100 :g<7LRlEBH@9d[YjB[l`R0
 IF>mfBo8blMOKXS8Yli8bk0
-R36
+R28
 S1
 R0
-R37
-R38
-R39
+R29
+R30
+R31
 !i122 5
 L0 16 0
 R8
 31
 R9
-R40
-R41
+R32
+R33
 !i113 1
 o-sv
 R12
@@ -426,7 +374,7 @@ o-sv
 R12
 vriscv_32i
 R1
-R27
+R19
 DXx4 work 16 core_top_sv_unit 0 22 WJU3KdF8;6MBHlec>ZZ130
 R2
 R4
@@ -438,24 +386,24 @@ IX0dVl72cTz9YZT>XYh]GC1
 !s105 core_top_sv_unit
 S1
 R0
-Z44 w1602636992
-R29
-R30
+Z34 w1602636992
+R21
+R22
 !i122 4
 L0 9 33
 R8
 31
 R9
-R33
-R34
+R25
+R26
 !i113 1
 o-sv
 R12
 vtestbench
 R1
-R27
+R19
 DXx4 work 17 testbench_sv_unit 0 22 W`]i7?O03XMd>jGDG`>ZM1
-R2
+Z35 !s110 1607134808
 R4
 r1
 !s85 0
@@ -465,23 +413,23 @@ I[iVhI[3n]Tmc;:a=U6;XA2
 !s105 testbench_sv_unit
 S1
 R0
-w1603907233
-Z45 8testbench.sv
-Z46 Ftestbench.sv
+Z36 w1607134767
+Z37 8testbench.sv
+Z38 Ftestbench.sv
 !i122 7
 L0 9 131
 R8
 31
-R9
-Z47 !s107 debug_headerfile.svh|testbench.sv|
-Z48 !s90 -sv|testbench.sv|
+Z39 !s108 1607134808.000000
+!s107 debug_headerfile.svh|testbench.sv|
+Z40 !s90 -sv|testbench.sv|
 !i113 1
 o-sv
 R12
 Xtestbench_sv_unit
 R1
-R27
-R2
+R19
+R35
 VW`]i7?O03XMd>jGDG`>ZM1
 r1
 !s85 0
@@ -491,25 +439,25 @@ IW`]i7?O03XMd>jGDG`>ZM1
 !i103 1
 S1
 R0
-R28
-R45
-R46
-R31
+R36
+R37
+R38
+R23
 !i122 7
 L0 19 0
 R8
 31
-R9
-R47
-R48
+R39
+Z41 !s107 debug_headerfile.svh|testbench.sv|
+R40
 !i113 1
 o-sv
 R12
 vtop
 R1
-R27
+R19
 DXx4 work 16 top_test_sv_unit 0 22 3JAaXiSWNPAg>5D79diGV1
-R2
+R35
 R4
 r1
 !s85 0
@@ -519,23 +467,23 @@ I0zAn1N48gY6[Sf2@=@`Kg2
 !s105 top_test_sv_unit
 S1
 R0
-R44
-Z49 8top_test.sv
-Z50 Ftop_test.sv
+R34
+Z42 8top_test.sv
+Z43 Ftop_test.sv
 !i122 6
 L0 10 36
 R8
 31
-R9
-Z51 !s107 debug_headerfile.svh|top_test.sv|
-Z52 !s90 -sv|top_test.sv|
+R39
+Z44 !s107 debug_headerfile.svh|top_test.sv|
+Z45 !s90 -sv|top_test.sv|
 !i113 1
 o-sv
 R12
 Xtop_test_sv_unit
 R1
-R27
-R2
+R19
+R35
 V3JAaXiSWNPAg>5D79diGV1
 r1
 !s85 0
@@ -545,45 +493,45 @@ I3JAaXiSWNPAg>5D79diGV1
 !i103 1
 S1
 R0
-R28
-R49
-R50
-R31
+R20
+R42
+R43
+R23
 !i122 6
-R32
+R24
 R8
 31
-R9
-R51
-R52
+R39
+R44
+R45
 !i113 1
 o-sv
 R12
 vunified_L1_cache
 R1
-R42
-DXx4 work 24 L1_cache_new_tbi_sv_unit 0 22 lD>kd0Zm?`3nIGXFD2_PL0
-R18
+R19
+R27
+R2
 R4
 r1
 !s85 0
 !i10b 1
-!s100 PWf5lFNDO2U<9^h4;;>1T1
-I9Ez=TJUm<A>G1kWB44lVP3
-!s105 L1_cache_new_tbi_sv_unit
+!s100 QD5?X9Qhiz9T`4Q5HW:o61
+In440oloOP@fim5IZ0@:4i3
+R28
 S1
 R0
-R19
-R20
-R21
-!i122 41
-L0 25 151
+R29
+R30
+R31
+!i122 5
+L0 84 66
 R8
 31
-R22
-R43
-R23
+R9
+R32
+R33
 !i113 1
-R24
+o-sv
 R12
 nunified_@l1_cache

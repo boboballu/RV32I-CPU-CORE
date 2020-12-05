@@ -22,11 +22,11 @@ endpackage
 
 import cache_types::*;
 
-module unified_L1_cache(
+module cache_module(
 	input logic clock, reset,
 	
 	input logic req, we,
-	input [31:0] addr,
+	input logic [31:0] addr,
 	input logic [BLOCK_SIZE-1:0] block_mask,
 	input logic [3:0] byte_mask, 
 	input block_t write_block,
@@ -45,23 +45,29 @@ module unified_L1_cache(
 	logic [BLOCK_SIZE-1:0] blk;
 
 	logic blk_match, valid_match, tag_match;
-	logic [($clog2(ASSOC)-1):0] matched_blk, replace_blk;
+	logic [($clog2(ASSOC)-1):0] matched_blk;
 
 	logic fetched_blk_available;
+
+	logic [($clog2(ASSOC)-1):0] read_blk_miss;
 
 	assign tag 	= addr[(TAG_SIZE+INDEX_SIZE+BLOCK_SIZE-1):(INDEX_SIZE+BLOCK_SIZE)];
 	assign index= addr[(INDEX_SIZE+BLOCK_SIZE-1):(BLOCK_SIZE)];
 	assign blk 	= addr[(BLOCK_SIZE-1):0];
 
-	assign read_block = cache[index][matched_blk];
 	assign miss  = ! (blk_match | fetched_blk_available);
+	assign read_block = miss ? cache[index][read_blk_miss] : cache[index][matched_blk];
 
-	always_ff @(posedge Bus.clk or negedge reset) begin
+	always_ff @(posedge clock or negedge reset) begin
+		read_blk_miss = 0;
 		// initializing the cache after reset
 		if (!reset) begin
+			mem_req <= 0;
+			mem_we 	<= 0;
+			mem_wb_block <= '{default:'0};
+			fetched_blk_available <= 0;
 			for (integer i=0; i<INDEX_SIZE; i++) begin
-				automatic logic [($clog2(ASSOC)-1):0] j=0;
-				for (j=0; j<ASSOC; j++) begin
+				for (integer j=0; j<ASSOC; j++) begin
 					cache[i][j] <= '{default:0, lru:j};
 				end
 			end
@@ -76,6 +82,7 @@ module unified_L1_cache(
 			if (req) begin
 				// hit condition - update LRU
 				if (blk_match) begin
+					// update LRU
 					for (integer i=0; i<ASSOC; i++) begin
 						if (matched_blk != i) begin
 							if (cache[index][i].lru < read_block.lru) begin
@@ -102,12 +109,13 @@ module unified_L1_cache(
 				// 4) update lru 
 				else begin
 					// cache block fill
+					mem_req <= 1;
 					if (!mem_miss) begin
 						for (integer i=0; i<ASSOC; i++) begin
 							if (cache[index][i].lru == ASSOC-1) begin
+								read_blk_miss = i;
 								// write_back the block to memory, that gets replaced
 								if ( (cache[index][i].valid) & (cache[index][i].dirty) ) begin
-									mem_req <= 1;
 									mem_we <= 1;
 								end
 								mem_wb_block <= cache[index][i];
@@ -115,7 +123,7 @@ module unified_L1_cache(
 								// fill the cache line with new block requested from memory
 								cache[index][i].valid <= 1;
 								cache[index][i].dirty <= we;
-								cache[index][i].tag <= mem_req_blk.tag;
+								cache[index][i].tag <= tag;
 								if (we) begin
 									for (integer j=0; j<BLOCK_SIZE; j++) begin
 										if (block_mask[j]) begin
@@ -172,4 +180,4 @@ module unified_L1_cache(
 		end
 	end
 
-endmodule : unified_L1_cache
+endmodule : cache_module

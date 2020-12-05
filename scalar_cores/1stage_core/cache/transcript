@@ -1,0 +1,26 @@
+# vsim tb 
+# Start time: 21:14:15 on Dec 04,2020
+# Loading sv_std.std
+# Loading work.cache_types
+# Loading work.cache_tb_sv_unit
+# Loading work.tb
+# Loading work.cache_new_sv_unit
+# Loading work.cache_module
+# Loading work.memory
+do wave.do
+# ** UI-Msg: (vish-4014) No objects found matching '/tb/cache/mem_addr'.
+# Executing ONERROR command at macro ./wave.do line 14
+run
+run
+run
+add wave -position insertpoint  \
+sim:/tb/mem_read_addr \
+sim:/tb/mem_write_addr
+restart
+write format wave -window .main_pane.wave.interior.cs.body.pw.wf /root/Heterogeneous-multicore/scalar_cores/1stage_core/cache/wave.do
+run
+run
+run
+run
+# End time: 21:18:13 on Dec 04,2020, Elapsed time: 0:03:58
+# Errors: 0, Warnings: 0

@@ -1,5 +1,5 @@
-# vsim -c -do "run -all; exit" "+EXEC=exe32.hex" testbench 
-# Start time: 18:17:18 on Nov 23,2020
+# vsim "+EXEC=firmware32.hex" testbench 
+# Start time: 15:48:48 on Nov 26,2020
 # Loading sv_std.std
 # Loading work.dbg_pkg
 # Loading work.testbench_sv_unit
@@ -41,20 +41,21 @@
 # Loading work.unified_L1_cache
 # Loading work.imem
 # Loading work.dmem
-# run -all
-# testbench.dut.L1_cache found +EXEC=exe32.hex
+run
+# testbench.dut.L1_cache found +EXEC=firmware32.hex
 #  
 #  
 # ==> Console [0x00400004] print - writes to the addr treated as a console print msg <==
 #  
 #  
-# Hello World ;) 
-# 4194300
-# 
-# ** Note: $stop    : testbench.sv(156)
-#    Time: 19500 ps  Iteration: 3  Instance: /testbench
-# Break in Module testbench at testbench.sv line 156
-# Stopped at testbench.sv line 156
-#  exit
-# End time: 18:17:19 on Nov 23,2020, Elapsed time: 0:00:01
+restart
+do wave.do
+run
+# testbench.dut.L1_cache found +EXEC=firmware32.hex
+#  
+#  
+# ==> Console [0x00400004] print - writes to the addr treated as a console print msg <==
+#  
+#  
+# End time: 15:50:42 on Nov 26,2020, Elapsed time: 0:01:54
 # Errors: 0, Warnings: 0

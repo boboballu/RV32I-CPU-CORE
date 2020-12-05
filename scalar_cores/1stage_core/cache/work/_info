@@ -1,0 +1,163 @@
+m255
+K4
+z2
+!s11f vlog 2020.1_3 2020.04, Apr 27 2020
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 d/root/Heterogeneous-multicore/scalar_cores/1stage_core/cache
+vcache_module
+Z1 DXx6 sv_std 3 std 0 22 VYECXdT12H8WgbUP_5Y6:3
+Z2 DXx4 work 11 cache_types 0 22 _6KXKjfaEH0V[F7=a[<i_1
+DXx4 work 17 cache_new_sv_unit 0 22 l=BT]4bCMN7:OnWI3h;ga0
+Z3 !s110 1607134447
+Z4 VDg1SIo80bB@j0V0VzS_@n1
+r1
+!s85 0
+!i10b 1
+!s100 JRCadEAmz=LEJcMcRmb4>1
+I1S`A3c6Fe<zgZ;f^7zjEW2
+!s105 cache_new_sv_unit
+S1
+R0
+Z5 w1607134069
+Z6 8cache_new.sv
+Z7 Fcache_new.sv
+!i122 9
+L0 22 170
+Z8 OV;L;2020.1_3;71
+31
+Z9 !s108 1607134447.000000
+Z10 !s107 cache_new.sv|
+Z11 !s90 cache_new.sv|
+!i113 1
+Z12 tCvgOpt 0
+Xcache_new_sv_unit
+R1
+R2
+R3
+Vl=BT]4bCMN7:OnWI3h;ga0
+r1
+!s85 0
+!i10b 1
+!s100 m51Pf5J9kz@S:jXYn??4J3
+Il=BT]4bCMN7:OnWI3h;ga0
+!i103 1
+S1
+R0
+R5
+R6
+R7
+!i122 9
+L0 20 0
+R8
+31
+R9
+R10
+R11
+!i113 1
+R12
+Xcache_tb_sv_unit
+R1
+R2
+R3
+VC?KAcm=CKl_5Pa8R[WdHj2
+r1
+!s85 0
+!i10b 1
+!s100 >PlDo_hl57RoU15;4EhCI0
+IC?KAcm=CKl_5Pa8R[WdHj2
+!i103 1
+S1
+R0
+Z13 w1607134440
+Z14 8cache_tb.sv
+Z15 Fcache_tb.sv
+!i122 10
+L0 1 0
+R8
+31
+R9
+!s107 cache_tb.sv|
+Z16 !s90 cache_tb.sv|
+!i113 1
+R12
+Xcache_types
+R1
+R3
+!i10b 1
+!s100 jAiFUeVD1bjPXLKhUYBCK1
+!s11b Dg1SIo80bB@j0V0VzS_@n1
+I_6KXKjfaEH0V[F7=a[<i_1
+V_6KXKjfaEH0V[F7=a[<i_1
+S1
+R0
+R5
+R6
+R7
+!i122 9
+L0 3 0
+R8
+r1
+!s85 0
+31
+R9
+R10
+R11
+!i113 1
+R12
+vmemory
+R1
+R2
+Z17 DXx4 work 16 cache_tb_sv_unit 0 22 C?KAcm=CKl_5Pa8R[WdHj2
+R3
+R4
+r1
+!s85 0
+!i10b 1
+!s100 9Aghlk>eBd6aI_UIW]6_U3
+I=0o7n9k:NJNRVakQla15@1
+Z18 !s105 cache_tb_sv_unit
+S1
+R0
+R13
+R14
+R15
+!i122 10
+L0 98 48
+R8
+31
+R9
+Z19 !s107 cache_tb.sv|
+R16
+!i113 1
+R12
+vtb
+R1
+R2
+R17
+R3
+R4
+r1
+!s85 0
+!i10b 1
+!s100 G6VMm00ml:JJdEnmKTZYK1
+I]T4NUi`P4CV?<h0@YT@3R1
+R18
+S1
+R0
+R13
+R14
+R15
+!i122 10
+L0 3 94
+R8
+31
+R9
+R19
+R16
+!i113 1
+R12
