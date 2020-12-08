@@ -1,7 +1,7 @@
 all: compile run
 compile:
-	vlog cache.sv
-	vlog cache_tb.sv
+	vlog cache_2way.sv
+	vlog cache_2way_tb.sv
 run:
 	vsim tb
 clean:

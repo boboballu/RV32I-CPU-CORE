@@ -2,22 +2,26 @@
 // cache types - package
 package cache_types;
 
-	parameter RAM_SIZE 		= 65536;
-	parameter TAG_SIZE		= 17;
-	parameter INDEX_SIZE 	= 11;
-	parameter BLOCK_SIZE  	= 2;
-	parameter ASSOC       	= 2;
+    parameter RAM_SIZE          = 65536;
+    parameter CACHE_SIZE 		= 65536;
+    
+	parameter TAG_BIT_SIZE		= 25;
+	parameter INDEX_BIT_SIZE 	= 3;
+    parameter BLOCK_BIT_SIZE  	= 2;
+    
+    parameter BLOCKS            = 2**BLOCK_BIT_SIZE;
+    parameter SETS              = 2**INDEX_BIT_SIZE;
+    
+    parameter ASSOC       	    = 4;
+    parameter LRU_BIT_SIZE      = ($clog2(ASSOC));
 
 	typedef struct packed {
-		logic [($clog2(ASSOC)-1):0] lru;
-		logic [TAG_SIZE-1:0] tag;
+		logic [(LRU_BIT_SIZE-1):0] lru;
+		logic [TAG_BIT_SIZE-1:0] tag;
 		logic valid, dirty;
-		logic [BLOCK_SIZE-1:0] [31:0] block;
-	} block_t;
-
-	typedef block_t cache_line_t [ASSOC-1:0];
-	
-	typedef cache_line_t cache_t [INDEX_SIZE-1];
+		logic [BLOCKS-1:0] [31:0] block;
+    } block_t;
+    
 endpackage
 
 import cache_types::*;
@@ -25,159 +29,170 @@ import cache_types::*;
 module cache_module(
 	input logic clock, reset,
 	
-	input logic req, we,
+    input logic req, we,
 	input logic [31:0] addr,
-	input logic [BLOCK_SIZE-1:0] block_mask,
 	input logic [3:0] byte_mask, 
-	input block_t write_block,
+	input logic [31:0] write_word,
 	output logic miss, 
-	output block_t read_block,
+	output logic [31:0] read_word,
 
-	output logic mem_req, mem_we,
-	input logic mem_miss,
-	input block_t mem_req_blk,
-	output block_t mem_wb_block
+    // mem is 2 ported; one is for read and other for write
+    output logic mem_req,
+    output logic [31:0] mem_read_addr,
+	input logic [BLOCKS-1:0] [31:0] mem_read_block,
+
+    output logic mem_we,
+    output logic [31:0] mem_write_addr,
+	output logic [BLOCKS-1:0] [31:0] mem_write_block,
+    input logic mem_miss
 );
+    logic [TAG_BIT_SIZE-1:0] addr_tag;
+    logic [INDEX_BIT_SIZE-1:0] addr_index;
+    logic [BLOCK_BIT_SIZE-1:0] addr_offset;
 
-	cache_t cache;
-	logic [TAG_SIZE-1:0] tag;
-	logic [INDEX_SIZE-1] index;
-	logic [BLOCK_SIZE-1:0] blk;
+    // indices and assocs
+    block_t [SETS-1:0] [ASSOC-1:0] cache;
 
-	logic blk_match, valid_match, tag_match;
-	logic [($clog2(ASSOC)-1):0] matched_blk;
+    // comb - 1) assoc_match_index
+    logic [LRU_BIT_SIZE-1:0] assoc_match_index;
+    // 4) comb - assoc_lru_index - cache block to be replaced
+    logic [LRU_BIT_SIZE-1:0] assoc_lru_index = 0;
+    logic [LRU_BIT_SIZE-1:0] assoc_mru_index;
 
-	logic fetched_blk_available;
+    // only MSB 30 bits [31:2] of the address are taken into consideration
+    assign addr_tag     = addr[(TAG_BIT_SIZE+INDEX_BIT_SIZE+BLOCK_BIT_SIZE+2-1):(INDEX_BIT_SIZE+BLOCK_BIT_SIZE+2)];
+    assign addr_index   = addr[(INDEX_BIT_SIZE+BLOCK_BIT_SIZE+2-1):(BLOCK_BIT_SIZE+2)];
+    assign addr_offset  = addr[(BLOCK_BIT_SIZE+2-1):2];
 
-	logic [($clog2(ASSOC)-1):0] read_blk_miss;
+    // read_word output
+    assign read_word    = cache[addr_index][assoc_match_index].block[addr_offset];
+    assign mem_read_addr= addr;
 
-	assign tag 	= addr[(TAG_SIZE+INDEX_SIZE+BLOCK_SIZE-1):(INDEX_SIZE+BLOCK_SIZE)];
-	assign index= addr[(INDEX_SIZE+BLOCK_SIZE-1):(BLOCK_SIZE)];
-	assign blk 	= addr[(BLOCK_SIZE-1):0];
+    // posedge clock blocks are required for 
+    // 1) reset;
+    // 2) cache write during cpu write - cache hit; 
+    // 3a) cache write during cache miss and fetch from low level cache - cpu read;
+    // 3b) cache write during cache miss and fetch from low level cache - cpu write;
+    // 4) lru update;
 
-	assign miss  = ! (blk_match | fetched_blk_available);
-	assign read_block = miss ? cache[index][read_blk_miss] : cache[index][matched_blk];
-
-	always_ff @(posedge clock or negedge reset) begin
-		read_blk_miss = 0;
-		// initializing the cache after reset
+    // 1) reset - initializing the cache after reset
+    always_ff @(posedge clock or negedge reset) begin
 		if (!reset) begin
-			mem_req <= 0;
-			mem_we 	<= 0;
-			mem_wb_block <= '{default:'0};
-			fetched_blk_available <= 0;
-			for (integer i=0; i<INDEX_SIZE; i++) begin
+			for (integer i=0; i<SETS; i++) begin
 				for (integer j=0; j<ASSOC; j++) begin
 					cache[i][j] <= '{default:0, lru:j};
 				end
 			end
-		end
-		else begin
-			// defaults
-			mem_req <= 0;
-			mem_we 	<= 0;
-			mem_wb_block <= '{default:'0};
-			fetched_blk_available <= 0;
+        end
+    end
 
-			if (req) begin
-				// hit condition - update LRU
-				if (blk_match) begin
-					// update LRU
-					for (integer i=0; i<ASSOC; i++) begin
-						if (matched_blk != i) begin
-							if (cache[index][i].lru < read_block.lru) begin
-								cache[index][i].lru <= cache[index][i].lru + 1;								
-							end 
-						end
-					end
-					cache[index][matched_blk].lru <= 0;
-					if (we) begin
-						for (integer i=0; i<BLOCK_SIZE; i++) begin
-							if (block_mask[i]) begin
-								if ( byte_mask[0] ) cache[index][matched_blk].block[i][7:0] 	<= write_block.block[i][7:0];
-								if ( byte_mask[1] ) cache[index][matched_blk].block[i][15:8] 	<= write_block.block[i][15:8];
-								if ( byte_mask[2] ) cache[index][matched_blk].block[i][23:16] 	<= write_block.block[i][23:16];
-								if ( byte_mask[3] ) cache[index][matched_blk].block[i][31:24] 	<= write_block.block[i][31:24];
-							end
-						end
-						cache[index][matched_blk].dirty <= 1;
-					end
-				end
-				// miss condition - 1) fetch block from lower mem hierarchy
-				// 2) find the block with max lru count, writeback this block to memory
-				// 3) replace the tag, data; assert valid=1 and dirty=we
-				// 4) update lru 
-				else begin
-					// cache block fill
-					mem_req <= 1;
-					if (!mem_miss) begin
-						for (integer i=0; i<ASSOC; i++) begin
-							if (cache[index][i].lru == ASSOC-1) begin
-								read_blk_miss = i;
-								// write_back the block to memory, that gets replaced
-								if ( (cache[index][i].valid) & (cache[index][i].dirty) ) begin
-									mem_we <= 1;
-								end
-								mem_wb_block <= cache[index][i];
-								
-								// fill the cache line with new block requested from memory
-								cache[index][i].valid <= 1;
-								cache[index][i].dirty <= we;
-								cache[index][i].tag <= tag;
-								if (we) begin
-									for (integer j=0; j<BLOCK_SIZE; j++) begin
-										if (block_mask[j]) begin
-											if ( byte_mask[0] ) cache[index][i].block[j][7:0] <= write_block.block[j][7:0];
-											else cache[index][i].block[j][7:0] <= mem_req_blk.block[j][7:0];
-											
-											if ( byte_mask[1] ) cache[index][i].block[j][15:8] <= write_block.block[j][15:8];
-											else cache[index][i].block[j][15:8] <= mem_req_blk.block[j][15:8];
-											
-											if ( byte_mask[2] ) cache[index][i].block[j][23:16] <= write_block.block[j][23:16];
-											else cache[index][i].block[j][23:16] <= mem_req_blk.block[j][23:16];
-											
-											if ( byte_mask[3] ) cache[index][i].block[j][31:24] <= write_block.block[j][31:24];
-											else cache[index][i].block[j][31:24] <= mem_req_blk.block[j][31:24];
-										end
-									end
-								end
-								else begin
-									cache[index][i].block <= mem_req_blk.block;
-								end
-								// update the lru of the newly replaced block
-								cache[index][i].lru <= 0;
-								// indicate the cpu that the fetched block is available
-								fetched_blk_available <= 1;
-							end
-							else begin
-								// update the lru for other blocks in the assoc
-								cache[index][i].lru <= cache[index][i].lru + 1;
-							end
-						end
-					end
-				end
-			end
-		end
-	end
+    // 2) cache write during cpu write
+    // 3a) cache write during cache miss and fetch from low level cache - cpu read;
+    // 3b) cache write during cache miss and fetch from low level cache - cpu write;
+    always_ff @(posedge clock) begin
+        if (reset & req) begin
+            cache_write ();
+        end
+    end
 
-	// reading a cache block
-	always_comb begin
-		valid_match = 1'b0;
-		tag_match = 1'b0;
-		blk_match = 1'b0;
-		matched_blk = 0;
-		if (req) begin
-			for (integer clines=0; clines < ASSOC; clines++) begin
-				if (cache[index][clines].valid) begin
-					valid_match = 1'b1;
-					if (cache[index][clines].tag == tag) begin
-						tag_match = 1'b1;
-						blk_match = 1'b1;
-						matched_blk = clines;
-					end
-				end
-			end
-		end
-	end
+    // generate mem_req and mem_we to fetch a block from L2 during cache miss
+    always_comb begin
+        if (req) begin
+            mem_req = miss;
+            mem_write_addr = {cache[addr_index][assoc_lru_index].tag, addr_index, addr_offset, 2'b00};
+            mem_we = mem_req & cache[addr_index][assoc_lru_index].valid & cache[addr_index][assoc_lru_index].dirty;
+            mem_write_block = cache[addr_index][assoc_lru_index].block;
+        end
+        else begin
+            mem_req = 0;
+            mem_write_addr = 0;
+            mem_we = 0;
+            mem_write_block = '{default:0};
+        end
+    end
+    
+    // assoc_match_index - takes cache[addr_index] (cache_line) and returns miss and index of match
+    always_comb begin
+        if (req) begin
+            miss = 1;
+            assoc_match_index = assoc_lru_index;
+            for (int i=0; i<ASSOC; i++) begin
+                if ((cache[addr_index][i].tag == addr_tag) & cache[addr_index][i].valid == 1) begin
+                    assoc_match_index = i; miss = 0;
+                end
+            end
+        end
+        else begin
+            // defaults
+            miss = 0;
+            assoc_match_index = 0;
+        end
+    end
+
+    // 4) LRU implementation
+    // update the lru always 
+    always_ff @(posedge clock) begin
+        if (reset & req) begin
+            // update LRU durng hit and a miss - when mem_miss is low
+            if ( (!miss) | (miss & (!mem_miss)) ) begin
+                for (int i=0; i<ASSOC; i++) begin
+                    if (cache[addr_index][i].lru < cache[addr_index][assoc_match_index].lru) begin
+                        cache[addr_index][i].lru <= cache[addr_index][i].lru+1;
+                    end
+                end
+                cache[addr_index][assoc_match_index].lru <= 0;
+            end
+        end
+    end
+
+    always_comb begin
+        if (req) begin
+            assoc_mru_index = 0;        // lowest
+            assoc_lru_index = ASSOC-1;  // highest
+            for (int i=0; i<ASSOC; i++) begin
+                if (cache[addr_index][i].lru == ASSOC-1) assoc_lru_index = i;
+                if (cache[addr_index][i].lru == 0) assoc_mru_index = i;
+            end
+        end
+        else begin
+            assoc_lru_index = 0;        // lowest
+            assoc_mru_index = ASSOC-1;  // highest
+        end
+    end
+
+    function void cache_write ();
+        // 2) cpu write - cache hit
+        if ((!miss) & we) begin
+            cache[addr_index][assoc_match_index].dirty <= 1;
+            if (byte_mask[0]) cache[addr_index][assoc_match_index].block[addr_offset][7:0] <= write_word[7:0];
+            if (byte_mask[1]) cache[addr_index][assoc_match_index].block[addr_offset][15:8] <= write_word[15:8];
+            if (byte_mask[2]) cache[addr_index][assoc_match_index].block[addr_offset][23:16] <= write_word[23:16];
+            if (byte_mask[3]) cache[addr_index][assoc_match_index].block[addr_offset][31:24] <= write_word[31:24];
+        end
+
+        // read and write misses
+        // 3a and 3b) cpu write/read - cache miss
+        if (miss & (!mem_miss)) begin
+            cache[addr_index][assoc_lru_index].tag <= addr_tag;
+            // 3a) cpu read miss
+            if (!we) begin
+                cache[addr_index][assoc_lru_index].dirty <= 0;
+                cache[addr_index][assoc_lru_index].valid <= 1;
+                cache[addr_index][assoc_lru_index].block <= mem_read_block;
+            end
+            // 3b) cpu write miss
+            else begin
+                cache[addr_index][assoc_lru_index].dirty <= 1;
+                cache[addr_index][assoc_lru_index].valid <= 1;
+                cache[addr_index][assoc_lru_index].block <= mem_read_block;
+
+                if (byte_mask[0]) cache[addr_index][assoc_lru_index].block[addr_offset][7:0] <= write_word[7:0];
+                if (byte_mask[1]) cache[addr_index][assoc_lru_index].block[addr_offset][15:8] <= write_word[15:8];
+                if (byte_mask[2]) cache[addr_index][assoc_lru_index].block[addr_offset][23:16] <= write_word[23:16];
+                if (byte_mask[3]) cache[addr_index][assoc_lru_index].block[addr_offset][31:24] <= write_word[31:24];
+            end
+        end
+    endfunction : cache_write
+
 
 endmodule : cache_module
