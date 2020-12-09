@@ -1,19 +1,24 @@
-// block size is interms of words (1 word = 4 byte)
+// Author: Tarun Govind Kesavamurthi
+// School: North Carolina State University
+// mail  : tkesava@ncsu.edu
+/********************************************************************************/
+
 // cache types - package
 package cache_types;
+    // These 3 parameters are meant to be changed
+    // block size is in-terms of words (1 word = 4 byte)
+    parameter BLOCKS            = 32 / 4;   // (32 bytes -> 8 words) in terms of words
+    parameter SETS              = 64;       // Number of sets in the cache
+    parameter ASSOC       	    = 4;        // N way associative
+
+	parameter INDEX_BIT_SIZE 	= ($clog2(SETS));
+    parameter BLOCK_BIT_SIZE  	= ($clog2(BLOCKS));
+    parameter TAG_BIT_SIZE		= 30 - INDEX_BIT_SIZE - BLOCK_BIT_SIZE;
+
+    parameter LRU_BIT_SIZE      = ($clog2(ASSOC));
 
     parameter RAM_SIZE          = 65536;
-    parameter CACHE_SIZE 		= 65536;
-    
-	parameter TAG_BIT_SIZE		= 25;
-	parameter INDEX_BIT_SIZE 	= 3;
-    parameter BLOCK_BIT_SIZE  	= 2;
-    
-    parameter BLOCKS            = 2**BLOCK_BIT_SIZE;
-    parameter SETS              = 2**INDEX_BIT_SIZE;
-    
-    parameter ASSOC       	    = 4;
-    parameter LRU_BIT_SIZE      = ($clog2(ASSOC));
+    parameter CACHE_SIZE 		= SETS * ASSOC * (BLOCKS*4);
 
 	typedef struct packed {
 		logic [(LRU_BIT_SIZE-1):0] lru;
@@ -95,7 +100,7 @@ module cache_module(
         end
     end
 
-    // generate mem_req and mem_we to fetch a block from L2 during cache miss
+    // generate mem_req and mem_we to fetch a block from NEXT LEVEL during cache miss
     always_comb begin
         if (req) begin
             mem_req = miss;

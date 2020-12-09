@@ -11,73 +11,48 @@ cModel Technology
 Z0 d/root/Heterogeneous-multicore/scalar_cores/1stage_core/cache
 vcache_module
 Z1 DXx6 sv_std 3 std 0 22 VYECXdT12H8WgbUP_5Y6:3
-Z2 DXx4 work 11 cache_types 0 22 z4]2o^OjlPF97[H6BTD_g3
-DXx4 work 13 cache_sv_unit 0 22 1ea@5JnzGKY^5;X]GRYf91
-Z3 !s110 1607363689
+Z2 DXx4 work 11 cache_types 0 22 ]MP0<<?iaHfY[zaoa5hlz1
+DXx4 work 13 cache_sv_unit 0 22 ZFW<QUf8K3d1_S>GV=AL93
+Z3 !s110 1607549550
 Z4 VDg1SIo80bB@j0V0VzS_@n1
 r1
 !s85 0
 !i10b 1
-!s100 AJSbZzNJOkTk1GEWBST>@0
-IMU3_BX_aPAoAn0gBNz>WD1
+!s100 d9EII=ZmKfcKI?J^[I^Gl0
+Iog6<>IRhUC3Xh@YkImBmC3
 !s105 cache_sv_unit
 S1
 R0
-Z5 w1607363261
+Z5 w1607549319
 Z6 8cache.sv
 Z7 Fcache.sv
-!i122 33
-L0 29 170
+!i122 0
+L0 34 170
 Z8 OV;L;2020.1_3;71
 31
-Z9 !s108 1607363689.000000
+Z9 !s108 1607549550.000000
 Z10 !s107 cache.sv|
 Z11 !s90 cache.sv|
 !i113 1
 Z12 tCvgOpt 0
-Xcache_new_sv_unit
-R1
-DXx4 work 11 cache_types 0 22 _6KXKjfaEH0V[F7=a[<i_1
-!s110 1607285633
-Vl=BT]4bCMN7:OnWI3h;ga0
-r1
-!s85 0
-!i10b 1
-!s100 m51Pf5J9kz@S:jXYn??4J3
-Il=BT]4bCMN7:OnWI3h;ga0
-!i103 1
-S1
-R0
-w1607134069
-8cache_new.sv
-Fcache_new.sv
-!i122 11
-L0 20 0
-R8
-31
-!s108 1607285633.000000
-!s107 cache_new.sv|
-!s90 cache_new.sv|
-!i113 1
-R12
 Xcache_sv_unit
 R1
 R2
 R3
-V1ea@5JnzGKY^5;X]GRYf91
+VZFW<QUf8K3d1_S>GV=AL93
 r1
 !s85 0
 !i10b 1
-!s100 3V7gQAWK<S22aORP`_M=j0
-I1ea@5JnzGKY^5;X]GRYf91
+!s100 Se=jI?Qnjf3=0=S7k`Zco2
+IZFW<QUf8K3d1_S>GV=AL93
 !i103 1
 S1
 R0
 R5
 R6
 R7
-!i122 33
-L0 27 0
+!i122 0
+L0 32 0
 R8
 31
 R9
@@ -89,20 +64,20 @@ Xcache_tb_sv_unit
 R1
 R2
 R3
-VUQdmnX;]h:5@L1n`onGAO0
+VB_?WfSW[LoIZQ[1G2:izl3
 r1
 !s85 0
 !i10b 1
-!s100 hgOGCZPA9`nd?3LOa8MVc1
-IUQdmnX;]h:5@L1n`onGAO0
+!s100 mjgUIeo=z:<z8DlXXhR9W2
+IB_?WfSW[LoIZQ[1G2:izl3
 !i103 1
 S1
 R0
-Z13 w1607363672
+Z13 w1607538391
 Z14 8cache_tb.sv
 Z15 Fcache_tb.sv
-!i122 34
-L0 1 0
+!i122 1
+L0 5 0
 R8
 31
 R9
@@ -114,17 +89,17 @@ Xcache_types
 R1
 R3
 !i10b 1
-!s100 >JTG1Hh7cQa^EBZHmked40
+!s100 =UJaXA6ZZ2lmd53HbbhTP1
 !s11b Dg1SIo80bB@j0V0VzS_@n1
-Iz4]2o^OjlPF97[H6BTD_g3
-Vz4]2o^OjlPF97[H6BTD_g3
+I]MP0<<?iaHfY[zaoa5hlz1
+V]MP0<<?iaHfY[zaoa5hlz1
 S1
 R0
 R5
 R6
 R7
-!i122 33
-L0 3 0
+!i122 0
+L0 7 0
 R8
 r1
 !s85 0
@@ -137,26 +112,52 @@ R12
 vmemory
 R1
 R2
-Z17 DXx4 work 16 cache_tb_sv_unit 0 22 UQdmnX;]h:5@L1n`onGAO0
+Z17 DXx4 work 16 cache_tb_sv_unit 0 22 B_?WfSW[LoIZQ[1G2:izl3
 R3
 R4
 r1
 !s85 0
 !i10b 1
-!s100 RJD?;F;^WdLhWiMJFj]I^2
-IKTJ=U9VQIb8O:]<3c4PED2
+!s100 kenQbY^6o?=3V;Lgj61VU1
+IOi^FjRkSM>21=??5nTTzQ2
 Z18 !s105 cache_tb_sv_unit
 S1
 R0
 R13
 R14
 R15
-!i122 34
-L0 105 61
+!i122 1
+L0 219 61
 R8
 31
 R9
 Z19 !s107 cache_tb.sv|
+R16
+!i113 1
+R12
+vmemory_model
+R1
+R2
+R17
+R3
+R4
+r1
+!s85 0
+!i10b 1
+!s100 `8e[4R48T0WQ_>2]iZ_dK2
+ImGld`>GK3kQ0XXY`[U^M<2
+R18
+S1
+R0
+R13
+R14
+R15
+!i122 1
+L0 196 21
+R8
+31
+R9
+R19
 R16
 !i113 1
 R12
@@ -169,16 +170,16 @@ R4
 r1
 !s85 0
 !i10b 1
-!s100 :XMJPD;CnXZWD5SUMI6I[3
-IWS]zX1e<>o<[dEeaRkV0Z0
+!s100 bZUMPM6PnLK_TD=J<4kJ`2
+IJZ7R8X`d?]c40OjnoYYSO2
 R18
 S1
 R0
 R13
 R14
 R15
-!i122 34
-L0 3 101
+!i122 1
+L0 16 178
 R8
 31
 R9
