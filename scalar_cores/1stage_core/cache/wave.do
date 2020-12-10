@@ -10,8 +10,10 @@ add wave -noupdate -height 25 -radix hexadecimal -radixshowbase 1 /tb/cache/writ
 add wave -noupdate -height 25 -radix hexadecimal -radixshowbase 1 /tb/cache/miss
 add wave -noupdate -height 25 -radix hexadecimal -radixshowbase 1 /tb/cache/read_word
 add wave -noupdate -height 25 -radix hexadecimal -radixshowbase 1 /tb/cache/mem_req
+add wave -noupdate -radix hexadecimal -radixshowbase 1 /tb/cache/mem_ctl_we
+add wave -noupdate -radix hexadecimal -radixshowbase 1 /tb/cache/mem_addr
 add wave -noupdate -height 25 -radix hexadecimal -radixshowbase 1 /tb/cache/mem_read_addr
-add wave -noupdate -height 25 -radix hexadecimal -childformat {{{/tb/cache/mem_read_block[3]} -radix hexadecimal} {{/tb/cache/mem_read_block[2]} -radix hexadecimal} {{/tb/cache/mem_read_block[1]} -radix hexadecimal} {{/tb/cache/mem_read_block[0]} -radix hexadecimal}} -radixshowbase 1 -subitemconfig {{/tb/cache/mem_read_block[3]} {-radix hexadecimal -radixshowbase 1} {/tb/cache/mem_read_block[2]} {-radix hexadecimal -radixshowbase 1} {/tb/cache/mem_read_block[1]} {-radix hexadecimal -radixshowbase 1} {/tb/cache/mem_read_block[0]} {-radix hexadecimal -radixshowbase 1}} /tb/cache/mem_read_block
+add wave -noupdate -height 25 -radix hexadecimal -childformat {{{/tb/cache/mem_read_block[7]} -radix hexadecimal} {{/tb/cache/mem_read_block[6]} -radix hexadecimal} {{/tb/cache/mem_read_block[5]} -radix hexadecimal} {{/tb/cache/mem_read_block[4]} -radix hexadecimal} {{/tb/cache/mem_read_block[3]} -radix hexadecimal} {{/tb/cache/mem_read_block[2]} -radix hexadecimal} {{/tb/cache/mem_read_block[1]} -radix hexadecimal} {{/tb/cache/mem_read_block[0]} -radix hexadecimal}} -radixshowbase 1 -subitemconfig {{/tb/cache/mem_read_block[7]} {-height 17 -radix hexadecimal -radixshowbase 1} {/tb/cache/mem_read_block[6]} {-height 17 -radix hexadecimal -radixshowbase 1} {/tb/cache/mem_read_block[5]} {-height 17 -radix hexadecimal -radixshowbase 1} {/tb/cache/mem_read_block[4]} {-height 17 -radix hexadecimal -radixshowbase 1} {/tb/cache/mem_read_block[3]} {-height 17 -radix hexadecimal -radixshowbase 1} {/tb/cache/mem_read_block[2]} {-height 17 -radix hexadecimal -radixshowbase 1} {/tb/cache/mem_read_block[1]} {-height 17 -radix hexadecimal -radixshowbase 1} {/tb/cache/mem_read_block[0]} {-height 17 -radix hexadecimal -radixshowbase 1}} /tb/cache/mem_read_block
 add wave -noupdate -height 25 -radix hexadecimal -radixshowbase 1 /tb/cache/mem_we
 add wave -noupdate -height 25 -radix hexadecimal -radixshowbase 1 /tb/cache/mem_write_addr
 add wave -noupdate -height 25 -radix hexadecimal -radixshowbase 1 /tb/cache/mem_write_block
@@ -24,7 +26,7 @@ add wave -noupdate -height 25 -radix hexadecimal -radixshowbase 1 /tb/cache/asso
 add wave -noupdate -height 25 -radix hexadecimal -radixshowbase 1 /tb/cache/assoc_lru_index
 add wave -noupdate -height 25 -radix hexadecimal -radixshowbase 1 /tb/cache/assoc_mru_index
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {145 ps} 0}
+WaveRestoreCursors {{Cursor 1} {25 ps} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 150
 configure wave -valuecolwidth 100

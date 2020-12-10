@@ -55,7 +55,7 @@ module tb ();
         .mem_miss(mem_miss)
     );
 
-    memory_model memory (
+    memory memory (
         .clock(clock), .reset(reset),
 
         .mem_req(mem_req),
@@ -151,6 +151,7 @@ module tb ();
             cpu_model(dvr_we[0], dvr_addr, 'b1111, $urandom_range(((2**32)-1), 0));
         end
         else begin
+            #50;
             $display ("trace file -> EOF");
             $display(); $display();
             $display ("Simulation results");
@@ -162,7 +163,7 @@ module tb ();
             $display ("f. number of writebacks from L1 memory: %d", mc.wb);
             $display ("g. total memory traffic: %d", mc.mem_tr);
             $display(); $display();
-            $stop;
+            $finish;
         end
     endtask : trace_driver
 
@@ -208,7 +209,7 @@ module memory_model (
     output logic mem_miss
 );
 assign mem_miss = 0;
-always_comb begin : randomization
+always @(mem_read_addr) begin : randomization
     for (int i=0; i<BLOCKS; i++) begin
         mem_read_block[i] = $urandom_range ((2**32)-1, 0);
     end 

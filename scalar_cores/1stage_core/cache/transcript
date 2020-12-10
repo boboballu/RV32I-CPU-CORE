@@ -1,31 +1,36 @@
-# vsim -c -do "run -all; exit" "+TF=gcc_trace.txt" tb 
-# Start time: 16:32:31 on Dec 09,2020
+# vsim -sv_seed 12345 -do "do wave.do" "+TF=trace_test1.txt" tb 
+# Start time: 21:28:19 on Dec 09,2020
 # Loading sv_std.std
 # Loading work.cache_types
 # Loading work.cache_tb_sv_unit
 # Loading work.tb
 # Loading work.cache_sv_unit
 # Loading work.cache_module
-# Loading work.memory_model
-# run -all
-# tb.trace_file found +TF=gcc_trace.txt
+# Loading work.wb_wa_fsm
+# Loading work.memory
+# do wave.do
+do wave.do
+run
+# tb.trace_file found +TF=trace_test1.txt
+run
+run
+run
 # trace file -> EOF
 #  
 #  
 # Simulation results
-# a. number of L1 reads:       63640
-# b. number of L1 read misses:        1844
-# c. number of L1 writes:       36360
-# d. number of L1 write misses:        2403
-# e. L1 miss rate:	0.0425
-# f. number of writebacks from L1 memory:        2496
-# g. total memory traffic:        6743
+# a. number of L1 reads:           8
+# b. number of L1 read misses:           7
+# c. number of L1 writes:           2
+# d. number of L1 write misses:           1
+# e. L1 miss rate:	0.8000
+# f. number of writebacks from L1 memory:           1
+# g. total memory traffic:           9
 #  
 #  
-# ** Note: $stop    : cache_tb.sv(164)
-#    Time: 2000020 ps  Iteration: 1  Instance: /tb
-# Break in Task trace_driver at cache_tb.sv line 164
-# Stopped at cache_tb.sv line 164
-#  exit
-# End time: 16:32:38 on Dec 09,2020, Elapsed time: 0:00:07
+# ** Note: $finish    : cache_tb.sv(166)
+#    Time: 360 ps  Iteration: 0  Instance: /tb
+# 1
+# Break in Task trace_driver at cache_tb.sv line 166
+# End time: 21:31:48 on Dec 09,2020, Elapsed time: 0:03:29
 # Errors: 0, Warnings: 0

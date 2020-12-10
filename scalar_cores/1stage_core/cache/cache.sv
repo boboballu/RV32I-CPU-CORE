@@ -64,6 +64,14 @@ module cache_module(
     logic [LRU_BIT_SIZE-1:0] assoc_lru_index = 0;
     logic [LRU_BIT_SIZE-1:0] assoc_mru_index;
 
+    // 5) wb_wa implementation
+    logic [31:0] mem_addr; logic mem_ctl_we;
+
+    wb_wa_fsm wb_wa_fsm (clock, reset, 
+    mem_we, mem_miss,
+    mem_write_addr, mem_read_addr,
+    mem_addr, mem_ctl_we);
+
     // only MSB 30 bits [31:2] of the address are taken into consideration
     assign addr_tag     = addr[(TAG_BIT_SIZE+INDEX_BIT_SIZE+BLOCK_BIT_SIZE+2-1):(INDEX_BIT_SIZE+BLOCK_BIT_SIZE+2)];
     assign addr_index   = addr[(INDEX_BIT_SIZE+BLOCK_BIT_SIZE+2-1):(BLOCK_BIT_SIZE+2)];
@@ -81,7 +89,7 @@ module cache_module(
     // 4) lru update;
 
     // 1) reset - initializing the cache after reset
-    always_ff @(posedge clock or negedge reset) begin
+    always_ff @(posedge clock or negedge reset) begin : initialization
 		if (!reset) begin
 			for (integer i=0; i<SETS; i++) begin
 				for (integer j=0; j<ASSOC; j++) begin
@@ -89,19 +97,19 @@ module cache_module(
 				end
 			end
         end
-    end
+    end : initialization
 
     // 2) cache write during cpu write
     // 3a) cache write during cache miss and fetch from low level cache - cpu read;
     // 3b) cache write during cache miss and fetch from low level cache - cpu write;
-    always_ff @(posedge clock) begin
+    always_ff @(posedge clock) begin : CpuToCache_writes
         if (reset & req) begin
             cache_write ();
         end
-    end
+    end : CpuToCache_writes
 
     // generate mem_req and mem_we to fetch a block from NEXT LEVEL during cache miss
-    always_comb begin
+    always_comb begin : cache_miss_fetch
         if (req) begin
             mem_req = miss;
             mem_write_addr = {cache[addr_index][assoc_lru_index].tag, addr_index, addr_offset, 2'b00};
@@ -114,10 +122,10 @@ module cache_module(
             mem_we = 0;
             mem_write_block = '{default:0};
         end
-    end
+    end : cache_miss_fetch
     
     // assoc_match_index - takes cache[addr_index] (cache_line) and returns miss and index of match
-    always_comb begin
+    always_comb begin : lru_match_index_cache_hit
         if (req) begin
             miss = 1;
             assoc_match_index = assoc_lru_index;
@@ -132,11 +140,11 @@ module cache_module(
             miss = 0;
             assoc_match_index = 0;
         end
-    end
+    end : lru_match_index_cache_hit
 
     // 4) LRU implementation
     // update the lru always 
-    always_ff @(posedge clock) begin
+    always_ff @(posedge clock) begin : lru_implementation
         if (reset & req) begin
             // update LRU durng hit and a miss - when mem_miss is low
             if ( (!miss) | (miss & (!mem_miss)) ) begin
@@ -148,9 +156,9 @@ module cache_module(
                 cache[addr_index][assoc_match_index].lru <= 0;
             end
         end
-    end
+    end : lru_implementation
 
-    always_comb begin
+    always_comb begin : lru_extreme_blocks
         if (req) begin
             assoc_mru_index = 0;        // lowest
             assoc_lru_index = ASSOC-1;  // highest
@@ -163,7 +171,8 @@ module cache_module(
             assoc_lru_index = 0;        // lowest
             assoc_mru_index = ASSOC-1;  // highest
         end
-    end
+    end : lru_extreme_blocks
+
 
     function void cache_write ();
         // 2) cpu write - cache hit
@@ -177,7 +186,7 @@ module cache_module(
 
         // read and write misses
         // 3a and 3b) cpu write/read - cache miss
-        if (miss & (!mem_miss)) begin
+        if (miss & (!mem_miss) & (!mem_we)) begin
             cache[addr_index][assoc_lru_index].tag <= addr_tag;
             // 3a) cpu read miss
             if (!we) begin
@@ -201,3 +210,48 @@ module cache_module(
 
 
 endmodule : cache_module
+
+module wb_wa_fsm (
+    input logic clock, reset, 
+    input logic mem_we, mem_miss,
+    input logic [31:0] mem_write_addr, mem_read_addr,
+    output logic [31:0] mem_addr,
+    output logic mem_ctl_we
+    );
+
+    parameter s0 = 2'b00, s1 = 2'b01, s2 = 2'b10, s3 = 2'b11;
+
+    logic [1:0] p_state; // reg
+    logic [1:0] n_state; // wire
+    always_ff @ (posedge clock or negedge reset) begin
+        if (!reset) p_state <= s0;
+        else        p_state <= n_state;
+    end
+
+    always_comb begin
+        case (p_state)
+            s0: begin
+                mem_addr = mem_read_addr;
+                mem_ctl_we = 0;
+                n_state = s0;
+                if (mem_we) begin
+                    mem_addr = mem_write_addr;
+                    mem_ctl_we = 1;
+                    n_state = s1;
+                end
+            end
+
+            s1: begin
+                mem_addr = mem_write_addr;
+                mem_ctl_we = 1;
+                n_state = s1;
+                if (!mem_miss) begin
+                    mem_addr = mem_read_addr;
+                    mem_ctl_we = 0;
+                    n_state = s0;
+                end
+            end
+        endcase
+    end
+
+endmodule : wb_wa_fsm

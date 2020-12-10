@@ -12,82 +12,82 @@ Z0 d/root/Heterogeneous-multicore/scalar_cores/1stage_core/cache
 vcache_module
 Z1 DXx6 sv_std 3 std 0 22 VYECXdT12H8WgbUP_5Y6:3
 Z2 DXx4 work 11 cache_types 0 22 ]MP0<<?iaHfY[zaoa5hlz1
-DXx4 work 13 cache_sv_unit 0 22 ZFW<QUf8K3d1_S>GV=AL93
-Z3 !s110 1607549550
-Z4 VDg1SIo80bB@j0V0VzS_@n1
+Z3 DXx4 work 13 cache_sv_unit 0 22 fj^9=mao^gGifaEjZY3oV1
+Z4 !s110 1607567290
+Z5 VDg1SIo80bB@j0V0VzS_@n1
 r1
 !s85 0
 !i10b 1
-!s100 d9EII=ZmKfcKI?J^[I^Gl0
-Iog6<>IRhUC3Xh@YkImBmC3
-!s105 cache_sv_unit
+!s100 QX][CGSMl4`Cz<B42J?R=1
+IYzF:_Nmc9GT<GW5bk7Xcz3
+Z6 !s105 cache_sv_unit
 S1
 R0
-Z5 w1607549319
-Z6 8cache.sv
-Z7 Fcache.sv
-!i122 0
-L0 34 170
-Z8 OV;L;2020.1_3;71
+Z7 w1607562544
+Z8 8cache.sv
+Z9 Fcache.sv
+!i122 26
+L0 34 179
+Z10 OV;L;2020.1_3;71
 31
-Z9 !s108 1607549550.000000
-Z10 !s107 cache.sv|
-Z11 !s90 cache.sv|
+Z11 !s108 1607567290.000000
+Z12 !s107 cache.sv|
+Z13 !s90 cache.sv|
 !i113 1
-Z12 tCvgOpt 0
+Z14 tCvgOpt 0
 Xcache_sv_unit
 R1
 R2
-R3
-VZFW<QUf8K3d1_S>GV=AL93
+R4
+Vfj^9=mao^gGifaEjZY3oV1
 r1
 !s85 0
 !i10b 1
-!s100 Se=jI?Qnjf3=0=S7k`Zco2
-IZFW<QUf8K3d1_S>GV=AL93
+!s100 IXzFJDd3lClL4LKm^d2lI1
+Ifj^9=mao^gGifaEjZY3oV1
 !i103 1
 S1
 R0
-R5
-R6
 R7
-!i122 0
-L0 32 0
 R8
-31
 R9
+!i122 26
+L0 32 0
 R10
+31
 R11
-!i113 1
 R12
+R13
+!i113 1
+R14
 Xcache_tb_sv_unit
 R1
 R2
-R3
-VB_?WfSW[LoIZQ[1G2:izl3
+Z15 !s110 1607567291
+V4METWzL@j@nhdzToMcaAN1
 r1
 !s85 0
 !i10b 1
-!s100 mjgUIeo=z:<z8DlXXhR9W2
-IB_?WfSW[LoIZQ[1G2:izl3
+!s100 QG^_N979SIQ4ebC8nGY`F1
+I4METWzL@j@nhdzToMcaAN1
 !i103 1
 S1
 R0
-Z13 w1607538391
-Z14 8cache_tb.sv
-Z15 Fcache_tb.sv
-!i122 1
-L0 5 0
-R8
+Z16 w1607567272
+Z17 8cache_tb.sv
+Z18 Fcache_tb.sv
+!i122 27
+L0 6 0
+R10
 31
-R9
+R11
 !s107 cache_tb.sv|
-Z16 !s90 cache_tb.sv|
+Z19 !s90 cache_tb.sv|
 !i113 1
-R12
+R14
 Xcache_types
 R1
-R3
+R4
 !i10b 1
 !s100 =UJaXA6ZZ2lmd53HbbhTP1
 !s11b Dg1SIo80bB@j0V0VzS_@n1
@@ -95,95 +95,121 @@ I]MP0<<?iaHfY[zaoa5hlz1
 V]MP0<<?iaHfY[zaoa5hlz1
 S1
 R0
-R5
-R6
 R7
-!i122 0
-L0 7 0
 R8
+R9
+!i122 26
+L0 7 0
+R10
 r1
 !s85 0
 31
-R9
-R10
 R11
-!i113 1
 R12
+R13
+!i113 1
+R14
 vmemory
 R1
 R2
-Z17 DXx4 work 16 cache_tb_sv_unit 0 22 B_?WfSW[LoIZQ[1G2:izl3
-R3
-R4
+Z20 DXx4 work 16 cache_tb_sv_unit 0 22 4METWzL@j@nhdzToMcaAN1
+R15
+R5
 r1
 !s85 0
 !i10b 1
-!s100 kenQbY^6o?=3V;Lgj61VU1
-IOi^FjRkSM>21=??5nTTzQ2
-Z18 !s105 cache_tb_sv_unit
+!s100 L25^88A@Cmdj_TODVQ2kG0
+IE@;V0IcM]K:mVG1C@QC>P3
+Z21 !s105 cache_tb_sv_unit
 S1
 R0
-R13
-R14
-R15
-!i122 1
-L0 219 61
-R8
-31
-R9
-Z19 !s107 cache_tb.sv|
 R16
+R17
+R18
+!i122 27
+L0 221 61
+R10
+31
+R11
+Z22 !s107 cache_tb.sv|
+R19
 !i113 1
-R12
+R14
 vmemory_model
 R1
 R2
-R17
-R3
-R4
+R20
+R15
+R5
 r1
 !s85 0
 !i10b 1
-!s100 `8e[4R48T0WQ_>2]iZ_dK2
-ImGld`>GK3kQ0XXY`[U^M<2
-R18
+!s100 lF@6<A`239>1^z<YeR`>23
+Im5HWcf1;`fIoW@BO4mG<31
+R21
 S1
 R0
-R13
-R14
-R15
-!i122 1
-L0 196 21
-R8
-31
-R9
-R19
 R16
+R17
+R18
+!i122 27
+L0 198 21
+R10
+31
+R11
+R22
+R19
 !i113 1
-R12
+R14
 vtb
 R1
 R2
-R17
-R3
-R4
+R20
+R15
+R5
 r1
 !s85 0
 !i10b 1
-!s100 bZUMPM6PnLK_TD=J<4kJ`2
-IJZ7R8X`d?]c40OjnoYYSO2
-R18
+!s100 ODjnA4K@>f;2Ej_XCWB<e2
+IzgNL6mdo0dKcf>8z8BfRK1
+R21
 S1
 R0
-R13
-R14
-R15
-!i122 1
-L0 16 178
-R8
-31
-R9
-R19
 R16
+R17
+R18
+!i122 27
+L0 17 179
+R10
+31
+R11
+R22
+R19
 !i113 1
+R14
+vwb_wa_fsm
+R1
+R2
+R3
+R4
+R5
+r1
+!s85 0
+!i10b 1
+!s100 1FXaA4_FO0Y7e]ChzAUVY3
+I_VBE[TDNhZJHRoA?ZCo:62
+R6
+S1
+R0
+R7
+R8
+R9
+!i122 26
+L0 214 44
+R10
+31
+R11
 R12
+R13
+!i113 1
+R14

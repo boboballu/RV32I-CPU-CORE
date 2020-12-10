@@ -14,7 +14,7 @@ compile:
 	vlog cache_tb.sv
 
 run:
-	vsim -do "do wave.do" +TF=$(tf) tb
+	vsim -sv_seed 12345 -do "do wave.do" +TF=$(tf) tb
 
 clean:
 	rm -rf work
