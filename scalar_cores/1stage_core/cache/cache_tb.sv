@@ -55,7 +55,7 @@ module tb ();
         .mem_miss(mem_miss)
     );
 
-    memory memory (
+    memory_model memory (
         .clock(clock), .reset(reset),
 
         .mem_req(mem_req),
@@ -189,6 +189,7 @@ module tb ();
         
         @(posedge clock);        
         wait (miss == 0);
+        @(posedge clock);
         req = 0; 
     endtask : cpu_model 
     
@@ -208,11 +209,20 @@ module memory_model (
     
     output logic mem_miss
 );
-assign mem_miss = 0;
-always @(mem_read_addr) begin : randomization
-    for (int i=0; i<BLOCKS; i++) begin
-        mem_read_block[i] = $urandom_range ((2**32)-1, 0);
-    end 
+//assign mem_miss = 0;
+always @(mem_read_addr, mem_req) begin : randomization
+   if (mem_req) begin
+        mem_miss = 1;
+        @(posedge clock);
+        mem_miss = 0;
+        for (int i=0; i<BLOCKS; i++) begin
+            mem_read_block[i] = mem_read_addr;//$urandom_range ((2**32)-1, 0);
+        end
+    end
+    else begin 
+        mem_miss = 0;
+        mem_read_block = '{default:0};
+    end
 end : randomization
 
 endmodule : memory_model
@@ -237,11 +247,11 @@ module memory (
     // internal computed address
     logic [31:0] bank_read_addr, bank_write_addr;
     bit [(RAM_SIZE/4)-1:0][31:0] MEM; // 7 words of memory
-    logic [0:0] counter;
+    logic [1:0] counter;
 
     assign bank_read_addr   = {mem_read_addr[31:4], 2'b0};
     assign bank_write_addr  = {mem_write_addr[31:4], 2'b0};
-    assign mem_miss         = mem_req & ( !(counter!=1) ); 
+    assign mem_miss         = mem_req & ( (counter!=3) ); 
 
 
     //assign mem_read_block   = mem_req  ? {MEM[bank_read_addr+3], MEM[bank_read_addr+2], MEM[bank_read_addr+1], MEM[bank_read_addr]} : 'b0;
@@ -269,13 +279,16 @@ module memory (
     always_ff @(posedge clock) begin
         if (mem_req) begin
             counter <= counter+1'b1;
-            if (counter == 1) begin
+            if (counter == 3) begin
                 if (mem_we) begin
                     for (int i=0; i<BLOCKS; i++) begin
                         MEM[bank_write_addr+i]    <= mem_write_block[i];
                     end
                 end                     
             end
+        end
+        else begin
+            counter <= 0;
         end
     end
 endmodule : memory

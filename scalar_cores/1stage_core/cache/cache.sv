@@ -43,12 +43,17 @@ module cache_module(
 
     // mem is 2 ported; one is for read and other for write
     output logic mem_req,
-    output logic [31:0] mem_read_addr,
 	input logic [BLOCKS-1:0] [31:0] mem_read_block,
+    `ifdef sigle_ported_L2
+    output logic [31:0] mem_addr;
+    `endif
+    `ifdef dual_ported_L2
+    output logic [31:0] mem_read_addr,
+    output logic [31:0] mem_write_addr,
+    `endif
 
     output logic mem_we,
-    output logic [31:0] mem_write_addr,
-	output logic [BLOCKS-1:0] [31:0] mem_write_block,
+    output logic [BLOCKS-1:0] [31:0] mem_write_block,
     input logic mem_miss
 );
     logic [TAG_BIT_SIZE-1:0] addr_tag;
@@ -65,12 +70,10 @@ module cache_module(
     logic [LRU_BIT_SIZE-1:0] assoc_mru_index;
 
     // 5) wb_wa implementation
-    logic [31:0] mem_addr; logic mem_ctl_we;
-
-    wb_wa_fsm wb_wa_fsm (clock, reset, 
-    mem_we, mem_miss,
-    mem_write_addr, mem_read_addr,
-    mem_addr, mem_ctl_we);
+    `ifdef dual_ported_L2
+    logic [31:0] mem_addr;
+    `endif
+    logic mem_done;
 
     // only MSB 30 bits [31:2] of the address are taken into consideration
     assign addr_tag     = addr[(TAG_BIT_SIZE+INDEX_BIT_SIZE+BLOCK_BIT_SIZE+2-1):(INDEX_BIT_SIZE+BLOCK_BIT_SIZE+2)];
@@ -79,8 +82,11 @@ module cache_module(
 
     // read_word output
     assign read_word    = cache[addr_index][assoc_match_index].block[addr_offset];
-    assign mem_read_addr= addr;
-
+    
+    assign mem_read_addr    = addr;
+    assign mem_write_addr   = req ? {cache[addr_index][assoc_lru_index].tag, addr_index, addr_offset, 2'b00} : 0;
+    assign mem_write_block  = req ? cache[addr_index][assoc_lru_index].block : '{default:0};
+    
     // posedge clock blocks are required for 
     // 1) reset;
     // 2) cache write during cpu write - cache hit; 
@@ -109,20 +115,31 @@ module cache_module(
     end : CpuToCache_writes
 
     // generate mem_req and mem_we to fetch a block from NEXT LEVEL during cache miss
-    always_comb begin : cache_miss_fetch
-        if (req) begin
-            mem_req = miss;
-            mem_write_addr = {cache[addr_index][assoc_lru_index].tag, addr_index, addr_offset, 2'b00};
-            mem_we = mem_req & cache[addr_index][assoc_lru_index].valid & cache[addr_index][assoc_lru_index].dirty;
-            mem_write_block = cache[addr_index][assoc_lru_index].block;
-        end
-        else begin
-            mem_req = 0;
-            mem_write_addr = 0;
-            mem_we = 0;
-            mem_write_block = '{default:0};
-        end
-    end : cache_miss_fetch
+    // always_comb begin : cache_miss_fetch
+    //     if (req) begin
+    //         mem_req = miss;
+    //         mem_write_addr = {cache[addr_index][assoc_lru_index].tag, addr_index, addr_offset, 2'b00};
+    //         mem_we = mem_req & cache[addr_index][assoc_lru_index].valid & cache[addr_index][assoc_lru_index].dirty;
+    //         mem_write_block = cache[addr_index][assoc_lru_index].block;
+    //     end
+    //     else begin
+    //         mem_req = 0;
+    //         mem_write_addr = 0;
+    //         mem_we = 0;
+    //         mem_write_block = '{default:0};
+    //     end
+    // end : cache_miss_fetch
+
+    cache_miss_fetch cache_miss_fetch (
+        .clock(clock), .reset(reset),
+        .miss(miss), 
+        .lru_blk_valid(cache[addr_index][assoc_lru_index].valid), .lru_blk_dirty(cache[addr_index][assoc_lru_index].dirty),
+        .mem_write_addr(mem_write_addr), .mem_read_addr(mem_read_addr),
+        .mem_miss(mem_miss),
+    
+        .mem_req(mem_req), .mem_we(mem_we), .mem_done(mem_done),
+        .mem_addr(mem_addr)
+    );    
     
     // assoc_match_index - takes cache[addr_index] (cache_line) and returns miss and index of match
     always_comb begin : lru_match_index_cache_hit
@@ -146,8 +163,8 @@ module cache_module(
     // update the lru always 
     always_ff @(posedge clock) begin : lru_implementation
         if (reset & req) begin
-            // update LRU durng hit and a miss - when mem_miss is low
-            if ( (!miss) | (miss & (!mem_miss)) ) begin
+            // update LRU during hit and a miss - when mem_miss is low
+            if ( (!miss) | (miss & (!mem_done)) ) begin
                 for (int i=0; i<ASSOC; i++) begin
                     if (cache[addr_index][i].lru < cache[addr_index][assoc_match_index].lru) begin
                         cache[addr_index][i].lru <= cache[addr_index][i].lru+1;
@@ -186,7 +203,7 @@ module cache_module(
 
         // read and write misses
         // 3a and 3b) cpu write/read - cache miss
-        if (miss & (!mem_miss) & (!mem_we)) begin
+        if (miss & (!mem_done)) begin
             cache[addr_index][assoc_lru_index].tag <= addr_tag;
             // 3a) cpu read miss
             if (!we) begin
@@ -211,47 +228,63 @@ module cache_module(
 
 endmodule : cache_module
 
-module wb_wa_fsm (
-    input logic clock, reset, 
-    input logic mem_we, mem_miss,
+module cache_miss_fetch (
+    input logic clock, reset,
+    input logic miss, 
+    input logic lru_blk_valid, lru_blk_dirty,
     input logic [31:0] mem_write_addr, mem_read_addr,
-    output logic [31:0] mem_addr,
-    output logic mem_ctl_we
+    input logic mem_miss,
+
+    output logic mem_req, mem_we, mem_done,
+    output logic [31:0] mem_addr
     );
 
+    // 2 possibilities - 
+    // 1) only write allocate; invalid / non dirty block eviction
+    // 2) write back - write allocate; valid & dirty block eviction
     parameter s0 = 2'b00, s1 = 2'b01, s2 = 2'b10, s3 = 2'b11;
 
-    logic [1:0] p_state; // reg
-    logic [1:0] n_state; // wire
-    always_ff @ (posedge clock or negedge reset) begin
-        if (!reset) p_state <= s0;
-        else        p_state <= n_state;
-    end
+    logic [1:0] current_state;  // register
+    logic [1:0] next_state;     // wire
 
+    always_ff @ (posedge clock or negedge reset) begin
+        if (!reset) current_state <= s0;
+        else        current_state <= next_state;
+    end
+    
     always_comb begin
-        case (p_state)
+        mem_req     = miss;
+        mem_addr    = mem_read_addr;
+        mem_we      = 0;
+        mem_done    = mem_miss; 
+        case (current_state)
             s0: begin
-                mem_addr = mem_read_addr;
-                mem_ctl_we = 0;
-                n_state = s0;
-                if (mem_we) begin
-                    mem_addr = mem_write_addr;
-                    mem_ctl_we = 1;
-                    n_state = s1;
+                next_state = s0;
+                if ( miss & lru_blk_valid & lru_blk_dirty ) begin
+                    mem_req     = 1;
+                    mem_addr    = mem_write_addr;
+                    mem_we      = 1;
+                    next_state  = s1;
                 end
             end
-
             s1: begin
-                mem_addr = mem_write_addr;
-                mem_ctl_we = 1;
-                n_state = s1;
+                mem_req     = miss;
+                mem_addr    = mem_write_addr;
+                mem_we      = 1;
+                mem_done    = 1;
+                next_state  = s1;
                 if (!mem_miss) begin
-                    mem_addr = mem_read_addr;
-                    mem_ctl_we = 0;
-                    n_state = s0;
+                    mem_req = 0;
+                    mem_we  = 0;
+                    next_state = s2;
+                end
+            end
+            s2: begin
+                next_state  = s2;
+                if (!mem_miss) begin
+                    next_state = s0;
                 end
             end
         endcase
     end
-
-endmodule : wb_wa_fsm
+endmodule : cache_miss_fetch
