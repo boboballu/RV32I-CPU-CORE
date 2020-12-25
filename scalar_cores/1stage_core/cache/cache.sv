@@ -2,6 +2,8 @@
 // School: North Carolina State University
 // mail  : tkesava@ncsu.edu
 /********************************************************************************/
+//`define dual_ported_L2
+`define single_ported_L2
 
 // cache types - package
 package cache_types;
@@ -43,9 +45,8 @@ module cache_module(
 
     // mem is 2 ported; one is for read and other for write
     output logic mem_req,
-	input logic [BLOCKS-1:0] [31:0] mem_read_block,
-    `ifdef sigle_ported_L2
-    output logic [31:0] mem_addr;
+    `ifdef single_ported_L2
+    output logic [31:0] mem_addr,
     `endif
     `ifdef dual_ported_L2
     output logic [31:0] mem_read_addr,
@@ -53,6 +54,7 @@ module cache_module(
     `endif
 
     output logic mem_we,
+	input logic [BLOCKS-1:0] [31:0] mem_read_block,
     output logic [BLOCKS-1:0] [31:0] mem_write_block,
     input logic mem_miss
 );
@@ -72,6 +74,9 @@ module cache_module(
     // 5) wb_wa implementation
     `ifdef dual_ported_L2
     logic [31:0] mem_addr;
+    `endif
+    `ifdef single_ported_L2
+    logic [31:0] mem_read_addr, mem_write_addr;
     `endif
     logic mem_done;
 
@@ -114,22 +119,7 @@ module cache_module(
         end
     end : CpuToCache_writes
 
-    // generate mem_req and mem_we to fetch a block from NEXT LEVEL during cache miss
-    // always_comb begin : cache_miss_fetch
-    //     if (req) begin
-    //         mem_req = miss;
-    //         mem_write_addr = {cache[addr_index][assoc_lru_index].tag, addr_index, addr_offset, 2'b00};
-    //         mem_we = mem_req & cache[addr_index][assoc_lru_index].valid & cache[addr_index][assoc_lru_index].dirty;
-    //         mem_write_block = cache[addr_index][assoc_lru_index].block;
-    //     end
-    //     else begin
-    //         mem_req = 0;
-    //         mem_write_addr = 0;
-    //         mem_we = 0;
-    //         mem_write_block = '{default:0};
-    //     end
-    // end : cache_miss_fetch
-
+    // wb - wa state machine
     cache_miss_fetch cache_miss_fetch (
         .clock(clock), .reset(reset),
         .miss(miss), 

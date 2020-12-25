@@ -3,6 +3,9 @@
 // mail  : tkesava@ncsu.edu
 /********************************************************************************/
 
+//`define dual_ported_L2
+`define single_ported_L2
+
 import cache_types::*;
 
 typedef struct packed {
@@ -26,11 +29,14 @@ module tb ();
 	logic [31:0] read_word;
     
     logic mem_req;
+
+    logic [31:0] mem_addr;
+
     logic [31:0] mem_read_addr;
+    logic [31:0] mem_write_addr;
     logic [BLOCKS-1:0] [31:0] mem_read_block;
 
     logic mem_we;
-    logic [31:0] mem_write_addr;
     logic [BLOCKS-1:0] [31:0] mem_write_block;
     logic mem_miss;
 
@@ -44,12 +50,17 @@ module tb ();
         .miss(miss), 
         .read_word(read_word),
 
-        .mem_req(mem_req), 
+        .mem_req(mem_req),
+        `ifdef dual_ported_L2
         .mem_read_addr(mem_read_addr),
+        .mem_write_addr(mem_write_addr),
+        `endif
+        `ifdef single_ported_L2
+        .mem_addr(mem_addr),
+        `endif
         .mem_read_block(mem_read_block),
         
         .mem_we(mem_we),
-        .mem_write_addr(mem_write_addr),
         .mem_write_block(mem_write_block),
         
         .mem_miss(mem_miss)
@@ -59,11 +70,15 @@ module tb ();
         .clock(clock), .reset(reset),
 
         .mem_req(mem_req),
+        `ifdef dual_ported_L2
         .mem_read_addr(mem_read_addr), 
-        .mem_read_block(mem_read_block),
-
-        .mem_we(mem_we),
         .mem_write_addr(mem_write_addr),
+        `endif
+        `ifdef single_ported_L2
+        .mem_addr (mem_addr),
+        `endif
+        .mem_we(mem_we),
+        .mem_read_block(mem_read_block),
         .mem_write_block(mem_write_block),
 
         .mem_miss(mem_miss)
@@ -200,16 +215,27 @@ module memory_model (
     input logic clock, reset,
 
     input logic mem_req,
+    `ifdef dual_ported_L2
     input logic [31:0] mem_read_addr,
-	output logic [BLOCKS-1:0] [31:0] mem_read_block,
-
-    input logic mem_we,
     input logic [31:0] mem_write_addr,
+    `endif
+    `ifdef single_ported_L2
+    input logic [31:0] mem_addr,
+    `endif
+    input logic mem_we,
+    output logic [BLOCKS-1:0] [31:0] mem_read_block,
     input logic [BLOCKS-1:0] [31:0] mem_write_block,
     
     output logic mem_miss
 );
 //assign mem_miss = 0;
+
+`ifdef single_ported_L2
+logic [31:0] mem_read_addr, mem_write_addr;
+assign mem_read_addr    = (!mem_we) ? mem_addr : 'h0;
+assign mem_write_addr   = (mem_we)  ? mem_addr : 'h0;
+`endif
+
 always @(mem_read_addr, mem_req) begin : randomization
    if (mem_req) begin
         mem_miss = 1;
@@ -232,11 +258,16 @@ module memory (
     input logic clock, reset,
 
     input logic mem_req,
-    input logic [31:0] mem_read_addr,
-	output logic [BLOCKS-1:0] [31:0] mem_read_block,
 
-    input logic mem_we,
+    `ifdef single_ported_L2
+    input logic [31:0] mem_addr,
+    `endif
+    `ifdef dual_ported_L2
+    input logic [31:0] mem_read_addr,
     input logic [31:0] mem_write_addr,
+    `endif
+    input logic mem_we,
+	output logic [BLOCKS-1:0] [31:0] mem_read_block,
     input logic [BLOCKS-1:0] [31:0] mem_write_block,
     
     output logic mem_miss
@@ -249,10 +280,15 @@ module memory (
     bit [(RAM_SIZE/4)-1:0][31:0] MEM; // 7 words of memory
     logic [1:0] counter;
 
+    `ifdef single_ported_L2
+    logic [31:0] mem_read_addr, mem_write_addr;
+    assign mem_read_addr    = (!mem_we) ? mem_addr : 'h0;
+    assign mem_write_addr   = (mem_we)  ? mem_addr : 'h0;
+    `endif
+
     assign bank_read_addr   = {mem_read_addr[31:4], 2'b0};
     assign bank_write_addr  = {mem_write_addr[31:4], 2'b0};
     assign mem_miss         = mem_req & ( (counter!=3) ); 
-
 
     //assign mem_read_block   = mem_req  ? {MEM[bank_read_addr+3], MEM[bank_read_addr+2], MEM[bank_read_addr+1], MEM[bank_read_addr]} : 'b0;
     always_comb begin
