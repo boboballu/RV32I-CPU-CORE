@@ -9,7 +9,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/emulator",
-            "args": ["firmware32.hex"],
+            "args": ["firmware32.hex", "dump.log"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

@@ -1,12 +1,13 @@
 # vsim -c -do "run -all; exit" "+TF=gcc_trace.txt" tb 
-# Start time: 10:40:13 on Dec 25,2020
+# Start time: 12:55:39 on Dec 31,2020
 # Loading sv_std.std
 # Loading work.cache_types
-# Loading work.cache_tb_sv_unit
+# Loading work.tb_cache_sv_unit
 # Loading work.tb
-# Loading work.cache_sv_unit
+# Loading work.rtl_cache_sv_unit
 # Loading work.cache_module
 # Loading work.cache_miss_fetch
+# Loading work.tb_memory_models_sv_unit
 # Loading work.memory_model
 # run -all
 # tb.trace_file found +TF=gcc_trace.txt
@@ -23,7 +24,7 @@
 # g. total memory traffic:        6743
 #  
 #  
-# ** Note: $finish    : cache_tb.sv(181)
+# ** Note: $finish    : tb_cache.sv(175)
 #    Time: 3092460 ps  Iteration: 0  Instance: /tb
-# End time: 10:40:21 on Dec 25,2020, Elapsed time: 0:00:08
+# End time: 12:55:42 on Dec 31,2020, Elapsed time: 0:00:03
 # Errors: 0, Warnings: 0

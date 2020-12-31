@@ -3,7 +3,7 @@
 #  mail  : tkesava@ncsu.edu
 # /********************************************************************************/
 cc=g++
-CFLAGS=-g
+CFLAGS=-O0 -g
 DEPS = emulator.cc emulator_child.cc main.cc
 OBJ = emulator.o emulator_child.o main.o
 

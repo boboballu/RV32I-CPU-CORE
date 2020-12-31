@@ -1,0 +1,26 @@
+section: 00000000
+section: 00010000
+section: 0006fd10
+section: 00075904
+section: 00075994
+section: 00076b04
+section: 00076b20
+section: 00076b28
+section: 000775a4
+memory loading done - Start execution
+
+Created a dynamic array of size 10
+Loaded array with natural random floating pt numbers
+Printig the array
+array[0] -> 6.900010
+array[1] -> 5.054184
+array[2] -> 5.914906
+array[3] -> 5.547849
+array[4] -> 3.784288
+array[5] -> 2.577321
+array[6] -> 2.073821
+array[7] -> 6.262619
+array[8] -> 3.401270
+array[9] -> 8.438519
+deleted the array
+
