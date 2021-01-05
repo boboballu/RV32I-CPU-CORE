@@ -150,10 +150,12 @@ module tb ();
             status = $fscanf(fp, "%s %h", dvr_we, dvr_addr);
             if ( status != 2 ) begin
                 $display ("ERROR reading file : %d %c %h", status , dvr_we[0], dvr_addr);
+                $display ("!!! Make sure the trace_file doesn't end with a NEWLINE !!!");
                 $stop;
             end
             cpu_model(dvr_we[0], dvr_addr, 'b1111, $urandom_range(((2**32)-1), 0));
         end
+    
         else begin
             #50;
             $display ("trace file -> EOF");

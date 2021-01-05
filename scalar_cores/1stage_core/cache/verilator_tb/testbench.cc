@@ -31,46 +31,6 @@ double sc_time_stamp () {       // Called by $time in Verilog
 // testbench.cc : variables
 uint32_t EXE_TIME = 10000000;
 
-// memory class model
-#define BLOCKS 4
-class memory {
-public: 
-    uint32_t rd=0, rd_miss=0;
-    uint32_t wr=0, wr_miss=0;
-
-    uint32_t wb, mem_tr;
-    uint32_t cache_read (bool req, uint32_t addr, bool byte_mask[4]) {
-        rd++;
-        if ((!uut->clock) & (main_time > 14)) {
-            uut->addr = addr;
-            uut->req = req;
-            uut->byte_mask = byte_mask;
-        }
-        if ((uut->clock) & (main_time > 14)) {
-            if (uut->req & uut->miss & (!uut->mem_miss)) {
-                rd_miss++;
-            }
-        }
-    }
-    uint32_t* mem_trans (bool mem_req,  bool mem_we, uint32_t mem_read_addr) {
-        if (mem_req) {
-            mem_tr++;
-            if (mem_we) {
-                wb++;
-            }
-        }
-        static uint32_t ret [BLOCKS];
-        // set the seed
-        srand( (unsigned)time( NULL ) );
-        if (mem_req) {
-            for (int i=0; i<BLOCKS; i++) {
-                ret[i] = rand();
-            }
-        }
-        return ret;
-    }
-};
-
 int main(int argc, char** argv) {
 
     Verilated::commandArgs(argc, argv);   // Remember args
@@ -92,14 +52,10 @@ int main(int argc, char** argv) {
     uut->clock    = 0;
     uut->reset    = 0;
 
-    uut->req = 0; uut->we = 0; uut->addr = 0; uut->byte_mask = 0; 
-    uut->write_word = 0;
-
     uut->eval();
     // end
 
-
-    printf("==> Cache perfomance simulation - RTL <==\n\n");
+    printf("==> tb_cache.sv -> Cache perfomance simulation - RTL <==\n\n");
     
     while (!Verilated::gotFinish() & (main_time < EXE_TIME)) {
         // Drive reset signal
@@ -113,23 +69,6 @@ int main(int argc, char** argv) {
         uut->clock = uut->clock ? 0 : 1;
         uut->eval(); 
  
-        // emulator
-        if ((uut->clock) & (main_time > 14)) {
-
-        }
-        if ((!uut->clock) & (main_time > 14)) {
-        }
-        
-        // stop simulation
-        if (uut->dataadr == HALT_ADDR) {
-                printf("\n\n");
-                exit(0);
-        }
-
-        if (tfp != NULL){ // for vcd
-            tfp->dump (main_time);
-        }
-
         main_time++;            // Time passes...
     }
     printf("\n\n");

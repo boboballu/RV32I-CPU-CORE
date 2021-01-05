@@ -4,11 +4,12 @@
 /********************************************************************************/
 // cache types - package
 package cache_types;
-    // These 3 parameters are meant to be changed
-    // block size is in-terms of words (1 word = 4 byte)
-    parameter BLOCKS            = 32 / 4;   // (32 bytes -> 8 words) in terms of words
-    parameter SETS              = 64;       // Number of sets in the cache
-    parameter ASSOC       	    = 4;        // N way associative
+    /* These 3 parameters are meant to be changed */
+    /* Make sure to define FA if the config is fully associative */
+    /* block size is in-terms of words (1 word = 4 byte) */
+    parameter BLOCKS            = 16 / 4;   // (32 bytes -> 8 words) in terms of words
+    parameter SETS              = 32;       // Number of sets in the cache
+    parameter ASSOC       	    = 2;        // N way associative
 
 	parameter INDEX_BIT_SIZE 	= ($clog2(SETS));
     parameter BLOCK_BIT_SIZE  	= ($clog2(BLOCKS));

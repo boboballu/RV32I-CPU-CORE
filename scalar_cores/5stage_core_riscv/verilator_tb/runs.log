@@ -1,0 +1,52 @@
+section: 00000000
+section: 00010000
+section: 00071eb0
+section: 00077ebc
+section: 00077f64
+section: 00078a04
+section: 00079a3c
+section: 00079a58
+section: 00079a60
+section: 0007a4dc
+memory loading done - Start execution
+
+
+The map gquiz1 is : 
+	KEY	ELEMENT
+	1	40
+	2	30
+	3	60
+	4	20
+	5	50
+	6	50
+	7	10
+
+
+The map gquiz2 after assign from gquiz1 is : 
+	KEY	ELEMENT
+	1	40
+	2	30
+	3	60
+	4	20
+	5	50
+	6	50
+	7	10
+
+
+gquiz2 after removal of elements less than key=3 : 
+	KEY	ELEMENT
+	3	60
+	4	20
+	5	50
+	6	50
+	7	10
+
+gquiz2.erase(4) : 1 removed 
+	KEY	ELEMENT
+	3	60
+	5	50
+	6	50
+	7	10
+
+gquiz1.lower_bound(5) : 	KEY = 5		ELEMENT = 50
+gquiz1.upper_bound(5) : 	KEY = 6		ELEMENT = 50

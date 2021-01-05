@@ -54,7 +54,11 @@ module cache_module(
 
     // only MSB 30 bits [31:2] of the address are taken into consideration
     assign addr_tag     = addr[(TAG_BIT_SIZE+INDEX_BIT_SIZE+BLOCK_BIT_SIZE+2-1):(INDEX_BIT_SIZE+BLOCK_BIT_SIZE+2)];
+    `ifdef FA
+    assign addr_index   = 0;
+    `else
     assign addr_index   = addr[(INDEX_BIT_SIZE+BLOCK_BIT_SIZE+2-1):(BLOCK_BIT_SIZE+2)];
+    `endif
     assign addr_offset  = addr[(BLOCK_BIT_SIZE+2-1):2];
 
     // read_word output
