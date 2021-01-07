@@ -80,10 +80,6 @@ VL_MODULE(Vtop) {
         CData/*0:0*/ top__DOT__riscv_32i__DOT__stallW;
         CData/*0:0*/ top__DOT__riscv_32i__DOT__flushD;
         CData/*0:0*/ top__DOT__riscv_32i__DOT__flushE;
-        CData/*0:0*/ top__DOT__riscv_32i__DOT__BTBHitF;
-        CData/*0:0*/ top__DOT__riscv_32i__DOT__BpredF;
-        CData/*0:0*/ top__DOT__riscv_32i__DOT__BTBHitD;
-        CData/*0:0*/ top__DOT__riscv_32i__DOT__BpredD;
         CData/*1:0*/ top__DOT__riscv_32i__DOT__ctrl__DOT__aluop;
         CData/*0:0*/ top__DOT__riscv_32i__DOT__hazard_unit1__DOT__lwstall;
         CData/*0:0*/ top__DOT__riscv_32i__DOT__hazard_unit1__DOT__branchstall;
@@ -101,12 +97,12 @@ VL_MODULE(Vtop) {
         IData/*31:0*/ top__DOT__riscv_32i__DOT__itypeimmD;
         IData/*31:0*/ top__DOT__riscv_32i__DOT__aD;
         IData/*31:0*/ top__DOT__riscv_32i__DOT__bD;
-    };
-    struct {
         IData/*31:0*/ top__DOT__riscv_32i__DOT__pcplus4E;
         IData/*31:0*/ top__DOT__riscv_32i__DOT__aE;
         IData/*31:0*/ top__DOT__riscv_32i__DOT__bE;
         IData/*31:0*/ top__DOT__riscv_32i__DOT__signimmE;
+    };
+    struct {
         IData/*31:0*/ top__DOT__riscv_32i__DOT__utypeimmE;
         IData/*31:0*/ top__DOT__riscv_32i__DOT__branchimmE;
         IData/*31:0*/ top__DOT__riscv_32i__DOT__aluoutM;
@@ -117,28 +113,22 @@ VL_MODULE(Vtop) {
         IData/*31:0*/ top__DOT__riscv_32i__DOT__aluoutW;
         IData/*31:0*/ top__DOT__riscv_32i__DOT__branchimmW;
         IData/*31:0*/ top__DOT__riscv_32i__DOT__resultW;
-        IData/*31:0*/ top__DOT__riscv_32i__DOT__branchimmF;
         IData/*31:0*/ top__DOT__riscv_32i__DOT__ex_comb__DOT__srcAE;
         IData/*31:0*/ top__DOT__riscv_32i__DOT__ex_comb__DOT__srcBE;
         IData/*31:0*/ top__DOT__riscv_32i__DOT__ex_comb__DOT__srcBE_net0;
-        WData/*56319:0*/ top__DOT__riscv_32i__DOT__BTB__DOT__BTB[1760];
         IData/*31:0*/ top__DOT__riscv_32i__DOT__id_comb__DOT__rf__DOT__rf[32];
-        CData/*1:0*/ top__DOT__riscv_32i__DOT__Bpred__DOT__BIMODAL_TABLE[1024];
         IData/*31:0*/ top__DOT__L1_cache__DOT__MEM[1048576];
     };
     std::string top__DOT__L1_cache__DOT__EXEC;
     
     // LOCAL VARIABLES
     // Internals; generally not touched by application code
-    CData/*2:0*/ top__DOT__riscv_32i__DOT__BTB__DOT____Vlvbound2;
     CData/*2:0*/ __Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__load_compute__0__funct3;
     CData/*2:0*/ __Vtask_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__funct3;
     CData/*3:0*/ __Vtask_top__DOT__riscv_32i__DOT__mem_comb__DOT__store_compute__1__dmem_mask;
     CData/*6:0*/ __Vtableidx1;
     CData/*0:0*/ __Vclklast__TOP__clk;
     CData/*0:0*/ __Vclklast__TOP__reset;
-    IData/*19:0*/ top__DOT__riscv_32i__DOT__BTB__DOT____Vlvbound1;
-    IData/*31:0*/ top__DOT__riscv_32i__DOT__BTB__DOT____Vlvbound3;
     IData/*31:0*/ __Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__load_compute__0__Vfuncout;
     IData/*31:0*/ __Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__load_compute__0__aluout;
     IData/*31:0*/ __Vfunc_top__DOT__riscv_32i__DOT__mem_comb__DOT__load_compute__0__readdata;

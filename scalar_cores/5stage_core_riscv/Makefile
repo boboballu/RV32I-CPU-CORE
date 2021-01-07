@@ -3,7 +3,7 @@
 # mail  : tkesava@ncsu.edu
 #********************************************************************************#
 
-exe ?= ./memfile.dat
+exe ?= ./firmware32.hex
 
 # Enable lint
 #lint=-lint
@@ -19,26 +19,26 @@ gui: clean work compile
 gui_opt: clean work compile
 	vsim +EXEC=$(exe) testbench
 
-compile: packages design all_tbs
+compile: pkg compile_rtl compile_tb
 
-design:
-	vlog -sv $(lint) instn_decode.sv
-	vlog -sv $(lint) branch_compute.sv
-	vlog -sv $(lint) comb_stages.sv
-	vlog -sv $(lint) ff_stages.sv
-	vlog -sv $(lint) controller.sv
-	vlog -sv $(lint) hazard_unit.sv
-	vlog -sv $(lint) BTB.sv
-	vlog -sv $(lint) Bpred.sv
-	vlog -sv $(lint) main.sv
-	vlog -sv $(lint) L1_cache.sv
+pkg:
+	vlog -sv $(lint) tb_debug_package.sv
 
-packages:
-	vlog -sv $(lint) packages.sv
+compile_rtl:
+	vlog -sv $(lint) rtl_instn_decode.sv
+	vlog -sv $(lint) rtl_branch_compute.sv
+	vlog -sv $(lint) rtl_comb_stages.sv
+	vlog -sv $(lint) rtl_ff_stages.sv
+	vlog -sv $(lint) rtl_controller.sv
+	vlog -sv $(lint) rtl_hazard_unit.sv
+	vlog -sv $(lint) rtl_BTB.sv
+	vlog -sv $(lint) rtl_bpred.sv
+	vlog -sv $(lint) rtl_core_top.sv
+	vlog -sv $(lint) rtl_memory_impl.sv
+	vlog -sv $(lint) rtl_top_test.sv
 
-all_tbs:
-	vlog -sv $(lint) top_test.sv
-	vlog -sv $(lint) testbench.sv
+compile_tb:	
+	vlog -sv $(lint) tb_testbench.sv
 
 work:
 	vlib work

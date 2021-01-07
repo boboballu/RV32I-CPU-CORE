@@ -38,9 +38,9 @@ void Vtop::_initial__TOP__1(Vtop__Syms* __restrict vlSymsp) {
     if (VL_UNLIKELY((! VL_VALUEPLUSARGS_INN(64,std::string("EXEC=%s"),
                                             vlTOPp->top__DOT__L1_cache__DOT__EXEC)))) {
         VL_WRITEF("FATAL: +EXEC plusarg not found on command line\n");
-        VL_WRITEF("[%0t] %%Error: L1_cache.sv:91: Assertion failed in %Ntop.L1_cache\n",
+        VL_WRITEF("[%0t] %%Error: rtl_memory_impl.sv:91: Assertion failed in %Ntop.L1_cache\n",
                   64,VL_TIME_UNITED_Q(1),vlSymsp->name());
-        VL_STOP_MT("../L1_cache.sv", 91, "");
+        VL_STOP_MT("../rtl_memory_impl.sv", 91, "");
     }
     VL_WRITEF("%Ntop.L1_cache found +EXEC=%@\n",vlSymsp->name(),
               64,&(vlTOPp->top__DOT__L1_cache__DOT__EXEC));

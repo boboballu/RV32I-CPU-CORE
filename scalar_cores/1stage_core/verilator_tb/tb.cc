@@ -42,8 +42,6 @@ int main(int argc, char** argv) {
         case 3: main_time = tb1.compare_simulation(Verilated::gotFinish(), argv[2], tfp); break;// RTL EMU compare
         default: printf("wrong case: %s\n", argv[3]); 
     }
-    //main_time = tb1.simulate_rtl(Verilated::gotFinish(), tfp);
-    //main_time = tb1.compare_simulation(Verilated::gotFinish(), argv[2], tfp);
 
     if (tfp != NULL) {
         tfp->close();

@@ -1,16 +1,16 @@
-# vsim -c -do "run -all; exit" "+EXEC=firmware32.hex" testbench 
-# Start time: 12:07:41 on Jan 03,2021
+# vsim -c -do "run -all; exit" "+EXEC=./firmware32.hex" testbench 
+# Start time: 16:45:39 on Jan 07,2021
 # Loading sv_std.std
 # Loading work.dbg_pkg
-# Loading work.testbench_sv_unit
+# Loading work.tb_testbench_sv_unit
 # Loading work.testbench
-# Loading work.top_test_sv_unit
+# Loading work.rtl_top_test_sv_unit
 # Loading work.top
-# Loading work.main_sv_unit
+# Loading work.rtl_core_top_sv_unit
 # Loading work.riscv_32i
-# Loading work.comb_stages_sv_unit
+# Loading work.rtl_comb_stages_sv_unit
 # Loading work.pc_gen
-# Loading work.ff_stages_sv_unit
+# Loading work.rtl_ff_stages_sv_unit
 # Loading work.pc_if
 # Loading work.IF_comb
 # Loading work.if_id
@@ -24,25 +24,21 @@
 # Loading work.MEM_comb
 # Loading work.mem_wb
 # Loading work.WB_comb
-# Loading work.controller_sv_unit
+# Loading work.rtl_controller_sv_unit
 # Loading work.controller
 # Loading work.maindec
 # Loading work.aludec
-# Loading work.branch_compute_sv_unit
+# Loading work.rtl_branch_compute_sv_unit
 # Loading work.branch_compute
-# Loading work.hazard_unit_sv_unit
+# Loading work.rtl_hazard_unit_sv_unit
 # Loading work.hazard_unit
-# Loading work.BTB_sv_unit
-# Loading work.BTB
-# Loading work.Bpred_sv_unit
-# Loading work.Bpred
-# Loading work.L1_cache_sv_unit
+# Loading work.rtl_memory_impl_sv_unit
 # Loading work.mem_bus
 # Loading work.unified_L1_cache
 # Loading work.imem
 # Loading work.dmem
 # run -all
-# testbench.dut.L1_cache found +EXEC=firmware32.hex
+# testbench.dut.L1_cache found +EXEC=./firmware32.hex
 #  
 #  
 # ==> Console [0x00400004] print - writes to the addr treated as a console print msg <==
@@ -90,10 +86,10 @@
 # gquiz1.upper_bound(5) : 	KEY = 6		ELEMENT = 50
 # 
 # 
-# ** Note: $stop    : testbench.sv(156)
-#    Time: 1542330 ps  Iteration: 3  Instance: /testbench
-# Break in Module testbench at testbench.sv line 156
-# Stopped at testbench.sv line 156
+# ** Note: $stop    : tb_testbench.sv(156)
+#    Time: 1601450 ps  Iteration: 3  Instance: /testbench
+# Break in Module testbench at tb_testbench.sv line 156
+# Stopped at tb_testbench.sv line 156
 #  exit
-# End time: 12:07:50 on Jan 03,2021, Elapsed time: 0:00:09
+# End time: 16:45:48 on Jan 07,2021, Elapsed time: 0:00:09
 # Errors: 0, Warnings: 0

@@ -77,9 +77,11 @@ void tb::simulate_emu(bool gotFinish, const char* filename) {
     emu = new emulator_child ("stdout", CONSOLE_ADDR, HALT_ADDR, RAM_SIZE);
     // read file and populate ram
     emu->load_mem (filename);
-    printf("memory loading done - Start execution\n\n");
-
+    
+    //printf("memory loading done - Start execution\n\n");
     // execute until exit
+
+    printf("==> Console [0x%08x] print - writes to the addr treated as a console print msg <==\n\n", CONSOLE_ADDR);
     emu->pc = 0; // initialize pc
     emu->risc_cpu();
 }

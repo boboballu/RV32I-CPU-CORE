@@ -37,9 +37,9 @@ void Vtop::_initial__TOP__1(Vtop__Syms* __restrict vlSymsp) {
     if (VL_UNLIKELY((! VL_VALUEPLUSARGS_INN(64,std::string("EXEC=%s"),
                                             vlTOPp->top__DOT__L1_cache__DOT__EXEC)))) {
         VL_WRITEF("FATAL: +EXEC plusarg not found on command line\n");
-        VL_WRITEF("[%0t] %%Error: L1_cache.sv:91: Assertion failed in %Ntop.L1_cache\n",
+        VL_WRITEF("[%0t] %%Error: rtl_memory_impl.sv:91: Assertion failed in %Ntop.L1_cache\n",
                   64,VL_TIME_UNITED_Q(1),vlSymsp->name());
-        VL_STOP_MT("../L1_cache.sv", 91, "");
+        VL_STOP_MT("../rtl_memory_impl.sv", 91, "");
     }
     VL_WRITEF("%Ntop.L1_cache found +EXEC=%@\n",vlSymsp->name(),
               64,&(vlTOPp->top__DOT__L1_cache__DOT__EXEC));
@@ -168,112 +168,6 @@ void Vtop::_settle__TOP__5(Vtop__Syms* __restrict vlSymsp) {
                                                    | (0xfffU 
                                                       & (vlTOPp->top__DOT__riscv_32i__DOT__instnD 
                                                          >> 0x14U)));
-    vlTOPp->top__DOT__riscv_32i__DOT__BTBHitF = (((0xdbffU 
-                                                   >= 
-                                                   (0xffffU 
-                                                    & ((IData)(0x23U) 
-                                                       + 
-                                                       ((IData)(0x37U) 
-                                                        * 
-                                                        (0x3ffU 
-                                                         & (vlTOPp->top__DOT__riscv_32i__DOT__pc_genF_out 
-                                                            >> 2U))))))
-                                                   ? 
-                                                  (0xfffffU 
-                                                   & (((0U 
-                                                        == 
-                                                        (0x1fU 
-                                                         & ((IData)(0x23U) 
-                                                            + 
-                                                            ((IData)(0x37U) 
-                                                             * 
-                                                             (0x3ffU 
-                                                              & (vlTOPp->top__DOT__riscv_32i__DOT__pc_genF_out 
-                                                                 >> 2U))))))
-                                                        ? 0U
-                                                        : 
-                                                       (vlTOPp->top__DOT__riscv_32i__DOT__BTB__DOT__BTB[
-                                                        ((IData)(1U) 
-                                                         + 
-                                                         (0x7ffU 
-                                                          & (((IData)(0x23U) 
-                                                              + 
-                                                              ((IData)(0x37U) 
-                                                               * 
-                                                               (0x3ffU 
-                                                                & (vlTOPp->top__DOT__riscv_32i__DOT__pc_genF_out 
-                                                                   >> 2U)))) 
-                                                             >> 5U)))] 
-                                                        << 
-                                                        ((IData)(0x20U) 
-                                                         - 
-                                                         (0x1fU 
-                                                          & ((IData)(0x23U) 
-                                                             + 
-                                                             ((IData)(0x37U) 
-                                                              * 
-                                                              (0x3ffU 
-                                                               & (vlTOPp->top__DOT__riscv_32i__DOT__pc_genF_out 
-                                                                  >> 2U)))))))) 
-                                                      | (vlTOPp->top__DOT__riscv_32i__DOT__BTB__DOT__BTB[
-                                                         (0x7ffU 
-                                                          & (((IData)(0x23U) 
-                                                              + 
-                                                              ((IData)(0x37U) 
-                                                               * 
-                                                               (0x3ffU 
-                                                                & (vlTOPp->top__DOT__riscv_32i__DOT__pc_genF_out 
-                                                                   >> 2U)))) 
-                                                             >> 5U))] 
-                                                         >> 
-                                                         (0x1fU 
-                                                          & ((IData)(0x23U) 
-                                                             + 
-                                                             ((IData)(0x37U) 
-                                                              * 
-                                                              (0x3ffU 
-                                                               & (vlTOPp->top__DOT__riscv_32i__DOT__pc_genF_out 
-                                                                  >> 2U))))))))
-                                                   : 0U) 
-                                                 == 
-                                                 (0xfffffU 
-                                                  & (vlTOPp->top__DOT__riscv_32i__DOT__pc_genF_out 
-                                                     >> 0xcU)));
-    vlTOPp->top__DOT__riscv_32i__DOT__branchimmF = 
-        ((0xdbffU >= (0xffffU & ((IData)(0x37U) * (0x3ffU 
-                                                   & (vlTOPp->top__DOT__riscv_32i__DOT__pc_genF_out 
-                                                      >> 2U)))))
-          ? (((0U == (0x1fU & ((IData)(0x37U) * (0x3ffU 
-                                                 & (vlTOPp->top__DOT__riscv_32i__DOT__pc_genF_out 
-                                                    >> 2U)))))
-               ? 0U : (vlTOPp->top__DOT__riscv_32i__DOT__BTB__DOT__BTB[
-                       ((IData)(1U) + (0x7ffU & (((IData)(0x37U) 
-                                                  * 
-                                                  (0x3ffU 
-                                                   & (vlTOPp->top__DOT__riscv_32i__DOT__pc_genF_out 
-                                                      >> 2U))) 
-                                                 >> 5U)))] 
-                       << ((IData)(0x20U) - (0x1fU 
-                                             & ((IData)(0x37U) 
-                                                * (0x3ffU 
-                                                   & (vlTOPp->top__DOT__riscv_32i__DOT__pc_genF_out 
-                                                      >> 2U))))))) 
-             | (vlTOPp->top__DOT__riscv_32i__DOT__BTB__DOT__BTB[
-                (0x7ffU & (((IData)(0x37U) * (0x3ffU 
-                                              & (vlTOPp->top__DOT__riscv_32i__DOT__pc_genF_out 
-                                                 >> 2U))) 
-                           >> 5U))] >> (0x1fU & ((IData)(0x37U) 
-                                                 * 
-                                                 (0x3ffU 
-                                                  & (vlTOPp->top__DOT__riscv_32i__DOT__pc_genF_out 
-                                                     >> 2U))))))
-          : 0U);
-    vlTOPp->top__DOT__riscv_32i__DOT__BpredF = (1U 
-                                                & (vlTOPp->top__DOT__riscv_32i__DOT__Bpred__DOT__BIMODAL_TABLE
-                                                   [
-                                                   (0x3ffU 
-                                                    & vlTOPp->top__DOT__riscv_32i__DOT__pc_genF_out)] 
-                                                   >> 1U));
     vlTOPp->top__DOT__riscv_32i__DOT__bD = ((((0U != 
                                                (0x1fU 
                                                 & (vlTOPp->top__DOT__riscv_32i__DOT__instnD 
@@ -381,66 +275,124 @@ void Vtop::_settle__TOP__5(Vtop__Syms* __restrict vlSymsp) {
             : vlTOPp->top__DOT__riscv_32i__DOT__ex_comb__DOT__srcBE_net0);
     vlTOPp->top__DOT__riscv_32i__DOT__pc_genF_in = 
         ((0x40U & (IData)(vlTOPp->top__DOT__riscv_32i__DOT__ctrl__DOT__maindec__DOT__controls))
-          ? ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__BTBHitD)
-              ? ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__BpredD)
-                  ? ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__br_takenD)
-                      ? ((8U & (IData)(vlTOPp->top__DOT__riscv_32i__DOT__ctrl__DOT__maindec__DOT__controls))
-                          ? ((IData)(4U) + vlTOPp->top__DOT__riscv_32i__DOT__pc_genF_out)
-                          : ((4U & (IData)(vlTOPp->top__DOT__riscv_32i__DOT__ctrl__DOT__maindec__DOT__controls))
+          ? ((4U & (IData)(vlTOPp->top__DOT__riscv_32i__DOT__br_takenD))
+              ? ((2U & (IData)(vlTOPp->top__DOT__riscv_32i__DOT__br_takenD))
+                  ? ((1U & (IData)(vlTOPp->top__DOT__riscv_32i__DOT__br_takenD))
+                      ? ((1U & ((0x1ffffffeU & ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__br_takenD) 
+                                                << 1U)) 
+                                | (1U & ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__ctrl__DOT__maindec__DOT__controls) 
+                                         >> 3U)))) ? 
+                         ((IData)(4U) + vlTOPp->top__DOT__riscv_32i__DOT__pc_genF_out)
+                          : ((1U & ((0x3ffffffcU & 
+                                     ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__br_takenD) 
+                                      << 2U)) | (3U 
+                                                 & ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__ctrl__DOT__maindec__DOT__controls) 
+                                                    >> 2U))))
                               ? ((IData)(4U) + vlTOPp->top__DOT__riscv_32i__DOT__pc_genF_out)
-                              : ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__BTBHitF)
-                                  ? ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__BpredF)
-                                      ? (vlTOPp->top__DOT__riscv_32i__DOT__pc_genF_out 
-                                         + vlTOPp->top__DOT__riscv_32i__DOT__branchimmF)
+                              : ((1U & ((0x7ffffff8U 
+                                         & ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__br_takenD) 
+                                            << 3U)) 
+                                        | (6U & ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__ctrl__DOT__maindec__DOT__controls) 
+                                                 >> 1U))))
+                                  ? ((1U & (((IData)(vlTOPp->top__DOT__riscv_32i__DOT__br_takenD) 
+                                             << 4U) 
+                                            | (0xcU 
+                                               & (IData)(vlTOPp->top__DOT__riscv_32i__DOT__ctrl__DOT__maindec__DOT__controls))))
+                                      ? vlTOPp->top__DOT__riscv_32i__DOT__pc_genF_out
                                       : ((IData)(4U) 
                                          + vlTOPp->top__DOT__riscv_32i__DOT__pc_genF_out))
                                   : ((IData)(4U) + vlTOPp->top__DOT__riscv_32i__DOT__pc_genF_out))))
                       : vlTOPp->top__DOT__riscv_32i__DOT__pcplus4D)
-                  : ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__br_takenD)
+                  : ((1U & (IData)(vlTOPp->top__DOT__riscv_32i__DOT__br_takenD))
                       ? (vlTOPp->top__DOT__riscv_32i__DOT__pcD 
                          + vlTOPp->top__DOT__riscv_32i__DOT__branchimmD)
-                      : ((8U & (IData)(vlTOPp->top__DOT__riscv_32i__DOT__ctrl__DOT__maindec__DOT__controls))
-                          ? ((IData)(4U) + vlTOPp->top__DOT__riscv_32i__DOT__pc_genF_out)
-                          : ((4U & (IData)(vlTOPp->top__DOT__riscv_32i__DOT__ctrl__DOT__maindec__DOT__controls))
+                      : ((1U & ((0x1ffffffeU & ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__br_takenD) 
+                                                << 1U)) 
+                                | (1U & ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__ctrl__DOT__maindec__DOT__controls) 
+                                         >> 3U)))) ? 
+                         ((IData)(4U) + vlTOPp->top__DOT__riscv_32i__DOT__pc_genF_out)
+                          : ((1U & ((0x3ffffffcU & 
+                                     ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__br_takenD) 
+                                      << 2U)) | (3U 
+                                                 & ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__ctrl__DOT__maindec__DOT__controls) 
+                                                    >> 2U))))
                               ? ((IData)(4U) + vlTOPp->top__DOT__riscv_32i__DOT__pc_genF_out)
-                              : ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__BTBHitF)
-                                  ? ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__BpredF)
-                                      ? (vlTOPp->top__DOT__riscv_32i__DOT__pc_genF_out 
-                                         + vlTOPp->top__DOT__riscv_32i__DOT__branchimmF)
+                              : ((1U & ((0x7ffffff8U 
+                                         & ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__br_takenD) 
+                                            << 3U)) 
+                                        | (6U & ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__ctrl__DOT__maindec__DOT__controls) 
+                                                 >> 1U))))
+                                  ? ((1U & (((IData)(vlTOPp->top__DOT__riscv_32i__DOT__br_takenD) 
+                                             << 4U) 
+                                            | (0xcU 
+                                               & (IData)(vlTOPp->top__DOT__riscv_32i__DOT__ctrl__DOT__maindec__DOT__controls))))
+                                      ? vlTOPp->top__DOT__riscv_32i__DOT__pc_genF_out
                                       : ((IData)(4U) 
                                          + vlTOPp->top__DOT__riscv_32i__DOT__pc_genF_out))
                                   : ((IData)(4U) + vlTOPp->top__DOT__riscv_32i__DOT__pc_genF_out))))))
-              : ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__BpredD)
-                  ? ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__br_takenD)
+              : ((2U & (IData)(vlTOPp->top__DOT__riscv_32i__DOT__br_takenD))
+                  ? ((1U & (IData)(vlTOPp->top__DOT__riscv_32i__DOT__br_takenD))
                       ? (vlTOPp->top__DOT__riscv_32i__DOT__pcD 
                          + vlTOPp->top__DOT__riscv_32i__DOT__branchimmD)
-                      : ((8U & (IData)(vlTOPp->top__DOT__riscv_32i__DOT__ctrl__DOT__maindec__DOT__controls))
-                          ? ((IData)(4U) + vlTOPp->top__DOT__riscv_32i__DOT__pc_genF_out)
-                          : ((4U & (IData)(vlTOPp->top__DOT__riscv_32i__DOT__ctrl__DOT__maindec__DOT__controls))
+                      : ((1U & ((0x1ffffffeU & ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__br_takenD) 
+                                                << 1U)) 
+                                | (1U & ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__ctrl__DOT__maindec__DOT__controls) 
+                                         >> 3U)))) ? 
+                         ((IData)(4U) + vlTOPp->top__DOT__riscv_32i__DOT__pc_genF_out)
+                          : ((1U & ((0x3ffffffcU & 
+                                     ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__br_takenD) 
+                                      << 2U)) | (3U 
+                                                 & ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__ctrl__DOT__maindec__DOT__controls) 
+                                                    >> 2U))))
                               ? ((IData)(4U) + vlTOPp->top__DOT__riscv_32i__DOT__pc_genF_out)
-                              : ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__BTBHitF)
-                                  ? ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__BpredF)
-                                      ? (vlTOPp->top__DOT__riscv_32i__DOT__pc_genF_out 
-                                         + vlTOPp->top__DOT__riscv_32i__DOT__branchimmF)
+                              : ((1U & ((0x7ffffff8U 
+                                         & ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__br_takenD) 
+                                            << 3U)) 
+                                        | (6U & ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__ctrl__DOT__maindec__DOT__controls) 
+                                                 >> 1U))))
+                                  ? ((1U & (((IData)(vlTOPp->top__DOT__riscv_32i__DOT__br_takenD) 
+                                             << 4U) 
+                                            | (0xcU 
+                                               & (IData)(vlTOPp->top__DOT__riscv_32i__DOT__ctrl__DOT__maindec__DOT__controls))))
+                                      ? vlTOPp->top__DOT__riscv_32i__DOT__pc_genF_out
                                       : ((IData)(4U) 
                                          + vlTOPp->top__DOT__riscv_32i__DOT__pc_genF_out))
                                   : ((IData)(4U) + vlTOPp->top__DOT__riscv_32i__DOT__pc_genF_out)))))
-                  : ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__br_takenD)
+                  : ((1U & (IData)(vlTOPp->top__DOT__riscv_32i__DOT__br_takenD))
                       ? (vlTOPp->top__DOT__riscv_32i__DOT__pcD 
                          + vlTOPp->top__DOT__riscv_32i__DOT__branchimmD)
-                      : ((8U & (IData)(vlTOPp->top__DOT__riscv_32i__DOT__ctrl__DOT__maindec__DOT__controls))
-                          ? ((IData)(4U) + vlTOPp->top__DOT__riscv_32i__DOT__pc_genF_out)
-                          : ((4U & (IData)(vlTOPp->top__DOT__riscv_32i__DOT__ctrl__DOT__maindec__DOT__controls))
+                      : ((1U & ((0x1ffffffeU & ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__br_takenD) 
+                                                << 1U)) 
+                                | (1U & ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__ctrl__DOT__maindec__DOT__controls) 
+                                         >> 3U)))) ? 
+                         ((IData)(4U) + vlTOPp->top__DOT__riscv_32i__DOT__pc_genF_out)
+                          : ((1U & ((0x3ffffffcU & 
+                                     ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__br_takenD) 
+                                      << 2U)) | (3U 
+                                                 & ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__ctrl__DOT__maindec__DOT__controls) 
+                                                    >> 2U))))
                               ? ((IData)(4U) + vlTOPp->top__DOT__riscv_32i__DOT__pc_genF_out)
-                              : ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__BTBHitF)
-                                  ? ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__BpredF)
-                                      ? (vlTOPp->top__DOT__riscv_32i__DOT__pc_genF_out 
-                                         + vlTOPp->top__DOT__riscv_32i__DOT__branchimmF)
+                              : ((1U & ((0x7ffffff8U 
+                                         & ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__br_takenD) 
+                                            << 3U)) 
+                                        | (6U & ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__ctrl__DOT__maindec__DOT__controls) 
+                                                 >> 1U))))
+                                  ? ((1U & (((IData)(vlTOPp->top__DOT__riscv_32i__DOT__br_takenD) 
+                                             << 4U) 
+                                            | (0xcU 
+                                               & (IData)(vlTOPp->top__DOT__riscv_32i__DOT__ctrl__DOT__maindec__DOT__controls))))
+                                      ? vlTOPp->top__DOT__riscv_32i__DOT__pc_genF_out
                                       : ((IData)(4U) 
                                          + vlTOPp->top__DOT__riscv_32i__DOT__pc_genF_out))
                                   : ((IData)(4U) + vlTOPp->top__DOT__riscv_32i__DOT__pc_genF_out)))))))
-          : ((8U & (IData)(vlTOPp->top__DOT__riscv_32i__DOT__ctrl__DOT__maindec__DOT__controls))
-              ? ((4U & (IData)(vlTOPp->top__DOT__riscv_32i__DOT__ctrl__DOT__maindec__DOT__controls))
+          : ((1U & ((0x1ffffffeU & ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__br_takenD) 
+                                    << 1U)) | (1U & 
+                                               ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__ctrl__DOT__maindec__DOT__controls) 
+                                                >> 3U))))
+              ? ((1U & ((0x3ffffffcU & ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__br_takenD) 
+                                        << 2U)) | (3U 
+                                                   & ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__ctrl__DOT__maindec__DOT__controls) 
+                                                      >> 2U))))
                   ? ((IData)(4U) + vlTOPp->top__DOT__riscv_32i__DOT__pc_genF_out)
                   : (vlTOPp->top__DOT__riscv_32i__DOT__pcD 
                      + ((0xffe00000U & ((- (IData)(
@@ -455,14 +407,24 @@ void Vtop::_settle__TOP__5(Vtop__Syms* __restrict vlSymsp) {
                                             >> 9U)) 
                                  | (0x7feU & (vlTOPp->top__DOT__riscv_32i__DOT__instnD 
                                               >> 0x14U))))))))
-              : ((4U & (IData)(vlTOPp->top__DOT__riscv_32i__DOT__ctrl__DOT__maindec__DOT__controls))
+              : ((1U & ((0x3ffffffcU & ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__br_takenD) 
+                                        << 2U)) | (3U 
+                                                   & ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__ctrl__DOT__maindec__DOT__controls) 
+                                                      >> 2U))))
                   ? (0xfffffffeU & (vlTOPp->top__DOT__riscv_32i__DOT__itypeimmD 
                                     + vlTOPp->top__DOT__riscv_32i__DOT__aD))
-                  : ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__BTBHitF)
-                      ? ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__BpredF)
-                          ? (vlTOPp->top__DOT__riscv_32i__DOT__pc_genF_out 
-                             + vlTOPp->top__DOT__riscv_32i__DOT__branchimmF)
-                          : ((IData)(4U) + vlTOPp->top__DOT__riscv_32i__DOT__pc_genF_out))
+                  : ((1U & ((0x7ffffff8U & ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__br_takenD) 
+                                            << 3U)) 
+                            | (6U & ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__ctrl__DOT__maindec__DOT__controls) 
+                                     >> 1U)))) ? ((1U 
+                                                   & (((IData)(vlTOPp->top__DOT__riscv_32i__DOT__br_takenD) 
+                                                       << 4U) 
+                                                      | (0xcU 
+                                                         & (IData)(vlTOPp->top__DOT__riscv_32i__DOT__ctrl__DOT__maindec__DOT__controls))))
+                                                   ? vlTOPp->top__DOT__riscv_32i__DOT__pc_genF_out
+                                                   : 
+                                                  ((IData)(4U) 
+                                                   + vlTOPp->top__DOT__riscv_32i__DOT__pc_genF_out))
                       : ((IData)(4U) + vlTOPp->top__DOT__riscv_32i__DOT__pc_genF_out)))));
     vlTOPp->top__DOT__dmem_req = ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__memtoregM) 
                                   | (IData)(vlTOPp->top__DOT__riscv_32i__DOT__memwriteM));
@@ -503,11 +465,7 @@ void Vtop::_settle__TOP__5(Vtop__Syms* __restrict vlSymsp) {
     vlTOPp->top__DOT__riscv_32i__DOT__stallW = 0U;
     vlTOPp->top__DOT__riscv_32i__DOT__flushD = (1U 
                                                 & ((((~ (IData)(vlTOPp->top__DOT__riscv_32i__DOT__hazard_unit1__DOT__branchstall)) 
-                                                     & (((~ (IData)(vlTOPp->top__DOT__riscv_32i__DOT__BTBHitD)) 
-                                                         & (IData)(vlTOPp->top__DOT__riscv_32i__DOT__br_takenD)) 
-                                                        | ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__BTBHitD) 
-                                                           & ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__BpredD) 
-                                                              != (IData)(vlTOPp->top__DOT__riscv_32i__DOT__br_takenD))))) 
+                                                     & (IData)(vlTOPp->top__DOT__riscv_32i__DOT__br_takenD)) 
                                                     | ((IData)(vlTOPp->top__DOT__riscv_32i__DOT__ctrl__DOT__maindec__DOT__controls) 
                                                        >> 3U)) 
                                                    | (((IData)(vlTOPp->top__DOT__riscv_32i__DOT__ctrl__DOT__maindec__DOT__controls) 
@@ -711,11 +669,6 @@ void Vtop::_ctor_var_reset() {
     top__DOT__riscv_32i__DOT__stallW = VL_RAND_RESET_I(1);
     top__DOT__riscv_32i__DOT__flushD = VL_RAND_RESET_I(1);
     top__DOT__riscv_32i__DOT__flushE = VL_RAND_RESET_I(1);
-    top__DOT__riscv_32i__DOT__branchimmF = VL_RAND_RESET_I(32);
-    top__DOT__riscv_32i__DOT__BTBHitF = VL_RAND_RESET_I(1);
-    top__DOT__riscv_32i__DOT__BpredF = VL_RAND_RESET_I(1);
-    top__DOT__riscv_32i__DOT__BTBHitD = VL_RAND_RESET_I(1);
-    top__DOT__riscv_32i__DOT__BpredD = VL_RAND_RESET_I(1);
     { int __Vi0=0; for (; __Vi0<32; ++__Vi0) {
             top__DOT__riscv_32i__DOT__id_comb__DOT__rf__DOT__rf[__Vi0] = 0;
     }}
@@ -727,13 +680,6 @@ void Vtop::_ctor_var_reset() {
     top__DOT__riscv_32i__DOT__hazard_unit1__DOT__lwstall = VL_RAND_RESET_I(1);
     top__DOT__riscv_32i__DOT__hazard_unit1__DOT__branchstall = VL_RAND_RESET_I(1);
     top__DOT__riscv_32i__DOT__hazard_unit1__DOT__memstall = VL_RAND_RESET_I(1);
-    VL_RAND_RESET_W(56320, top__DOT__riscv_32i__DOT__BTB__DOT__BTB);
-    top__DOT__riscv_32i__DOT__BTB__DOT____Vlvbound1 = VL_RAND_RESET_I(20);
-    top__DOT__riscv_32i__DOT__BTB__DOT____Vlvbound2 = VL_RAND_RESET_I(3);
-    top__DOT__riscv_32i__DOT__BTB__DOT____Vlvbound3 = VL_RAND_RESET_I(32);
-    { int __Vi0=0; for (; __Vi0<1024; ++__Vi0) {
-            top__DOT__riscv_32i__DOT__Bpred__DOT__BIMODAL_TABLE[__Vi0] = VL_RAND_RESET_I(2);
-    }}
     { int __Vi0=0; for (; __Vi0<1048576; ++__Vi0) {
             top__DOT__L1_cache__DOT__MEM[__Vi0] = 0;
     }}
