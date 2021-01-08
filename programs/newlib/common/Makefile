@@ -1,3 +1,8 @@
+## Author: Tarun Govind Kesavamurthi
+## School: North Carolina State University
+## mail  : tkesava@ncsu.edu
+##*******************************************************************************##
+
 # riscv-none-embed-g++ -march=rv32i -mabi=ilp32 -MD -Os -Wall -std=c++11 -c -o firmware.o firmware.cc
 # riscv-none-embed-gcc -march=rv32i -mabi=ilp32 -MD -Os -Wall -c -o syscalls.o syscalls.c
 # riscv-none-embed-gcc -march=rv32i -mabi=ilp32 -Wl,--gc-sections -o firmware.elf firmware.o syscalls.o -T ../../firmware/riscv.ld -lstdc++

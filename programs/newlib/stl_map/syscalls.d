@@ -32,4 +32,5 @@ syscalls.o: syscalls.c \
  /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/riscv-none-embed/include/unistd.h \
  /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/riscv-none-embed/include/sys/unistd.h \
  /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/riscv-none-embed/include/errno.h \
- /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/riscv-none-embed/include/sys/errno.h
+ /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/riscv-none-embed/include/sys/errno.h \
+ params_header.h

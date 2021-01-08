@@ -1,7 +1,16 @@
+## Author: Tarun Govind Kesavamurthi
+## School: North Carolina State University
+## mail  : tkesava@ncsu.edu
+##*******************************************************************************##
+
 .section .text
 .global _ftext
 .global _pvstart
-__start_text = (4*1024*1024)
+
+/* All the IO configs (linker symbols) and params are defined here */
+/* syscalls.c requires all of these following symbols */
+/* start.S requires __start_stack to initialize the sp */
+#include "params_header.h"
 
 _pvstart:
 /* zero-initialize all registers */
@@ -38,8 +47,11 @@ addi x30, zero, 0
 addi x31, zero, 0
 
 /* set stack pointer */
-lui sp, %hi(__start_text)
-addi sp, sp, %lo(__start_text)
+lui sp, %hi(__start_stack)
+addi sp, sp, %lo(__start_stack)
+
+/* Also can use instruction below to set a reg with any value*/
+/* la sp, __start_stack */
 
 /* push zeros on the stack for argc and argv */
 /* (stack is aligned to 16 bytes in riscv calling convention) */

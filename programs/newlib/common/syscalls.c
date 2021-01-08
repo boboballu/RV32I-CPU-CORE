@@ -1,15 +1,23 @@
 // An extremely minimalist syscalls.c for newlib
 // Based on riscv newlib libgloss/riscv/sys_*.c
-// Written by Clifford Wolf.
+// Inspired from Clifford Wolf's picorv32 project.
 // modified by Tarun Govind Kesavamurthi
+// School: North Carolina State University
+// mail  : tkesava@ncsu.edu
 
 #include <sys/stat.h>
 #include <unistd.h>
 #include <errno.h>
 
-#define __console_addr 	((4*1024*1024) + 4)
+// defined in start.S
+// extern unsigned int __ram_size[];
+// extern unsigned int __console_addr[];
+// extern unsigned int __stop_addr[];
+#include "params_header.h"
 
-#define __stop_addr		((4*1024*1024) + 8)
+// #define __console_addr	(__ram_size + 4)	//((4*1024*1024) + 4)
+// #define __stop_addr		(__ram_size + 8)	//((4*1024*1024) + 8)
+
 #define __stop_execution() \
 	*(volatile int*)__stop_addr = 1;
 
