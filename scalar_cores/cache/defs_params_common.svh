@@ -23,3 +23,13 @@ parameter TAG_BIT_SIZE		= 30 - INDEX_BIT_SIZE - BLOCK_BIT_SIZE, \
 parameter LRU_BIT_SIZE      = ($clog2(ASSOC)), \
 parameter RAM_SIZE          = 65536, \
 parameter CACHE_SIZE 		= SETS * ASSOC * (BLOCKS*4)
+
+// Custom parametrized struct datatype - Block type should be common to all
+// `parametrized_block_t(BLOCKS, LRU_BIT_SIZE, TAG_BIT_SIZE)
+`define parametrized_block_t(BK, TBS, LBS)  \
+typedef struct packed { \
+    logic [(LBS-1):0] lru; \
+    logic [TBS-1:0] tag;   \
+    logic valid, dirty; \
+    logic [BK-1:0] [31:0] block;    \
+} block_t;

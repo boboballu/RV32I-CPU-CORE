@@ -14,7 +14,10 @@ typedef struct packed {
 cache_metric_counter_t mc = '{default:0};
 int fp;
 
-module tb ();
+module tb 
+#(
+    `cache_param_1
+)();
 
     logic clock, reset;
     

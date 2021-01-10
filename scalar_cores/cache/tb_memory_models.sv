@@ -6,7 +6,10 @@
 import cache_types::*;
 
 /*** cimulation ready typical memory model with 1 cycle memory_read latency ***/
-module memory_model (
+module memory_model 
+#(
+    `cache_param_1
+)(
     input logic clock, reset,
 
     input logic mem_req,
@@ -60,7 +63,10 @@ end : mem_writes
 endmodule : memory_model
 
 /** ideal meory model with multi cycle memory access latency - not used with trace files **/
-module memory (
+module memory 
+#(
+    `cache_param_1
+)(
     input logic clock, reset,
 
     input logic mem_req,
@@ -79,7 +85,7 @@ module memory (
     output logic mem_miss
 );
 
-    parameter RAM_SIZE = 1024*16;
+    defparam RAM_SIZE = 1024*16;
 
     // internal computed address
     logic [31:0] bank_read_addr, bank_write_addr;

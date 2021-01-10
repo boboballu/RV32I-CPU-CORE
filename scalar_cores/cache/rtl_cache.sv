@@ -4,7 +4,7 @@
 /********************************************************************************/
 `include "defs_params_common.svh"
 // cache_types contain all the cache parameters
-// import cache_types::*;
+import cache_types::*;
 
 module cache_module 
 #(
@@ -34,14 +34,7 @@ module cache_module
     output logic [BLOCKS-1:0] [31:0] mem_write_block,
     input logic mem_miss
 );
-
-
-    typedef struct packed {
-        logic [(LRU_BIT_SIZE-1):0] lru;
-        logic [TAG_BIT_SIZE-1:0] tag;
-        logic valid, dirty;
-        logic [BLOCKS-1:0] [31:0] block;
-    } block_t;
+    `parametrized_block_t(BLOCKS, TAG_BIT_SIZE, LRU_BIT_SIZE)
     
     logic [TAG_BIT_SIZE-1:0] addr_tag;
     logic [INDEX_BIT_SIZE-1:0] addr_index;
