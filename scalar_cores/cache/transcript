@@ -1,10 +1,9 @@
 # vsim -c -do "run -all; exit" "+TF=Benchmarks/perl_trace.txt" tb 
-# Start time: 22:22:16 on Jan 04,2021
+# Start time: 21:43:56 on Jan 09,2021
 # Loading sv_std.std
 # Loading work.cache_types
 # Loading work.tb_cache_sv_unit
 # Loading work.tb
-# Loading work.rtl_cache_sv_unit
 # Loading work.cache_module
 # Loading work.cache_miss_fetch
 # Loading work.tb_memory_models_sv_unit
@@ -26,5 +25,5 @@
 #  
 # ** Note: $finish    : tb_cache.sv(177)
 #    Time: 3388670 ps  Iteration: 0  Instance: /tb
-# End time: 22:22:19 on Jan 04,2021, Elapsed time: 0:00:03
+# End time: 21:43:59 on Jan 09,2021, Elapsed time: 0:00:03
 # Errors: 0, Warnings: 0

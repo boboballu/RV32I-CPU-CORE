@@ -3,9 +3,13 @@
 // mail  : tkesava@ncsu.edu
 /********************************************************************************/
 `include "defs_params_common.svh"
-import cache_types::*;
+// cache_types contain all the cache parameters
+// import cache_types::*;
 
-module cache_module(
+module cache_module 
+#(
+    `cache_param_1
+)(
 	input logic clock, reset,
 	
     input logic req, we,
@@ -30,6 +34,15 @@ module cache_module(
     output logic [BLOCKS-1:0] [31:0] mem_write_block,
     input logic mem_miss
 );
+
+
+    typedef struct packed {
+        logic [(LRU_BIT_SIZE-1):0] lru;
+        logic [TAG_BIT_SIZE-1:0] tag;
+        logic valid, dirty;
+        logic [BLOCKS-1:0] [31:0] block;
+    } block_t;
+    
     logic [TAG_BIT_SIZE-1:0] addr_tag;
     logic [INDEX_BIT_SIZE-1:0] addr_index;
     logic [BLOCK_BIT_SIZE-1:0] addr_offset;
