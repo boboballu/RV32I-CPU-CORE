@@ -1,5 +1,5 @@
-# vsim -c -do "run -all; exit" "+EXEC=./firmware32.hex" testbench 
-# Start time: 23:03:04 on Jan 07,2021
+# vsim -c -do "run -all; exit" "+EXEC=firmware32.hex" testbench 
+# Start time: 19:59:59 on Jan 10,2021
 # Loading sv_std.std
 # Loading work.dbg_pkg
 # Loading work.tb_testbench_sv_unit
@@ -22,7 +22,7 @@
 # Loading work.imem
 # Loading work.dmem
 # run -all
-# testbench.dut.L1_cache found +EXEC=./firmware32.hex
+# testbench.dut.L1_cache found +EXEC=firmware32.hex
 #  
 #  
 # ==> Console [0x00400004] print - writes to the addr treated as a console print msg <==
@@ -49,5 +49,5 @@
 # Break in Module testbench at tb_testbench.sv line 134
 # Stopped at tb_testbench.sv line 134
 #  exit
-# End time: 23:03:16 on Jan 07,2021, Elapsed time: 0:00:12
+# End time: 20:00:12 on Jan 10,2021, Elapsed time: 0:00:13
 # Errors: 0, Warnings: 0

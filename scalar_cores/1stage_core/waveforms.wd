@@ -1,0 +1,16 @@
+{name: "cache_glue_logic", signal: [
+  //{name: 'clk',   wave: 'p.....|...'},
+  //{name: 'dat',   wave: 'x.345x|=.x', data: ['head', 'body', 'tail', 'data']},
+  //{name: 'req',   wave: '0.1..0|1.0'},
+  //{},
+  //{name: 'ack',   wave: '1.....|01.'}
+  
+  
+  {name: 'clk',           wave: 'p.......'},
+  {name: 'mem_req',       wave: '01....0.'},
+  {name: 'Bus.mem_wait',  wave: '0..10...'},
+  {name: 'blk_counter',   wave: '==34.5=.', data: ['0', '0', '1', '2', '3','0']},
+  {name: 'Bus.dmem_addr', wave: '==34.5=.', data: ['0x00', '0x40', '0x44','0x48','0x4b', '0x00']},
+  {name: 'Bus.dmem_rd',   wave: 'x=3x45xx', data: ['d0', 'd1', 'd2', 'd3']},
+  {name: 'mem_wait',      wave: '01....0.'}
+]}

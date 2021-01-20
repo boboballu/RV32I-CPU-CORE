@@ -9,7 +9,7 @@
 // mem_wait_data        - model for L1 cache miss
 /********************************************************************************/
 // unified L1 Instn and Data cache : interface
-`define RTL_MEMORY_IMPL
+`define RTL_CACHE_IMPL
 `include "defs_params_common.svh"
 import dbg_pkg::*;
 
@@ -17,13 +17,15 @@ interface mem_bus;
 	logic clk;
 
 	// instruction mem interface signals
+	logic imem_req;
 	logic [31:0] imem_addr, imem_instn;
-	logic imem_wait, imem_req;
+	logic imem_wait;
 
 	// data mem interface signals
+	logic dmem_wait;
 	logic [31:0] dmem_addr, dmem_rd, dmem_wd;
 	logic dmem_we;
-	logic dmem_wait, dmem_req;
+	logic dmem_req;
 	logic [3:0] dmem_mask;
 
 	modport Imem (	input imem_instn, imem_wait,
@@ -47,26 +49,132 @@ interface mem_bus;
 	);
 endinterface : mem_bus
 
+
+module cache_mem_glue_logic # (
+		parameter BLOCKS = 4
+	)
+	(
+	input logic clk, reset,
+	input logic mem_req,
+    input logic [31:0] mem_addr,
+    output logic [BLOCKS-1:0] [31:0] mem_read_block,
+    input logic mem_we,
+    input logic [BLOCKS-1:0] [31:0] mem_write_block,
+    output logic mem_miss,
+	mem_bus Bus
+	);
+
+	logic [31:0] blk_counter_current, blk_counter_next;
+	logic [BLOCKS-1:0] [31:0] mem_read_reg;
+
+	assign Bus.dmem_addr = mem_addr + (2 * blk_counter_current);
+	assign mem_read_block = mem_read_reg;
+
+	always@(posedge clk or negedge reset) begin
+		if (!reset) begin
+			blk_counter_current <= 0;
+		end
+		else begin
+			blk_counter_current <= blk_counter_next;
+			if (mem_req) begin
+				if (!Bus.dmem_wait) begin
+					if (mem_we) begin
+						Bus.dmem_wd <= mem_write_block[blk_counter_current];
+					end
+					else begin
+						mem_read_reg[blk_counter_current] <= Bus.dmem_rd;
+					end
+				end
+			end
+		end
+	end
+
+	always_comb begin
+		mem_miss = 1;
+		blk_counter_next = blk_counter_current;
+		case (blk_counter_current)
+			0 : begin
+				if (mem_req) begin
+					if (!Bus.dmem_wait) begin
+						blk_counter_next = blk_counter_current + 1;
+					end
+				end
+				else begin
+					mem_miss = 0;
+				end
+			end
+			(BLOCKS-1) : begin
+				if (mem_req) begin
+					if (!Bus.dmem_wait) begin
+						blk_counter_next = 0;
+						mem_miss = 0;
+					end
+				end
+			end
+			default : begin
+				if (mem_req) begin
+					if (!Bus.dmem_wait) begin
+						blk_counter_next = blk_counter_current + 1;
+					end
+				end
+			end
+		endcase
+	end	
+endmodule : cache_mem_glue_logic
+
 // imem & dmem connects to the mem_bus and CPU
-module dmem(input logic clk,
-			dmem_we,
-			input logic [31:0] dmem_addr, dmem_wd,
-			input logic [3:0] dmem_mask,
-			input logic dmem_req,
+module dmem # (
+	`DCACHE
+	)
+	(
+	input logic clk, reset,
+	input logic dmem_we,
+	input logic [31:0] dmem_addr, dmem_wd,
+	input logic [3:0] dmem_mask,
+	input logic dmem_req,
 
-			output logic [31:0] dmem_rd,
-			output logic dmem_wait,
-			mem_bus.Dmem Bus
-);
+	output logic [31:0] dmem_rd,
+	output logic dmem_wait,
+	mem_bus.Dmem Bus
+	);
 
-	assign Bus.clk 				= clk;
-	assign Bus.dmem_addr 		= dmem_addr;
-	assign Bus.dmem_we 			= dmem_we;
-	assign Bus.dmem_wd 			= dmem_wd;
-	assign Bus.dmem_req			= dmem_req;
-	assign Bus.dmem_mask		= dmem_mask;
-	assign dmem_rd 				= Bus.dmem_rd;
-	assign dmem_wait 			= Bus.dmem_wait;
+	// assign Bus.clk 				= clk;
+	// assign Bus.dmem_addr 		= dmem_addr;
+	// assign Bus.dmem_we 			= dmem_we;
+	// assign Bus.dmem_wd 			= dmem_wd;
+	// assign Bus.dmem_req			= dmem_req;
+	// assign Bus.dmem_mask			= dmem_mask;
+	// assign dmem_rd 				= Bus.dmem_rd;
+	// assign dmem_wait 			= Bus.dmem_wait;
+	/*-------------------------------------------------*/
+
+	logic mem_req;
+    logic [31:0] mem_addr;
+    logic [BLOCKS-1:0] [31:0] mem_read_block;
+    logic mem_we;
+    logic [BLOCKS-1:0] [31:0] mem_write_block;
+    logic mem_miss;
+
+	cache_module cache  (
+        .clock(clk), .reset(reset),
+	
+        .req(dmem_req), .we(dmem_we),
+        .addr(dmem_addr),
+        .byte_mask(dmem_mask), 
+        .write_word(dmem_wd),
+        .miss(dmem_wait), 
+        .read_word(dmem_rd),
+
+        .mem_req(mem_req),
+        .mem_addr(mem_addr),
+        .mem_read_block(mem_read_block),
+        
+        .mem_we(mem_we),
+        .mem_write_block(mem_write_block),
+        
+        .mem_miss(mem_miss)
+    );
+
 endmodule : dmem
 
 module imem(input logic [31:0] imem_addr,
