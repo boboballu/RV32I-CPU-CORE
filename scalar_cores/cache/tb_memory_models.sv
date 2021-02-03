@@ -26,39 +26,39 @@ module memory_model
     
     output logic mem_miss
 );
-//assign mem_miss = 0;
+    //assign mem_miss = 0;
 
-// mem writes assoc array
-logic [BLOCKS-1:0] [31:0] mem_write_assoc_array [logic[31:0]];
+    // mem writes assoc array
+    logic [BLOCKS-1:0] [31:0] mem_write_assoc_array [logic[31:0]];
 
-`ifdef single_ported_L2
-logic [31:0] mem_read_addr, mem_write_addr;
-assign mem_read_addr    = (!mem_we) ? mem_addr : 'h0;
-assign mem_write_addr   = (mem_we)  ? mem_addr : 'h0;
-`endif
+    `ifdef single_ported_L2
+    logic [31:0] mem_read_addr, mem_write_addr;
+    assign mem_read_addr    = (!mem_we) ? mem_addr : 'h0;
+    assign mem_write_addr   = (mem_we)  ? mem_addr : 'h0;
+    `endif
 
-always @(mem_read_addr, mem_req) begin : randomization
-   if (mem_req) begin
-        mem_miss = 1;
-        @(posedge clock);
-        mem_miss = 0;
-        for (int i=0; i<BLOCKS; i++) begin
-            mem_read_block[i] = mem_read_addr;//$urandom_range ((2**32)-1, 0);
+    always @(mem_read_addr, mem_req) begin : randomization
+    if (mem_req) begin
+            mem_miss = 1;
+            @(posedge clock);
+            mem_miss = 0;
+            for (int i=0; i<BLOCKS; i++) begin
+                mem_read_block[i] = mem_read_addr;//$urandom_range ((2**32)-1, 0);
+            end
         end
-    end
-    else begin 
-        mem_miss = 0;
-        mem_read_block = '{default:0};
-    end
-end : randomization
+        else begin 
+            mem_miss = 0;
+            mem_read_block = '{default:0};
+        end
+    end : randomization
 
-// mem_writes populated in assoc array
-always @(posedge clock) begin : mem_writes
-    if (mem_we & mem_req) begin
-        mem_write_assoc_array[mem_addr] = mem_write_block;
-        // $display("writeback addresses: %08x", mem_addr);
-    end
-end : mem_writes
+    // mem_writes populated in assoc array
+    always @(posedge clock) begin : mem_writes
+        if (mem_we & mem_req) begin
+            mem_write_assoc_array[mem_addr] = mem_write_block;
+            // $display("writeback addresses: %08x", mem_addr);
+        end
+    end : mem_writes
 
 endmodule : memory_model
 

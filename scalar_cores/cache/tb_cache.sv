@@ -40,6 +40,9 @@ module tb
     logic [BLOCKS-1:0] [31:0] mem_write_block;
     logic mem_miss;
 
+    logic ram_req, ram_we, ram_miss;
+    logic [31:0] ram_addr, ram_read_word, ram_write_word;
+
     cache_module cache(
         .clock(clock), .reset(reset),
 	
@@ -66,23 +69,55 @@ module tb
         .mem_miss(mem_miss)
     );
 
-    memory_model memory (
+    // memory_model memory (
+    //     .clock(clock), .reset(reset),
+
+    //     .mem_req(mem_req),
+    //     `ifdef dual_ported_L2
+    //     .mem_read_addr(mem_read_addr), 
+    //     .mem_write_addr(mem_write_addr),
+    //     `endif
+    //     `ifdef single_ported_L2
+    //     .mem_addr (mem_addr),
+    //     `endif
+    //     .mem_we(mem_we),
+    //     .mem_read_block(mem_read_block),
+    //     .mem_write_block(mem_write_block),
+
+    //     .mem_miss(mem_miss)
+    // );
+
+    ram_memory_model memory (
         .clock(clock), .reset(reset),
 
+        .ram_req (ram_req),
+        .ram_addr (ram_addr),
+        .ram_we (ram_we),
+        .ram_read_word (ram_read_word),
+        .ram_write_word (ram_write_word),
+        .ram_miss (ram_miss)
+    );
+
+    ram_cache_glue rcglue (
+        .clock(clock), .reset(reset),
+
+        // cache side
         .mem_req(mem_req),
-        `ifdef dual_ported_L2
-        .mem_read_addr(mem_read_addr), 
-        .mem_write_addr(mem_write_addr),
-        `endif
-        `ifdef single_ported_L2
         .mem_addr (mem_addr),
-        `endif
         .mem_we(mem_we),
         .mem_read_block(mem_read_block),
         .mem_write_block(mem_write_block),
+        .mem_miss(mem_miss),
 
-        .mem_miss(mem_miss)
+        //ram side
+        .ram_req (ram_req),
+        .ram_addr (ram_addr),
+        .ram_we (ram_we),
+        .ram_read_word (ram_read_word),
+        .ram_write_word (ram_write_word),
+        .ram_miss (ram_miss)
     );
+
 
     // get trace_file from commandline + args 
     string tf;

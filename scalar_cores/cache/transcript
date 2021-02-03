@@ -1,5 +1,5 @@
-# vsim -c -do "run -all; exit" "+TF=Benchmarks/perl_trace.txt" tb 
-# Start time: 18:53:38 on Jan 10,2021
+# vsim -sv_seed 12345 -do "do wave.do" "+TF=./trace_test.txt" tb 
+# Start time: 19:17:08 on Feb 02,2021
 # Loading sv_std.std
 # Loading work.cache_types
 # Loading work.tb_cache_sv_unit
@@ -7,24 +7,11 @@
 # Loading work.rtl_cache_sv_unit
 # Loading work.cache_module
 # Loading work.cache_miss_fetch
-# Loading work.tb_memory_models_sv_unit
-# Loading work.memory_model
-# run -all
-# tb.trace_file found +TF=Benchmarks/perl_trace.txt
-# trace file -> EOF
-#  
-#  
-# Simulation results
-# a. number of L1 reads:       70107
-# b. number of L1 read misses:       16426
-# c. number of L1 writes:       29893
-# d. number of L1 write misses:        5930
-# e. L1 miss rate:	0.2236
-# f. number of writebacks from L1 memory:        8252
-# g. total memory traffic:       30608
-#  
-#  
-# ** Note: $finish    : tb_cache.sv(180)
-#    Time: 3388670 ps  Iteration: 0  Instance: /tb
-# End time: 18:53:41 on Jan 10,2021, Elapsed time: 0:00:03
+# Loading work.test_ram_cache_glue_sv_unit
+# Loading work.ram_memory_model
+# Loading work.ram_cache_glue
+# do wave.do
+run
+# tb.trace_file found +TF=./trace_test.txt
+# End time: 19:18:07 on Feb 02,2021, Elapsed time: 0:00:59
 # Errors: 0, Warnings: 0

@@ -61,28 +61,26 @@ o-sv
 R12
 vcache_mem_glue_logic
 R1
-Z17 DXx4 work 7 dbg_pkg 0 22 Tm_3SG:bUj3oH`2eAi`BR2
-Z18 DXx4 work 26 rtl_mem_cache_impl_sv_unit 0 22 QLdYaQ`cTSPDD<1R1]8WV1
-Z19 !s110 1611105777
-R4
-r1
-!s85 0
+Z17 !s110 1611824789
 !i10b 1
-!s100 ba>@^M>Aj2Q0BPAP;A58@1
-IUC8Di=JZ=439hdTSh4If:1
-Z20 !s105 rtl_mem_cache_impl_sv_unit
+!s100 1QEeDIUe_8RNcGZWkAJ4G1
+R3
+I<=0AeQ[eczQSibiTaflkS3
+R4
 S1
 R0
-Z21 w1611105774
-Z22 8rtl_mem_cache_impl.sv
-Z23 Frtl_mem_cache_impl.sv
-!i122 16
-L0 53 71
+Z18 w1611824647
+Z19 8test_mem_cache_glue.sv
+Z20 Ftest_mem_cache_glue.sv
+!i122 27
+L0 27 73
 R8
+r1
+!s85 0
 31
-Z24 !s108 1611105777.000000
-!s107 defs_params_common.svh|rtl_mem_cache_impl.sv|
-Z25 !s90 rtl_mem_cache_impl.sv|
+Z21 !s108 1611824789.000000
+!s107 test_mem_cache_glue.sv|
+Z22 !s90 test_mem_cache_glue.sv|
 !i113 1
 R12
 vcontroller
@@ -124,7 +122,7 @@ R5
 8rtl_controller_if.sv
 Frtl_controller_if.sv
 !i122 1
-Z26 L0 7 0
+Z23 L0 7 0
 R8
 r1
 !s85 0
@@ -145,11 +143,11 @@ Ih4La>IE3?Vf_Ec;T>O6IE0
 R4
 S1
 R0
-Z27 w1610323666
+Z24 w1610323666
 R6
 R7
 Frtl_datapath_functions.svh
-Z28 Fdefs_params_common.svh
+Z25 Fdefs_params_common.svh
 !i122 2
 L0 7 347
 R8
@@ -176,7 +174,7 @@ w1610052608
 8tb_debug_package.sv
 Ftb_debug_package.sv
 !i122 0
-R26
+R23
 R8
 r1
 !s85 0
@@ -189,54 +187,54 @@ o-sv
 R12
 vdmem
 R1
-R17
-R18
-R19
+Z26 DXx4 work 7 dbg_pkg 0 22 Tm_3SG:bUj3oH`2eAi`BR2
+Z27 DXx4 work 26 rtl_mem_cache_impl_sv_unit 0 22 QLdYaQ`cTSPDD<1R1]8WV1
+Z28 !s110 1611105777
 R4
 r1
 !s85 0
 !i10b 1
 !s100 c=J^Sh<N@__cI<2c^=o[30
 I4FYkB^[Uak<8@DdXEY8d23
-R20
+Z29 !s105 rtl_mem_cache_impl_sv_unit
 S1
 R0
-R21
-R22
-R23
+Z30 w1611105774
+Z31 8rtl_mem_cache_impl.sv
+Z32 Frtl_mem_cache_impl.sv
 !i122 16
 L0 126 53
 R8
 31
-R24
-Z29 !s107 defs_params_common.svh|rtl_mem_cache_impl.sv|
-R25
+Z33 !s108 1611105777.000000
+Z34 !s107 defs_params_common.svh|rtl_mem_cache_impl.sv|
+Z35 !s90 rtl_mem_cache_impl.sv|
 !i113 1
 R12
 vimem
 R1
-R17
-R18
-R19
+R26
+R27
+R28
 R4
 r1
 !s85 0
 !i10b 1
 !s100 2<@6?^55;0T@^dzGZI:[W2
 IlT8LD7cX:;b0k76fNci3S3
-R20
+R29
 S1
 R0
-R21
-R22
-R23
+R30
+R31
+R32
 !i122 16
 L0 180 11
 R8
 31
-R24
-R29
-R25
+R33
+R34
+R35
 !i113 1
 R12
 vinstn_decode
@@ -292,27 +290,49 @@ R12
 Ymem_bus
 R1
 R17
-R18
-R19
-R4
-r1
-!s85 0
 !i10b 1
-!s100 ]bG@Eb;=7]TdQ:@57io]N3
-I7be:`YkBC?>97`UKZKz1f1
-R20
+!s100 c648l5l5>TO:]WXQck4DC0
+R3
+IT^YZTQGY0ROA5]TdbR>UZ2
+R4
 S1
 R0
-R21
-R22
-R23
-!i122 16
-L0 16 0
+R18
+R19
+R20
+!i122 27
+L0 2 0
 R8
+r1
+!s85 0
 31
-R24
-R29
-R25
+R21
+Z36 !s107 test_mem_cache_glue.sv|
+R22
+!i113 1
+R12
+vmemory_model
+R1
+R17
+!i10b 1
+!s100 A8GIeIIeD41cQRR?`[a990
+R3
+IRl447i[TefTC]S^IF4U;B3
+R4
+S1
+R0
+R18
+R19
+R20
+!i122 27
+L0 19 6
+R8
+r1
+!s85 0
+31
+R21
+R36
+R22
 !i113 1
 R12
 vregfile
@@ -342,7 +362,7 @@ o-sv
 R12
 vriscv_32i
 R1
-R17
+R26
 DXx4 work 20 rtl_core_top_sv_unit 0 22 ID[mXz=SW4OZ:<Ln`@GQd0
 R2
 R4
@@ -355,21 +375,21 @@ Il75`H<:LY0kQ_>6GO[S=[3
 S1
 R0
 R5
-Z30 8rtl_core_top.sv
-Z31 Frtl_core_top.sv
+Z37 8rtl_core_top.sv
+Z38 Frtl_core_top.sv
 !i122 4
 L0 9 33
 R8
 31
 R9
-Z32 !s107 defs_params_common.svh|rtl_core_top.sv|
-Z33 !s90 -sv|rtl_core_top.sv|
+Z39 !s107 defs_params_common.svh|rtl_core_top.sv|
+Z40 !s90 -sv|rtl_core_top.sv|
 !i113 1
 o-sv
 R12
 Xrtl_core_top_sv_unit
 R1
-R17
+R26
 R2
 VID[mXz=SW4OZ:<Ln`@GQd0
 r1
@@ -380,24 +400,24 @@ IID[mXz=SW4OZ:<Ln`@GQd0
 !i103 1
 S1
 R0
-R27
-R30
-R31
-R28
+R24
+R37
+R38
+R25
 !i122 4
-Z34 L0 8 0
+Z41 L0 8 0
 R8
 31
 R9
-R32
-R33
+R39
+R40
 !i113 1
 o-sv
 R12
 Xrtl_mem_cache_impl_sv_unit
 R1
-R17
-R19
+R26
+R28
 VQLdYaQ`cTSPDD<1R1]8WV1
 r1
 !s85 0
@@ -407,22 +427,22 @@ IQLdYaQ`cTSPDD<1R1]8WV1
 !i103 1
 S1
 R0
-R21
-R22
-R23
-R28
+R30
+R31
+R32
+R25
 !i122 16
-Z35 L0 14 0
+Z42 L0 14 0
 R8
 31
-R24
-R29
-R25
+R33
+R34
+R35
 !i113 1
 R12
 Xrtl_memory_impl_sv_unit
 R1
-R17
+R26
 R2
 V8gRF68giP6]EM5?Wnb54e3
 r1
@@ -436,9 +456,9 @@ R0
 w1610326767
 8rtl_memory_impl.sv
 Frtl_memory_impl.sv
-R28
+R25
 !i122 5
-R35
+R42
 R8
 31
 R9
@@ -449,7 +469,7 @@ o-sv
 R12
 Xrtl_top_test_sv_unit
 R1
-R17
+R26
 R2
 VDOSdY:lddm8BziBdkiJ1n2
 r1
@@ -460,23 +480,47 @@ IDOSdY:lddm8BziBdkiJ1n2
 !i103 1
 S1
 R0
-R27
-Z36 8rtl_top_test.sv
-Z37 Frtl_top_test.sv
-R28
+R24
+Z43 8rtl_top_test.sv
+Z44 Frtl_top_test.sv
+R25
 !i122 6
-R34
+R41
 R8
 31
 R9
-Z38 !s107 defs_params_common.svh|rtl_top_test.sv|
-Z39 !s90 -sv|rtl_top_test.sv|
+Z45 !s107 defs_params_common.svh|rtl_top_test.sv|
+Z46 !s90 -sv|rtl_top_test.sv|
 !i113 1
 o-sv
 R12
-Xtb_testbench_sv_unit
+vtb
 R1
 R17
+!i10b 1
+!s100 K<DEYDn^a2;ENT^Ufmd<h3
+R3
+IP8[8ZmH=^lzoBf4ABOB=O1
+R4
+S1
+R0
+R18
+R19
+R20
+!i122 27
+L0 101 55
+R8
+r1
+!s85 0
+31
+R21
+R36
+R22
+!i113 1
+R12
+Xtb_testbench_sv_unit
+R1
+R26
 R2
 VDU8iciR>Y5d<WN:Fj7eAV2
 r1
@@ -487,23 +531,23 @@ IDU8iciR>Y5d<WN:Fj7eAV2
 !i103 1
 S1
 R0
-R27
-Z40 8tb_testbench.sv
-Z41 Ftb_testbench.sv
-R28
+R24
+Z47 8tb_testbench.sv
+Z48 Ftb_testbench.sv
+R25
 !i122 7
 L0 19 0
 R8
 31
 R9
-Z42 !s107 defs_params_common.svh|tb_testbench.sv|
-Z43 !s90 -sv|tb_testbench.sv|
+Z49 !s107 defs_params_common.svh|tb_testbench.sv|
+Z50 !s90 -sv|tb_testbench.sv|
 !i113 1
 o-sv
 R12
 vtestbench
 R1
-R17
+R26
 DXx4 work 20 tb_testbench_sv_unit 0 22 DU8iciR>Y5d<WN:Fj7eAV2
 R2
 R4
@@ -516,21 +560,21 @@ IB@5TgTFZ_aX9<QNQmSc<O0
 S1
 R0
 w1610052766
-R40
-R41
+R47
+R48
 !i122 7
 L0 9 131
 R8
 31
 R9
-R42
-R43
+R49
+R50
 !i113 1
 o-sv
 R12
 vtop
 R1
-R17
+R26
 DXx4 work 20 rtl_top_test_sv_unit 0 22 DOSdY:lddm8BziBdkiJ1n2
 R2
 R4
@@ -543,42 +587,42 @@ IdLcNGa<>6RX3a2mD8R2kK2
 S1
 R0
 w1610052646
-R36
-R37
+R43
+R44
 !i122 6
 L0 10 36
 R8
 31
 R9
-R38
-R39
+R45
+R46
 !i113 1
 o-sv
 R12
 vunified_L1_cache
 R1
-R17
-R18
-R19
+R26
+R27
+R28
 R4
 r1
 !s85 0
 !i10b 1
 !s100 4TCf8QZYdJQnO`7;;jQjG0
 I=SfHJcfkDNDIN3<n9SRnl1
-R20
+R29
 S1
 R0
-R21
-R22
-R23
+R30
+R31
+R32
 !i122 16
 L0 192 66
 R8
 31
-R24
-R29
-R25
+R33
+R34
+R35
 !i113 1
 R12
 nunified_@l1_cache

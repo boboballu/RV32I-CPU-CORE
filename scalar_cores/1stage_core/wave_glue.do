@@ -18,8 +18,13 @@ add wave -noupdate -radix hexadecimal -radixshowbase 1 /tb/dut1/mem_write_block
 add wave -noupdate -radix hexadecimal -radixshowbase 1 /tb/dut1/mem_miss
 add wave -noupdate -radix hexadecimal -radixshowbase 1 /tb/dut1/blk_counter_current
 add wave -noupdate -radix hexadecimal -radixshowbase 1 /tb/dut1/blk_counter_next
-add wave -noupdate -radix hexadecimal -childformat {{{/tb/dut1/mem_read_reg[3]} -radix hexadecimal} {{/tb/dut1/mem_read_reg[2]} -radix hexadecimal} {{/tb/dut1/mem_read_reg[1]} -radix hexadecimal} {{/tb/dut1/mem_read_reg[0]} -radix hexadecimal}} -radixshowbase 1 -expand -subitemconfig {{/tb/dut1/mem_read_reg[3]} {-height 17 -radix hexadecimal -radixshowbase 1} {/tb/dut1/mem_read_reg[2]} {-height 17 -radix hexadecimal -radixshowbase 1} {/tb/dut1/mem_read_reg[1]} {-height 17 -radix hexadecimal -radixshowbase 1} {/tb/dut1/mem_read_reg[0]} {-height 17 -radix hexadecimal -radixshowbase 1}} /tb/dut1/mem_read_reg
+add wave -noupdate -radix hexadecimal -childformat {{{/tb/dut1/mem_read_reg[3]} -radix hexadecimal} {{/tb/dut1/mem_read_reg[2]} -radix hexadecimal} {{/tb/dut1/mem_read_reg[1]} -radix hexadecimal} {{/tb/dut1/mem_read_reg[0]} -radix hexadecimal}} -radixshowbase 1 -subitemconfig {{/tb/dut1/mem_read_reg[3]} {-height 17 -radix hexadecimal -radixshowbase 1} {/tb/dut1/mem_read_reg[2]} {-height 17 -radix hexadecimal -radixshowbase 1} {/tb/dut1/mem_read_reg[1]} {-height 17 -radix hexadecimal -radixshowbase 1} {/tb/dut1/mem_read_reg[0]} {-height 17 -radix hexadecimal -radixshowbase 1}} /tb/dut1/mem_read_reg
+add wave -noupdate /tb/Bus/dmem_req
+add wave -noupdate /tb/Bus/dmem_addr
+add wave -noupdate /tb/Bus/dmem_we
+add wave -noupdate /tb/Bus/dmem_wd
 add wave -noupdate /tb/Bus/dmem_rd
+add wave -noupdate /tb/Bus/dmem_wait
 TreeUpdate [SetDefaultTree]
 WaveRestoreCursors {{Cursor 1} {4 ps} 0}
 quietly wave cursor active 1

@@ -12,6 +12,7 @@ cli: clean compile
 compile_rtl:
 	vlog pkg_rtl_cache_types.sv
 	vlog rtl_cache.sv
+	vlog test_ram_cache_glue.sv
 
 compile_tb:
 	vlog tb_memory_models.sv
