@@ -2,9 +2,6 @@
 // School: North Carolina State University
 // mail  : tkesava@ncsu.edu
 /********************************************************************************/
-`include "defs_params_common.svh"
-import cache_types::*;
-
 /*** cimulation ready typical memory model with 1 cycle memory_read latency ***/
 module ram_cache_glue 
 #(
