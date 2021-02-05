@@ -1,5 +1,5 @@
 # vsim -c -do "run -all; exit" "+EXEC=./firmware32.hex" testbench 
-# Start time: 16:45:39 on Jan 07,2021
+# Start time: 14:18:34 on Feb 05,2021
 # Loading sv_std.std
 # Loading work.dbg_pkg
 # Loading work.tb_testbench_sv_unit
@@ -44,52 +44,13 @@
 # ==> Console [0x00400004] print - writes to the addr treated as a console print msg <==
 #  
 #  
-# 
-# The map gquiz1 is : 
-# 	KEY	ELEMENT
-# 	1	40
-# 	2	30
-# 	3	60
-# 	4	20
-# 	5	50
-# 	6	50
-# 	7	10
-# 
-# 
-# The map gquiz2 after assign from gquiz1 is : 
-# 	KEY	ELEMENT
-# 	1	40
-# 	2	30
-# 	3	60
-# 	4	20
-# 	5	50
-# 	6	50
-# 	7	10
-# 
-# 
-# gquiz2 after removal of elements less than key=3 : 
-# 	KEY	ELEMENT
-# 	3	60
-# 	4	20
-# 	5	50
-# 	6	50
-# 	7	10
-# 
-# gquiz2.erase(4) : 1 removed 
-# 	KEY	ELEMENT
-# 	3	60
-# 	5	50
-# 	6	50
-# 	7	10
-# 
-# gquiz1.lower_bound(5) : 	KEY = 5		ELEMENT = 50
-# gquiz1.upper_bound(5) : 	KEY = 6		ELEMENT = 50
+# Hello world
 # 
 # 
 # ** Note: $stop    : tb_testbench.sv(156)
-#    Time: 1601450 ps  Iteration: 3  Instance: /testbench
+#    Time: 659630 ps  Iteration: 3  Instance: /testbench
 # Break in Module testbench at tb_testbench.sv line 156
 # Stopped at tb_testbench.sv line 156
 #  exit
-# End time: 16:45:48 on Jan 07,2021, Elapsed time: 0:00:09
+# End time: 14:18:37 on Feb 05,2021, Elapsed time: 0:00:03
 # Errors: 0, Warnings: 0

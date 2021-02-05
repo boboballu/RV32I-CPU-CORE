@@ -27,7 +27,10 @@ compile_rtl:
 	vlog -sv $(lint) rtl_controller.sv
 	vlog -sv $(lint) rtl_core_top.sv
 	vlog -sv $(lint) rtl_memory_impl.sv
-	vlog -sv $(lint) rtl_top_test.sv
+	# vlog -sv $(lint) rtl_top_test.sv
+	vlog -sv $(lint) rtl_cache.sv
+	vlog -sv $(lint) test_ram_cache_glue.sv
+	vlog -sv $(lint) test_top_test.sv
 
 compile_tb:
 	vlog -sv $(lint) tb_testbench.sv

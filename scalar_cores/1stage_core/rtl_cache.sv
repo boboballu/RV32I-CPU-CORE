@@ -2,9 +2,18 @@
 // School: North Carolina State University
 // mail  : tkesava@ncsu.edu
 /********************************************************************************/
+`define RTL_CACHE_IMPL
+
 `include "defs_params_common.svh"
+/* Modifiable parameters */
+`define cache_param_1 \
+parameter BLOCKS    = (16 / 4), \
+parameter SETS      = 32, \
+parameter ASSOC     = 2, \
+parameter RAM_SIZE  = 65536, \
+`NM_CACHE_PARAMS
+
 // cache_types contain all the cache parameters
-import cache_types::*;
 
 module cache_module 
 #(
@@ -33,7 +42,7 @@ module cache_module
 	input logic [BLOCKS-1:0] [31:0] mem_read_block,
     output logic [BLOCKS-1:0] [31:0] mem_write_block,
     input logic mem_miss
-);
+);    
     `parametrized_block_t(BLOCKS, TAG_BIT_SIZE, LRU_BIT_SIZE)
     
     logic [TAG_BIT_SIZE-1:0] addr_tag;

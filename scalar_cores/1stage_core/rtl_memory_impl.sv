@@ -41,7 +41,7 @@ interface mem_bus;
 	modport L1_cache (
 					input clk,
 
-					input imem_addr, dmem_addr, dmem_we, dmem_wd, dmem_req,
+					input imem_req, imem_addr, dmem_addr, dmem_we, dmem_wd, dmem_req, dmem_mask,
 
 					output imem_instn, dmem_rd, imem_wait, dmem_wait
 	);
@@ -81,7 +81,7 @@ module imem(input logic [31:0] imem_addr,
 	assign imem_wait			= Bus.imem_wait;
 endmodule : imem
 
-module unified_L1_cache (mem_bus Bus);
+module unified_L1_cache (mem_bus.L1_cache Bus);
 	parameter RAM_SIZE = 65536;
 	// get the binary file from commandline args
 	string EXEC;

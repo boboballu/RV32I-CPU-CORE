@@ -3,6 +3,8 @@
 // mail  : tkesava@ncsu.edu
 /********************************************************************************/
 `include "defs_params_common.svh"
+`define CACHE_RAM_GLUE
+
 import cache_types::*;
 
 typedef struct packed {
@@ -69,23 +71,8 @@ module tb
         .mem_miss(mem_miss)
     );
 
-    // memory_model memory (
-    //     .clock(clock), .reset(reset),
-
-    //     .mem_req(mem_req),
-    //     `ifdef dual_ported_L2
-    //     .mem_read_addr(mem_read_addr), 
-    //     .mem_write_addr(mem_write_addr),
-    //     `endif
-    //     `ifdef single_ported_L2
-    //     .mem_addr (mem_addr),
-    //     `endif
-    //     .mem_we(mem_we),
-    //     .mem_read_block(mem_read_block),
-    //     .mem_write_block(mem_write_block),
-
-    //     .mem_miss(mem_miss)
-    // );
+    
+    `ifdef CACHE_RAM_GLUE
 
     ram_memory_model memory (
         .clock(clock), .reset(reset),
@@ -117,7 +104,28 @@ module tb
         .ram_write_word (ram_write_word),
         .ram_miss (ram_miss)
     );
+    
+    `else
+    
+    memory_model memory (
+        .clock(clock), .reset(reset),
 
+        .mem_req(mem_req),
+        `ifdef dual_ported_L2
+        .mem_read_addr(mem_read_addr), 
+        .mem_write_addr(mem_write_addr),
+        `endif
+        `ifdef single_ported_L2
+        .mem_addr (mem_addr),
+        `endif
+        .mem_we(mem_we),
+        .mem_read_block(mem_read_block),
+        .mem_write_block(mem_write_block),
+
+        .mem_miss(mem_miss)
+    );
+    
+    `endif
 
     // get trace_file from commandline + args 
     string tf;
