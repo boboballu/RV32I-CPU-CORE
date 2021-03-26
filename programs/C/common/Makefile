@@ -28,7 +28,7 @@ CFLAGS=-march=rv32i -mabi=ilp32
 
 OPT=-O3
 ccFs=init1.cc myClib.cc
-ASMs=init.S
+ASMs=init.s
 OBJ=init.o init1.o myClib.o
 
 include makevars.mk

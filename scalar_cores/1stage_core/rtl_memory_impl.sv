@@ -106,10 +106,10 @@ module unified_L1_cache (mem_bus.L1_cache Bus);
 	end
 
 	// Imem read - returns instn only if imem_req is 1
-	assign Bus.imem_instn = Bus.imem_req ? MEM[Bus.imem_addr[31:2]] : 'b0;
+	assign Bus.imem_instn = ( Bus.imem_req & (!Bus.imem_wait) ) ? MEM[Bus.imem_addr[31:2]] : 'b0;
 
 	// Dmem read and write implementation
-	assign Bus.dmem_rd = Bus.dmem_req ? MEM[Bus.dmem_addr[31:2]] : 'b0;
+	assign Bus.dmem_rd = ( Bus.dmem_req & (!Bus.dmem_wait) ) ? MEM[Bus.dmem_addr[31:2]] : 'b0;
 	always_ff @(posedge Bus.clk) begin
 		if (Bus.dmem_we) begin
 			// MEM[Bus.dmem_addr[31:2]] <= Bus.dmem_wd;

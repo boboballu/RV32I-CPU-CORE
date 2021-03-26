@@ -76,150 +76,148 @@ LOAD main.o
  .text          0x0000000000000f00        0x0 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(_clz.o)
                 [!provide]                        PROVIDE (_etext = .)
 
-.text.startup   0x0000000000000f00       0xac
- .text.startup  0x0000000000000f00       0xac main.o
+.text.startup   0x0000000000000f00       0x84
+ .text.startup  0x0000000000000f00       0x84 main.o
                 0x0000000000000f00                main
 
-.text.__gesf2   0x0000000000000fac       0xc4
- .text.__gesf2  0x0000000000000fac       0xc4 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(gesf2.o)
-                0x0000000000000fac                __gtsf2
-                0x0000000000000fac                __gesf2
+.text.__gesf2   0x0000000000000f84       0xc4
+ .text.__gesf2  0x0000000000000f84       0xc4 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(gesf2.o)
+                0x0000000000000f84                __gtsf2
+                0x0000000000000f84                __gesf2
 
-.text.__mulsf3  0x0000000000001070      0x3b0
+.text.__mulsf3  0x0000000000001048      0x3b0
  .text.__mulsf3
-                0x0000000000001070      0x3b0 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(mulsf3.o)
-                0x0000000000001070                __mulsf3
+                0x0000000000001048      0x3b0 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(mulsf3.o)
+                0x0000000000001048                __mulsf3
 
-.text.__subsf3  0x0000000000001420      0x484
+.text.__subsf3  0x00000000000013f8      0x484
  .text.__subsf3
-                0x0000000000001420      0x484 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(subsf3.o)
-                0x0000000000001420                __subsf3
+                0x00000000000013f8      0x484 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(subsf3.o)
+                0x00000000000013f8                __subsf3
 
 .text.__fixsfsi
-                0x00000000000018a4       0x74
+                0x000000000000187c       0x74
  .text.__fixsfsi
-                0x00000000000018a4       0x74 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(fixsfsi.o)
-                0x00000000000018a4                __fixsfsi
+                0x000000000000187c       0x74 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(fixsfsi.o)
+                0x000000000000187c                __fixsfsi
 
 .text.__floatsisf
-                0x0000000000001918      0x114
+                0x00000000000018f0      0x114
  .text.__floatsisf
-                0x0000000000001918      0x114 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(floatsisf.o)
-                0x0000000000001918                __floatsisf
+                0x00000000000018f0      0x114 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(floatsisf.o)
+                0x00000000000018f0                __floatsisf
 
 .text.__truncdfsf2
-                0x0000000000001a2c      0x1f4
+                0x0000000000001a04      0x1f4
  .text.__truncdfsf2
-                0x0000000000001a2c      0x1f4 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(truncdfsf2.o)
-                0x0000000000001a2c                __truncdfsf2
+                0x0000000000001a04      0x1f4 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(truncdfsf2.o)
+                0x0000000000001a04                __truncdfsf2
 
-.text.__clzsi2  0x0000000000001c20       0x94
+.text.__clzsi2  0x0000000000001bf8       0x94
  .text.__clzsi2
-                0x0000000000001c20       0x94 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(_clzsi2.o)
-                0x0000000000001c20                __clzsi2
+                0x0000000000001bf8       0x94 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(_clzsi2.o)
+                0x0000000000001bf8                __clzsi2
 
-.vector         0x0000000000001cb4        0x8
-                0x0000000000001cb4                . = ALIGN (0x4)
+.vector         0x0000000000001c8c        0x8
+                0x0000000000001c8c                . = ALIGN (0x4)
                 [!provide]                        PROVIDE (_svector = .)
  *(.vector*)
  .vector_section
-                0x0000000000001cb4        0x8 init1.o
-                0x0000000000001cb4                vector
-                0x0000000000001cbc                . = ALIGN (0x4)
+                0x0000000000001c8c        0x8 init1.o
+                0x0000000000001c8c                vector
+                0x0000000000001c94                . = ALIGN (0x4)
                 [!provide]                        PROVIDE (_evector = .)
 
-.rodata         0x0000000000001cbc      0x160
-                0x0000000000001cbc                . = ALIGN (0x4)
+.rodata         0x0000000000001c94      0x160
+                0x0000000000001c94                . = ALIGN (0x4)
                 [!provide]                        PROVIDE (_srodata = .)
  *(.rodata)
- .rodata        0x0000000000001cbc       0x1e main.o
+ .rodata        0x0000000000001c94       0x1e main.o
  *(.rodata.*)
- *fill*         0x0000000000001cda        0x2 
+ *fill*         0x0000000000001cb2        0x2 
  .rodata.__mulsf3
-                0x0000000000001cdc       0x40 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(mulsf3.o)
+                0x0000000000001cb4       0x40 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(mulsf3.o)
  .rodata.__clz_tab
-                0x0000000000001d1c      0x100 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(_clz.o)
-                0x0000000000001d1c                __clz_tab
-                0x0000000000001e1c                . = ALIGN (0x4)
+                0x0000000000001cf4      0x100 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(_clz.o)
+                0x0000000000001cf4                __clz_tab
+                0x0000000000001df4                . = ALIGN (0x4)
                 [!provide]                        PROVIDE (_erodata = .)
 
-.eh_frame       0x0000000000001e1c      0x28c
- .eh_frame      0x0000000000001e1c       0x3c init1.o
- .eh_frame      0x0000000000001e58      0x230 myClib.o
+.eh_frame       0x0000000000001df4      0x28c
+ .eh_frame      0x0000000000001df4       0x3c init1.o
+ .eh_frame      0x0000000000001e30      0x230 myClib.o
                                         0x244 (size before relaxing)
- .eh_frame      0x0000000000002088       0x20 main.o
+ .eh_frame      0x0000000000002060       0x20 main.o
                                          0x34 (size before relaxing)
 
-.data           0x00000000000020a8        0x0
-                0x00000000000020a8                . = ALIGN (0x4)
+.data           0x0000000000002080        0x0
+                0x0000000000002080                . = ALIGN (0x4)
                 [!provide]                        PROVIDE (_sdata = .)
  *(.data*)
- .data          0x00000000000020a8        0x0 init.o
- .data          0x00000000000020a8        0x0 init1.o
- .data          0x00000000000020a8        0x0 myClib.o
- .data          0x00000000000020a8        0x0 main.o
- .data          0x00000000000020a8        0x0 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(gesf2.o)
- .data          0x00000000000020a8        0x0 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(mulsf3.o)
- .data          0x00000000000020a8        0x0 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(subsf3.o)
- .data          0x00000000000020a8        0x0 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(fixsfsi.o)
- .data          0x00000000000020a8        0x0 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(floatsisf.o)
- .data          0x00000000000020a8        0x0 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(truncdfsf2.o)
- .data          0x00000000000020a8        0x0 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(muldi3.o)
- .data          0x00000000000020a8        0x0 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(div.o)
- .data          0x00000000000020a8        0x0 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(_clzsi2.o)
- .data          0x00000000000020a8        0x0 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(_clz.o)
-                0x00000000000020a8                . = ALIGN (0x4)
+ .data          0x0000000000002080        0x0 init.o
+ .data          0x0000000000002080        0x0 init1.o
+ .data          0x0000000000002080        0x0 myClib.o
+ .data          0x0000000000002080        0x0 main.o
+ .data          0x0000000000002080        0x0 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(gesf2.o)
+ .data          0x0000000000002080        0x0 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(mulsf3.o)
+ .data          0x0000000000002080        0x0 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(subsf3.o)
+ .data          0x0000000000002080        0x0 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(fixsfsi.o)
+ .data          0x0000000000002080        0x0 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(floatsisf.o)
+ .data          0x0000000000002080        0x0 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(truncdfsf2.o)
+ .data          0x0000000000002080        0x0 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(muldi3.o)
+ .data          0x0000000000002080        0x0 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(div.o)
+ .data          0x0000000000002080        0x0 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(_clzsi2.o)
+ .data          0x0000000000002080        0x0 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(_clz.o)
+                0x0000000000002080                . = ALIGN (0x4)
                 [!provide]                        PROVIDE (_edata = .)
 
-.sdata          0x00000000000020a8        0x4
-                0x00000000000020a8                . = ALIGN (0x4)
+.sdata          0x0000000000002080        0x4
+                0x0000000000002080                . = ALIGN (0x4)
                 [!provide]                        PROVIDE (_ssdata = .)
  *(.srodata.cst16)
  *(.srodata.cst8)
  *(.srodata.cst4)
- .srodata.cst4  0x00000000000020a8        0x4 myClib.o
+ .srodata.cst4  0x0000000000002080        0x4 myClib.o
  *(.srodata.cst2)
  *(.srodata .srodata.*)
  *(.sdata .sdata.* .gnu.linkonce.s.*)
-                0x00000000000020ac                . = ALIGN (0x4)
+                0x0000000000002084                . = ALIGN (0x4)
                 [!provide]                        PROVIDE (_esdata = .)
 
-.rela.dyn       0x00000000000020ac        0x0
- .rela.init     0x00000000000020ac        0x0 init.o
+.rela.dyn       0x0000000000002084        0x0
+ .rela.init     0x0000000000002084        0x0 init.o
  .rela.vector_section
-                0x00000000000020ac        0x0 init.o
- .rela.text     0x00000000000020ac        0x0 init.o
- .rela.text.startup
-                0x00000000000020ac        0x0 init.o
+                0x0000000000002084        0x0 init.o
+ .rela.text     0x0000000000002084        0x0 init.o
 
-.sbss           0x00000000000020ac        0x0
-                0x00000000000020ac                . = ALIGN (0x4)
+.sbss           0x0000000000002084        0x0
+                0x0000000000002084                . = ALIGN (0x4)
                 [!provide]                        PROVIDE (_ssbss = .)
  *(.dynsbss)
  *(.sbss .sbss.* .gnu.linkonce.sb.*)
  *(.scommon)
-                0x00000000000020ac                . = ALIGN (0x4)
+                0x0000000000002084                . = ALIGN (0x4)
                 [!provide]                        PROVIDE (_esbss = .)
 
-.bss            0x00000000000020ac        0x0
-                0x00000000000020ac                . = ALIGN (0x4)
+.bss            0x0000000000002084        0x0
+                0x0000000000002084                . = ALIGN (0x4)
                 [!provide]                        PROVIDE (_sbss = .)
  *(.bss*)
- .bss           0x00000000000020ac        0x0 init.o
- .bss           0x00000000000020ac        0x0 init1.o
- .bss           0x00000000000020ac        0x0 myClib.o
- .bss           0x00000000000020ac        0x0 main.o
- .bss           0x00000000000020ac        0x0 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(gesf2.o)
- .bss           0x00000000000020ac        0x0 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(mulsf3.o)
- .bss           0x00000000000020ac        0x0 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(subsf3.o)
- .bss           0x00000000000020ac        0x0 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(fixsfsi.o)
- .bss           0x00000000000020ac        0x0 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(floatsisf.o)
- .bss           0x00000000000020ac        0x0 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(truncdfsf2.o)
- .bss           0x00000000000020ac        0x0 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(muldi3.o)
- .bss           0x00000000000020ac        0x0 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(div.o)
- .bss           0x00000000000020ac        0x0 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(_clzsi2.o)
- .bss           0x00000000000020ac        0x0 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(_clz.o)
-                0x00000000000020ac                . = ALIGN (0x4)
+ .bss           0x0000000000002084        0x0 init.o
+ .bss           0x0000000000002084        0x0 init1.o
+ .bss           0x0000000000002084        0x0 myClib.o
+ .bss           0x0000000000002084        0x0 main.o
+ .bss           0x0000000000002084        0x0 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(gesf2.o)
+ .bss           0x0000000000002084        0x0 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(mulsf3.o)
+ .bss           0x0000000000002084        0x0 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(subsf3.o)
+ .bss           0x0000000000002084        0x0 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(fixsfsi.o)
+ .bss           0x0000000000002084        0x0 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(floatsisf.o)
+ .bss           0x0000000000002084        0x0 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(truncdfsf2.o)
+ .bss           0x0000000000002084        0x0 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(muldi3.o)
+ .bss           0x0000000000002084        0x0 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(div.o)
+ .bss           0x0000000000002084        0x0 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(_clzsi2.o)
+ .bss           0x0000000000002084        0x0 /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a(_clz.o)
+                0x0000000000002084                . = ALIGN (0x4)
                 [!provide]                        PROVIDE (_ebss = .)
                 0x00000000003ffffc                PROVIDE (__sp = ((ORIGIN (ram) + LENGTH (ram)) - 0x4))
 LOAD /opt/xpack-riscv-none-embed-gcc-8.3.0-1.2/bin/../lib/gcc/riscv-none-embed/8.3.0/rv32i/ilp32/libgcc.a

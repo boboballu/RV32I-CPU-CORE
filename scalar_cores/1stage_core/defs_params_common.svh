@@ -8,7 +8,7 @@
 //`define DUMP_VCD
 
 // rtl_datapath.sv, tb_testbench.sv, rtl_core_top.sv : defs_params_common.svh is instanced in all the files
-// `define MEM_DEBUG
+`define MEM_DEBUG
 
 // top_test.sv : uncomment this def for bin mem file read
 //`define MEM_BINARY
@@ -20,7 +20,7 @@ string CONSOLE_FORMAT = "%c";   // %d
 // testbench.sv : variables
 int HALT_ADDR    = ((4*1024*1024)+8);       // mem[400008] = 1 indicates execution is done
 int CONSOLE_ADDR = ((4*1024*1024)+4);       // console output address
-int EXE_TIME	 = 200000000;    // execution time in ps / clock period is 10ps
+int EXE_TIME	 = 20000000;    // execution time in ps / clock period is 10ps
 
 // D_cache_address and D_cache_data not used for testing anymore
 int D_cache_address = 84;       // Unit mem_debug test; mem store address
@@ -30,8 +30,8 @@ int D_cache_data    = 7;        // Unit mem_debug test; mem store value
 `ifdef RTL_MEMORY_IMPL
 // top_test.sv : uncomment for IWAIT - IMEM cache miss wait model
 // top_test.sv : uncomment for DWAIT - DMEM cache miss wait model
-// `define IWAIT
-// `define DWAIT
+`define IWAIT
+`define DWAIT
 `endif
 /********************************************************************************/
 `ifdef RTL_TOP_TEST

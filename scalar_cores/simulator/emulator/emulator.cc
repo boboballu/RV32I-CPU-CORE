@@ -14,7 +14,7 @@ emulator::emulator(std::string output_file, uint32_t consoleAddr, uint32_t haltA
         OUTPUT_FILE = stdout;
     }
     else {
-        printf("Printing to file %s\n", output_file.c_str());
+        // printf("Printing to file %s\n", output_file.c_str());
         OUTPUT_FILE = fopen(output_file.c_str(), "w");
     }
     
@@ -396,7 +396,7 @@ void emulator::execute_instruction()
         
         break;
 
-    case 0x13:
+    case 0x13: /* R - imm Arth */
         funct3 = (insn >> 12) & 7;
         imm = (int32_t)insn >> 20;
         switch(funct3) {
@@ -441,7 +441,7 @@ void emulator::execute_instruction()
             reg[rd] = val;
         break;
 
-    case 0x33:
+    case 0x33: /* R - R Arth */
         imm = insn >> 25;
         val = reg[rs1];
         val2 = reg[rs2];

@@ -65,7 +65,7 @@ module cache_module
     `ifdef single_ported_L2
     logic [31:0] mem_read_addr, mem_write_addr;
     `endif
-    logic mem_done;
+    logic mem_done; // is mem misses it's 1 else 0
 
     // only MSB 30 bits [31:2] of the address are taken into consideration
     assign addr_tag     = addr[(TAG_BIT_SIZE+INDEX_BIT_SIZE+BLOCK_BIT_SIZE+2-1):(INDEX_BIT_SIZE+BLOCK_BIT_SIZE+2)];

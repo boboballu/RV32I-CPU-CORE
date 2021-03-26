@@ -155,13 +155,14 @@ module tb
     // driving all the tests
     initial begin : drive
         #30; // after reset
+        @(posedge clock);
         while (1) begin
             trace_driver();
         end
     end : drive
 
     // metric calculation
-    always @(we, req) begin : metric_calculator
+    always @(we, req, addr) begin : metric_calculator
         @(negedge clock);
         if (req) begin
             if (we) begin
@@ -230,7 +231,7 @@ module tb
         input logic[31:0] trace_write_word
         );
 
-        @(posedge clock);
+        //@(posedge clock);
         // if (miss == 1'b1) begin
         //     wait (miss == 0);
         // end

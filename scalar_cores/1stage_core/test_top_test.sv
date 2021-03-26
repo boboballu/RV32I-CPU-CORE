@@ -118,9 +118,12 @@ module top(	input logic clk, reset,
     );
 
 	imem imem(.imem_addr(iram_addr), .imem_instn(iram_read_word), .imem_req(iram_req), .imem_wait(iram_miss), .Bus(Bus));
-	
+
+
+    //imem imem(.imem_addr(icache_addr), .imem_instn(icache_read_word), .imem_req(icache_req), .imem_wait(icache_wait), .Bus(Bus));
+
 	// Dcache impl
-	
+
 	cache_module dcache (
         .clock(clk), .reset(reset),
 	
@@ -167,6 +170,13 @@ module top(	input logic clk, reset,
 				.dmem_rd(dram_read_word), .dmem_wait(dram_miss), .Bus(Bus)
 	);
 
-	unified_L1_cache #(.RAM_SIZE(`L1_SIZE)) L1_cache (.Bus(Bus));
+    //testing dmem pass through
+
+    // dmem dmem(	.clk(clk), .dmem_we(dcache_we), .dmem_addr(dcache_addr),
+	// 			.dmem_wd(dcache_write_word), .dmem_mask(dcache_mask), .dmem_req(dcache_req),
+	// 			.dmem_rd(dcache_read_word), .dmem_wait(dcache_wait), .Bus(Bus)
+	// );
+    
+    unified_L1_cache #(.RAM_SIZE(`L1_SIZE)) L1_cache (.Bus(Bus));
 	
 endmodule : top

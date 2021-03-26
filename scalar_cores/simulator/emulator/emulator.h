@@ -35,6 +35,12 @@
 #define CAUSE_STORE_PAGE_FAULT    0xf
 #define CAUSE_INTERRUPT  ((uint32_t)1 << 31)
 
+struct instn_info {
+    uint32_t opcode, rd, rs1, rs2, funct3;
+    int32_t imm, cond, err;
+    uint32_t addr, val, val2;
+};
+
 class emulator {
 private:
     uint32_t CONSOLE_ADDR;

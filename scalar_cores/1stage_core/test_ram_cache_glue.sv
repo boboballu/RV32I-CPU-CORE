@@ -26,6 +26,8 @@ module ram_cache_glue
     input logic ram_miss
 );
 
+    parameter BLOCK_BIT_SIZE = ($clog2(BLOCKS));
+
     logic [($clog2(BLOCKS) - 1):0] block_counter;
     logic [BLOCKS-2:0] [31:0] prev_ram_words;
 
@@ -33,7 +35,7 @@ module ram_cache_glue
     assign ram_we = mem_we;
     assign mem_miss = ram_miss | ( block_counter != (BLOCKS-1) );
     assign mem_read_block = ( mem_req & (!mem_we) & (!mem_miss) ) ? {ram_read_word, prev_ram_words} : '{default:0};
-    assign ram_addr = mem_addr + (block_counter << 2);
+    assign ram_addr = { mem_addr[31:(BLOCK_BIT_SIZE+2)], block_counter , 2'b00 };
 
     always_ff @(posedge clock or negedge reset) begin
         if (!reset) begin
@@ -49,6 +51,9 @@ module ram_cache_glue
                     block_counter <= block_counter + 1;
                 end
             end
+            else begin
+                block_counter <= 0;
+            end 
         end
     end
 

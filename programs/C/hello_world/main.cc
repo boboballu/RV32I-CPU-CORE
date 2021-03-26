@@ -10,8 +10,8 @@ int main()
 {
 	char a[30] = "Hello World ;) \n";
 	write_string(a);
-	char number[10];
-	itoa((int)(__sp), 10, 0, 0, number, 0);
-	write_string(number);
+//	char number[10];
+//	itoa((int)(__sp), 10, 0, 0, number, 0);
+//	write_string(number);
 	return 0;
 }
