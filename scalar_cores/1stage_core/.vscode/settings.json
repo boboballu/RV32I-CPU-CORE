@@ -1,6 +1,0 @@
-{
-    "files.associations": {
-        "*.svh": "systemverilog",
-        "ostream": "cpp"
-    }
-}
