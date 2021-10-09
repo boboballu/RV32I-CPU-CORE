@@ -1,0 +1,59 @@
+m255
+K4
+z2
+!s11f vlog 2020.1_3 2020.04, Apr 27 2020
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 d/root/Heterogeneous-multicore/scalar_cores/cache/cache_2way/FIFO
+vfifo
+Z1 DXx6 sv_std 3 std 0 22 VYECXdT12H8WgbUP_5Y6:3
+Z2 !s110 1622477079
+!i10b 1
+!s100 ^3PXSOblfaR5C_j0o2S`U0
+Z3 !s11b Dg1SIo80bB@j0V0VzS_@n1
+Il`LQP_g]I4>=JF7Kbj^k70
+Z4 VDg1SIo80bB@j0V0VzS_@n1
+S1
+R0
+w1622450316
+8FIFO.sv
+FFIFO.sv
+!i122 10
+L0 1 59
+Z5 OV;L;2020.1_3;71
+r1
+!s85 0
+31
+Z6 !s108 1622477079.000000
+!s107 FIFO.sv|
+!s90 FIFO.sv|
+!i113 1
+Z7 tCvgOpt 0
+vfifo_tb
+R1
+R2
+!i10b 1
+!s100 Kdc;i3j>;znSSOSZi]S<;3
+R3
+I4R5W<b;1[TVBH0;66k3ka1
+R4
+S1
+R0
+w1622477070
+8FIFO_tb.sv
+FFIFO_tb.sv
+!i122 11
+L0 9 129
+R5
+r1
+!s85 0
+31
+R6
+!s107 FIFO_tb.sv|
+!s90 FIFO_tb.sv|
+!i113 1
+R7

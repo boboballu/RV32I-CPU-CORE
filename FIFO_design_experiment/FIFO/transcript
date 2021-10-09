@@ -1,0 +1,26 @@
+# ERROR: No extended dataflow license exists
+# vsim fifo_tb 
+# Start time: 12:04:48 on May 31,2021
+# Loading sv_std.std
+# Loading work.fifo_tb
+# Loading work.fifo
+do wave.do
+# Unable to lock WLF file "vsim.wlf". Retrying 1 times, errno 11
+# Unable to lock WLF file "vsim.wlf". Retrying 2 times, errno 11
+# Unable to lock WLF file "vsim.wlf". Retrying 3 times, errno 11
+# Cannot lock WLF file: "vsim.wlf"
+#           errno 11: Resource temporarily unavailable.
+# ** Warning: (vsim-WLF-5000) WLF file currently in use: vsim.wlf
+#           File in use by: root  Hostname: cf430694fe4d  ProcessID: 24017
+#           Attempting to use alternate WLF file "./wlftuoYfK2".
+# ** Warning: (vsim-WLF-5001) Could not open WLF file: vsim.wlf
+#           Using alternate file: ./wlftuoYfK2
+run
+run
+run
+# ** Note: $finish    : FIFO_tb.sv(66)
+#    Time: 300 ps  Iteration: 0  Instance: /fifo_tb
+# 1
+# Break in NamedBeginStat defaults at FIFO_tb.sv line 66
+# End time: 12:26:12 on May 31,2021, Elapsed time: 0:21:24
+# Errors: 0, Warnings: 2
