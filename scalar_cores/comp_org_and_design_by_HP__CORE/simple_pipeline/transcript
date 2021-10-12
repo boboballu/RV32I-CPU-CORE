@@ -1,0 +1,28 @@
+# ERROR: No extended dataflow license exists
+# vsim -do "do wave.do" "+EXEC=./execute.hex" tb 
+# Start time: 11:29:28 on Oct 12,2021
+# Loading sv_std.std
+# Loading work.tb
+# Loading work.RISCVCPU
+# do wave.do
+# Unable to lock WLF file "vsim.wlf". Retrying 1 times, errno 11
+# Unable to lock WLF file "vsim.wlf". Retrying 2 times, errno 11
+# Unable to lock WLF file "vsim.wlf". Retrying 3 times, errno 11
+# Cannot lock WLF file: "vsim.wlf"
+#           errno 11: Resource temporarily unavailable.
+# ** Warning: (vsim-WLF-5000) WLF file currently in use: vsim.wlf
+#           File in use by: root  Hostname: 28fca0c1f99c  ProcessID: 11005
+#           Attempting to use alternate WLF file "./wlftUvwN0e".
+# ** Warning: (vsim-WLF-5001) Could not open WLF file: vsim.wlf
+#           Using alternate file: ./wlftUvwN0e
+run
+# tb found +EXEC=./execute.hex
+run
+run
+# store value at 'h32:          5
+# ** Note: $finish    : core_tb.sv(74)
+#    Time: 300 ps  Iteration: 0  Instance: /tb
+# 1
+# Break in Module tb at core_tb.sv line 74
+# End time: 11:30:12 on Oct 12,2021, Elapsed time: 0:00:44
+# Errors: 0, Warnings: 2

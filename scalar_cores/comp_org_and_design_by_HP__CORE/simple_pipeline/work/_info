@@ -1,0 +1,60 @@
+m255
+K4
+z2
+!s11f vlog 2020.1_3 2020.04, Apr 27 2020
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+d/root/RISCV_DEV/RV32I-CPU-CORE/scalar_cores/simple_pipeline
+vRISCVCPU
+Z0 DXx6 sv_std 3 std 0 22 VYECXdT12H8WgbUP_5Y6:3
+Z1 !s110 1634052559
+!i10b 1
+!s100 EK6Ek8h351?z?5h[WR_NK3
+Z2 !s11b Dg1SIo80bB@j0V0VzS_@n1
+If:L0zkjNW8ClIUXeRbVji0
+Z3 VDg1SIo80bB@j0V0VzS_@n1
+S1
+Z4 d/root/RISCV_DEV/RV32I-CPU-CORE/scalar_cores/comp_org_and_design_by_HP__CORE/simple_pipeline
+w1633808740
+8core.sv
+Fcore.sv
+!i122 56
+L0 1 74
+Z5 OV;L;2020.1_3;71
+r1
+!s85 0
+31
+Z6 !s108 1634052559.000000
+!s107 core.sv|
+!s90 core.sv|
+!i113 1
+Z7 tCvgOpt 0
+n@r@i@s@c@v@c@p@u
+vtb
+R0
+R1
+!i10b 1
+!s100 1CTB_m_U>cJIPh]H>gRlg1
+R2
+If;;9cabR1W`ofH[JMDooY0
+R3
+S1
+R4
+w1634052395
+8core_tb.sv
+Fcore_tb.sv
+!i122 57
+L0 1 76
+R5
+r1
+!s85 0
+31
+R6
+!s107 core_tb.sv|
+!s90 core_tb.sv|
+!i113 1
+R7
