@@ -2,26 +2,24 @@
 // DESCRIPTION: Verilator output: Design implementation internals
 // See Vtop.h for the primary calling header
 
-#include "Vtop___024unit.h"
+#include "verilated.h"
+
 #include "Vtop__Syms.h"
+#include "Vtop___024unit.h"
 
-//==========
+void Vtop___024unit___ctor_var_reset(Vtop___024unit* vlSelf);
 
-VL_CTOR_IMP(Vtop___024unit) {
-    // Reset internal values
+Vtop___024unit::Vtop___024unit(Vtop__Syms* symsp, const char* name)
+    : VerilatedModule{name}
+    , vlSymsp{symsp}
+ {
     // Reset structure values
-    _ctor_var_reset();
+    Vtop___024unit___ctor_var_reset(this);
 }
 
-void Vtop___024unit::__Vconfigure(Vtop__Syms* vlSymsp, bool first) {
+void Vtop___024unit::__Vconfigure(bool first) {
     if (false && first) {}  // Prevent unused
-    this->__VlSymsp = vlSymsp;
-    if (false && this->__VlSymsp) {}  // Prevent unused
 }
 
 Vtop___024unit::~Vtop___024unit() {
-}
-
-void Vtop___024unit::_ctor_var_reset() {
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop___024unit::_ctor_var_reset\n"); );
 }

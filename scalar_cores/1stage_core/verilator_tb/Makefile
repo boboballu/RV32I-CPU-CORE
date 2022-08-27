@@ -20,6 +20,10 @@ verilate:
 	make -C verilator_tb -f Vtop.mk
 	echo "\nTo run : make run exe=*32.hex case=#{1,2,3} \n#1_rtl 2_emu 3_rtl emu compare | default : make run\n"
 
+verilate_sv:
+	verilator $(WARNING) -Wno-fatal -I../ --cc \
+	../rtl_controller_if.sv \
+	-Mdir verilator_tb	
 
 run:
 	./verilator_tb/Vtop +EXEC=$(exe) $(exe) $(case)

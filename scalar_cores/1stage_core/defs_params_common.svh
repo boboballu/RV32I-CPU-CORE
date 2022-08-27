@@ -8,7 +8,7 @@
 //`define DUMP_VCD
 
 // rtl_datapath.sv, tb_testbench.sv, rtl_core_top.sv : defs_params_common.svh is instanced in all the files
-`define MEM_DEBUG
+// `define MEM_DEBUG
 
 // top_test.sv : uncomment this def for bin mem file read
 //`define MEM_BINARY

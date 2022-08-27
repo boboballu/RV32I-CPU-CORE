@@ -1,0 +1,9 @@
+# ERROR: No extended dataflow license exists
+# vsim fifo_tb 
+# Start time: 22:29:39 on Aug 13,2022
+# Loading sv_std.std
+# Loading work.fifo_tb
+# Loading work.fifo
+do wave.do
+run
+# Break key hit

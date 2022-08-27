@@ -11,6 +11,7 @@ typedef string str_6b_2b_1b_3dassoc_t [logic[6:0]][logic[2:0]][logic];
 
 `ifdef MEM_DEBUG
 
+/* verilator lint_off UNPACKED */	
 	typedef struct {
 
 		logic [31:0] pc;
