@@ -10,9 +10,9 @@ functionality for the user-level bare-metal program */
 
 // write_char - writes a char to the console; returns 1 if write is successful else 0
 unsigned int write_char(char ch) {
-	volatile int* tx = (volatile int*) (int)__console_addr;
-	*tx = (int)ch;
-	return 0;
+    volatile int* tx = (volatile int*) (int)__console_addr;
+    *tx = (int)ch;
+    return 0;
 }
 /********************************************************************************/
 
@@ -20,7 +20,7 @@ unsigned int write_char(char ch) {
 unsigned int write_string(char* ch) {
     int i = 0;
     int ret = 1;
-	while (ch[i] != '\0') {
+    while (ch[i] != '\0') {
         ret &= write_char(ch[i]);
         i++;
     }
@@ -31,31 +31,31 @@ unsigned int write_string(char* ch) {
 
 // _putc - puts a char in print_addr; always returns 1
 int _putc(int ch, volatile int* print_addr) {
-	*print_addr = (int) ch;
-	// *print_addr = (int) '\0';
-	return 1;
+    *print_addr = (int) ch;
+    // *print_addr = (int) '\0';
+    return 1;
 }
 /********************************************************************************/
 
 // _puts - puts string in print_Addr; always returns 1
 int _puts(char *s, unsigned int len, volatile int* print_addr)
 {
-	unsigned int i;
+    unsigned int i;
 
-	/* Copy to buffer */
-	for (i = 0; i < len; i++)
-		*print_addr = (int) s[i];
-	*print_addr = (int) '\0';
+    /* Copy to buffer */
+    for (i = 0; i < len; i++)
+        *print_addr = (int) s[i];
+    *print_addr = (int) '\0';
 
-	return 1;
+    return 1;
 }
 /********************************************************************************/
 
 // _strlen - returns the length of a const string
 unsigned int _strlen(const char *s) {
-	unsigned int len = 0;
-	while (s[len] != '\0') len++;
-	return len;
+    unsigned int len = 0;
+    while (s[len] != '\0') len++;
+    return len;
 }
 /********************************************************************************/
 
@@ -65,47 +65,47 @@ unsigned int _strlen(const char *s) {
 unsigned int itoa(
     int value, unsigned int radix, 
     unsigned int uppercase, unsigned int unsig,
-	char *buffer, unsigned int zero_pad
+    char *buffer, unsigned int zero_pad
 )
 {
-	char	*pbuffer = buffer;
-	int	negative = 0;
-	unsigned int	i, len;
+    char    *pbuffer = buffer;
+    int    negative = 0;
+    unsigned int    i, len;
 
-	/* No support for unusual radixes. */
-	if (radix > 16)
-		return 0;
+    /* No support for unusual radixes. */
+    if (radix > 16)
+        return 0;
 
-	if (value < 0 && !unsig) {
-		negative = 1;
-		value = -value;
-	}
+    if (value < 0 && !unsig) {
+        negative = 1;
+        value = -value;
+    }
 
-	/* This builds the string back to front ... */
-	do {
-		int digit = value % radix;
-		*(pbuffer++) = (digit < 10 ? '0' + digit : (uppercase ? 'A' : 'a') + digit - 10);
-		value /= radix;
-	} while (value > 0);
+    /* This builds the string back to front ... */
+    do {
+        int digit = value % radix;
+        *(pbuffer++) = (digit < 10 ? '0' + digit : (uppercase ? 'A' : 'a') + digit - 10);
+        value /= radix;
+    } while (value > 0);
 
-	for (i = (pbuffer - buffer); i < zero_pad; i++)
-		*(pbuffer++) = '0';
+    for (i = (pbuffer - buffer); i < zero_pad; i++)
+        *(pbuffer++) = '0';
 
-	if (negative)
-		*(pbuffer++) = '-';
+    if (negative)
+        *(pbuffer++) = '-';
 
-	*(pbuffer) = '\0';
+    *(pbuffer) = '\0';
 
-	/* ... now we reverse it (could do it recursively but will
-	 * conserve the stack space) */
-	len = (pbuffer - buffer);
-	for (i = 0; i < len / 2; i++) {
-		char j = buffer[i];
-		buffer[i] = buffer[len-i-1];
-		buffer[len-i-1] = j;
-	}
+    /* ... now we reverse it (could do it recursively but will
+     * conserve the stack space) */
+    len = (pbuffer - buffer);
+    for (i = 0; i < len / 2; i++) {
+        char j = buffer[i];
+        buffer[i] = buffer[len-i-1];
+        buffer[len-i-1] = j;
+    }
 
-	return len;
+    return len;
 }
 
 /********************************************************************************/
@@ -123,105 +123,105 @@ int ftoi (float f, int &in, int &fr) {
 
 
 int ftoi_print(float f) {
-	int in, fr;
-	ftoi(f, in, fr);
-	char in_c[10], fr_c[10];
-	// _printf("%d.%d", in, fr);
-	itoa(in, 10, 0, 0, in_c, 0);
-	itoa(fr, 10, 0, 0, fr_c, 0);
-	write_string(in_c); write_char('.'); write_string(fr_c);
-	return 0;
+    int in, fr;
+    ftoi(f, in, fr);
+    char in_c[10], fr_c[10];
+    // _printf("%d.%d", in, fr);
+    itoa(in, 10, 0, 0, in_c, 0);
+    itoa(fr, 10, 0, 0, fr_c, 0);
+    write_string(in_c); write_char('.'); write_string(fr_c);
+    return 0;
 }
 #endif
 
 /********************************************************************************/
 // printf_impl - contains printf implementation
 int printf_impl(volatile int* print_addr, const char *fmt, va_list va) {
-	char bf[24];
-	char ch;
+    char bf[24];
+    char ch;
 
-	while ((ch=*(fmt++))) {
-		if (ch!='%')
-			_putc(ch, print_addr);
-		else {
-			char zero_pad = 0;
-			char *ptr;
-			unsigned int len;
-			int in, fr;
+    while ((ch=*(fmt++))) {
+        if (ch!='%')
+            _putc(ch, print_addr);
+        else {
+            char zero_pad = 0;
+            char *ptr;
+            unsigned int len;
+            int in, fr;
 
-			ch=*(fmt++);
+            ch=*(fmt++);
 
-			/* Zero padding requested */
-			if (ch=='0') {
-				ch=*(fmt++);
-				if (ch == '\0')
-					goto end;
-				if (ch >= '0' && ch <= '9')
-					zero_pad = ch - '0';
-				ch=*(fmt++);
-			}
+            /* Zero padding requested */
+            if (ch=='0') {
+                ch=*(fmt++);
+                if (ch == '\0')
+                    goto end;
+                if (ch >= '0' && ch <= '9')
+                    zero_pad = ch - '0';
+                ch=*(fmt++);
+            }
 
-			switch (ch) {
-				case 0:
-					goto end;
+            switch (ch) {
+                case 0:
+                    goto end;
 
-				case 'u':
-				case 'd':
-					len = itoa(va_arg(va, unsigned int), 10, 0, (ch=='u'), bf, zero_pad);
-					_puts(bf, len, print_addr);
-					break;
+                case 'u':
+                case 'd':
+                    len = itoa(va_arg(va, unsigned int), 10, 0, (ch=='u'), bf, zero_pad);
+                    _puts(bf, len, print_addr);
+                    break;
 
-				case 'x':
-				case 'X':
-					len = itoa(va_arg(va, unsigned int), 16, (ch=='X'), 1, bf, zero_pad);
-					_puts(bf, len, print_addr);
-					break;
+                case 'x':
+                case 'X':
+                    len = itoa(va_arg(va, unsigned int), 16, (ch=='X'), 1, bf, zero_pad);
+                    _puts(bf, len, print_addr);
+                    break;
 
-				case 'c' :
-					_putc((char)(va_arg(va, int)), print_addr);
-					break;
+                case 'c' :
+                    _putc((char)(va_arg(va, int)), print_addr);
+                    break;
 
-				case 's' :
-					ptr = va_arg(va, char*);
-					_puts(ptr, _strlen(ptr), print_addr);
-					break;
-				
-				#ifdef FLOATING_POINT
-				case 'f' :
-					ftoi_print((float)(va_arg(va, double)));
-					break;
-				#endif
-				
-				default:
-					_putc(ch, print_addr);
-					break;
-			}
-		}
-	}
+                case 's' :
+                    ptr = va_arg(va, char*);
+                    _puts(ptr, _strlen(ptr), print_addr);
+                    break;
+                
+                #ifdef FLOATING_POINT
+                case 'f' :
+                    ftoi_print((float)(va_arg(va, double)));
+                    break;
+                #endif
+                
+                default:
+                    _putc(ch, print_addr);
+                    break;
+            }
+        }
+    }
 end:
-	return 0;
+    return 0;
 }
 
 /********************************************************************************/
 // addr_printf - printd to the given print_addr
 int addr_printf(volatile int* print_addr, const char *fmt, ...) {
-	int ret;
-	va_list va;
-	va_start(va, fmt);
-	ret = printf_impl(print_addr, fmt, va);
-	va_end(va);
+    int ret;
+    va_list va;
+    va_start(va, fmt);
+    ret = printf_impl(print_addr, fmt, va);
+    va_end(va);
 
-	return ret;
+    return ret;
 }
 
 /********************************************************************************/
 // _printf - printd to the given __console_addr
 int _printf (const char *fmt, ...) {
-	int ret;
-	va_list va;
-	va_start(va, fmt);
-	ret = printf_impl((volatile int*) __console_addr, fmt, va);
-	va_end(va);
+    int ret;
+    va_list va;
+    va_start(va, fmt);
+    ret = printf_impl((volatile int*) __console_addr, fmt, va);
+    va_end(va);
 
-	return ret;
+    return ret;
 }

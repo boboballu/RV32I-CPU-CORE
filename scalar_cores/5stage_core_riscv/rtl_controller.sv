@@ -6,7 +6,7 @@
 `include "defs_params_common.svh"
 import dbg_pkg::*;
 
-module controller	(   
+module controller    (   
                     input logic [6:0] opD, input logic  [2:0] funct3D, input logic [6:0] funct7D,
                     
                     output logic branchD, jumpD, jalrD,
@@ -19,14 +19,14 @@ module controller	(
 
     logic [1:0] aluop;
 
-    maindec maindec (	.opD(opD), 
+    maindec maindec (    .opD(opD), 
                         .regwriteD(regwriteD), .alusrcD(alusrcD),
                         .branchD(branchD), 
                         .memwriteD(memwriteD), .memtoregD(memtoregD),
                         .jumpD(jumpD), .jalrD(jalrD), .auipcD(auipcD), .luiD(luiD),
                         .aluop(aluop)
     );
-    aludec ad(	        .funct3D(funct3D), .funct7D(funct7D), 
+    aludec ad(            .funct3D(funct3D), .funct7D(funct7D), 
                         .aluop(aluop), 
                         .alucontrolD(alucontrolD),
                         .alu_subD(alu_subD)
@@ -34,7 +34,7 @@ module controller	(
 
 endmodule : controller
 
-module maindec	(	input logic [6:0] opD,
+module maindec    (    input logic [6:0] opD,
                     output logic regwriteD, alusrcD,
                     output logic branchD,
                     output logic memwriteD, memtoregD,
@@ -54,7 +54,7 @@ module maindec	(	input logic [6:0] opD,
             7'b0010011: begin controls = 9'b110000000;   aluop = 2'b11; end // Immediate
             7'b1100011: begin controls = 9'b001000000;   aluop = 2'b01; end // Branch
             7'b1101111: begin controls = 9'b100001000;   aluop = 2'b00; end // JAL - Jump
-            7'b1100111: begin controls = 9'b100000100;	 aluop = 2'b00; end // JALR
+            7'b1100111: begin controls = 9'b100000100;     aluop = 2'b00; end // JALR
             7'b0010111: begin controls = 9'b100000010;   aluop = 2'b00; end // auipc
             7'b0110111: begin controls = 9'b100000001;   aluop = 2'b00; end // lui
             default   : begin controls = 9'b000000000;   aluop = 2'b00; end // illegal op - nop
@@ -62,7 +62,7 @@ module maindec	(	input logic [6:0] opD,
     end
 endmodule : maindec
 
-module aludec(	
+module aludec(    
                 input logic [1:0] aluop,
                 input logic [2:0] funct3D, input logic [6:0] funct7D,
                 output logic [2:0] alucontrolD, output logic alu_subD
@@ -75,10 +75,10 @@ module aludec(
             2'b10:  begin alucontrolD = funct3D; alu_subD = funct7D[5]; end   // R-type
             2'b11:  begin
                         alucontrolD = funct3D; 
-					    if (funct3D == 3'b101)
-						    alu_subD = funct7D[5]; 
-					    else
-						    alu_subD = 1'b0;
+                        if (funct3D == 3'b101)
+                            alu_subD = funct7D[5]; 
+                        else
+                            alu_subD = 1'b0;
                     end // Imm-arth
             default: begin alucontrolD = 3'b000; alu_subD = 1'b0; end // defaults to add
         endcase

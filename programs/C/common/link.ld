@@ -44,8 +44,8 @@ SECTIONS
     .rodata : {
         . = ALIGN(4);
         PROVIDE(_srodata = .);
-    	*(.rodata)
-    	*(.rodata.*)
+        *(.rodata)
+        *(.rodata.*)
         . = ALIGN(4);
         PROVIDE(_erodata = .);
     } > ram

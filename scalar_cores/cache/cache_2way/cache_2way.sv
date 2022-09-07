@@ -2,17 +2,17 @@
 // cache types - package
 package cache_types;
 
-	// parameter RAM_SIZE 		= 65536;
-	// parameter TAG_SIZE		= 17;
-	// parameter INDEX_SIZE 	= 11;
-	// parameter BLOCK_SIZE  	= 2;
-	// parameter ASSOC       	= 2;
+    // parameter RAM_SIZE         = 65536;
+    // parameter TAG_SIZE        = 17;
+    // parameter INDEX_SIZE     = 11;
+    // parameter BLOCK_SIZE      = 2;
+    // parameter ASSOC           = 2;
 
-	typedef struct packed {
-		logic lru;
-		logic [27:0] tag;
-		logic valid, dirty;
-		logic [1:0] [31:0] block;
+    typedef struct packed {
+        logic lru;
+        logic [27:0] tag;
+        logic valid, dirty;
+        logic [1:0] [31:0] block;
     } block_t;
     
 endpackage
@@ -20,23 +20,23 @@ endpackage
 import cache_types::*;
 
 module cache_module(
-	input logic clock, reset,
-	
+    input logic clock, reset,
+    
     input logic req, we,
-	input logic [31:0] addr,
-	input logic [3:0] byte_mask, 
-	input logic [31:0] write_block,
-	output logic miss, 
-	output logic [31:0] read_block,
+    input logic [31:0] addr,
+    input logic [3:0] byte_mask, 
+    input logic [31:0] write_block,
+    output logic miss, 
+    output logic [31:0] read_block,
 
     // mem is 2 ported; one is for read and other for write
     output logic mem_req,
     output logic [31:0] mem_read_addr,
-	input logic [1:0] [31:0] mem_read_block,
+    input logic [1:0] [31:0] mem_read_block,
 
     output logic mem_we,
     output logic [31:0] mem_write_addr,
-	output logic [1:0] [31:0] mem_write_block,
+    output logic [1:0] [31:0] mem_write_block,
     input logic mem_miss
 );
     logic [27:0] addr_tag;
@@ -70,12 +70,12 @@ module cache_module(
 
     // 1) reset - initializing the cache after reset
     always_ff @(posedge clock or negedge reset) begin
-		if (!reset) begin
-			for (integer i=0; i<2; i++) begin
-				for (integer j=0; j<2; j++) begin
-					cache[i][j] <= '{default:0, lru:j, block:{32'd2,32'd2}};
-				end
-			end
+        if (!reset) begin
+            for (integer i=0; i<2; i++) begin
+                for (integer j=0; j<2; j++) begin
+                    cache[i][j] <= '{default:0, lru:j, block:{32'd2,32'd2}};
+                end
+            end
         end
     end
 

@@ -19,14 +19,14 @@ module cache_module
 #(
     `cache_param_1
 )(
-	input logic clock, reset,
-	
+    input logic clock, reset,
+    
     input logic req, we,
-	input logic [31:0] addr,
-	input logic [3:0] byte_mask, 
-	input logic [31:0] write_word,
-	output logic miss, 
-	output logic [31:0] read_word,
+    input logic [31:0] addr,
+    input logic [3:0] byte_mask, 
+    input logic [31:0] write_word,
+    output logic miss, 
+    output logic [31:0] read_word,
 
     // mem is 2 ported; one is for read and other for write
     output logic mem_req,
@@ -39,7 +39,7 @@ module cache_module
     `endif
 
     output logic mem_we,
-	input logic [BLOCKS-1:0] [31:0] mem_read_block,
+    input logic [BLOCKS-1:0] [31:0] mem_read_block,
     output logic [BLOCKS-1:0] [31:0] mem_write_block,
     input logic mem_miss
 );    
@@ -92,12 +92,12 @@ module cache_module
 
     // 1) reset - initializing the cache after reset
     always_ff @(posedge clock or negedge reset) begin : initialization
-		if (!reset) begin
-			for (integer i=0; i<SETS; i++) begin
-				for (integer j=0; j<ASSOC; j++) begin
-					cache[i][j] <= '{default:0, lru:j};
-				end
-			end
+        if (!reset) begin
+            for (integer i=0; i<SETS; i++) begin
+                for (integer j=0; j<ASSOC; j++) begin
+                    cache[i][j] <= '{default:0, lru:j};
+                end
+            end
         end
     end : initialization
 

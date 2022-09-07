@@ -1,5 +1,5 @@
-lui x1 16		
-addi x1 x1 -4	#x1 = 65532
+lui x1 16        
+addi x1 x1 -4    #x1 = 65532
 
 addi x10 x0 10
 call sw

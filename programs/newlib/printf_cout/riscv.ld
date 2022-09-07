@@ -5,7 +5,7 @@
    are permitted in any medium without royalty provided the copyright
    notice and this notice are preserved.  */
 OUTPUT_FORMAT("elf32-littleriscv", "elf32-littleriscv",
-	      "elf32-littleriscv")
+          "elf32-littleriscv")
 OUTPUT_ARCH(riscv)
 ENTRY(_start)
 SECTIONS

@@ -24,11 +24,11 @@ module tb
     logic clock, reset;
     
     logic req, we;
-	logic [31:0] addr;
-	logic [3:0] byte_mask;
-	logic [31:0] write_word;
+    logic [31:0] addr;
+    logic [3:0] byte_mask;
+    logic [31:0] write_word;
     logic miss;
-	logic [31:0] read_word;
+    logic [31:0] read_word;
     
     logic mem_req;
 
@@ -47,7 +47,7 @@ module tb
 
     cache_module cache(
         .clock(clock), .reset(reset),
-	
+    
         .req(req), .we(we),
         .addr(addr),
         .byte_mask(byte_mask), 
@@ -129,11 +129,11 @@ module tb
 
     // get trace_file from commandline + args 
     string tf;
-	initial begin : trace_file
-		if ( !$value$plusargs("TF=%s", tf)) begin
-	        $display("FATAL: +TF plusarg not found on command line");
-	        $fatal;
-	    end
+    initial begin : trace_file
+        if ( !$value$plusargs("TF=%s", tf)) begin
+            $display("FATAL: +TF plusarg not found on command line");
+            $fatal;
+        end
         $display("%m found +TF=%s", tf);
         fp = $fopen(tf,"r");
     end : trace_file
@@ -147,10 +147,10 @@ module tb
         # 22; reset = 1; #8;  // 30ns done here
     end : reset_block
 
-	// generate clock to sequence tests
-	always begin : clock_block
-		clock = 1; # 5; clock = 0; # 5;
-	end : clock_block
+    // generate clock to sequence tests
+    always begin : clock_block
+        clock = 1; # 5; clock = 0; # 5;
+    end : clock_block
 
     // driving all the tests
     initial begin : drive

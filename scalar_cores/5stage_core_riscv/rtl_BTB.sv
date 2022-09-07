@@ -60,7 +60,7 @@ module BTB #(parameter TAG_SIZE = 20,
     
     always_ff @(posedge clk or negedge reset) begin
         if (!reset) begin
-			BTB <= '{default:'1};
+            BTB <= '{default:'1};
         end
         else begin
             if (BTBWriteD) begin

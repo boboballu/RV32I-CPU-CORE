@@ -8,7 +8,7 @@
 
 int main()
 {
-	int a = 10;
-	_printf("Hello World :) => %08x", a);
-	return 0;
+    int a = 10;
+    _printf("Hello World :) => %08x", a);
+    return 0;
 }

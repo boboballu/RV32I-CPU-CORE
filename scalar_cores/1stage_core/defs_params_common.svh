@@ -20,7 +20,7 @@ string CONSOLE_FORMAT = "%c";   // %d
 // testbench.sv : variables
 int HALT_ADDR    = ((4*1024*1024)+8);       // mem[400008] = 1 indicates execution is done
 int CONSOLE_ADDR = ((4*1024*1024)+4);       // console output address
-int EXE_TIME	 = 20000000;    // execution time in ps / clock period is 10ps
+int EXE_TIME     = 20000000;    // execution time in ps / clock period is 10ps
 
 // D_cache_address and D_cache_data not used for testing anymore
 int D_cache_address = 84;       // Unit mem_debug test; mem store address
@@ -45,11 +45,11 @@ int D_cache_data    = 7;        // Unit mem_debug test; mem store value
 
 /* Parameters not meant to be modified */
 `define NM_CACHE_PARAMS \
-parameter INDEX_BIT_SIZE 	= ($clog2(SETS)), \
-parameter BLOCK_BIT_SIZE  	= ($clog2(BLOCKS)), \
-parameter TAG_BIT_SIZE		= 30 - INDEX_BIT_SIZE - BLOCK_BIT_SIZE, \
+parameter INDEX_BIT_SIZE     = ($clog2(SETS)), \
+parameter BLOCK_BIT_SIZE      = ($clog2(BLOCKS)), \
+parameter TAG_BIT_SIZE        = 30 - INDEX_BIT_SIZE - BLOCK_BIT_SIZE, \
 parameter LRU_BIT_SIZE      = ($clog2(ASSOC)), \
-parameter CACHE_SIZE 		= SETS * ASSOC * (BLOCKS*4)
+parameter CACHE_SIZE         = SETS * ASSOC * (BLOCKS*4)
 
 // Custom parametrized struct datatype - Block type should be common to all
 // `parametrized_block_t(BLOCKS, LRU_BIT_SIZE, TAG_BIT_SIZE)

@@ -21,8 +21,8 @@ module branch_compute ( input logic branchD, input logic [2:0] funct3D,
                 3'b001: br_takenD   = ( signed'(srca) != signed'(srcb) ); // BNE
                 3'b100: br_takenD   = ( signed'(srca) <  signed'(srcb) ); // BLT
                 3'b101: br_takenD   = ( signed'(srca) >= signed'(srcb) ); // BGE
-                3'b110: br_takenD   = ( srca < srcb ); 				   // BLTU
-                3'b111: br_takenD   = ( srca >= srcb );				   // BGEU
+                3'b110: br_takenD   = ( srca < srcb );                    // BLTU
+                3'b111: br_takenD   = ( srca >= srcb );                   // BGEU
                 default: br_takenD  = 1'b0;
             endcase
         end

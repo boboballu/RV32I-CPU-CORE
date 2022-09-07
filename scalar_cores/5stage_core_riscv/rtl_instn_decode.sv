@@ -5,7 +5,7 @@
 `define RTL_INSTN_DECODE
 `include "defs_params_common.svh"
 // decodes instruction in ID stage
-module instn_decode 	(
+module instn_decode     (
     input logic [31:0] instnD,
     
     output [6:0] opD, 

@@ -5,11 +5,11 @@ module tb ();
     logic clock, reset;
     
     logic req, we;
-	logic [31:0] addr;
-	logic [3:0] byte_mask;
-	logic [31:0] write_block;
+    logic [31:0] addr;
+    logic [3:0] byte_mask;
+    logic [31:0] write_block;
     logic miss;
-	logic [31:0] read_block;
+    logic [31:0] read_block;
     
     logic mem_req;
     logic [31:0] mem_read_addr;
@@ -22,7 +22,7 @@ module tb ();
 
     cache_module cache(
         .clock(clock), .reset(reset),
-	
+    
         .req(req), .we(we),
         .addr(addr),
         .byte_mask(byte_mask), 
@@ -88,10 +88,10 @@ module tb ();
         req = 1; we = 0; byte_mask = 'b1111; addr = 'h30;
 
     end
-	// generate clock to sequence tests
-	always begin
-		clock = 1; # 5; clock = 0; # 5;
-	end
+    // generate clock to sequence tests
+    always begin
+        clock = 1; # 5; clock = 0; # 5;
+    end
 
 endmodule : tb
 
@@ -100,7 +100,7 @@ module memory (
 
     input logic mem_req,
     input logic [31:0] mem_read_addr,
-	output logic [1:0] [31:0] mem_read_block,
+    output logic [1:0] [31:0] mem_read_block,
 
     input logic mem_we,
     input logic [31:0] mem_write_addr,

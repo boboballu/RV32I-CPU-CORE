@@ -79,7 +79,7 @@ module memory
     input logic [31:0] mem_write_addr,
     `endif
     input logic mem_we,
-	output logic [BLOCKS-1:0] [31:0] mem_read_block,
+    output logic [BLOCKS-1:0] [31:0] mem_read_block,
     input logic [BLOCKS-1:0] [31:0] mem_write_block,
     
     output logic mem_miss

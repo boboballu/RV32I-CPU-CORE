@@ -18,3 +18,12 @@ In "params_header.h"
     - "__start_stack"           Ram size - stack starts from bottom and grows towards the top of Ram
     - "__console_addr"          Output console address - ((4*1024*1024) + 4)
     - "__stop_addr"             Writing 1 to this memory address stops tb execution ((4*1024*1024) + 8)
+
+*Useful elf debug commands*
+objdump - Dumps assembly by section
+    -S (Intermix source code with disassembly)
+    -D (Disassemble all sections)
+    riscv-none-elf-objdump -S -D firmware.elf > dump.asm
+
+readelf to display the elf sections
+    (master)# riscv-none-elf-readelf -S stl_map/firmware.elf

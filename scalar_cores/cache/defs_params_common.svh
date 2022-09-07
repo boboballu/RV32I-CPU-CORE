@@ -14,11 +14,11 @@
 
 /* Parameters not meant to be modified */
 `define NM_CACHE_PARAMS \
-parameter INDEX_BIT_SIZE 	= ($clog2(SETS)), \
-parameter BLOCK_BIT_SIZE  	= ($clog2(BLOCKS)), \
-parameter TAG_BIT_SIZE		= 30 - INDEX_BIT_SIZE - BLOCK_BIT_SIZE, \
+parameter INDEX_BIT_SIZE     = ($clog2(SETS)), \
+parameter BLOCK_BIT_SIZE      = ($clog2(BLOCKS)), \
+parameter TAG_BIT_SIZE        = 30 - INDEX_BIT_SIZE - BLOCK_BIT_SIZE, \
 parameter LRU_BIT_SIZE      = ($clog2(ASSOC)), \
-parameter CACHE_SIZE 		= SETS * ASSOC * (BLOCKS*4)
+parameter CACHE_SIZE         = SETS * ASSOC * (BLOCKS*4)
 
 /* Modifiable parameters */
 `define cache_param_1 \

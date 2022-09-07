@@ -7,7 +7,7 @@
 import dbg_pkg::*;
 
 // takes care of all load instns
-function automatic logic [31:0] load_compute 	(
+function automatic logic [31:0] load_compute     (
                                 input logic [2:0] funct3,
                                 input logic [31:0] aluout, readdata
                                 //output logic [31:0] result
@@ -33,7 +33,7 @@ function automatic logic [31:0] load_compute 	(
                         default: result = 32'bx;
                     endcase
                 end
-        3'b001:	begin // LH
+        3'b001:    begin // LH
                     case (aluout[1])
                         1'b0: result = {{16{readdata[15]}} , readdata[15:0]};
                         1'b1: result = {{16{readdata[31]}} , readdata[31:16]};
@@ -56,7 +56,7 @@ function automatic logic [31:0] load_compute 	(
 endfunction : load_compute
 
 // new store_compute implementation 10/12/2020- masking is taken care in the Dmem controller
-function void store_compute 	(	
+function void store_compute     (    
     input logic [2:0] funct3,
     input logic [31:0] aluout, srcb_net0,
 
@@ -92,7 +92,7 @@ endfunction : store_compute
 // and then does the masking in cpu core, and finally stores back the masked value to the Dmem.
 // takes care all store instns
 /*
-function automatic logic [31:0] store_compute 	(
+function automatic logic [31:0] store_compute     (
                             input logic [2:0] funct3,
                             input logic [31:0] aluout, readdata, srcb_net0
                             //output logic [31:0] writedata

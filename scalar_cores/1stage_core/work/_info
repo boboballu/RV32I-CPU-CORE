@@ -8,10 +8,10 @@ z2
 !i10e 25
 !i10f 100
 cModel Technology
-Z0 d/root/Heterogeneous-multicore/scalar_cores/1stage_core
+Z0 d/root/RISCV_DEV/RV32I-CPU-CORE/scalar_cores/1stage_core
 valu
 Z1 DXx6 sv_std 3 std 0 22 VYECXdT12H8WgbUP_5Y6:3
-Z2 !s110 1616783165
+Z2 !s110 1662531020
 !i10b 1
 !s100 Wzbj_P0Yk>mQj9Mz_d3Bz3
 Z3 !s11b Dg1SIo80bB@j0V0VzS_@n1
@@ -19,7 +19,7 @@ ImRWL<?GJ;HW4?JPdn6Uh=2
 Z4 VDg1SIo80bB@j0V0VzS_@n1
 S1
 R0
-Z5 w1612408838
+Z5 w1662531000
 Z6 8rtl_datapath.sv
 Z7 Frtl_datapath.sv
 !i122 2
@@ -28,7 +28,7 @@ Z8 OV;L;2020.1_3;71
 r1
 !s85 0
 31
-Z9 !s108 1616783165.000000
+Z9 !s108 1662531020.000000
 Z10 !s107 rtl_datapath_functions.svh|defs_params_common.svh|rtl_datapath.sv|
 Z11 !s90 -sv|rtl_datapath.sv|
 !i113 1
@@ -69,9 +69,9 @@ I]VkYE9demRSR4FKgNI]d>1
 R4
 S1
 R0
-Z17 w1613424877
-Z18 8rtl_cache.sv
-Z19 Frtl_cache.sv
+R5
+Z17 8rtl_cache.sv
+Z18 Frtl_cache.sv
 !i122 6
 L0 212 60
 R8
@@ -79,8 +79,8 @@ r1
 !s85 0
 31
 R9
-Z20 !s107 defs_params_common.svh|rtl_cache.sv|
-Z21 !s90 -sv|rtl_cache.sv|
+Z19 !s107 defs_params_common.svh|rtl_cache.sv|
+Z20 !s90 -sv|rtl_cache.sv|
 !i113 1
 o-sv
 R12
@@ -94,9 +94,9 @@ IM3]0fA_SVH^8jKeUc^QUI0
 R4
 S1
 R0
+R5
 R17
 R18
-R19
 !i122 6
 L0 18 193
 R8
@@ -104,8 +104,8 @@ r1
 !s85 0
 31
 R9
+R19
 R20
-R21
 !i113 1
 o-sv
 R12
@@ -148,7 +148,7 @@ R5
 8rtl_controller_if.sv
 Frtl_controller_if.sv
 !i122 1
-Z22 L0 7 0
+Z21 L0 7 0
 R8
 r1
 !s85 0
@@ -169,11 +169,11 @@ Ih4La>IE3?Vf_Ec;T>O6IE0
 R4
 S1
 R0
-Z23 w1613245570
+R5
 R6
 R7
 Frtl_datapath_functions.svh
-Z24 Fdefs_params_common.svh
+Z22 Fdefs_params_common.svh
 !i122 2
 L0 7 347
 R8
@@ -190,17 +190,17 @@ Xdbg_pkg
 R1
 R2
 !i10b 1
-!s100 aVhMC?R6i?ZHR_I@f2^P=0
+!s100 2H;AgG7gAWo8E_o=:Iz6_2
 R3
-I3g[JX`=BXVBih30?7c4Qm1
-V3g[JX`=BXVBih30?7c4Qm1
+I5?0VNDdcHb;?=PlB0FMlM0
+V5?0VNDdcHb;?=PlB0FMlM0
 S1
 R0
 R5
 8tb_debug_package.sv
 Ftb_debug_package.sv
 !i122 0
-R22
+R21
 R8
 r1
 !s85 0
@@ -213,8 +213,8 @@ o-sv
 R12
 vdmem
 R1
-Z25 DXx4 work 7 dbg_pkg 0 22 3g[JX`=BXVBih30?7c4Qm1
-Z26 DXx4 work 23 rtl_memory_impl_sv_unit 0 22 8gRF68giP6]EM5?Wnb54e3
+Z23 DXx4 work 7 dbg_pkg 0 22 5?0VNDdcHb;?=PlB0FMlM0
+Z24 DXx4 work 23 rtl_memory_impl_sv_unit 0 22 8gRF68giP6]EM5?Wnb54e3
 R2
 R4
 r1
@@ -222,26 +222,26 @@ r1
 !i10b 1
 !s100 YW]Yl^6YUL5XmL:mk_ZSl1
 IzRGIKDg;H?:54WmP5^IiD0
-Z27 !s105 rtl_memory_impl_sv_unit
+Z25 !s105 rtl_memory_impl_sv_unit
 S1
 R0
-Z28 w1613185176
-Z29 8rtl_memory_impl.sv
-Z30 Frtl_memory_impl.sv
+R5
+Z26 8rtl_memory_impl.sv
+Z27 Frtl_memory_impl.sv
 !i122 5
 L0 51 20
 R8
 31
 R9
-Z31 !s107 defs_params_common.svh|rtl_memory_impl.sv|
-Z32 !s90 -sv|rtl_memory_impl.sv|
+Z28 !s107 defs_params_common.svh|rtl_memory_impl.sv|
+Z29 !s90 -sv|rtl_memory_impl.sv|
 !i113 1
 o-sv
 R12
 vimem
 R1
-R25
-R26
+R23
+R24
 R2
 R4
 r1
@@ -249,19 +249,19 @@ r1
 !i10b 1
 !s100 <VMELglMPBRHGcC3olhm93
 IcSeNEo52kc1No]5BJ4VjA2
-R27
+R25
 S1
 R0
-R28
-R29
-R30
+R5
+R26
+R27
 !i122 5
 L0 72 11
 R8
 31
 R9
-R31
-R32
+R28
+R29
 !i113 1
 o-sv
 R12
@@ -317,8 +317,8 @@ o-sv
 R12
 Ymem_bus
 R1
-R25
-R26
+R23
+R24
 R2
 R4
 r1
@@ -326,19 +326,19 @@ r1
 !i10b 1
 !s100 H:]CdNYGDaWZ]C>;KB8XI1
 IOUMOQN>OgH11anhoP7f=l3
-R27
+R25
 S1
 R0
-R28
-R29
-R30
+R5
+R26
+R27
 !i122 5
 L0 16 0
 R8
 31
 R9
-R31
-R32
+R28
+R29
 !i113 1
 o-sv
 R12
@@ -352,9 +352,9 @@ I6z2@0SmXd:=Ll?MeV?b`B1
 R4
 S1
 R0
-Z33 w1613301670
-Z34 8test_ram_cache_glue.sv
-Z35 Ftest_ram_cache_glue.sv
+R5
+Z30 8test_ram_cache_glue.sv
+Z31 Ftest_ram_cache_glue.sv
 !i122 7
 L0 6 68
 R8
@@ -362,8 +362,8 @@ r1
 !s85 0
 31
 R9
-Z36 !s107 test_ram_cache_glue.sv|
-Z37 !s90 -sv|test_ram_cache_glue.sv|
+Z32 !s107 test_ram_cache_glue.sv|
+Z33 !s90 -sv|test_ram_cache_glue.sv|
 !i113 1
 o-sv
 R12
@@ -377,9 +377,9 @@ IQoz]0AUA_jTBLmOVN;21I2
 R4
 S1
 R0
-R33
-R34
-R35
+R5
+R30
+R31
 !i122 7
 L0 75 12
 R8
@@ -387,8 +387,8 @@ r1
 !s85 0
 31
 R9
-R36
-R37
+R32
+R33
 !i113 1
 o-sv
 R12
@@ -419,7 +419,7 @@ o-sv
 R12
 vriscv_32i
 R1
-R25
+R23
 DXx4 work 20 rtl_core_top_sv_unit 0 22 ID[mXz=SW4OZ:<Ln`@GQd0
 R2
 R4
@@ -432,21 +432,21 @@ Il75`H<:LY0kQ_>6GO[S=[3
 S1
 R0
 R5
-Z38 8rtl_core_top.sv
-Z39 Frtl_core_top.sv
+Z34 8rtl_core_top.sv
+Z35 Frtl_core_top.sv
 !i122 4
 L0 9 33
 R8
 31
 R9
-Z40 !s107 defs_params_common.svh|rtl_core_top.sv|
-Z41 !s90 -sv|rtl_core_top.sv|
+Z36 !s107 defs_params_common.svh|rtl_core_top.sv|
+Z37 !s90 -sv|rtl_core_top.sv|
 !i113 1
 o-sv
 R12
 Xrtl_core_top_sv_unit
 R1
-R25
+R23
 R2
 VID[mXz=SW4OZ:<Ln`@GQd0
 r1
@@ -457,23 +457,23 @@ IID[mXz=SW4OZ:<Ln`@GQd0
 !i103 1
 S1
 R0
-R23
-R38
-R39
-R24
+R5
+R34
+R35
+R22
 !i122 4
 L0 8 0
 R8
 31
 R9
-R40
-R41
+R36
+R37
 !i113 1
 o-sv
 R12
 Xrtl_memory_impl_sv_unit
 R1
-R25
+R23
 R2
 V8gRF68giP6]EM5?Wnb54e3
 r1
@@ -484,24 +484,24 @@ I8gRF68giP6]EM5?Wnb54e3
 !i103 1
 S1
 R0
-R23
-R29
-R30
-R24
+R5
+R26
+R27
+R22
 !i122 5
 L0 14 0
 R8
 31
 R9
-R31
-R32
+R28
+R29
 !i113 1
 o-sv
 R12
 Xtb_testbench_sv_unit
 R1
-R25
-Z42 !s110 1616783166
+R23
+R2
 V2oG?Yb@fM4^Bja<4<JlNK0
 r1
 !s85 0
@@ -511,23 +511,23 @@ I2oG?Yb@fM4^Bja<4<JlNK0
 !i103 1
 S1
 R0
-Z43 w1616783124
-Z44 8tb_testbench.sv
-Z45 Ftb_testbench.sv
-R24
+R5
+Z38 8tb_testbench.sv
+Z39 Ftb_testbench.sv
+R22
 !i122 9
 L0 19 0
 R8
 31
 R9
 !s107 defs_params_common.svh|tb_testbench.sv|
-Z46 !s90 -sv|tb_testbench.sv|
+Z40 !s90 -sv|tb_testbench.sv|
 !i113 1
 o-sv
 R12
 Xtest_top_test_sv_unit
 R1
-R25
+R23
 R2
 V6YcV91K2CLX2<98GZ<@To0
 r1
@@ -538,50 +538,50 @@ I6YcV91K2CLX2<98GZ<@To0
 !i103 1
 S1
 R0
-Z47 w1613245747
-Z48 8test_top_test.sv
-Z49 Ftest_top_test.sv
-R24
+R5
+Z41 8test_top_test.sv
+Z42 Ftest_top_test.sv
+R22
 !i122 8
 L0 9 0
 R8
 31
 R9
-Z50 !s107 defs_params_common.svh|test_top_test.sv|
-Z51 !s90 -sv|test_top_test.sv|
+Z43 !s107 defs_params_common.svh|test_top_test.sv|
+Z44 !s90 -sv|test_top_test.sv|
 !i113 1
 o-sv
 R12
 vtestbench
 R1
-R25
+R23
 DXx4 work 20 tb_testbench_sv_unit 0 22 2oG?Yb@fM4^Bja<4<JlNK0
-R42
+R2
 R4
 r1
 !s85 0
 !i10b 1
-!s100 =2PWE5]:NK@@LHXoNJW[U1
-Io55In;DA7XimIENiiX02P1
+!s100 D_92RlI2a^E@HcOFO=]am1
+I_ikA2n3RbF8b8=IQ^zL2Y3
 !s105 tb_testbench_sv_unit
 S1
 R0
-R43
-R44
-R45
+R5
+R38
+R39
 !i122 9
 L0 9 191
 R8
 31
 R9
-Z52 !s107 defs_params_common.svh|tb_testbench.sv|
-R46
+Z45 !s107 defs_params_common.svh|tb_testbench.sv|
+R40
 !i113 1
 o-sv
 R12
 vtop
 R1
-R25
+R23
 DXx4 work 21 test_top_test_sv_unit 0 22 6YcV91K2CLX2<98GZ<@To0
 R2
 R4
@@ -593,23 +593,23 @@ IGQT33Z_e`JhkYX=dOa<i71
 !s105 test_top_test_sv_unit
 S1
 R0
-R47
-R48
-R49
+R5
+R41
+R42
 !i122 8
 L0 11 172
 R8
 31
 R9
-R50
-R51
+R43
+R44
 !i113 1
 o-sv
 R12
 vunified_L1_cache
 R1
-R25
-R26
+R23
+R24
 R2
 R4
 r1
@@ -617,19 +617,19 @@ r1
 !i10b 1
 !s100 ARG=VaXL]>W1KAAS^N_h;1
 I9R4WN6JRFCoUORXNnKU[m2
-R27
+R25
 S1
 R0
-R28
-R29
-R30
+R5
+R26
+R27
 !i122 5
 L0 84 66
 R8
 31
 R9
-R31
-R32
+R28
+R29
 !i113 1
 o-sv
 R12

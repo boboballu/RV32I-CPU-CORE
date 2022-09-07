@@ -12,6 +12,6 @@ package dbg_pkg;
     //     logic [31:0] dmem_addr; logic [31:0] dmem_wd;
     //     logic [31:0] dmem_rd; 
     //     logic regwriteM; logic memtoregM;
-    // }	mem_debug;
+    // }    mem_debug;
     
 endpackage
