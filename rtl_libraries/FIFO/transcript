@@ -1,9 +1,49 @@
-# ERROR: No extended dataflow license exists
-# vsim fifo_tb 
-# Start time: 22:29:39 on Aug 13,2022
+# vsim ready_valid_tb 
+# Start time: 19:51:35 on Sep 12,2022
 # Loading sv_std.std
-# Loading work.fifo_tb
+# Loading work.ready_valid_tb
+# Loading work.ready_valid_skid_pipeline
+# Loading work.fifo_ready_valid_wrapper
 # Loading work.fifo
-do wave.do
+do ready_valid.do
+add wave -position insertpoint  \
+sim:/ready_valid_tb/run_sender_driver/index
+view -new wave
+# -new not supported on PE
+add wave -position insertpoint  \
+sim:/ready_valid_tb/run_receiver_driver/index
 run
-# Break key hit
+# sender : valid-> 1 ; data-> 74
+# sender : valid-> 1 ; data-> 62
+# sender : valid-> 1 ; data-> 06
+# sender : valid-> 1 ; data-> 7f
+# sender : valid-> 1 ; data-> 82
+# sender : valid-> 1 ; data-> bc
+# sender : valid-> 1 ; data-> f0
+# sender : valid-> 1 ; data-> 6d
+# sender : valid-> 1 ; data-> 37
+# sender : valid-> 1 ; data-> ec
+# sender : valid-> 1 ; data-> 09
+# sender : valid-> 1 ; data-> 5f
+# sender : valid-> 1 ; data-> 7f
+# sender : valid-> 1 ; data-> 86
+# sender : valid-> 1 ; data-> bf
+# sender : valid-> 1 ; data-> 13
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# End time: 20:16:16 on Sep 12,2022, Elapsed time: 0:24:41
+# Errors: 0, Warnings: 0
