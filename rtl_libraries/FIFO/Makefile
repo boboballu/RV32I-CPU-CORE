@@ -1,10 +1,11 @@
 sim_ready_valid: compile
-	vsim ready_valid_tb
+	vsim -do "do ready_valid_if.do;" ready_valid_tb
 
 sim_fifo: compile
 	vsim -do "do wave.do;" fifo_tb
 
 compile:
+	vlog ready_valid_if.sv
 	vlog FIFO.sv
 	vlog FIFO_tb.sv
 	vlog ready_valid_tb.sv

@@ -18,11 +18,21 @@ logic [DATA_WIDTH-1:0] data;
 modport sender(
     output valid, data,
     input ready
-)
+);
 
 modport receiver(
     input valid, data,
     output ready
-)
-modport sender
+);
+
+modport out(
+    output valid, data,
+    input ready
+);
+
+modport in(
+    input valid, data,
+    output ready
+);
+
 endinterface

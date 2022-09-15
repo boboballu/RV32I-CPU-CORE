@@ -72,29 +72,25 @@ module fifo_ready_valid_wrapper #(
 (
     // general signals
     input logic clk, reset_n,
-
-    // Sender module (module A for simplicity) signals
-    input logic A_valid, 
-    input logic [COL_BIT_WIDTH-1:0] A_data,
-    output logic A_ready, 
-    output logic [ROW_ADDR_WIDTH:0] A_write_ptr, 
-
-    // Receiver module (Module B for simplicity) signals
-    output logic B_valid,
-    output logic [COL_BIT_WIDTH-1:0] B_data,
-    input logic B_ready,
-    output logic [ROW_ADDR_WIDTH:0] B_read_ptr
+    // "in" is connected module A that sends data
+    
+    ready_valid_if in,      // expects interface of type "ready_valid_if.out"
+    output logic [ROW_ADDR_WIDTH:0] in_write_ptr, 
+    // "out" is connected to module B that receives data
+    
+    ready_valid_if out,     // expects interface of type "ready_valid_if.in"
+    output logic [ROW_ADDR_WIDTH:0] out_read_ptr
 );
 
     logic w_stall, r_stall;
     fifo #(.ROWS(ROWS), .COL_BIT_WIDTH(COL_BIT_WIDTH)) fifo_inst (
         .clk(clk), .reset_n(reset_n),
-        .w_req(A_valid), .r_req(B_ready),
-        .w_data(A_data), .r_data(B_data),
-        .write_ptr(A_write_ptr), .read_ptr(B_read_ptr),
+        .w_req(in.valid), .r_req(out.ready),
+        .w_data(in.data), .r_data(out.data),
+        .write_ptr(in_write_ptr), .read_ptr(out_read_ptr),
         .w_stall(w_stall), .r_stall(r_stall)
     );
 
-    assign A_ready = !w_stall;
-    assign B_valid = !r_stall;
+    assign in.ready = !w_stall;
+    assign out.valid = !r_stall;
 endmodule : fifo_ready_valid_wrapper
