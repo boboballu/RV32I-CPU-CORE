@@ -119,52 +119,47 @@ module ready_valid_tb ();
         if (sender_A.valid && sender_A.ready) begin  // sender_A_is_ready_and_has_valid_data
             sender_A.data = data;
         end
-        @(posedge clk);
-
     endtask : sender_driver
 
     task run_sender_driver();
         static int index=0;
+        @(posedge clk);
+        if (reset_n == 1'b0) return;
         if (index < sender_testlist.size()) begin
-            sender_driver(sender_testlist[index].valid, sender_A.ready, sender_testlist[index].data);
             casex ({sender_A.valid, sender_A.ready})
                 2'b?1: begin  // sender_A_is_ready_and_has_valid_data
+                    sender_driver(sender_testlist[index].valid, sender_A.ready, sender_testlist[index].data);
                     index = index + 1;
                 end
-                // 2'b01: begin
-                //     sender_driver(sender_testlist[valid_index].valid, sender_A.ready, sender_testlist[data_index].data);
-                //     valid_index = valid_index + 1;
-                // end
-                default:  @(posedge clk);
+                default: begin /* do nothing */ end
             endcase
         end
-        else
-            @(posedge clk);
     endtask : run_sender_driver
 
     task run_receiver_driver();
         static int index=0;
+        @(posedge clk);
+        if (reset_n == 1'b0) return;
         if (index < receiver_testlist.size()) begin
             receiver_B.ready = receiver_testlist[index].ready;
             casex ({receiver_B.valid, receiver_B.ready})
                 2'b1?:  index = index + 1;
-                default:  @(posedge clk);
+                default: begin /* do nothing */ end
             endcase
         end
-        else
-            @(posedge clk);
     endtask : run_receiver_driver
 
     task monitor_and_scoreboard();
         @(negedge clk);
-        if (sender_A.valid && sender_A.ready) begin
+        if (reset_n == 1'b0) return;
+        if ( (sender_A.valid && sender_A.ready) && (scoreboard_perf_ctr.sender_count <= 15) ) begin
+            scoreboard_perf_ctr.data_transfer_assoc_array[scoreboard_perf_ctr.sender_count] = sender_A.data;
             scoreboard_perf_ctr.sender_count = scoreboard_perf_ctr.sender_count + 1;
-            scoreboard_perf_ctr.data_transfer_assoc_array[sender_A.data] = scoreboard_perf_ctr.sender_count;
             $display("sender_A: %d : sent < %x >", scoreboard_perf_ctr.sender_count, sender_A.data);
         end
-        if (receiver_B.valid && receiver_B.ready) begin
+        if ( (receiver_B.valid && receiver_B.ready) && (scoreboard_perf_ctr.receiver_count <= 15) ) begin
+            assert(scoreboard_perf_ctr.data_transfer_assoc_array[scoreboard_perf_ctr.receiver_count] == receiver_B.data);
             scoreboard_perf_ctr.receiver_count = scoreboard_perf_ctr.receiver_count + 1;
-            assert(scoreboard_perf_ctr.data_transfer_assoc_array[receiver_B.data] == scoreboard_perf_ctr.receiver_count);
             $display("receiver_B: %d : received < %x >", scoreboard_perf_ctr.receiver_count, receiver_B.data);
         end
     endtask : monitor_and_scoreboard
@@ -174,7 +169,7 @@ module ready_valid_tb ();
         $display("--- END Of Simulation ---");
         $display("-- data transfer stats (Key: Data sent | value: data send index) --");
         foreach(scoreboard_perf_ctr.data_transfer_assoc_array[key]) 
-            $display(" -key: %x   |   -value: %d", key, scoreboard_perf_ctr.data_transfer_assoc_array[key]);
+            $display(" -key: %x   |   -value: %x", key, scoreboard_perf_ctr.data_transfer_assoc_array[key]);
         $display("sender counter: %d   |   receiver counter %d", scoreboard_perf_ctr.sender_count, scoreboard_perf_ctr.receiver_count);
     endtask : end_simulation
 

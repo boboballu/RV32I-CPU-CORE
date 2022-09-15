@@ -40,20 +40,20 @@ module fifo #(
 
     always_ff @(posedge clk or negedge reset_n) begin
         if (!reset_n) begin
-            MEM <= #1 '{default:'b0};
-            head <= #1 0;
-            tail <= #1 0;
+            MEM <= '{default:'b0};
+            head <= 0;
+            tail <= 0;
         end
         else begin
             if (!full) begin
                 if (w_req) begin
-                    MEM[tail[ROW_ADDR_WIDTH-1:0]] <= #1 w_data;
-                    tail <= #1 tail + 1;
+                    MEM[tail[ROW_ADDR_WIDTH-1:0]] <= w_data;
+                    tail <= tail + 1;
                 end
             end
             if (!empty) begin
                 if (r_req) begin
-                    head <= #1 head + 1;
+                    head <= head + 1;
                 end
             end
         end

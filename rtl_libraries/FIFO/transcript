@@ -1,6 +1,6 @@
 # A bookmarks file was found in the current directory with 1 bookmark
 # vsim -do "do ready_valid_if.do;" ready_valid_tb 
-# Start time: 21:49:38 on Sep 14,2022
+# Start time: 11:52:23 on Sep 15,2022
 # Loading sv_std.std
 # Loading work.ready_valid_tb
 # Loading work.ready_valid_if
@@ -86,23 +86,141 @@ run
 # sender_A:           2 : sent < 5f >
 # sender_A:           3 : sent < 86 >
 # sender_A:           4 : sent < 13 >
-# sender_A:           5 : sent < 3c >
 run
+# sender_A:           5 : sent < 3c >
 # receiver_B:           1 : received < ec >
 # sender_A:           6 : sent < d6 >
 # sender_A:           7 : sent < 06 >
 # receiver_B:           2 : received < 5f >
 run
+# receiver_B:           3 : received < 86 >
 # sender_A:           8 : sent < f7 >
-# ** Error: Assertion error.
-#    Time: 225 ps  Scope: ready_valid_tb.monitor_and_scoreboard File: ready_valid_tb.sv Line: 167
-# receiver_B:           3 : received < 13 >
 # sender_A:           9 : sent < fc >
-# ** Error: Assertion error.
-#    Time: 265 ps  Scope: ready_valid_tb.monitor_and_scoreboard File: ready_valid_tb.sv Line: 167
-# receiver_B:           4 : received < 3c >
-# ** Error: Assertion error.
-#    Time: 285 ps  Scope: ready_valid_tb.monitor_and_scoreboard File: ready_valid_tb.sv Line: 167
-# receiver_B:           5 : received < 06 >
-# End time: 22:04:45 on Sep 14,2022, Elapsed time: 0:15:07
-# Errors: 3, Warnings: 0
+# receiver_B:           4 : received < 13 >
+# receiver_B:           5 : received < 3c >
+# receiver_B:           6 : received < d6 >
+# sender_A:          10 : sent < 79 >
+# receiver_B:           7 : received < 06 >
+# receiver_B:           8 : received < f7 >
+run
+# sender_A:          11 : sent < 01 >
+# receiver_B:           9 : received < fc >
+# sender_A:          12 : sent < 04 >
+# sender_A:          13 : sent < 23 >
+# receiver_B:          10 : received < 79 >
+# receiver_B:          11 : received < 01 >
+# sender_A:          14 : sent < 56 >
+run
+# sender_A:          15 : sent < 99 >
+# receiver_B:          12 : received < 04 >
+# sender_A:          16 : sent < 2e >
+# receiver_B:          13 : received < 23 >
+# receiver_B:          14 : received < 56 >
+# receiver_B:          15 : received < 99 >
+# receiver_B:          16 : received < 2e >
+# --- END Of Simulation ---
+# -- data transfer stats (Key: Data sent | value: data send index) --
+#  -key: 00   |   -value: 000000ec
+#  -key: 01   |   -value: 0000005f
+#  -key: 02   |   -value: 00000086
+#  -key: 03   |   -value: 00000013
+#  -key: 04   |   -value: 0000003c
+#  -key: 05   |   -value: 000000d6
+#  -key: 06   |   -value: 00000006
+#  -key: 07   |   -value: 000000f7
+#  -key: 08   |   -value: 000000fc
+#  -key: 09   |   -value: 00000079
+#  -key: 0a   |   -value: 00000001
+#  -key: 0b   |   -value: 00000004
+#  -key: 0c   |   -value: 00000023
+#  -key: 0d   |   -value: 00000056
+#  -key: 0e   |   -value: 00000099
+#  -key: 0f   |   -value: 0000002e
+# sender counter:          16   |   receiver counter          16
+# ** Note: $finish    : ready_valid_tb.sv(52)
+#    Time: 500 ps  Iteration: 0  Instance: /ready_valid_tb
+# 1
+# Break in NamedBeginStat defaults at ready_valid_tb.sv line 52
+# Bookmark(s) were restored for window "Source"
+add wave -position insertpoint  \
+sim:/ready_valid_tb/test_type
+restart
+# Closing VCD file "ready_valid_tb.vcd"
+run
+# ------ Generating random sender and receiver test sequence ------
+# sender : valid-> 0 ; data-> 62
+# sender : valid-> 0 ; data-> 7f
+# sender : valid-> 0 ; data-> bc
+# sender : valid-> 0 ; data-> 6d
+# sender : valid-> 1 ; data-> ec
+# sender : valid-> 1 ; data-> 5f
+# sender : valid-> 1 ; data-> 86
+# sender : valid-> 1 ; data-> 13
+# sender : valid-> 1 ; data-> 3c
+# sender : valid-> 0 ; data-> b0
+# sender : valid-> 0 ; data-> a5
+# sender : valid-> 0 ; data-> 3f
+# sender : valid-> 1 ; data-> d6
+# sender : valid-> 0 ; data-> b7
+# sender : valid-> 1 ; data-> 06
+# sender : valid-> 1 ; data-> f7
+# sender : valid-> 1 ; data-> fc
+# sender : valid-> 0 ; data-> a8
+# sender : valid-> 0 ; data-> 4b
+# sender : valid-> 1 ; data-> 79
+# sender : valid-> 0 ; data-> f6
+# sender : valid-> 1 ; data-> 01
+# sender : valid-> 1 ; data-> 04
+# sender : valid-> 0 ; data-> 84
+# sender : valid-> 0 ; data-> e3
+# sender : valid-> 1 ; data-> 23
+# sender : valid-> 0 ; data-> f0
+# sender : valid-> 0 ; data-> 5b
+# sender : valid-> 0 ; data-> e8
+# sender : valid-> 0 ; data-> 04
+# sender : valid-> 1 ; data-> 56
+# sender : valid-> 1 ; data-> 99
+# sender : valid-> 1 ; data-> 2e
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 1
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 1
+# receiver : ready -> 0
+# receiver : ready -> 1
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 1
+# receiver : ready -> 0
+# receiver : ready -> 1
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 1
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# sender_A:           1 : sent < ec >
+# sender_A:           2 : sent < 5f >
+# sender_A:           3 : sent < 86 >
+# sender_A:           4 : sent < 13 >
+# End time: 11:58:12 on Sep 15,2022, Elapsed time: 0:05:49
+# Errors: 0, Warnings: 0
