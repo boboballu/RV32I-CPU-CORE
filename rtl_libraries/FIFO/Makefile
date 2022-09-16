@@ -6,8 +6,8 @@ sim_fifo: compile
 
 compile:
 	vlog ready_valid_if.sv
-	vlog FIFO.sv
-	vlog FIFO_tb.sv
+	vlog fifo.sv
+	vlog fifo_tb.sv
 	vlog ready_valid_tb.sv
 	vlog ready_valid.sv
 

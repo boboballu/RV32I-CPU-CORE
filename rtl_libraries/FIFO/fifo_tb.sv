@@ -94,7 +94,7 @@ module fifo_tb ();
         #10 reset_n = #1 1;
     end : reset_n_gen
 
-    initial begin
+    initial begin : start_driver_threads
         #15;
         forever begin
             fork
@@ -102,7 +102,7 @@ module fifo_tb ();
                 r_run_driver();
             join
         end
-    end
+    end : start_driver_threads
 
     task w_driver(
         input logic req,

@@ -1,3 +1,29 @@
+//                                      PRRAMETRIZABLE FIFO DESIGN
+
+//                                        +---------------+
+//                       w_data +-------->+               +---------> r_data
+//                                        +---------------+
+//                                        |               |
+//                                        +---------------+
+//                                        |               |
+//                                        +---------------+
+//                                        |       .       |
+//               +--------+        tail   |       .       |   head          +--------+
+//   w_req +---->+ write  +<-------+------+       .       +------+--------->+ read   +<----+ r_req
+//               | stall  |        |      |      fifo     |      |          | stall  |
+//               |        +<---+   |      |       .       |      |    +---->+        |
+// w_stall <-----+        |    |   |      +---------------+      |    |     |        +-----> r_stall
+//               +--------+    |   |                             |    |     +--------+
+//                             |   +----------------------------------+
+//                             |                                 |
+//                             +---------------------------------+
+
+// head and tail are counters keeping track of the free entry in the fifo
+// write_stall and read_stall modules raises full and empty condition
+// full condition   -> head ^ tail == (MSB == 'b1) and (rest other bits 1'b0);
+// empty condition  -> head ^ tail == 0;
+
+
 module fifo #(
     parameter ROWS  = 8,
     parameter COL_BIT_WIDTH = 32,
@@ -30,7 +56,7 @@ module fifo #(
         else if ( (head ^ tail) == 'b0 ) begin : empty_condition
             full = 0;
             empty = 1;
-        end
+        end : empty_condition
 
         else begin
             full = 0;
@@ -93,4 +119,5 @@ module fifo_ready_valid_wrapper #(
 
     assign in.ready = !w_stall;
     assign out.valid = !r_stall;
+
 endmodule : fifo_ready_valid_wrapper
