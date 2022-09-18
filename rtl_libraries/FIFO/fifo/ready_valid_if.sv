@@ -35,4 +35,8 @@ modport in(
     output ready
 );
 
+modport monitor(
+    input valid, data,
+    input ready
+);
 endinterface

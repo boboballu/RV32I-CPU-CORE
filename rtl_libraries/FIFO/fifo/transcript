@@ -1,0 +1,106 @@
+# vsim -c -do "run -all; exit" fifo_ready_valid_tb 
+# Start time: 00:45:11 on Sep 18,2022
+# Loading sv_std.std
+# Loading work.fifo_ready_valid_tb
+# Loading work.ready_valid_if
+# Loading work.fifo_ready_valid_wrapper
+# Loading work.fifo
+# run -all
+# default test picked:  BUSY_RECEIVER
+# ------ Busy Receiver test sequence ------
+# sender : valid-> 1 ; data-> 74
+# sender : valid-> 1 ; data-> 62
+# sender : valid-> 1 ; data-> 06
+# sender : valid-> 1 ; data-> 7f
+# sender : valid-> 1 ; data-> 82
+# sender : valid-> 1 ; data-> bc
+# sender : valid-> 1 ; data-> f0
+# sender : valid-> 1 ; data-> 6d
+# sender : valid-> 1 ; data-> 37
+# sender : valid-> 1 ; data-> ec
+# sender : valid-> 1 ; data-> 09
+# sender : valid-> 1 ; data-> 5f
+# sender : valid-> 1 ; data-> 7f
+# sender : valid-> 1 ; data-> 86
+# sender : valid-> 1 ; data-> bf
+# sender : valid-> 1 ; data-> 13
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# ------ Done ------
+# time: 40: sender_A:           0 : sent < 74 >
+# time: 50: sender_A:           1 : sent < 62 >
+# time: 60: sender_A:           2 : sent < 06 >
+# time: 70: sender_A:           3 : sent < 7f >
+# time: 140: receiver_B:           0 : received < 74 >
+# time: 150: sender_A:           4 : sent < 82 >
+# time: 150: receiver_B:           1 : received < 62 >
+# time: 160: sender_A:           5 : sent < bc >
+# time: 160: receiver_B:           2 : received < 06 >
+# time: 170: sender_A:           6 : sent < f0 >
+# time: 170: receiver_B:           3 : received < 7f >
+# time: 180: sender_A:           7 : sent < 6d >
+# time: 180: receiver_B:           4 : received < 82 >
+# time: 190: sender_A:           8 : sent < 37 >
+# time: 190: receiver_B:           5 : received < bc >
+# time: 200: sender_A:           9 : sent < ec >
+# time: 200: receiver_B:           6 : received < f0 >
+# time: 210: sender_A:          10 : sent < 09 >
+# time: 210: receiver_B:           7 : received < 6d >
+# time: 220: sender_A:          11 : sent < 5f >
+# time: 220: receiver_B:           8 : received < 37 >
+# time: 230: sender_A:          12 : sent < 7f >
+# time: 230: receiver_B:           9 : received < ec >
+# time: 240: sender_A:          13 : sent < 86 >
+# time: 240: receiver_B:          10 : received < 09 >
+# time: 250: sender_A:          14 : sent < bf >
+# time: 250: receiver_B:          11 : received < 5f >
+# time: 260: sender_A:          15 : sent < 13 >
+# time: 260: receiver_B:          12 : received < 7f >
+# time: 270: receiver_B:          13 : received < 86 >
+# time: 280: receiver_B:          14 : received < bf >
+# time: 290: receiver_B:          15 : received < 13 >
+# --- END Of Simulation ---
+# -- data transfer stats (Key: data send index | value: Data sent) --
+#  -key:   0   |   -value: 00000074
+#  -key:   1   |   -value: 00000062
+#  -key:   2   |   -value: 00000006
+#  -key:   3   |   -value: 0000007f
+#  -key:   4   |   -value: 00000082
+#  -key:   5   |   -value: 000000bc
+#  -key:   6   |   -value: 000000f0
+#  -key:   7   |   -value: 0000006d
+#  -key:   8   |   -value: 00000037
+#  -key:   9   |   -value: 000000ec
+#  -key:  10   |   -value: 00000009
+#  -key:  11   |   -value: 0000005f
+#  -key:  12   |   -value: 0000007f
+#  -key:  13   |   -value: 00000086
+#  -key:  14   |   -value: 000000bf
+#  -key:  15   |   -value: 00000013
+# sender counter:          16   |   receiver counter:          16
+# ** Note: $finish    : fifo_tb.sv(101)
+#    Time: 500 ps  Iteration: 0  Instance: /fifo_ready_valid_tb
+# End time: 00:45:12 on Sep 18,2022, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0

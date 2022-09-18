@@ -37,10 +37,12 @@
 //                             * monitors DUT_in and DUT_out
 //                             * records info in scoreboard_perf_ctr
 
-
+// Note : 
+// The event control @e has to execute and block the current process before the trigger occurs in another process
 module ready_valid_tb ();
     parameter DATA_WIDTH = 8;
     parameter PIPELINE_DEPTH = 3;
+    parameter NUM_SEQUENCE = 16;
 
     //  --- Testbench datastructure types --- //
     typedef struct {
@@ -100,6 +102,7 @@ module ready_valid_tb ();
         clk = #5 ~clk;
     end : clk_gen
 
+    // reset_n should async asserted and sync deasserted (add #1 delay for deassertion to satisfy the simulator)
     initial begin : reset_n_gen
         #5 reset_n = 0;
         #16 reset_n = 1;
@@ -108,16 +111,25 @@ module ready_valid_tb ();
     initial begin : autogen_rand_testlist
         static int i=0;
         static int sv=0;
-        test_type = RANDOM;
+        // get the test arg from commandline
+        int arg1;
+        if ( $value$plusargs("test=%d", arg1)) begin
+            $cast(test_type, arg1);
+            $display("Received %s", test_type.name());
+        end
+        else begin
+            test_type = BUSY_RECEIVER;
+            $display("default test picked:  %s", test_type.name());
+        end
         case (test_type)
             RANDOM: begin
                 $display("------ Generating random sender and receiver test sequence ------");
-                for(i=0; i <= 15; ) begin
+                for(i=0; i < NUM_SEQUENCE; ) begin
                     sv = $urandom_range(0,1);
                     sender_testlist.push_back(sender_t'{sv, $urandom_range(0,255)});
                     if (sender_testlist[sender_testlist.size()-1].valid == 1) i++;
                 end
-                for (i=0; i <= 15; ) begin
+                for (i=0; i < NUM_SEQUENCE; ) begin
                     receiver_testlist.push_back(receiver_t'{$urandom_range(0,1)});
                     if (receiver_testlist[receiver_testlist.size()-1].ready == 1) i++;
                 end
@@ -125,21 +137,25 @@ module ready_valid_tb ();
             end
             PERFECT_SENDER_RECEIVER: begin
                 $display("------ Perfect sender and receiver test sequence ------");
-                for (int i=0; i<=15; i++) begin
+                for (int i=0; i < NUM_SEQUENCE; i++) begin
                     sender_testlist.push_back(sender_t'{1'b1, $urandom_range(0,255)});
                     receiver_testlist.push_back(receiver_t'{1'b1});
                 end
             end
             BUSY_RECEIVER: begin
                 $display("------ Busy Receiver test sequence ------");
-                for (int i=0; i<=15; i++) begin
+                for (int i=0; i < NUM_SEQUENCE; i++) begin
                     sender_testlist.push_back(sender_t'{1'b1, $urandom_range(0,255)});
-                    receiver_testlist.push_back(receiver_t'{1'b0});
+                end
+                for (int i=0; i < NUM_SEQUENCE + (NUM_SEQUENCE)/2; i++) begin
+                    if (i < (NUM_SEQUENCE)/2) receiver_testlist.push_back(receiver_t'{1'b0});
+                    else     receiver_testlist.push_back(receiver_t'{1'b1});
                 end
             end
         endcase
         foreach(sender_testlist[i]) $display("sender : valid-> %b ; data-> %02x", sender_testlist[i].valid, sender_testlist[i].data);
         foreach(receiver_testlist[i]) $display("receiver : ready -> %b", receiver_testlist[i].ready);
+        $display ("------ Done ------");
     end : autogen_rand_testlist
     
     initial begin
@@ -214,12 +230,12 @@ module ready_valid_tb ();
         if (reset_n == 1'b0) return;
         if ( (sender_A.valid && sender_A.ready) && (scoreboard_perf_ctr.sender_count <= 15) ) begin
             scoreboard_perf_ctr.data_transfer_assoc_array[scoreboard_perf_ctr.sender_count] = sender_A.data;
-            $display("%0t: sender_A: %d : sent < %x >", $time(), scoreboard_perf_ctr.sender_count, sender_A.data);
+            $display("time: %0t: sender_A: %d : sent < %x >", $time(), scoreboard_perf_ctr.sender_count, sender_A.data);
             scoreboard_perf_ctr.sender_count = scoreboard_perf_ctr.sender_count + 1;
         end
         if ( (receiver_B.valid && receiver_B.ready) && (scoreboard_perf_ctr.receiver_count <= 15) ) begin
             assert(scoreboard_perf_ctr.data_transfer_assoc_array[scoreboard_perf_ctr.receiver_count] == receiver_B.data);
-            $display("%0t: receiver_B: %d : received < %x >", $time(), scoreboard_perf_ctr.receiver_count, receiver_B.data);
+            $display("time: %0t: receiver_B: %d : received < %x >", $time(), scoreboard_perf_ctr.receiver_count, receiver_B.data);
             scoreboard_perf_ctr.receiver_count = scoreboard_perf_ctr.receiver_count + 1;
         end
     endtask : monitor_and_scoreboard
@@ -227,9 +243,9 @@ module ready_valid_tb ();
     // end the simulation printing the scoreboard statistics.
     task end_simulation();
         $display("--- END Of Simulation ---");
-        $display("-- data transfer stats (Key: Data sent | value: data send index) --");
+        $display("-- data transfer stats (Key: data send index | value: Data sent) --");
         foreach(scoreboard_perf_ctr.data_transfer_assoc_array[key]) begin
-            $display(" -key: %x   |   -value: %x", key, scoreboard_perf_ctr.data_transfer_assoc_array[key]);
+            $display(" -key: %d   |   -value: %x", key, scoreboard_perf_ctr.data_transfer_assoc_array[key]);
         end
         $display("sender counter: %d   |   receiver counter: %d", scoreboard_perf_ctr.sender_count, scoreboard_perf_ctr.receiver_count);
     endtask : end_simulation
