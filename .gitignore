@@ -1,6 +1,7 @@
 .vscode
 *.o
 work/
+*.wlf
 *.vcd
 *.exe
 *.asm
