@@ -1,8 +1,8 @@
 cli: clean compile
 	vsim -c -do "run -all; exit" ready_valid_tb
 
-gui: cclean ompile
-	vsim -do "do ready_valid_if.do;" ready_valid_tb
+gui: clean compile
+	vsim -do "do wave.do;" ready_valid_tb
 
 compile:
 	vlog ready_valid_if.sv

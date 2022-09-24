@@ -1,0 +1,19 @@
+# vsim m_ff_sync_tb 
+# Start time: 17:06:34 on Sep 18,2022
+# Loading sv_std.std
+# Loading work.m_ff_sync_tb
+# Loading work.m_ff_sync
+# ** Warning: (vsim-8311) System Verilog assertions are supported only in Questasim.
+add wave -position insertpoint  \
+sim:/m_ff_sync_tb/clk1 \
+sim:/m_ff_sync_tb/reset_n \
+sim:/m_ff_sync_tb/clk2 \
+sim:/m_ff_sync_tb/Din \
+sim:/m_ff_sync_tb/Dout
+run
+# ** Note: $finish    : tb.sv(85)
+#    Time: 100 ps  Iteration: 0  Instance: /m_ff_sync_tb
+# 1
+# Break in Module m_ff_sync_tb at tb.sv line 85
+# End time: 07:49:46 on Sep 22,2022, Elapsed time: 86:43:12
+# Errors: 0, Warnings: 1

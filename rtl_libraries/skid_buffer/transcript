@@ -1,12 +1,16 @@
-# vsim -c -do "run -all; exit" ready_valid_tb 
-# Start time: 00:44:08 on Sep 18,2022
+# A bookmarks file was found in the current directory with 1 bookmark
+# vsim -do "do ready_valid_if.do;" ready_valid_tb 
+# Start time: 17:42:08 on Sep 23,2022
 # Loading sv_std.std
 # Loading work.ready_valid_tb
 # Loading work.ready_valid_if
 # Loading work.ready_valid_skid_pipeline
 # Loading work.fifo_ready_valid_wrapper
 # Loading work.fifo
-# run -all
+# A bookmarks file was found in the current directory with 1 bookmark
+# do ready_valid_if.do
+# 
+run
 # default test picked:  BUSY_RECEIVER
 # ------ Busy Receiver test sequence ------
 # sender : valid-> 1 ; data-> 74
@@ -56,52 +60,54 @@
 # time: 70: sender_A:           3 : sent < 7f >
 # time: 80: sender_A:           4 : sent < 82 >
 # time: 90: sender_A:           5 : sent < bc >
-# time: 160: receiver_B:           0 : received < 74 >
-# time: 170: receiver_B:           1 : received < 62 >
-# time: 180: receiver_B:           2 : received < 06 >
-# time: 190: sender_A:           6 : sent < f0 >
-# time: 190: receiver_B:           3 : received < 7f >
-# time: 200: sender_A:           7 : sent < 6d >
-# time: 200: receiver_B:           4 : received < 82 >
-# time: 210: sender_A:           8 : sent < 37 >
-# time: 210: receiver_B:           5 : received < bc >
-# time: 220: sender_A:           9 : sent < ec >
-# time: 220: receiver_B:           6 : received < f0 >
-# time: 230: sender_A:          10 : sent < 09 >
-# time: 230: receiver_B:           7 : received < 6d >
-# time: 240: sender_A:          11 : sent < 5f >
-# time: 240: receiver_B:           8 : received < 37 >
-# time: 250: sender_A:          12 : sent < 7f >
-# time: 250: receiver_B:           9 : received < ec >
-# time: 260: sender_A:          13 : sent < 86 >
-# time: 260: receiver_B:          10 : received < 09 >
-# time: 270: sender_A:          14 : sent < bf >
-# time: 270: receiver_B:          11 : received < 5f >
-# time: 280: sender_A:          15 : sent < 13 >
-# time: 280: receiver_B:          12 : received < 7f >
-# time: 290: receiver_B:          13 : received < 86 >
-# time: 300: receiver_B:          14 : received < bf >
-# time: 310: receiver_B:          15 : received < 13 >
-# --- END Of Simulation ---
-# -- data transfer stats (Key: data send index | value: Data sent) --
-#  -key:   0   |   -value: 00000074
-#  -key:   1   |   -value: 00000062
-#  -key:   2   |   -value: 00000006
-#  -key:   3   |   -value: 0000007f
-#  -key:   4   |   -value: 00000082
-#  -key:   5   |   -value: 000000bc
-#  -key:   6   |   -value: 000000f0
-#  -key:   7   |   -value: 0000006d
-#  -key:   8   |   -value: 00000037
-#  -key:   9   |   -value: 000000ec
-#  -key:  10   |   -value: 00000009
-#  -key:  11   |   -value: 0000005f
-#  -key:  12   |   -value: 0000007f
-#  -key:  13   |   -value: 00000086
-#  -key:  14   |   -value: 000000bf
-#  -key:  15   |   -value: 00000013
-# sender counter:          16   |   receiver counter:          16
-# ** Note: $finish    : ready_valid_tb.sv(93)
-#    Time: 500 ps  Iteration: 0  Instance: /ready_valid_tb
-# End time: 00:44:08 on Sep 18,2022, Elapsed time: 0:00:00
+restart
+# Closing VCD file "ready_valid_tb.vcd"
+do wave.do
+# ** UI-Msg: (vish-4014) No objects found matching '/ready_valid_tb/A_valid'.
+# Executing ONERROR command at macro ./wave.do line 5
+# ** UI-Msg: (vish-4014) No objects found matching '/ready_valid_tb/A_ready'.
+# Executing ONERROR command at macro ./wave.do line 6
+# ** UI-Msg: (vish-4014) No objects found matching '/ready_valid_tb/A_data'.
+# Executing ONERROR command at macro ./wave.do line 7
+# ** UI-Msg: (vish-4014) No objects found matching '/ready_valid_tb/B_valid'.
+# Executing ONERROR command at macro ./wave.do line 8
+# ** UI-Msg: (vish-4014) No objects found matching '/ready_valid_tb/B_ready'.
+# Executing ONERROR command at macro ./wave.do line 9
+# ** UI-Msg: (vish-4014) No objects found matching '/ready_valid_tb/B_data'.
+# Executing ONERROR command at macro ./wave.do line 10
+# ** UI-Msg: (vish-4014) No objects found matching '/ready_valid_tb/DUT1/A_valid'.
+# Executing ONERROR command at macro ./wave.do line 12
+# ** UI-Msg: (vish-4014) No objects found matching '/ready_valid_tb/DUT1/A_data'.
+# Executing ONERROR command at macro ./wave.do line 13
+# ** UI-Msg: (vish-4014) No objects found matching '/ready_valid_tb/DUT1/A_ready'.
+# Executing ONERROR command at macro ./wave.do line 14
+# ** UI-Msg: (vish-4014) No objects found matching '/ready_valid_tb/DUT1/B_valid'.
+# Executing ONERROR command at macro ./wave.do line 15
+# ** UI-Msg: (vish-4014) No objects found matching '/ready_valid_tb/DUT1/B_data'.
+# Executing ONERROR command at macro ./wave.do line 16
+# ** UI-Msg: (vish-4014) No objects found matching '/ready_valid_tb/DUT1/B_ready'.
+# Executing ONERROR command at macro ./wave.do line 17
+# ** UI-Msg: (vish-4014) No objects found matching '/ready_valid_tb/DUT1/valid'.
+# Executing ONERROR command at macro ./wave.do line 18
+# ** UI-Msg: (vish-4014) No objects found matching '/ready_valid_tb/DUT1/ready'.
+# Executing ONERROR command at macro ./wave.do line 19
+# ** UI-Msg: (vish-4014) No objects found matching '/ready_valid_tb/DUT1/data'.
+# Executing ONERROR command at macro ./wave.do line 20
+# ** UI-Msg: (vish-4014) No objects found matching '/ready_valid_tb/DUT1/nonzero_pipeline_depth/gen_skid_fifo[0]/genblk1/skid_fifo/A_valid'.
+# Executing ONERROR command at macro ./wave.do line 22
+# ** UI-Msg: (vish-4014) No objects found matching '/ready_valid_tb/DUT1/nonzero_pipeline_depth/gen_skid_fifo[0]/genblk1/skid_fifo/A_data'.
+# Executing ONERROR command at macro ./wave.do line 23
+# ** UI-Msg: (vish-4014) No objects found matching '/ready_valid_tb/DUT1/nonzero_pipeline_depth/gen_skid_fifo[0]/genblk1/skid_fifo/A_ready'.
+# Executing ONERROR command at macro ./wave.do line 24
+# ** UI-Msg: (vish-4014) No objects found matching '/ready_valid_tb/DUT1/nonzero_pipeline_depth/gen_skid_fifo[0]/genblk1/skid_fifo/A_write_ptr'.
+# Executing ONERROR command at macro ./wave.do line 25
+# ** UI-Msg: (vish-4014) No objects found matching '/ready_valid_tb/DUT1/nonzero_pipeline_depth/gen_skid_fifo[0]/genblk1/skid_fifo/B_valid'.
+# Executing ONERROR command at macro ./wave.do line 26
+# ** UI-Msg: (vish-4014) No objects found matching '/ready_valid_tb/DUT1/nonzero_pipeline_depth/gen_skid_fifo[0]/genblk1/skid_fifo/B_data'.
+# Executing ONERROR command at macro ./wave.do line 27
+# ** UI-Msg: (vish-4014) No objects found matching '/ready_valid_tb/DUT1/nonzero_pipeline_depth/gen_skid_fifo[0]/genblk1/skid_fifo/B_ready'.
+# Executing ONERROR command at macro ./wave.do line 28
+# ** UI-Msg: (vish-4014) No objects found matching '/ready_valid_tb/DUT1/nonzero_pipeline_depth/gen_skid_fifo[0]/genblk1/skid_fifo/B_read_ptr'.
+# Executing ONERROR command at macro ./wave.do line 29
+# End time: 17:51:43 on Sep 23,2022, Elapsed time: 0:09:35
 # Errors: 0, Warnings: 0

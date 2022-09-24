@@ -1,0 +1,11 @@
+# vsim -do "do wave.do;" clk_divider_tb 
+# Start time: 08:47:57 on Sep 22,2022
+# Loading sv_std.std
+# Loading work.clk_divider_tb
+# Loading work.clk_divider
+# do wave.do
+# 
+run
+run
+# End time: 08:51:10 on Sep 22,2022, Elapsed time: 0:03:13
+# Errors: 0, Warnings: 0

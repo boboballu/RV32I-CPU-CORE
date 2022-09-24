@@ -87,8 +87,8 @@ module ready_valid_skid_pipeline
         end : zero_pipeline_depth
 
         else begin : nonzero_pipeline_depth
-            genvar i;
-            for (i=0; i<=PIPELINE_DEPTH-1; i++) begin : gen_skid_fifo
+            // genvar i; // genvar should only be used in "for" loops; cannot be initialized
+            for (genvar i=0; i<=PIPELINE_DEPTH-1; i++) begin : gen_skid_fifo
                 if (i == 0) begin
                     // At module A
                     fifo_ready_valid_wrapper #(.ROWS(2), .COL_BIT_WIDTH(DATA_WIDTH)) skid_fifo (
