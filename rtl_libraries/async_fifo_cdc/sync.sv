@@ -1,0 +1,1 @@
+../n_ff_cdc/sync.sv

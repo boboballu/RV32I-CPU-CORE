@@ -3,18 +3,21 @@
 // CDC Synchrolizers
 
 // m-flip-flop synchronizer
-module m_ff_sync #(parameter M = 2) 
+module m_ff_sync #(
+  parameter M = 2,
+  parameter DATA_WIDTH = 1
+  ) 
   (input logic clk, reset_n,
-   input logic Din, output logic Dout
+   input logic [DATA_WIDTH-1:0] Din, output logic [DATA_WIDTH-1:0] Dout
   );
-  logic [M-1:0]DFF;
+  logic [DATA_WIDTH-1:0] DFF [M-1:0];
   assign Dout = DFF[M-1];
   always_ff @(posedge clk or negedge reset_n) begin
     if (!reset_n) begin
       DFF <= '{default:1'b0};
     end
     else begin
-      DFF[0] <= Din ;
+      DFF[0] <= Din;
       for (int i=1; i<M; i++) begin
         DFF[i] <= DFF[i-1];
       end

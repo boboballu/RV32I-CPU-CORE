@@ -1,0 +1,130 @@
+# vsim -do "do wave.do;" async_fifo_ready_valid_tb 
+# Start time: 23:48:14 on Sep 25,2022
+# Loading sv_std.std
+# Loading work.async_fifo_ready_valid_tb
+# Loading work.ready_valid_if
+# Loading work.async_fifo_ready_valid_wrapper
+# Loading work.async_fifo
+# Loading work.bin2gray
+# Loading work.m_ff_sync
+# Loading work.gray2bin
+# ** Warning: (vsim-8311) System Verilog assertions are supported only in Questasim.
+# do wave.do
+# ** UI-Msg: (vish-4014) No objects found matching '/async_fifo_ready_valid_tb/DUT1/fifo_inst/head_bin'.
+# Executing ONERROR command at macro ./wave.do line 38
+# ** UI-Msg: (vish-4014) No objects found matching '/async_fifo_ready_valid_tb/DUT1/fifo_inst/tail_bin'.
+# Executing ONERROR command at macro ./wave.do line 39
+# 
+run
+# default test picked:  BUSY_RECEIVER
+# ------ Busy Receiver test sequence ------
+# sender : valid-> 1 ; data-> 74
+# sender : valid-> 1 ; data-> 62
+# sender : valid-> 1 ; data-> 06
+# sender : valid-> 1 ; data-> 7f
+# sender : valid-> 1 ; data-> 82
+# sender : valid-> 1 ; data-> bc
+# sender : valid-> 1 ; data-> f0
+# sender : valid-> 1 ; data-> 6d
+# sender : valid-> 1 ; data-> 37
+# sender : valid-> 1 ; data-> ec
+# sender : valid-> 1 ; data-> 09
+# sender : valid-> 1 ; data-> 5f
+# sender : valid-> 1 ; data-> 7f
+# sender : valid-> 1 ; data-> 86
+# sender : valid-> 1 ; data-> bf
+# sender : valid-> 1 ; data-> 13
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# ------ Done ------
+# time: 80: sender_A:           0 : sent < 74 >
+run
+# time: 110: sender_A:           1 : sent < 62 >
+run
+run
+run
+# time: 420: receiver_B:           0 : received < 74 >
+# time: 450: receiver_B:           1 : received < 62 >
+# time: 500: sender_A:           2 : sent < 06 >
+run
+# time: 530: sender_A:           3 : sent < 7f >
+# time: 560: sender_A:           4 : sent < 82 >
+# time: 570: receiver_B:           2 : received < 06 >
+# time: 590: sender_A:           5 : sent < bc >
+run
+# time: 620: sender_A:           6 : sent < f0 >
+# time: 630: receiver_B:           3 : received < 7f >
+# time: 650: sender_A:           7 : sent < 6d >
+# time: 660: receiver_B:           4 : received < 82 >
+# time: 680: sender_A:           8 : sent < 37 >
+# time: 690: receiver_B:           5 : received < bc >
+run
+# time: 720: receiver_B:           6 : received < f0 >
+# time: 740: sender_A:           9 : sent < ec >
+# time: 750: receiver_B:           7 : received < 6d >
+# time: 770: sender_A:          10 : sent < 09 >
+# time: 780: receiver_B:           8 : received < 37 >
+# time: 800: sender_A:          11 : sent < 5f >
+run
+# time: 810: receiver_B:           9 : received < ec >
+# time: 830: sender_A:          12 : sent < 7f >
+# time: 840: receiver_B:          10 : received < 09 >
+# time: 860: sender_A:          13 : sent < 86 >
+# time: 890: sender_A:          14 : sent < bf >
+# time: 900: receiver_B:          11 : received < 5f >
+run
+# time: 920: sender_A:          15 : sent < 13 >
+# time: 930: receiver_B:          12 : received < 7f >
+# time: 960: receiver_B:          13 : received < 86 >
+# time: 990: receiver_B:          14 : received < bf >
+run
+# time: 1020: receiver_B:          15 : received < 13 >
+run
+run
+run
+run
+# --- END Of Simulation ---
+# -- data transfer stats (Key: data send index | value: Data sent) --
+#  -key:   0   |   -value: 00000074
+#  -key:   1   |   -value: 00000062
+#  -key:   2   |   -value: 00000006
+#  -key:   3   |   -value: 0000007f
+#  -key:   4   |   -value: 00000082
+#  -key:   5   |   -value: 000000bc
+#  -key:   6   |   -value: 000000f0
+#  -key:   7   |   -value: 0000006d
+#  -key:   8   |   -value: 00000037
+#  -key:   9   |   -value: 000000ec
+#  -key:  10   |   -value: 00000009
+#  -key:  11   |   -value: 0000005f
+#  -key:  12   |   -value: 0000007f
+#  -key:  13   |   -value: 00000086
+#  -key:  14   |   -value: 000000bf
+#  -key:  15   |   -value: 00000013
+# sender counter:          16   |   receiver counter:          16
+# ** Note: $finish    : async_fifo_tb.sv(101)
+#    Time: 1500 ps  Iteration: 0  Instance: /async_fifo_ready_valid_tb
+# 1
+# Break in NamedBeginStat defaults at async_fifo_tb.sv line 101

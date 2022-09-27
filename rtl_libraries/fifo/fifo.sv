@@ -20,6 +20,8 @@
 
 // head and tail are counters keeping track of the free entry in the fifo
 // write_stall and read_stall modules raises full and empty condition
+// head corresponds to read pointer's location
+// tail corresponds to write pointer's location
 // full condition   -> head ^ tail == (MSB == 'b1) and (rest other bits 1'b0);
 // empty condition  -> head ^ tail == 0;
 
