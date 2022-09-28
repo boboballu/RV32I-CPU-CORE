@@ -44,6 +44,7 @@ module async_fifo_ready_valid_tb ();
     parameter ROWS = 4;
     parameter DATA_WIDTH = COL_BIT_WIDTH;
     parameter ROW_ADDR_WIDTH = ($clog2(ROWS));
+    parameter M_FF_SYNC_WIDTH = 2;
     parameter NUM_SEQUENCE = 16;
 
 
@@ -81,7 +82,7 @@ module async_fifo_ready_valid_tb ();
     ready_valid_if #(.DATA_WIDTH(DATA_WIDTH)) receiver_B (clk_receiver, reset_n);
     logic [ROW_ADDR_WIDTH:0] sender_A_write_ptr,receiver_B_read_ptr;
 
-    async_fifo_ready_valid_wrapper #(.ROWS(ROWS), .COL_BIT_WIDTH(COL_BIT_WIDTH), .M_FF_SYNC_WIDTH(2) ) DUT1 (
+    async_fifo_ready_valid_wrapper #(.ROWS(ROWS), .COL_BIT_WIDTH(COL_BIT_WIDTH), .M_FF_SYNC_WIDTH(M_FF_SYNC_WIDTH) ) DUT1 (
         .clk_sender(clk_sender), .clk_receiver(clk_receiver), .reset_n(reset_n),
         
         // "in" is connected module A that sends data
@@ -142,7 +143,6 @@ module async_fifo_ready_valid_tb ();
                     receiver_testlist.push_back(receiver_t'{$urandom_range(0,1)});
                     if (receiver_testlist[receiver_testlist.size()-1].ready == 1) i++;
                 end
-
             end
             PERFECT_SENDER_RECEIVER: begin
                 $display("------ Perfect sender and receiver test sequence ------");
@@ -175,6 +175,12 @@ module async_fifo_ready_valid_tb ();
                 run_receiver_driver();
                 monitor_sender();
                 monitor_receiver();
+                begin : all_transaction_done_end
+                    if ( (scoreboard_perf_ctr.sender_count == NUM_SEQUENCE) && (scoreboard_perf_ctr.receiver_count == NUM_SEQUENCE) ) begin
+                        end_simulation();
+                        $finish;
+                    end
+                end : all_transaction_done_end
             join
         end
     end
