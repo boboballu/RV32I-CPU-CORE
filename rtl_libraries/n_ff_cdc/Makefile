@@ -11,8 +11,11 @@ m_ff_gui: clean compile
 	vsim m_ff_sync_tb
 
 compile:
-	vlog sync.sv
-	vlog tb.sv
+	vlog m_ff_sync.sv
+	vlog mux_sync.sv
+	vlog m_ff_sync_tb.sv
+	vlog mux_sync_tb.sv
+
 clean:
 	rm -rf work
 	rm -rf *.vcd
