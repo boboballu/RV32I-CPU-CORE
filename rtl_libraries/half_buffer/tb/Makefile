@@ -4,12 +4,20 @@ cli: clean compile
 gui: clean compile
 	vsim -do "do wave.do;" ready_valid_tb
 
-compile:
-	vlog ready_valid_if.sv
-	vlog half_buffer.sv
-	vlog ready_valid.sv
+compile: rtl tb
+
+rtl:
+	vlog ../rtl/ready_valid_if.sv
+	vlog ../rtl/half_buffer.sv
+	vlog ../rtl/ready_valid.sv
+
+tb:
 	vlog ready_valid_tb.sv
 
 clean:
 	rm -rf work
 	rm -rf *.vcd
+
+clean_all: clean
+	rm -rf transcript
+	rm -rf vsim.wlf

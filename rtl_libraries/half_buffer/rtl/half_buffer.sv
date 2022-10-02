@@ -1,12 +1,12 @@
 module half_buffer #(
-    parameter DATA_WIDTH = 8
+    type DATA_T = logic [7:0]
 ) (
     input logic clk, reset_n,
     
-    input logic valid_in, input logic [DATA_WIDTH-1:0] data_in,
+    input logic valid_in, input DATA_T data_in,
     output logic ready_in,
 
-    output logic valid_out, logic [DATA_WIDTH-1:0] data_out,
+    output logic valid_out, output DATA_T data_out,
     input logic ready_out
 );
 
@@ -50,7 +50,7 @@ module half_buffer #(
 endmodule : half_buffer
 
 module hb_ready_valid_wrapper #(
-    parameter DATA_WIDTH = 8
+    type DATA_T = logic [7:0]
 )
 (
     // general signals
@@ -63,7 +63,7 @@ module hb_ready_valid_wrapper #(
 );
 
     logic w_stall, r_stall;
-    half_buffer #(.DATA_WIDTH(DATA_WIDTH)) hb (
+    half_buffer #(.DATA_T(DATA_T)) hb (
         .clk(clk), .reset_n(reset_n),
         .valid_in(in.valid), .ready_in(in.ready),
         .data_in(in.data),
