@@ -1,0 +1,19 @@
+# vsim -c -do "run -all; exit" ready_valid_tb 
+# Start time: 01:54:25 on Oct 08,2022
+# Loading sv_std.std
+# Loading work.datatypes_globals_pkg
+# Loading work.ready_valid_tb_sv_unit
+# Loading work.ready_valid_tb
+# Loading work.ready_valid_if
+# Loading work.valid_credit
+# Loading work.fifo_ready_valid_wrapper
+# Loading work.fifo
+# Loading work.ready_valid_tb_elements_sv_unit
+# Loading work.ready_valid_tb_elements
+# ** Error (suppressible): (vsim-3584) ../rtl/valid_credit.sv(40): Module parameter 'DATA_WIDTH' not found for override.
+#    Time: 0 ps  Iteration: 0  Instance: /ready_valid_tb/DUT1/fifo_write_wire File: ../rtl/ready_valid_if.sv
+# ** Error (suppressible): (vsim-3584) ../rtl/valid_credit.sv(41): Module parameter 'DATA_WIDTH' not found for override.
+#    Time: 0 ps  Iteration: 0  Instance: /ready_valid_tb/DUT1/fifo_read_wire File: ../rtl/ready_valid_if.sv
+# Error loading design
+# End time: 01:54:26 on Oct 08,2022, Elapsed time: 0:00:01
+# Errors: 2, Warnings: 0

@@ -125,4 +125,4 @@ module ready_valid_skid_pipeline
 
     endgenerate
 
-endmodule
+endmodule : ready_valid_skid_pipeline

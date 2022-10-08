@@ -1,0 +1,77 @@
+# vsim -do "do wave.do;" "+test=1" ready_valid_tb 
+# Start time: 02:31:39 on Oct 05,2022
+# Loading sv_std.std
+# Loading work.ready_valid_tb_sv_unit
+# Loading work.ready_valid_tb
+# Loading work.ready_valid_if
+# Loading work.valid_credit
+# Loading work.fifo_ready_valid_wrapper
+# Loading work.fifo
+# do wave.do
+# 
+run
+# Received BUSY_RECEIVER
+# ------ Busy Receiver test sequence ------
+# sender : valid-> 1 ; data-> b8
+# sender : valid-> 1 ; data-> 26
+# sender : valid-> 1 ; data-> 66
+# sender : valid-> 1 ; data-> b6
+# sender : valid-> 1 ; data-> c6
+# sender : valid-> 1 ; data-> 46
+# sender : valid-> 1 ; data-> 72
+# sender : valid-> 1 ; data-> 2e
+# sender : valid-> 1 ; data-> 67
+# sender : valid-> 1 ; data-> 3a
+# sender : valid-> 1 ; data-> 6a
+# sender : valid-> 1 ; data-> b4
+# sender : valid-> 1 ; data-> 6f
+# sender : valid-> 1 ; data-> 56
+# sender : valid-> 1 ; data-> 35
+# sender : valid-> 1 ; data-> d4
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# ------ Done ------
+# time: 40: sender_A:           0 : sent < b8 >
+# time: 50: sender_A:           1 : sent < 26 >
+# time: 60: sender_A:           2 : sent < 66 >
+# time: 70: sender_A:           3 : sent < b6 >
+# time: 80: sender_A:           4 : sent < c6 >
+# time: 90: sender_A:           5 : sent < 46 >
+run
+# time: 160: receiver_B:           0 : received < b8 >
+# ** Error: credit_ctr_2cb: 6 | fifo_write_wire 1
+#    Time: 170 ps  Scope: ready_valid_tb.DUT1.update_credit_ctr.FIFO_CTR_OVERFLOW File: ../valid_credit.sv Line: 106
+# time: 170: receiver_B:           1 : received < 26 >
+# ** Error: credit_ctr_2cb: 6 | fifo_write_wire 1
+#    Time: 180 ps  Scope: ready_valid_tb.DUT1.update_credit_ctr.FIFO_CTR_OVERFLOW File: ../valid_credit.sv Line: 106
+# time: 180: receiver_B:           2 : received < 66 >
+# ** Error: credit_ctr_2cb: 6 | fifo_write_wire 1
+#    Time: 190 ps  Scope: ready_valid_tb.DUT1.update_credit_ctr.FIFO_CTR_OVERFLOW File: ../valid_credit.sv Line: 106
+# time: 190: receiver_B:           3 : received < b6 >
+# time: 190: sender_A:           6 : sent < 72 >
+# ** Error: credit_ctr_2cb: 6 | fifo_write_wire 1
+#    Time: 200 ps  Scope: ready_valid_tb.DUT1.update_credit_ctr.FIFO_CTR_OVERFLOW File: ../valid_credit.sv Line: 106
+# time: 200: receiver_B:           4 : received < c6 >
+# time: 200: sender_A:           7 : sent < 2e >

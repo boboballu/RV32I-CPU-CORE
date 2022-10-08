@@ -1,0 +1,131 @@
+// +---------------------------------+
+// |                                 |
+// | Simple flat tb implementation   |
+// |                                 |
+// +---------------------------------+
+
+// [Generic TB blocks]
+// * clk_gen
+// * reset_n_gen
+// * defaults
+// * dump_vars
+
+// [custom datatypes]
+// * sender_t (sequences for sender driver)
+// * receiver_t (sequences for receiver driver)
+// * scoreboard_performance_counter_t (monitor perf_ctr)
+
+
+//                       [sequence generator]
+//                       * autogen_rand_testlist
+
+//                           +--------+
+//                           |        |
+//                           |        |
+//                   +------>+in   out+------>
+//                           |        |
+//                (DUT in)   |        |   (DUT out)
+//                sender_A   |        |   receiver_B
+//                           ++------++
+// [task]                     ^      ^          [task]
+// run_sender_driver()        |      |          run_sender_driver()
+// * drives DUT_in            +      +          * drives DUT_out
+//                           clk   reset_n
+
+//                             [task]
+//                             monitor_and_scoreboard()
+//                             * monitors DUT_in and DUT_out
+//                             * records info in scoreboard_perf_ctr
+
+// Note : 
+// The event control @e has to execute and block the current process before the trigger occurs in another process
+
+import datatypes_globals_pkg::*;
+
+module ready_valid_tb ();
+    parameter type DATA_T = rtl_data_t;
+    parameter PIPELINE_DEPTH = 3;
+    parameter NUM_SEQUENCE = 16;
+    parameter DATA_WIDTH = 8;
+
+    // --- Signals to connect to DUT --- //
+    logic clk, reset_n;
+
+    // ---RTL instantiation --- //
+    ready_valid_if #(.DATA_T(DATA_T)) sender_A (clk, reset_n);
+    ready_valid_if #(.DATA_T(DATA_T)) receiver_B (clk, reset_n);
+
+    valid_credit #(.DATA_WIDTH(DATA_WIDTH), .VALID_FFS(2), .CREDIT_FFS(2) ) DUT1 (
+        .clk(clk), .reset_n(reset_n),
+        
+        // "in" is connected module A that sends data
+        .in(sender_A.out),      // expects interface of type "ready_valid_if.out"
+        
+        // "out" is connected to module B that receives data
+        .out(receiver_B.in)     // expects interface of type "ready_valid_if.in"
+    );
+
+    ready_valid_tb_elements #(.NUM_SEQUENCE(NUM_SEQUENCE)) tb_elements (
+        .clk(clk), .reset_n(reset_n),
+        .sender_A(sender_A.in),
+        .receiver_B(receiver_B.out)
+    );
+
+    initial begin : autogen_rand_testlist
+        static int i=0;
+        static int sv=0;
+        // get the test arg from commandline
+        int arg1;
+        if ( $value$plusargs("test=%d", arg1)) begin
+            $cast(test_type, arg1);
+            $display("Received %s", test_type.name());
+        end
+        else begin
+            test_type = BUSY_RECEIVER;
+            $display("default test picked:  %s", test_type.name());
+        end
+        tb_elements.generate_testlist(test_type);
+    end : autogen_rand_testlist
+
+    // --- initial / defaults / clock gen / reset gen / vcd gen  --- //
+    initial begin : defaults
+        clk = 1; reset_n = 1;
+        sender_A.valid = 'b0; sender_A.data = 'b0;
+        receiver_B.ready = 0;
+        #500 tb_elements.end_simulation(); $finish;
+    end : defaults
+
+    initial begin : dump_vars
+        $dumpfile("ready_valid_tb.vcd");
+        $dumpvars(0,ready_valid_tb);
+    end : dump_vars
+
+    always begin : clk_gen
+        clk = #5 ~clk;
+    end : clk_gen
+
+    // reset_n should async asserted and sync deasserted (add #1 delay for deassertion to satisfy the simulator)
+    initial begin : reset_n_gen
+        #5 reset_n = 0;
+        #16 reset_n = 1;
+    end : reset_n_gen
+
+    initial begin
+        #20;
+        forever begin
+            fork
+                tb_elements.run_sender_driver();
+                tb_elements.run_receiver_driver();
+                tb_elements.monitor_sender();
+                tb_elements.monitor_receiver();
+                begin : all_transaction_done_end
+                    if ( (scoreboard_perf_ctr.sender_count == NUM_SEQUENCE) && (scoreboard_perf_ctr.receiver_count == NUM_SEQUENCE) ) begin
+                        tb_elements.end_simulation();
+                        $finish;
+                    end
+                end : all_transaction_done_end
+            join
+        end
+    end
+
+endmodule : ready_valid_tb

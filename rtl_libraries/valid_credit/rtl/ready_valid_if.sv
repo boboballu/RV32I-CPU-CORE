@@ -10,10 +10,10 @@
 //        |                   |                  |
 //        +-------------------+------------------+
 
-interface ready_valid_if #(DATA_WIDTH = 8) (input clk, reset_n);
+interface ready_valid_if #( type DATA_T = logic [7:0] ) (input clk, reset_n);
 
 logic valid, ready;
-logic [DATA_WIDTH-1:0] data;
+DATA_T data;
 
 modport sender(
     output valid, data,
@@ -39,4 +39,4 @@ modport monitor(
     input valid, data,
     input ready
 );
-endinterface : ready_valid_if
+endinterface

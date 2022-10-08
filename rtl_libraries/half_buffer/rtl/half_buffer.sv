@@ -1,3 +1,34 @@
+// half buffer state machine
+//
+//                           valid_in=0
+//                          +-------+
+//                          |       |
+//                          |       v
+//                     +----+-------+---+
+//                     |                |
+//                     | valid_out = 0  |
+//              +----->+ ready_in = 1   +------+
+//              |      |                |      |
+//              |      |     EMPTY      |      |
+//              |      |                |      |
+//              |      +----------------+      |
+//              |                              | valid_in=1
+// ready_out=1  |                              |
+//              |                              |
+//              |                              |
+//              |      +----------------+      |
+//              |      |                |      |
+//              |      | valid_out = 1  |      |
+//              +------+ reafy_in = 0   +<-----+
+//                     |                |
+//                     |     FULL       |
+//                     |                |
+//                     +----+-------+---+
+//                          ^       |
+//                          |       |
+//                          +-------+
+//                           ready_out=0
+
 module half_buffer #(
     type DATA_T = logic [7:0]
 ) (
@@ -32,6 +63,7 @@ module half_buffer #(
                 else
                     state_next = FULL;
             end
+            default: state_next = EMPTY;
         endcase
     end
 
