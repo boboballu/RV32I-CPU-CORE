@@ -1,14 +1,14 @@
-# vsim -c -do "run -all; exit" ready_valid_tb 
-# Start time: 02:00:17 on Oct 08,2022
+# vsim -c -do "run -all; exit" valid_ready_tb 
+# Start time: 02:18:14 on Oct 08,2022
 # Loading sv_std.std
 # Loading work.datatypes_globals_pkg
-# Loading work.ready_valid_tb_sv_unit
-# Loading work.ready_valid_tb
-# Loading work.ready_valid_if
-# Loading work.ready_valid_hb_pipeline
-# Loading work.ready_valid_tb_elements_sv_unit
-# Loading work.ready_valid_tb_elements
-# Loading work.hb_ready_valid_wrapper
+# Loading work.valid_ready_tb_sv_unit
+# Loading work.valid_ready_tb
+# Loading work.valid_ready_if
+# Loading work.valid_ready_hb_pipeline
+# Loading work.valid_ready_tb_elements_sv_unit
+# Loading work.valid_ready_tb_elements
+# Loading work.hb_valid_ready_wrapper
 # Loading work.half_buffer
 # run -all
 # default test picked:  BUSY_RECEIVER
@@ -105,7 +105,7 @@
 #  -key:  14   |   -value: 00000035
 #  -key:  15   |   -value: 000000d4
 # sender counter:          16   |   receiver counter:          16
-# ** Note: $finish    : ready_valid_tb.sv(123)
-#    Time: 460 ps  Iteration: 1  Instance: /ready_valid_tb
-# End time: 02:00:17 on Oct 08,2022, Elapsed time: 0:00:00
+# ** Note: $finish    : valid_ready_tb.sv(123)
+#    Time: 460 ps  Iteration: 1  Instance: /valid_ready_tb
+# End time: 02:18:14 on Oct 08,2022, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0

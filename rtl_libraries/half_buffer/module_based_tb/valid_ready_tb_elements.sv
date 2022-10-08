@@ -1,15 +1,15 @@
 import datatypes_globals_pkg::*;
-module ready_valid_tb_elements #(
+module valid_ready_tb_elements #(
     parameter NUM_SEQUENCE = 16
 )(
     // generic signals
     input logic clk, reset_n,
 
     // "in" is connected module A that sends data
-    ready_valid_if sender_A,  // expects interface of type "ready_valid_if.out"
+    valid_ready_if sender_A,  // expects interface of type "valid_ready_if.out"
 
     // "out" is connected to module B that receives data
-    ready_valid_if receiver_B  // expects interface of type "ready_valid_if.in"
+    valid_ready_if receiver_B  // expects interface of type "valid_ready_if.in"
 );
     task generate_testlist(test_type_t test_type);
         static int i=0;
@@ -138,4 +138,4 @@ module ready_valid_tb_elements #(
         $display("sender counter: %d   |   receiver counter: %d", scoreboard_perf_ctr.sender_count, scoreboard_perf_ctr.receiver_count);
     endtask : end_simulation
 
-endmodule : ready_valid_tb_elements
+endmodule : valid_ready_tb_elements

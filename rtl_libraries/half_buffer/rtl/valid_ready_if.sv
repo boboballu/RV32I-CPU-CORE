@@ -10,7 +10,7 @@
 //        |                   |                  |
 //        +-------------------+------------------+
 
-interface ready_valid_if #( type DATA_T = logic [7:0] ) (input clk, reset_n);
+interface valid_ready_if #( type DATA_T = logic [7:0] ) (input clk, reset_n);
 
 logic valid, ready;
 DATA_T data;
@@ -39,4 +39,4 @@ modport monitor(
     input valid, data,
     input ready
 );
-endinterface
+endinterface : valid_ready_if

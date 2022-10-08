@@ -42,7 +42,7 @@
 
 import datatypes_globals_pkg::*;
 
-module ready_valid_tb ();
+module valid_ready_tb ();
     parameter type DATA_T = rtl_data_t;
     parameter PIPELINE_DEPTH = 3;
     parameter NUM_SEQUENCE = 16;
@@ -51,20 +51,20 @@ module ready_valid_tb ();
     logic clk, reset_n;
 
     // ---RTL instantiation --- //
-    ready_valid_if #(.DATA_T(DATA_T)) sender_A (clk, reset_n);
-    ready_valid_if #(.DATA_T(DATA_T)) receiver_B (clk, reset_n);
+    valid_ready_if #(.DATA_T(DATA_T)) sender_A (clk, reset_n);
+    valid_ready_if #(.DATA_T(DATA_T)) receiver_B (clk, reset_n);
 
-    ready_valid_hb_pipeline #(.DATA_T(DATA_T), .PIPELINE_DEPTH(PIPELINE_DEPTH) ) DUT1 (
+    valid_ready_hb_pipeline #(.DATA_T(DATA_T), .PIPELINE_DEPTH(PIPELINE_DEPTH) ) DUT1 (
         .clk(clk), .reset_n(reset_n),
         
         // "in" is connected module A that sends data
-        .in(sender_A.out),      // expects interface of type "ready_valid_if.out"
+        .in(sender_A.out),      // expects interface of type "valid_ready_if.out"
         
         // "out" is connected to module B that receives data
-        .out(receiver_B.in)     // expects interface of type "ready_valid_if.in"
+        .out(receiver_B.in)     // expects interface of type "valid_ready_if.in"
     );
 
-    ready_valid_tb_elements #(.NUM_SEQUENCE(NUM_SEQUENCE)) tb_elements (
+    valid_ready_tb_elements #(.NUM_SEQUENCE(NUM_SEQUENCE)) tb_elements (
         .clk(clk), .reset_n(reset_n),
         .sender_A(sender_A.in),
         .receiver_B(receiver_B.out)
@@ -95,8 +95,8 @@ module ready_valid_tb ();
     end : defaults
 
     initial begin : dump_vars
-        $dumpfile("ready_valid_tb.vcd");
-        $dumpvars(0,ready_valid_tb);
+        $dumpfile("valid_ready_tb.vcd");
+        $dumpvars(0,valid_ready_tb);
     end : dump_vars
 
     always begin : clk_gen
@@ -127,4 +127,4 @@ module ready_valid_tb ();
         end
     end
 
-endmodule : ready_valid_tb
+endmodule : valid_ready_tb

@@ -1,4 +1,4 @@
-module ready_valid_hb_pipeline #(
+module valid_ready_hb_pipeline #(
     type DATA_T = logic [7:0],
     parameter PIPELINE_DEPTH = 1
 ) (
@@ -6,14 +6,14 @@ module ready_valid_hb_pipeline #(
     input logic clk, reset_n,
     
     // "in" is connected module A that sends data
-    ready_valid_if in,  // expects interface of type "ready_valid_if.out"
+    valid_ready_if in,  // expects interface of type "valid_ready_if.out"
     
     // "out" is connected to module B that receives data
-    ready_valid_if out  // expects interface of type "ready_valid_if.in"
+    valid_ready_if out  // expects interface of type "valid_ready_if.in"
 );
 
-    ready_valid_if #(.DATA_T(DATA_T)) B_wire[PIPELINE_DEPTH-1:0](clk, reset_n);
-    ready_valid_if #(.DATA_T(DATA_T)) in_wire(clk, reset_n);
+    valid_ready_if #(.DATA_T(DATA_T)) B_wire[PIPELINE_DEPTH-1:0](clk, reset_n);
+    valid_ready_if #(.DATA_T(DATA_T)) in_wire(clk, reset_n);
 
     assign in_wire.valid = in.valid;
     assign in_wire.data = in.data;
@@ -32,25 +32,25 @@ module ready_valid_hb_pipeline #(
             for (genvar i=0; i<=PIPELINE_DEPTH-1; i++) begin : gen_hb_fifo
                 if (i == 0) begin
                     // At module A
-                    hb_ready_valid_wrapper #(.DATA_T(DATA_T)) hb_fifo (
+                    hb_valid_ready_wrapper #(.DATA_T(DATA_T)) hb_fifo (
                         .clk(clk), .reset_n(reset_n),                        
                         
                         // "in" is connected module A that sends data
-                        .in(in_wire),           // expects interface of type "ready_valid_if.out"
+                        .in(in_wire),           // expects interface of type "valid_ready_if.out"
                         
                         // "out" is connected to module B that receives data
-                        .out(B_wire[i])         // expects interface of type "ready_valid_if.in"
+                        .out(B_wire[i])         // expects interface of type "valid_ready_if.in"
                     );
                 end
                 else begin
-                    hb_ready_valid_wrapper #(.DATA_T(DATA_T)) hb_fifo (
+                    hb_valid_ready_wrapper #(.DATA_T(DATA_T)) hb_fifo (
                         .clk(clk), .reset_n(reset_n),
                         
                         // "in" is connected module A that sends data
-                        .in(B_wire[i-1]),      // expects interface of type "ready_valid_if.out"
+                        .in(B_wire[i-1]),      // expects interface of type "valid_ready_if.out"
                         
                         // "out" is connected to module B that receives data
-                        .out(B_wire[i])        // expects interface of type "ready_valid_if.in"
+                        .out(B_wire[i])        // expects interface of type "valid_ready_if.in"
                     );
                 end
             end : gen_hb_fifo
@@ -61,4 +61,4 @@ module ready_valid_hb_pipeline #(
         end : nonzero_pipeline_depth
 
     endgenerate
-endmodule : ready_valid_hb_pipeline
+endmodule : valid_ready_hb_pipeline

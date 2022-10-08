@@ -1,18 +1,18 @@
 cli: clean compile
-	vsim -c -do "run -all; exit" ready_valid_tb
+	vsim -c -do "run -all; exit" valid_ready_tb
 
 gui: clean compile
-	vsim -do "do wave.do;" ready_valid_tb
+	vsim -do "do wave.do;" valid_ready_tb
 
 compile: rtl tb
 
 rtl:
-	vlog ../rtl/ready_valid_if.sv
+	vlog ../rtl/valid_ready_if.sv
 	vlog ../rtl/half_buffer.sv
-	vlog ../rtl/ready_valid.sv
+	vlog ../rtl/valid_ready.sv
 
 tb:
-	vlog ready_valid_tb.sv
+	vlog valid_ready_tb.sv
 
 clean:
 	rm -rf work

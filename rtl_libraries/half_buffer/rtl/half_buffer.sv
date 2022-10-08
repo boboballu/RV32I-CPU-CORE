@@ -81,7 +81,7 @@ module half_buffer #(
     end
 endmodule : half_buffer
 
-module hb_ready_valid_wrapper #(
+module hb_valid_ready_wrapper #(
     type DATA_T = logic [7:0]
 )
 (
@@ -89,9 +89,9 @@ module hb_ready_valid_wrapper #(
     input logic clk, reset_n,
     // "in" is connected module A that sends data
 
-    ready_valid_if in,      // expects interface of type "ready_valid_if.out"
+    valid_ready_if in,      // expects interface of type "valid_ready_if.out"
 
-    ready_valid_if out      // expects interface of type "ready_valid_if.in"
+    valid_ready_if out      // expects interface of type "valid_ready_if.in"
 );
 
     logic w_stall, r_stall;
@@ -103,4 +103,4 @@ module hb_ready_valid_wrapper #(
         .data_out(out.data)
     );
 
-endmodule : hb_ready_valid_wrapper
+endmodule : hb_valid_ready_wrapper
