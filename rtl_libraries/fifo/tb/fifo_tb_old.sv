@@ -5,16 +5,19 @@
 // * the sequence itself which can be loaded from the class constructor
 // * run task which works like a sequence generator, driving the sequence passed
 
+
+typedef logic [7:0] DATA_T;
+
+typedef struct {
+    bit w;
+    bit r;
+    DATA_T w_data;
+} testcase_t;
+
+
 module fifo_tb ();
-    parameter COL_BIT_WIDTH = 32;
     parameter ROWS          = 8;
     parameter ROW_ADDR_WIDTH = ($clog2(ROWS));
-
-    typedef struct {
-        bit w;
-        bit r;
-        bit [COL_BIT_WIDTH-1:0] w_data;
-    } testcase_t;
 
     //int w_i=0, r_i=0;
 
@@ -42,11 +45,11 @@ module fifo_tb ();
 
     logic clk, reset_n;
     logic w_req, r_req;
-    logic [COL_BIT_WIDTH-1:0] w_data, r_data;
+    DATA_T w_data, r_data;
     logic [ROW_ADDR_WIDTH:0] head, tail;
     logic w_stall, r_stall;
 
-    fifo #( .ROWS(ROWS), .COL_BIT_WIDTH(COL_BIT_WIDTH) ) DUT
+    fifo #( .ROWS(ROWS), .DATA_T(DATA_T) ) DUT
     (
         .clk(clk), .reset_n(reset_n),
         .w_req(w_req), .r_req(r_req),
@@ -54,23 +57,6 @@ module fifo_tb ();
         .write_ptr(tail), .read_ptr(head),
         .w_stall(w_stall), .r_stall(r_stall)
     );
-
-    ready_valid_skid_pipeline #(.DATA_WIDTH(8), .PIPELINE_DEPTH(1) ) DUT1 (
-        .clk(clk), .reset_n(reset_n),
-
-        // Driver module (module A for simplicity) signals
-        .A_valid(A_valid),
-        .A_data(A_data),
-        .A_ready(A_ready),
-        .A_write_ptr(),
-
-        // Receiver module (Module B for simplicity) signals
-        .B_valid(B_valid),
-        .B_data(B_data),
-        .B_ready(B_ready),
-        .B_read_ptr()
-    );
-
     initial begin : defaults
         clk = 1; reset_n = 1;
 
@@ -106,7 +92,7 @@ module fifo_tb ();
 
     task w_driver(
         input logic req,
-        input logic [COL_BIT_WIDTH-1:0] data
+        input DATA_T data
     );
         @(posedge clk);
         w_req = req;

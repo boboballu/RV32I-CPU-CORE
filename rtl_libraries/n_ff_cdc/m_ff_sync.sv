@@ -1,4 +1,3 @@
-// Code your design here
 // Author: Tarun Govind Kesavamurthi
 // CDC Synchrolizers
 

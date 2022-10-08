@@ -28,19 +28,20 @@
 
 module fifo #(
     parameter ROWS  = 8,
-    parameter COL_BIT_WIDTH = 32,
+    parameter type DATA_T = logic [7:0],
+    
     //immutable - local params
     localparam ROW_ADDR_WIDTH = ($clog2(ROWS))
 )
 (
     input logic clk, reset_n,
     input logic w_req, r_req,
-    input logic [COL_BIT_WIDTH-1:0] w_data,
-    output logic [COL_BIT_WIDTH-1:0] r_data,
+    input DATA_T w_data,
+    output DATA_T r_data,
     output logic [ROW_ADDR_WIDTH:0] write_ptr, read_ptr,
     output logic w_stall, r_stall
 );
-    logic [COL_BIT_WIDTH-1:0] MEM [ROWS-1:0];
+    DATA_T MEM [ROWS-1:0];
     logic full, empty;
     logic [ROW_ADDR_WIDTH:0] head, tail;
 
@@ -99,9 +100,9 @@ module fifo #(
 endmodule : fifo
 
 
-module fifo_ready_valid_wrapper #(
+module fifo_valid_ready_wrapper #(
     parameter ROWS  = 8,
-    parameter COL_BIT_WIDTH = 32,
+    parameter type DATA_T = logic [7:0],
 
     //immutable - local params
     localparam ROW_ADDR_WIDTH = ($clog2(ROWS))
@@ -112,16 +113,16 @@ module fifo_ready_valid_wrapper #(
     input logic clk, reset_n,
     // "in" is connected module A that sends data
     
-    ready_valid_if in,      // expects interface of type "ready_valid_if.out"
+    valid_ready_if in,      // expects interface of type "valid_ready_if.out"
     output logic [ROW_ADDR_WIDTH:0] in_write_ptr, 
     // "out" is connected to module B that receives data
     
-    ready_valid_if out,     // expects interface of type "ready_valid_if.in"
+    valid_ready_if out,     // expects interface of type "valid_ready_if.in"
     output logic [ROW_ADDR_WIDTH:0] out_read_ptr
 );
 
     logic w_stall, r_stall;
-    fifo #(.ROWS(ROWS), .COL_BIT_WIDTH(COL_BIT_WIDTH)) fifo_inst (
+    fifo #(.ROWS(ROWS), .DATA_T(DATA_T)) fifo_inst (
         .clk(clk), .reset_n(reset_n),
         .w_req(in.valid), .r_req(out.ready),
         .w_data(in.data), .r_data(out.data),
@@ -132,4 +133,4 @@ module fifo_ready_valid_wrapper #(
     assign in.ready = !w_stall;
     assign out.valid = !r_stall;
 
-endmodule : fifo_ready_valid_wrapper
+endmodule : fifo_valid_ready_wrapper

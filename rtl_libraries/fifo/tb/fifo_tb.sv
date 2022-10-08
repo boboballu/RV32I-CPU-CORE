@@ -39,31 +39,32 @@
 
 // Note : 
 // The event control @e has to execute and block the current process before the trigger occurs in another process
-module fifo_ready_valid_tb ();
-    parameter COL_BIT_WIDTH = 8;
+
+// --- RTL DATATYPE --- //
+typedef logic [7:0] DATA_T;
+
+//  --- Testbench datastructure types --- //
+typedef struct {
+    bit valid;
+    DATA_T data;
+} sender_t;
+
+typedef struct {
+    bit ready;
+} receiver_t;
+
+typedef struct {
+    int sender_count = 0;
+    int receiver_count = 0;
+    int data_transfer_assoc_array[DATA_T] = '{8'b0: 1};
+} scoreboard_performance_counter_t;
+
+typedef enum int {PERFECT_SENDER_RECEIVER, BUSY_RECEIVER, RANDOM} test_type_t;
+
+module fifo_valid_ready_tb ();
     parameter ROWS = 4;
-    parameter DATA_WIDTH = COL_BIT_WIDTH;
     parameter ROW_ADDR_WIDTH = ($clog2(ROWS));
     parameter NUM_SEQUENCE = 16;
-
-
-    //  --- Testbench datastructure types --- //
-    typedef struct {
-        bit valid;
-        bit [DATA_WIDTH-1:0] data;
-    } sender_t;
-
-    typedef struct {
-        bit ready;
-    } receiver_t;
-
-    typedef struct {
-        int sender_count = 0;
-        int receiver_count = 0;
-        int data_transfer_assoc_array[bit[DATA_WIDTH-1:0]] = '{8'b0: 1};
-    } scoreboard_performance_counter_t;
-
-    typedef enum int {PERFECT_SENDER_RECEIVER, BUSY_RECEIVER, RANDOM} test_type_t;
 
     // --- Signals to connect to DUT --- //
     logic clk, reset_n;
@@ -77,19 +78,19 @@ module fifo_ready_valid_tb ();
     scoreboard_performance_counter_t scoreboard_perf_ctr;
 
     // ---RTL instantiation --- //
-    ready_valid_if #(.DATA_WIDTH(DATA_WIDTH)) sender_A (clk, reset_n);
-    ready_valid_if #(.DATA_WIDTH(DATA_WIDTH)) receiver_B (clk, reset_n);
+    valid_ready_if #(.DATA_T(DATA_T)) sender_A (clk, reset_n);
+    valid_ready_if #(.DATA_T(DATA_T)) receiver_B (clk, reset_n);
     logic [ROW_ADDR_WIDTH:0] sender_A_write_ptr,receiver_B_read_ptr;
 
-    fifo_ready_valid_wrapper #(.ROWS(ROWS), .COL_BIT_WIDTH(COL_BIT_WIDTH) ) DUT1 (
+    fifo_valid_ready_wrapper #(.ROWS(ROWS), .DATA_T(DATA_T) ) DUT1 (
         .clk(clk), .reset_n(reset_n),
         
         // "in" is connected module A that sends data
-        .in(sender_A.out),      // expects interface of type "ready_valid_if.out"
+        .in(sender_A.out),      // expects interface of type "valid_ready_if.out"
         .in_write_ptr(sender_A_write_ptr),
         
         // "out" is connected to module B that receives data
-        .out(receiver_B.in),    // expects interface of type "ready_valid_if.in"
+        .out(receiver_B.in),    // expects interface of type "valid_ready_if.in"
         .out_read_ptr(receiver_B_read_ptr)
     );
 
@@ -102,8 +103,8 @@ module fifo_ready_valid_tb ();
     end : defaults
 
     initial begin : dump_vars
-        $dumpfile("fifo_ready_valid_tb.vcd");
-        $dumpvars(0,fifo_ready_valid_tb);
+        $dumpfile("fifo_valid_ready_tb.vcd");
+        $dumpvars(0,fifo_valid_ready_tb);
     end : dump_vars
 
     always begin : clk_gen
@@ -172,7 +173,8 @@ module fifo_ready_valid_tb ();
             fork
                 run_sender_driver();
                 run_receiver_driver();
-                monitor_and_scoreboard();
+                monitor_sender();
+                monitor_receiver();
             join
         end
     end
@@ -233,7 +235,7 @@ module fifo_ready_valid_tb ();
         //@(posedge clk);
     endtask : run_receiver_driver
 
-    task monitor_and_scoreboard();
+    task monitor_sender();
         @(posedge clk);
         if (reset_n == 1'b0) return;
         if ( (sender_A.valid && sender_A.ready) && (scoreboard_perf_ctr.sender_count <= 15) ) begin
@@ -241,12 +243,18 @@ module fifo_ready_valid_tb ();
             $display("time: %0t: sender_A: %d : sent < %x >", $time(), scoreboard_perf_ctr.sender_count, sender_A.data);
             scoreboard_perf_ctr.sender_count = scoreboard_perf_ctr.sender_count + 1;
         end
+    endtask : monitor_sender
+
+    task monitor_receiver();
+        @(posedge clk);
+        if (reset_n == 1'b0) return;
         if ( (receiver_B.valid && receiver_B.ready) && (scoreboard_perf_ctr.receiver_count <= 15) ) begin
             assert(scoreboard_perf_ctr.data_transfer_assoc_array[scoreboard_perf_ctr.receiver_count] == receiver_B.data);
             $display("time: %0t: receiver_B: %d : received < %x >", $time(), scoreboard_perf_ctr.receiver_count, receiver_B.data);
-            scoreboard_perf_ctr.receiver_count = scoreboard_perf_ctr.receiver_count + 1;
+            if ((scoreboard_perf_ctr.data_transfer_assoc_array[scoreboard_perf_ctr.receiver_count] == receiver_B.data))
+                scoreboard_perf_ctr.receiver_count = scoreboard_perf_ctr.receiver_count + 1;
         end
-    endtask : monitor_and_scoreboard
+    endtask : monitor_receiver
 
     // end the simulation printing the scoreboard statistics.
     task end_simulation();
@@ -258,4 +266,4 @@ module fifo_ready_valid_tb ();
         $display("sender counter: %d   |   receiver counter: %d", scoreboard_perf_ctr.sender_count, scoreboard_perf_ctr.receiver_count);
     endtask : end_simulation
 
-endmodule : fifo_ready_valid_tb
+endmodule : fifo_valid_ready_tb
