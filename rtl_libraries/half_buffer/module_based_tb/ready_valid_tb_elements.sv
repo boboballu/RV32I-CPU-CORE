@@ -123,7 +123,8 @@ module ready_valid_tb_elements #(
         if ( (receiver_B.valid && receiver_B.ready) && (scoreboard_perf_ctr.receiver_count <= 15) ) begin
             assert(scoreboard_perf_ctr.data_transfer_assoc_array[scoreboard_perf_ctr.receiver_count] == receiver_B.data);
             $display("time: %0t: receiver_B: %d : received < %x >", $time(), scoreboard_perf_ctr.receiver_count, receiver_B.data);
-            scoreboard_perf_ctr.receiver_count = scoreboard_perf_ctr.receiver_count + 1;
+            if ((scoreboard_perf_ctr.data_transfer_assoc_array[scoreboard_perf_ctr.receiver_count] == receiver_B.data))
+                scoreboard_perf_ctr.receiver_count = scoreboard_perf_ctr.receiver_count + 1;
         end
     endtask : monitor_receiver
 
