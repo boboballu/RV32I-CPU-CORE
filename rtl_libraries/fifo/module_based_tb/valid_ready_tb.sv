@@ -48,7 +48,7 @@ module valid_ready_tb ();
     parameter type DATA_T = rtl_data_t;
     parameter ROWS = 8;
     // [EDIT] testbench test sequence size
-    parameter NUM_SEQUENCE = 16;
+    parameter NUM_SEQUENCE = 50;
 
     // --- Signals to connect to DUT --- //
     logic clk, reset_n;
@@ -97,7 +97,7 @@ module valid_ready_tb ();
         clk = 1; reset_n = 1;
         sender_A.valid = 'b0; sender_A.data = 'b0;
         receiver_B.ready = 0;
-        #500 tb_elements.end_simulation(); $finish;
+        #1500 tb_elements.end_simulation(); $finish;
     end : defaults
 
     initial begin : dump_vars

@@ -46,6 +46,8 @@
 // the modules have datatype of the payload of ready-valid protocol parameterized (DATA_T)
 // But for simulation, logic type is not adviced to be used (not adviced to be used in assoc array / queues etc)
 // So, create a datatype for RTL with logic and another datatype for tb with bit
+// [EDIT*] DATATYPE parameter for the valid_ready protocol DATA payload
+// --- RTL DATATYPE --- //
 typedef logic [7:0] rtl_data_t;
 typedef bit   [7:0] tb_data_t;
 
@@ -82,10 +84,11 @@ receiver_t receiver_testlist[$];
 scoreboard_performance_counter_t scoreboard_perf_ctr;
 
 module valid_ready_tb ();
-
+    // [EDIT*] local parameters goes here
     parameter type DATA_T = rtl_data_t;
     parameter PIPELINE_DEPTH = 3;
-    parameter NUM_SEQUENCE = 16;
+    // [EDIT] testbench test sequence size
+    parameter NUM_SEQUENCE = 50;
 
     // --- Signals to connect to DUT --- //
     logic clk, reset_n;
@@ -94,6 +97,7 @@ module valid_ready_tb ();
     valid_ready_if #(.DATA_T(DATA_T)) sender_A (clk, reset_n);
     valid_ready_if #(.DATA_T(DATA_T)) receiver_B (clk, reset_n);
 
+    // [EDIT*] DUT instantiation goes here
     valid_ready_hb_pipeline #(.DATA_T(DATA_T), .PIPELINE_DEPTH(PIPELINE_DEPTH) ) DUT1 (
         .clk(clk), .reset_n(reset_n),
 
@@ -125,7 +129,7 @@ module valid_ready_tb ();
         clk = 1; reset_n = 1;
         sender_A.valid = 'b0; sender_A.data = 'b0;
         receiver_B.ready = 0;
-        #500 end_simulation(); $finish;
+        #1500 end_simulation(); $finish;
     end : defaults
 
     initial begin : dump_vars
@@ -260,7 +264,7 @@ module valid_ready_tb ();
     task monitor_sender();
         @(posedge clk);
         if (reset_n == 1'b0) return;
-        if ( (sender_A.valid && sender_A.ready) && (scoreboard_perf_ctr.sender_count <= 15) ) begin
+        if ( (sender_A.valid && sender_A.ready) && (scoreboard_perf_ctr.sender_count <= NUM_SEQUENCE-1) ) begin
             scoreboard_perf_ctr.data_transfer_assoc_array[scoreboard_perf_ctr.sender_count] = sender_A.data;
             $display("time: %0t: sender_A: %d : sent < %x >", $time(), scoreboard_perf_ctr.sender_count, sender_A.data);
             scoreboard_perf_ctr.sender_count = scoreboard_perf_ctr.sender_count + 1;
@@ -270,7 +274,7 @@ module valid_ready_tb ();
     task monitor_receiver();
         @(posedge clk);
         if (reset_n == 1'b0) return;
-        if ( (receiver_B.valid && receiver_B.ready) && (scoreboard_perf_ctr.receiver_count <= 15) ) begin
+        if ( (receiver_B.valid && receiver_B.ready) && (scoreboard_perf_ctr.receiver_count <= NUM_SEQUENCE-1) ) begin
             assert(scoreboard_perf_ctr.data_transfer_assoc_array[scoreboard_perf_ctr.receiver_count] == receiver_B.data);
             $display("time: %0t: receiver_B: %d : received < %x >", $time(), scoreboard_perf_ctr.receiver_count, receiver_B.data);
             if ((scoreboard_perf_ctr.data_transfer_assoc_array[scoreboard_perf_ctr.receiver_count] == receiver_B.data))
@@ -287,6 +291,5 @@ module valid_ready_tb ();
         end
         $display("sender counter: %d   |   receiver counter: %d", scoreboard_perf_ctr.sender_count, scoreboard_perf_ctr.receiver_count);
     endtask : end_simulation
-
 
 endmodule : valid_ready_tb

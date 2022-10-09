@@ -44,7 +44,7 @@ import datatypes_globals_pkg::*;
 
 module valid_ready_tb ();
 
-    // [EDIT*] local parameters for RTL goes here
+    // [EDIT*] local parameters goes here
     parameter type DATA_T = rtl_data_t;
     parameter PIPELINE_DEPTH = 3;
     // [EDIT] testbench test sequence size

@@ -42,12 +42,13 @@
 
 // [EDIT*] DATATYPE parameter for the valid_ready protocol DATA payload
 // --- RTL DATATYPE --- //
-typedef logic [7:0] DATA_T;
+typedef logic [7:0] rtl_data_t;
+typedef bit   [7:0] tb_data_t;
 
 //  --- Testbench datastructure types --- //
 typedef struct {
     bit valid;
-    DATA_T data;
+    tb_data_t data;
 } sender_t;
 
 typedef struct {
@@ -57,36 +58,38 @@ typedef struct {
 typedef struct {
     int sender_count = 0;
     int receiver_count = 0;
-    int data_transfer_assoc_array[DATA_T] = '{8'b0: 1};
+    int data_transfer_assoc_array[tb_data_t] = '{8'b0: 1};
 } scoreboard_performance_counter_t;
 
+// --- Testlists --- //
+// create 2 list of tests that will be driven by individual drivers by individual run tasks
+// used by driver and generate_testlist
 typedef enum int {PERFECT_SENDER_RECEIVER, BUSY_RECEIVER, RANDOM} test_type_t;
+
+test_type_t test_type;
+sender_t sender_testlist[$];
+receiver_t receiver_testlist[$];
+
+// --- monitor / scoreboard performance counters --- //
+scoreboard_performance_counter_t scoreboard_perf_ctr;
 
 module fifo_valid_ready_tb ();
     // [EDIT*] local parameters goes here
     parameter ROWS = 4;
     parameter ROW_ADDR_WIDTH = ($clog2(ROWS));
     // [EDIT] testbench test sequence size
-    parameter NUM_SEQUENCE = 16;
+    parameter NUM_SEQUENCE = 50;
 
     // --- Signals to connect to DUT --- //
     logic clk, reset_n;
 
-    // --- Testlists --- //
-    // create 2 list of tests that will be driven by individual drivers by individual run tasks
-    test_type_t test_type;
-    sender_t sender_testlist[$];
-    receiver_t receiver_testlist[$];
-    // --- monitor / scoreboard performance counters --- //
-    scoreboard_performance_counter_t scoreboard_perf_ctr;
-
     // ---RTL instantiation --- //
-    valid_ready_if #(.DATA_T(DATA_T)) sender_A (clk, reset_n);
-    valid_ready_if #(.DATA_T(DATA_T)) receiver_B (clk, reset_n);
+    valid_ready_if #(.DATA_T(rtl_data_t)) sender_A (clk, reset_n);
+    valid_ready_if #(.DATA_T(rtl_data_t)) receiver_B (clk, reset_n);
     logic [ROW_ADDR_WIDTH:0] sender_A_write_ptr,receiver_B_read_ptr;
 
     // [EDIT*] DUT instantiation goes here
-    fifo_valid_ready_wrapper #(.ROWS(ROWS), .DATA_T(DATA_T) ) DUT1 (
+    fifo_valid_ready_wrapper #(.ROWS(ROWS), .DATA_T(rtl_data_t) ) DUT1 (
         .clk(clk), .reset_n(reset_n),
         
         // "in" is connected module A that sends data
@@ -98,12 +101,28 @@ module fifo_valid_ready_tb ();
         .out_read_ptr(receiver_B_read_ptr)
     );
 
+  initial begin : autogen_rand_testlist
+        static int i=0;
+        static int sv=0;
+        // get the test arg from commandline
+        int arg1;
+        if ( $value$plusargs("test=%d", arg1)) begin
+            $cast(test_type, arg1);
+            $display("Received %s", test_type.name());
+        end
+        else begin
+            test_type = BUSY_RECEIVER;
+            $display("default test picked:  %s", test_type.name());
+        end
+        generate_testlist(test_type);
+    end : autogen_rand_testlist
+
     // --- initial / defaults / clock gen / reset gen / vcd gen  --- //
     initial begin : defaults
         clk = 1; reset_n = 1;
         sender_A.valid = 'b0; sender_A.data = 'b0;
         receiver_B.ready = 0;
-        #500 end_simulation(); $finish;
+        #1500 end_simulation(); $finish;
     end : defaults
 
     initial begin : dump_vars
@@ -121,19 +140,27 @@ module fifo_valid_ready_tb ();
         #16 reset_n = 1;
     end : reset_n_gen
 
-    initial begin : autogen_rand_testlist
+    initial begin
+        #20;
+        forever begin
+            fork
+                run_sender_driver();
+                run_receiver_driver();
+                monitor_sender();
+                monitor_receiver();
+                begin : all_transaction_done_end
+                    if ( (scoreboard_perf_ctr.sender_count == NUM_SEQUENCE) && (scoreboard_perf_ctr.receiver_count == NUM_SEQUENCE) ) begin
+                        end_simulation();
+                        $finish;
+                    end
+                end : all_transaction_done_end
+            join
+        end
+    end
+
+    task generate_testlist(test_type_t test_type);
         static int i=0;
         static int sv=0;
-        // get the test arg from commandline
-        int arg1;
-        if ( $value$plusargs("test=%d", arg1)) begin
-            $cast(test_type, arg1);
-            $display("Received %s", test_type.name());
-        end
-        else begin
-            test_type = BUSY_RECEIVER;
-            $display("default test picked:  %s", test_type.name());
-        end
         case (test_type)
             RANDOM: begin
                 $display("------ Generating random sender and receiver test sequence ------");
@@ -169,19 +196,7 @@ module fifo_valid_ready_tb ();
         foreach(sender_testlist[i]) $display("sender : valid-> %b ; data-> %02x", sender_testlist[i].valid, sender_testlist[i].data);
         foreach(receiver_testlist[i]) $display("receiver : ready -> %b", receiver_testlist[i].ready);
         $display ("------ Done ------");
-    end : autogen_rand_testlist
-    
-    initial begin
-        #20;
-        forever begin
-            fork
-                run_sender_driver();
-                run_receiver_driver();
-                monitor_sender();
-                monitor_receiver();
-            join
-        end
-    end
+    endtask : generate_testlist
 
     // never have (if else / case) conditions depending on the signals that are driven by the driver
     // drives sender_A.valid and sender_A.data; Depends on sender_A.ready
@@ -242,7 +257,7 @@ module fifo_valid_ready_tb ();
     task monitor_sender();
         @(posedge clk);
         if (reset_n == 1'b0) return;
-        if ( (sender_A.valid && sender_A.ready) && (scoreboard_perf_ctr.sender_count <= 15) ) begin
+        if ( (sender_A.valid && sender_A.ready) && (scoreboard_perf_ctr.sender_count <= NUM_SEQUENCE-1) ) begin
             scoreboard_perf_ctr.data_transfer_assoc_array[scoreboard_perf_ctr.sender_count] = sender_A.data;
             $display("time: %0t: sender_A: %d : sent < %x >", $time(), scoreboard_perf_ctr.sender_count, sender_A.data);
             scoreboard_perf_ctr.sender_count = scoreboard_perf_ctr.sender_count + 1;
@@ -252,7 +267,7 @@ module fifo_valid_ready_tb ();
     task monitor_receiver();
         @(posedge clk);
         if (reset_n == 1'b0) return;
-        if ( (receiver_B.valid && receiver_B.ready) && (scoreboard_perf_ctr.receiver_count <= 15) ) begin
+        if ( (receiver_B.valid && receiver_B.ready) && (scoreboard_perf_ctr.receiver_count <= NUM_SEQUENCE-1) ) begin
             assert(scoreboard_perf_ctr.data_transfer_assoc_array[scoreboard_perf_ctr.receiver_count] == receiver_B.data);
             $display("time: %0t: receiver_B: %d : received < %x >", $time(), scoreboard_perf_ctr.receiver_count, receiver_B.data);
             if ((scoreboard_perf_ctr.data_transfer_assoc_array[scoreboard_perf_ctr.receiver_count] == receiver_B.data))

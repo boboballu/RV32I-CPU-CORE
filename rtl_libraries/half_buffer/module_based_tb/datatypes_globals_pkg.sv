@@ -4,6 +4,7 @@ package datatypes_globals_pkg;
     // But for simulation, logic type should be avoided 
     // (Avoid logic in assoc array / queues etc; it blowsup RAM usage and breaks simulator)
     // So, create a datatype for RTL with logic and another datatype for tb with bit
+    // [EDIT*] DATATYPE parameter for the valid_ready protocol DATA payload
     typedef logic [7:0] rtl_data_t;
     typedef bit   [7:0] tb_data_t;
 

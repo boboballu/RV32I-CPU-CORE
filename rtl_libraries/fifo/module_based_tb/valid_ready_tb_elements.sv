@@ -110,7 +110,7 @@ module valid_ready_tb_elements #(
     task monitor_sender();
         @(posedge clk);
         if (reset_n == 1'b0) return;
-        if ( (sender_A.valid && sender_A.ready) && (scoreboard_perf_ctr.sender_count <= 15) ) begin
+        if ( (sender_A.valid && sender_A.ready) && (scoreboard_perf_ctr.sender_count <= NUM_SEQUENCE-1) ) begin
             scoreboard_perf_ctr.data_transfer_assoc_array[scoreboard_perf_ctr.sender_count] = sender_A.data;
             $display("time: %0t: sender_A: %d : sent < %x >", $time(), scoreboard_perf_ctr.sender_count, sender_A.data);
             scoreboard_perf_ctr.sender_count = scoreboard_perf_ctr.sender_count + 1;
@@ -120,7 +120,7 @@ module valid_ready_tb_elements #(
     task monitor_receiver();
         @(posedge clk);
         if (reset_n == 1'b0) return;
-        if ( (receiver_B.valid && receiver_B.ready) && (scoreboard_perf_ctr.receiver_count <= 15) ) begin
+        if ( (receiver_B.valid && receiver_B.ready) && (scoreboard_perf_ctr.receiver_count <= NUM_SEQUENCE-1) ) begin
             assert(scoreboard_perf_ctr.data_transfer_assoc_array[scoreboard_perf_ctr.receiver_count] == receiver_B.data);
             $display("time: %0t: receiver_B: %d : received < %x >", $time(), scoreboard_perf_ctr.receiver_count, receiver_B.data);
             if ((scoreboard_perf_ctr.data_transfer_assoc_array[scoreboard_perf_ctr.receiver_count] == receiver_B.data))
