@@ -1,139 +1,19 @@
-// +---------------------------------+
-// |                                 |
-// | Simple flat tb implementation   |
-// |                                 |
-// +---------------------------------+
+import datatypes_globals_pkg::*;
+module valid_ready_tb_elements #(
+    parameter NUM_SEQUENCE = 16
+)(
+    // generic signals
+    input logic clk, reset_n,
 
-// [Generic TB blocks]
-// * clk_gen
-// * reset_n_gen
-// * defaults
-// * dump_vars
+    // "in" is connected module A that sends data
+    valid_ready_if sender_A,  // expects interface of type "valid_ready_if.out"
 
-// [custom datatypes]
-// * sender_t (sequences for sender driver)
-// * receiver_t (sequences for receiver driver)
-// * scoreboard_performance_counter_t (monitor perf_ctr)
-
-
-//                       [sequence generator]
-//                       * autogen_rand_testlist
-
-//                           +--------+
-//                           |        |
-//                           |        |
-//                   +------>+in   out+------>
-//                           |        |
-//                (DUT in)   |        |   (DUT out)
-//                sender_A   |        |   receiver_B
-//                           ++------++
-// [task]                     ^      ^          [task]
-// run_sender_driver()        |      |          run_sender_driver()
-// * drives DUT_in            +      +          * drives DUT_out
-//                           clk   reset_n
-
-//                             [task]
-//                             monitor_and_scoreboard()
-//                             * monitors DUT_in and DUT_out
-//                             * records info in scoreboard_perf_ctr
-
-// Note : 
-// The event control @e has to execute and block the current process before the trigger occurs in another process
-
-// [EDIT*] DATATYPE parameter for the valid_ready protocol DATA payload
-// --- RTL DATATYPE --- //
-typedef logic [7:0] DATA_T;
-
-//  --- Testbench datastructure types --- //
-typedef struct {
-    bit valid;
-    DATA_T data;
-} sender_t;
-
-typedef struct {
-    bit ready;
-} receiver_t;
-
-typedef struct {
-    int sender_count = 0;
-    int receiver_count = 0;
-    int data_transfer_assoc_array[DATA_T] = '{8'b0: 1};
-} scoreboard_performance_counter_t;
-
-typedef enum int {PERFECT_SENDER_RECEIVER, BUSY_RECEIVER, RANDOM} test_type_t;
-
-module fifo_valid_ready_tb ();
-    // [EDIT*] local parameters goes here
-    parameter ROWS = 4;
-    parameter ROW_ADDR_WIDTH = ($clog2(ROWS));
-    // [EDIT] testbench test sequence size
-    parameter NUM_SEQUENCE = 16;
-
-    // --- Signals to connect to DUT --- //
-    logic clk, reset_n;
-
-    // --- Testlists --- //
-    // create 2 list of tests that will be driven by individual drivers by individual run tasks
-    test_type_t test_type;
-    sender_t sender_testlist[$];
-    receiver_t receiver_testlist[$];
-    // --- monitor / scoreboard performance counters --- //
-    scoreboard_performance_counter_t scoreboard_perf_ctr;
-
-    // ---RTL instantiation --- //
-    valid_ready_if #(.DATA_T(DATA_T)) sender_A (clk, reset_n);
-    valid_ready_if #(.DATA_T(DATA_T)) receiver_B (clk, reset_n);
-    logic [ROW_ADDR_WIDTH:0] sender_A_write_ptr,receiver_B_read_ptr;
-
-    // [EDIT*] DUT instantiation goes here
-    fifo_valid_ready_wrapper #(.ROWS(ROWS), .DATA_T(DATA_T) ) DUT1 (
-        .clk(clk), .reset_n(reset_n),
-        
-        // "in" is connected module A that sends data
-        .in(sender_A.out),      // expects interface of type "valid_ready_if.out"
-        .in_write_ptr(sender_A_write_ptr),
-        
-        // "out" is connected to module B that receives data
-        .out(receiver_B.in),    // expects interface of type "valid_ready_if.in"
-        .out_read_ptr(receiver_B_read_ptr)
-    );
-
-    // --- initial / defaults / clock gen / reset gen / vcd gen  --- //
-    initial begin : defaults
-        clk = 1; reset_n = 1;
-        sender_A.valid = 'b0; sender_A.data = 'b0;
-        receiver_B.ready = 0;
-        #500 end_simulation(); $finish;
-    end : defaults
-
-    initial begin : dump_vars
-        $dumpfile("fifo_valid_ready_tb.vcd");
-        $dumpvars(0,fifo_valid_ready_tb);
-    end : dump_vars
-
-    always begin : clk_gen
-        clk = #5 ~clk;
-    end : clk_gen
-
-    // reset_n should async asserted and sync deasserted (add #1 delay for deassertion to satisfy the simulator)
-    initial begin : reset_n_gen
-        #5 reset_n = 0;
-        #16 reset_n = 1;
-    end : reset_n_gen
-
-    initial begin : autogen_rand_testlist
+    // "out" is connected to module B that receives data
+    valid_ready_if receiver_B  // expects interface of type "valid_ready_if.in"
+);
+    task generate_testlist(test_type_t test_type);
         static int i=0;
         static int sv=0;
-        // get the test arg from commandline
-        int arg1;
-        if ( $value$plusargs("test=%d", arg1)) begin
-            $cast(test_type, arg1);
-            $display("Received %s", test_type.name());
-        end
-        else begin
-            test_type = BUSY_RECEIVER;
-            $display("default test picked:  %s", test_type.name());
-        end
         case (test_type)
             RANDOM: begin
                 $display("------ Generating random sender and receiver test sequence ------");
@@ -169,19 +49,7 @@ module fifo_valid_ready_tb ();
         foreach(sender_testlist[i]) $display("sender : valid-> %b ; data-> %02x", sender_testlist[i].valid, sender_testlist[i].data);
         foreach(receiver_testlist[i]) $display("receiver : ready -> %b", receiver_testlist[i].ready);
         $display ("------ Done ------");
-    end : autogen_rand_testlist
-    
-    initial begin
-        #20;
-        forever begin
-            fork
-                run_sender_driver();
-                run_receiver_driver();
-                monitor_sender();
-                monitor_receiver();
-            join
-        end
-    end
+    endtask : generate_testlist
 
     // never have (if else / case) conditions depending on the signals that are driven by the driver
     // drives sender_A.valid and sender_A.data; Depends on sender_A.ready
@@ -270,4 +138,4 @@ module fifo_valid_ready_tb ();
         $display("sender counter: %d   |   receiver counter: %d", scoreboard_perf_ctr.sender_count, scoreboard_perf_ctr.receiver_count);
     endtask : end_simulation
 
-endmodule : fifo_valid_ready_tb
+endmodule : valid_ready_tb_elements

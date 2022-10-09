@@ -6,6 +6,7 @@ gui: clean compile
 
 compile: rtl tb
 
+# [EDIT*] add RTL
 rtl:
 	vlog ../rtl/valid_ready_if.sv
 	vlog ../rtl/half_buffer.sv

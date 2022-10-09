@@ -44,9 +44,9 @@ import datatypes_globals_pkg::*;
 
 module valid_ready_tb ();
 
-    // [EDIT*] local parameters for RTL goes here
+    // [EDIT*] local parameters goes here
     parameter type DATA_T = rtl_data_t;
-    parameter PIPELINE_DEPTH = 3;
+    parameter ROWS = 8;
     // [EDIT] testbench test sequence size
     parameter NUM_SEQUENCE = 16;
 
@@ -58,14 +58,16 @@ module valid_ready_tb ();
     valid_ready_if #(.DATA_T(DATA_T)) receiver_B (clk, reset_n);
 
     // [EDIT*] DUT instantiation goes here
-    valid_ready_hb_pipeline #(.DATA_T(DATA_T), .PIPELINE_DEPTH(PIPELINE_DEPTH) ) DUT1 (
+    fifo_valid_ready_wrapper #(.DATA_T(DATA_T), .ROWS(ROWS) ) DUT1 (
         .clk(clk), .reset_n(reset_n),
         
         // "in" is connected module A that sends data
         .in(sender_A.out),      // expects interface of type "valid_ready_if.out"
-        
+        .in_write_ptr(),
+
         // "out" is connected to module B that receives data
-        .out(receiver_B.in)     // expects interface of type "valid_ready_if.in"
+        .out(receiver_B.in),    // expects interface of type "valid_ready_if.in"
+        .out_read_ptr()
     );
 
     valid_ready_tb_elements #(.NUM_SEQUENCE(NUM_SEQUENCE)) tb_elements (

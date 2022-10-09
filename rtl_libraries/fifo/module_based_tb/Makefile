@@ -1,10 +1,10 @@
 TEST ?= 1
 
 cli: clean compile
-	vsim -c -do "run -all; exit" +test=$(TEST) fifo_valid_ready_tb
+	vsim -c -do "run -all; exit" +test=$(TEST) valid_ready_tb
 
 gui: clean compile
-	vsim -do "do wave.do;" +test=$(TEST) fifo_valid_ready_tb
+	vsim -do "do wave.do;" +test=$(TEST) valid_ready_tb
 
 compile: rtl tb
 
@@ -14,7 +14,9 @@ rtl:
 	vlog ../rtl/fifo.sv
 
 tb:
-	vlog fifo_tb.sv
+	vlog datatypes_globals_pkg.sv
+	vlog valid_ready_tb_elements.sv
+	vlog valid_ready_tb.sv
 
 clean:
 	rm -rf work

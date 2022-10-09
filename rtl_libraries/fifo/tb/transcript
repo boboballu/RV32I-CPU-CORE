@@ -1,5 +1,5 @@
 # vsim -c -do "run -all; exit" fifo_valid_ready_tb 
-# Start time: 14:26:23 on Oct 08,2022
+# Start time: 23:21:42 on Oct 08,2022
 # Loading sv_std.std
 # Loading work.fifo_tb_sv_unit
 # Loading work.fifo_valid_ready_tb
@@ -103,5 +103,5 @@
 # sender counter:          16   |   receiver counter:          16
 # ** Note: $finish    : fifo_tb.sv(102)
 #    Time: 500 ps  Iteration: 0  Instance: /fifo_valid_ready_tb
-# End time: 14:26:23 on Oct 08,2022, Elapsed time: 0:00:00
+# End time: 23:21:42 on Oct 08,2022, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
