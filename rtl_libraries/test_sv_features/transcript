@@ -1,0 +1,11 @@
+# vsim -c -do "run -all" async_fifo_depth_addr 
+# Start time: 02:30:56 on Oct 09,2022
+# Loading sv_std.std
+# Loading work.packed_struct_test_sv_unit
+# Loading work.async_fifo_depth_addr
+# run -all
+#          -2 in gray : 1
+#          -1 in gray : 0
+#           0 in gray : 0
+#           1 in gray : 1
+#           2 in gray : 1
