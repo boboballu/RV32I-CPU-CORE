@@ -40,69 +40,41 @@
 // Note : 
 // The event control @e has to execute and block the current process before the trigger occurs in another process
 
-// ------ CUSTOM DATATYPES ------ //
-//  --- Testbench datastructure types --- //
+import datatypes_globals_pkg::*;
 
-// the modules have datatype of the payload of ready-valid protocol parameterized (DATA_T)
-// But for simulation, logic type is not adviced to be used (not adviced to be used in assoc array / queues etc)
-// So, create a datatype for RTL with logic and another datatype for tb with bit
-typedef logic [7:0] rtl_data_t;
-typedef bit   [7:0] tb_data_t;
+module valid_ready_tb ();
 
-// The sequence generator generates a queue of sequences of the below struct datatypes
-// used by driver
-typedef struct {
-    bit valid;
-    tb_data_t data;
-} sender_t;
-
-typedef struct {
-    bit ready;
-} receiver_t;
-
-// Used by monitor
-typedef struct {
-    int sender_count = 0;
-    int receiver_count = 0;
-    // Note: Donot use logic datatype in associatve array. It blows up memory and breaks the simulator
-    int data_transfer_assoc_array[tb_data_t] = '{8'b0: 1};
-} scoreboard_performance_counter_t;
-
-// --- Testlists --- //
-// create 2 queue of tests that will be driven by individual drivers by individual run tasks
-// used by driver and generate_testlist
-typedef enum bit [3:0] {PERFECT_SENDER_RECEIVER, BUSY_RECEIVER, RANDOM} test_type_t;
-
-// testbench variables //
-test_type_t test_type;
-sender_t sender_testlist[$];
-receiver_t receiver_testlist[$];
-
-// --- monitor / scoreboard performance counters --- //
-scoreboard_performance_counter_t scoreboard_perf_ctr;
-
-module ready_valid_tb ();
-
-    parameter DATA_WIDTH = 8;
+    // [EDIT*] local parameters goes here
     parameter type DATA_T = rtl_data_t;
-    parameter PIPELINE_DEPTH = 3;
-    parameter NUM_SEQUENCE = 16;
+    parameter VALID_FFS = 2;
+    parameter CREDIT_FFS = 2;
+    // [EDIT] testbench test sequence size
+    parameter NUM_SEQUENCE = 50;
 
     // --- Signals to connect to DUT --- //
     logic clk, reset_n;
 
     // ---RTL instantiation --- //
-    ready_valid_if #(.DATA_WIDTH(DATA_WIDTH)) sender_A (clk, reset_n);
-    ready_valid_if #(.DATA_WIDTH(DATA_WIDTH)) receiver_B (clk, reset_n);
+    valid_ready_if #(.DATA_T(DATA_T)) sender_A (clk, reset_n);
+    valid_ready_if #(.DATA_T(DATA_T)) receiver_B (clk, reset_n);
 
-    valid_credit #(.DATA_WIDTH(DATA_WIDTH), .VALID_FFS(2), .CREDIT_FFS(2) ) DUT1 (
+    // [EDIT*] DUT instantiation goes here
+     valid_credit #(.DATA_T(DATA_T), .VALID_FFS(VALID_FFS), .CREDIT_FFS(CREDIT_FFS) ) DUT1 (
         .clk(clk), .reset_n(reset_n),
 
         // "in" is connected module A that sends data
-        .in(sender_A.out),      // expects interface of type "ready_valid_if.out"
+        .in(sender_A.out),      // expects interface of type "valid_ready_if.out"
 
         // "out" is connected to module B that receives data
-        .out(receiver_B.in)     // expects interface of type "ready_valid_if.in"
+        .out(receiver_B.in),    // expects interface of type "valid_ready_if.in"
+
+        .credit_ctr()
+    );
+
+    valid_ready_tb_elements #(.NUM_SEQUENCE(NUM_SEQUENCE)) tb_elements (
+        .clk(clk), .reset_n(reset_n),
+        .sender_A(sender_A.in),
+        .receiver_B(receiver_B.out)
     );
 
     initial begin : autogen_rand_testlist
@@ -118,7 +90,7 @@ module ready_valid_tb ();
             test_type = BUSY_RECEIVER;
             $display("default test picked:  %s", test_type.name());
         end
-        generate_testlist(test_type);
+        tb_elements.generate_testlist(test_type);
     end : autogen_rand_testlist
 
     // --- initial / defaults / clock gen / reset gen / vcd gen  --- //
@@ -126,12 +98,12 @@ module ready_valid_tb ();
         clk = 1; reset_n = 1;
         sender_A.valid = 'b0; sender_A.data = 'b0;
         receiver_B.ready = 0;
-        #1000 end_simulation(); $finish;
+        #1500 tb_elements.end_simulation(); $finish;
     end : defaults
 
     initial begin : dump_vars
-        $dumpfile("ready_valid_tb.vcd");
-        $dumpvars(0,ready_valid_tb);
+        $dumpfile("valid_ready_tb.vcd");
+        $dumpvars(0,valid_ready_tb);
     end : dump_vars
 
     always begin : clk_gen
@@ -148,13 +120,13 @@ module ready_valid_tb ();
         #20;
         forever begin
             fork
-                run_sender_driver();
-                run_receiver_driver();
-                monitor_sender();
-                monitor_receiver();
+                tb_elements.run_sender_driver();
+                tb_elements.run_receiver_driver();
+                tb_elements.monitor_sender();
+                tb_elements.monitor_receiver();
                 begin : all_transaction_done_end
                     if ( (scoreboard_perf_ctr.sender_count == NUM_SEQUENCE) && (scoreboard_perf_ctr.receiver_count == NUM_SEQUENCE) ) begin
-                        end_simulation();
+                        tb_elements.end_simulation();
                         $finish;
                     end
                 end : all_transaction_done_end
@@ -162,6 +134,4 @@ module ready_valid_tb ();
         end
     end
 
-    `include "ready_valid_tb_elements.sv"
-
-endmodule : ready_valid_tb
+endmodule : valid_ready_tb

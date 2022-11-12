@@ -1,5 +1,5 @@
 module valid_credit #(
-    parameter DATA_WIDTH    = 8,
+    parameter type DATA_T = logic [7:0],
     parameter VALID_FFS     = 3,
     parameter CREDIT_FFS     = 2,
 
@@ -11,34 +11,37 @@ module valid_credit #(
     input clk, reset_n,
 
     // "in" is connected module A that sends data
-    ready_valid_if in,  // expects interface of type "ready_valid_if.out"
+    valid_ready_if in,  // expects interface of type "valid_ready_if.out"
 
     // "out" is connected to module B that receives data
-    ready_valid_if out  // expects interface of type "ready_valid_if.in"
+    valid_ready_if out, // expects interface of type "valid_ready_if.in"
+
+    output logic [CREDIT_CTR_SIZE-1:0] credit_ctr
 );
 
     struct {
         logic [CREDIT_CTR_SIZE-1:0] credit_ctr[1:0];
+        logic fifo_write_wire_ready_ff;
     } assertion_signals;
 
     logic [VALID_FFS-1:0] valid_ffs;
-    logic [DATA_WIDTH-1:0] valid_data_ffs [VALID_FFS-1:0];
+    DATA_T valid_data_ffs [VALID_FFS-1:0];
 
     logic [CREDIT_FFS-1:0] credit_ffs;
-    logic [CREDIT_CTR_SIZE-1:0] credit_ctr;
+    // logic [CREDIT_CTR_SIZE-1:0] credit_ctr;
 
     // in interface to valid_credit flip-flop connection
     logic in_to_ff_wire_valid;
-    logic [DATA_WIDTH-1:0] in_to_ff_wire_data;
+    DATA_T in_to_ff_wire_data;
     logic ff_to_in_wire_credit;
 
     // out interface to valid_credit flip-flop connection
     logic fifo_to_out_wire_valid;
-    logic [DATA_WIDTH-1:0] fifo_to_out_wire_data;
+    DATA_T fifo_to_out_wire_data;
     logic out_to_fifo_wire_credit;
 
-    ready_valid_if #(.DATA_WIDTH(DATA_WIDTH)) fifo_write_wire (clk, reset_n);
-    ready_valid_if #(.DATA_WIDTH(DATA_WIDTH)) fifo_read_wire (clk, reset_n);
+    valid_ready_if #(.DATA_T(DATA_T)) fifo_write_wire (clk, reset_n);
+    valid_ready_if #(.DATA_T(DATA_T)) fifo_read_wire (clk, reset_n);
 
     // fifo output <-> valid_credit protocol connection
     assign fifo_to_out_wire_valid   = fifo_read_wire.valid;
@@ -61,16 +64,16 @@ module valid_credit #(
 
 
 
-    fifo_ready_valid_wrapper #(.ROWS(FIFO_DEPTH), .COL_BIT_WIDTH(DATA_WIDTH)) skid_fifo (
+    fifo_valid_ready_wrapper #(.ROWS(FIFO_DEPTH), .DATA_T(DATA_T)) skid_fifo (
         .clk(clk), .reset_n(reset_n),
 
         // "in" is connected module A that sends data
-        .in(fifo_write_wire),    // expects interface of type "ready_valid_if.out"
+        .in(fifo_write_wire),    // expects interface of type "valid_ready_if.out"
         .in_write_ptr(),
 
         // "out" is connected to module B that receives data
         .out(fifo_read_wire),
-        .out_read_ptr()                 // expects interface of type "ready_valid_if.in"
+        .out_read_ptr()                 // expects interface of type "valid_ready_if.in"
     );
 
 
@@ -100,13 +103,7 @@ module valid_credit #(
                 end
                 default: credit_ctr <= credit_ctr;
             endcase
-            assertion_signals.credit_ctr[0] <= credit_ctr;
-            assertion_signals.credit_ctr[1] <= assertion_signals.credit_ctr[0];
-            
-            if (assertion_signals.credit_ctr[1] === CREDIT_CTR_MAX)
-            FIFO_CTR_OVERFLOW : assert( (assertion_signals.credit_ctr[1] === CREDIT_CTR_MAX) ^ (fifo_write_wire.ready === 1'b0) == 1'b0 )
-                                else $error("credit_ctr_2cb: %d | fifo_write_wire %b", assertion_signals.credit_ctr[1], fifo_write_wire.ready);
-        end
+                    end
     end : update_credit_ctr
 
     always_ff @(posedge clk or negedge reset_n) begin : valid_credit_ff_pipeline
@@ -138,5 +135,38 @@ module valid_credit #(
             end
         end
     end : valid_credit_ff_pipeline
+
+    // this section covers sequential - assertion checks
+    always_ff @(posedge clk or negedge reset_n) begin : assertion_checks
+        if (!reset_n) begin
+        end
+        else begin
+            // assertion check scenario:
+            // - when credit_ctr saturates to CREDIT_CTR_MAX | CREDIT_FFS cycles later, the fifo write has to stall (not ready)
+            begin : assert_credit_ctr_and_fifo_ready
+                assertion_signals.fifo_write_wire_ready_ff <= fifo_write_wire.ready;
+                for (int i=0; i<CREDIT_FFS; i++) begin : credit_history
+                    if (i == 0) begin
+                        assertion_signals.credit_ctr[0] <= credit_ctr;
+                    end
+                    else begin
+                        assertion_signals.credit_ctr[i] <= assertion_signals.credit_ctr[i-1];
+                    end
+                end : credit_history
+                // dedect negative edge in fifo_write_wire.ready
+                if ( (assertion_signals.fifo_write_wire_ready_ff) & (!fifo_write_wire.ready) ) begin
+                    FIFO_CTR_OVERFLOW : begin
+                        assert (assertion_signals.credit_ctr[1] === CREDIT_CTR_MAX) begin
+                            $display("assert::FIFO_CTR_OVERFLOW check : Pass");
+                        end
+                        else begin
+                            $error("assert::FIFO_CTR_OVERFLOW check credit_ctr_2cb: %d | fifo_write_wire %b", assertion_signals.credit_ctr[CREDIT_FFS-1], fifo_write_wire.ready);
+                        end
+                    end
+                end
+            end : assert_credit_ctr_and_fifo_ready
+
+        end
+    end
 
 endmodule : valid_credit

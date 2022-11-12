@@ -1,20 +1,21 @@
-test ?= 2
+TEST ?= 1
 
 cli: clean compile
-	vsim -c -do "run -all; exit" +test=$(test) ready_valid_tb
+	vsim -c -do "run -all; exit" +test=$(TEST) valid_ready_tb
 
 gui: clean compile
-	vsim -do "do wave.do;" +test=$(test) ready_valid_tb
+	vsim -do "do wave.do;" +test=$(TEST) valid_ready_tb
 
 compile: rtl tb
 
+# [EDIT*] add RTL
 rtl:
-	vlog ../ready_valid_if.sv
-	vlog ../fifo.sv
-	vlog ../valid_credit.sv
+	vlog ../rtl/valid_ready_if.sv
+	vlog ../rtl/fifo.sv
+	vlog ../rtl/valid_credit.sv
 
 tb:
-	vlog ready_valid_tb.sv
+	vlog valid_ready_tb.sv
 
 clean:
 	rm -rf work
@@ -23,3 +24,7 @@ clean:
 clean_all: clean
 	rm -rf transcript
 	rm -rf vsim.wlf
+
+help:
+	$(info make TEST=\{0: PERFECT_SENDER_RECEIVER, 1: BUSY_RECEIVER, 2: RANDOM\} | defaults to 1)
+	$(info eg: make TEST=2)

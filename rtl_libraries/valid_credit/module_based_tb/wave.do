@@ -1,21 +1,21 @@
 onerror {resume}
 quietly WaveActivateNextPane {} 0
 add wave -noupdate -divider sender_A
-add wave -noupdate -radixshowbase 1 /ready_valid_tb/sender_A/clk
-add wave -noupdate -radixshowbase 1 /ready_valid_tb/sender_A/reset_n
-add wave -noupdate -radixshowbase 1 /ready_valid_tb/sender_A/valid
-add wave -noupdate -radixshowbase 1 /ready_valid_tb/sender_A/ready
-add wave -noupdate -radix hexadecimal -radixshowbase 1 /ready_valid_tb/sender_A/data
-add wave -noupdate /ready_valid_tb/run_sender_driver/index
-add wave -noupdate /ready_valid_tb/run_sender_driver/transaction_tracker
+add wave -noupdate -radixshowbase 1 /valid_ready_tb/sender_A/clk
+add wave -noupdate -radixshowbase 1 /valid_ready_tb/sender_A/reset_n
+add wave -noupdate -radixshowbase 1 /valid_ready_tb/sender_A/valid
+add wave -noupdate -radixshowbase 1 /valid_ready_tb/sender_A/ready
+add wave -noupdate -radix hexadecimal -radixshowbase 1 /valid_ready_tb/sender_A/data
+add wave -noupdate /valid_ready_tb/tb_elements/run_sender_driver/index
+add wave -noupdate /valid_ready_tb/tb_elements/run_sender_driver/transaction_tracker
 add wave -noupdate -divider receiver_B
-add wave -noupdate -radixshowbase 1 /ready_valid_tb/receiver_B/clk
-add wave -noupdate -radixshowbase 1 /ready_valid_tb/receiver_B/reset_n
-add wave -noupdate -radixshowbase 1 /ready_valid_tb/receiver_B/valid
-add wave -noupdate -radixshowbase 1 /ready_valid_tb/receiver_B/ready
-add wave -noupdate -radix hexadecimal -radixshowbase 1 /ready_valid_tb/receiver_B/data
-add wave -noupdate /ready_valid_tb/run_receiver_driver/index
-add wave -noupdate /ready_valid_tb/run_receiver_driver/transaction_tracker
+add wave -noupdate -radixshowbase 1 /valid_ready_tb/receiver_B/clk
+add wave -noupdate -radixshowbase 1 /valid_ready_tb/receiver_B/reset_n
+add wave -noupdate -radixshowbase 1 /valid_ready_tb/receiver_B/valid
+add wave -noupdate -radixshowbase 1 /valid_ready_tb/receiver_B/ready
+add wave -noupdate -radix hexadecimal -radixshowbase 1 /valid_ready_tb/receiver_B/data
+add wave -noupdate /valid_ready_tb/tb_elements/run_receiver_driver/index
+add wave -noupdate /valid_ready_tb/tb_elements/run_receiver_driver/transaction_tracker
 TreeUpdate [SetDefaultTree]
 WaveRestoreCursors {{Cursor 1} {467 ps} 0}
 quietly wave cursor active 1
