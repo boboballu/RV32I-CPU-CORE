@@ -40,12 +40,19 @@
 // Note : 
 // The event control @e has to execute and block the current process before the trigger occurs in another process
 
+// ------ CUSTOM DATATYPES ------ //
+//  --- Testbench datastructure types --- //
+
+// the modules have datatype of the payload of ready-valid protocol parameterized (DATA_T)
+// But for simulation, logic type is not adviced to be used (not adviced to be used in assoc array / queues etc)
+// So, create a datatype for RTL with logic and another datatype for tb with bit
 // [EDIT*] DATATYPE parameter for the valid_ready protocol DATA payload
 // --- RTL DATATYPE --- //
 typedef logic [7:0] rtl_data_t;
 typedef bit   [7:0] tb_data_t;
 
-//  --- Testbench datastructure types --- //
+// The sequence generator generates a queue of sequences of the below struct datatypes
+// used by driver
 typedef struct {
     bit valid;
     tb_data_t data;
@@ -55,17 +62,20 @@ typedef struct {
     bit ready;
 } receiver_t;
 
+// Used by monitor
 typedef struct {
     int sender_count = 0;
     int receiver_count = 0;
+    // Note: Donot use logic datatype in associatve array. It blows up memory and breaks the simulator
     int data_transfer_assoc_array[tb_data_t] = '{8'b0: 1};
 } scoreboard_performance_counter_t;
 
 // --- Testlists --- //
-// create 2 list of tests that will be driven by individual drivers by individual run tasks
+// create 2 queue of tests that will be driven by individual drivers by individual run tasks
 // used by driver and generate_testlist
-typedef enum int {PERFECT_SENDER_RECEIVER, BUSY_RECEIVER, RANDOM} test_type_t;
+typedef enum bit [3:0] {PERFECT_SENDER_RECEIVER, BUSY_RECEIVER, RANDOM} test_type_t;
 
+// testbench variables //
 test_type_t test_type;
 sender_t sender_testlist[$];
 receiver_t receiver_testlist[$];
@@ -73,10 +83,10 @@ receiver_t receiver_testlist[$];
 // --- monitor / scoreboard performance counters --- //
 scoreboard_performance_counter_t scoreboard_perf_ctr;
 
-module fifo_valid_ready_tb ();
+module valid_ready_tb ();
     // [EDIT*] local parameters goes here
-    parameter ROWS = 4;
-    parameter ROW_ADDR_WIDTH = ($clog2(ROWS));
+    parameter type DATA_T = rtl_data_t;
+    parameter PIPELINE_DEPTH = 3;
     // [EDIT] testbench test sequence size
     parameter NUM_SEQUENCE = 50;
 
@@ -84,24 +94,21 @@ module fifo_valid_ready_tb ();
     logic clk, reset_n;
 
     // ---RTL instantiation --- //
-    valid_ready_if #(.DATA_T(rtl_data_t)) sender_A (clk, reset_n);
-    valid_ready_if #(.DATA_T(rtl_data_t)) receiver_B (clk, reset_n);
-    logic [ROW_ADDR_WIDTH:0] sender_A_write_ptr,receiver_B_read_ptr;
+    valid_ready_if #(.DATA_T(DATA_T)) sender_A (clk, reset_n);
+    valid_ready_if #(.DATA_T(DATA_T)) receiver_B (clk, reset_n);
 
     // [EDIT*] DUT instantiation goes here
-    fifo_valid_ready_wrapper #(.ROWS(ROWS), .DATA_T(rtl_data_t) ) DUT1 (
+    valid_ready_skid_pipeline #(.DATA_T(DATA_T), .PIPELINE_DEPTH(PIPELINE_DEPTH) ) DUT1 (
         .clk(clk), .reset_n(reset_n),
-        
+
         // "in" is connected module A that sends data
         .in(sender_A.out),      // expects interface of type "valid_ready_if.out"
-        .in_write_ptr(sender_A_write_ptr),
-        
+
         // "out" is connected to module B that receives data
-        .out(receiver_B.in),    // expects interface of type "valid_ready_if.in"
-        .out_read_ptr(receiver_B_read_ptr)
+        .out(receiver_B.in)     // expects interface of type "valid_ready_if.in"
     );
 
-  initial begin : autogen_rand_testlist
+    initial begin : autogen_rand_testlist
         static int i=0;
         static int sv=0;
         // get the test arg from commandline
@@ -126,8 +133,8 @@ module fifo_valid_ready_tb ();
     end : defaults
 
     initial begin : dump_vars
-        $dumpfile("fifo_valid_ready_tb.vcd");
-        $dumpvars(0,fifo_valid_ready_tb);
+        $dumpfile("valid_ready_tb.vcd");
+        $dumpvars(0,valid_ready_tb);
     end : dump_vars
 
     always begin : clk_gen
@@ -285,4 +292,4 @@ module fifo_valid_ready_tb ();
         $display("sender counter: %d   |   receiver counter: %d", scoreboard_perf_ctr.sender_count, scoreboard_perf_ctr.receiver_count);
     endtask : end_simulation
 
-endmodule : fifo_valid_ready_tb
+endmodule : valid_ready_tb

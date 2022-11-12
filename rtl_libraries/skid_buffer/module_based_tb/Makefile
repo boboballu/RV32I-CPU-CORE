@@ -12,8 +12,11 @@ compile: rtl tb
 rtl:
 	vlog ../rtl/valid_ready_if.sv
 	vlog ../rtl/fifo.sv
+	vlog ../rtl/valid_ready.sv
 
 tb:
+	vlog datatypes_globals_pkg.sv
+	vlog valid_ready_tb_elements.sv
 	vlog valid_ready_tb.sv
 
 clean:

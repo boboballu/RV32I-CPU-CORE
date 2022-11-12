@@ -8,10 +8,10 @@ gui: clean compile
 
 compile: rtl tb
 
-# [EDIT*] add RTL
 rtl:
 	vlog ../rtl/valid_ready_if.sv
 	vlog ../rtl/fifo.sv
+	vlog ../rtl/valid_ready.sv
 
 tb:
 	vlog valid_ready_tb.sv

@@ -1,11 +1,14 @@
-# vsim -c -do "run -all" async_fifo_depth_addr 
-# Start time: 02:30:56 on Oct 09,2022
+# vsim tb 
+# Start time: 02:07:05 on Nov 10,2022
 # Loading sv_std.std
-# Loading work.packed_struct_test_sv_unit
-# Loading work.async_fifo_depth_addr
-# run -all
-#          -2 in gray : 1
-#          -1 in gray : 0
-#           0 in gray : 0
-#           1 in gray : 1
-#           2 in gray : 1
+# Loading work.tb
+# Loading work.first_1_finder
+add wave -position insertpoint sim:/tb/DUT0/*
+run
+# in : 1100  | out : 0010  | found : 1
+# ** Note: $finish    : first_1_finder__synthForLoop.sv(24)
+#    Time: 5 ps  Iteration: 0  Instance: /tb
+# 1
+# Break in Module tb at first_1_finder__synthForLoop.sv line 24
+# End time: 02:23:03 on Nov 10,2022, Elapsed time: 0:15:58
+# Errors: 0, Warnings: 0

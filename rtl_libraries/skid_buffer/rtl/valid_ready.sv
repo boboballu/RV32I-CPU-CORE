@@ -35,11 +35,11 @@
 //  │ in.ready│◄──────┬─────────────────────────────────────────────────┐◄──────┤out.ready│
 //  └─────────┘       └─────────────────────────────────────────────────┘       └─────────┘
 
-module ready_valid_skid_pipeline
+module valid_ready_skid_pipeline
 #(
-    parameter DATA_WIDTH = 8,
-    parameter PIPELINE_DEPTH = 3
-
+    parameter PIPELINE_DEPTH = 3,
+    parameter type DATA_T = logic [7:0]
+    
     //immutable params
 )
 (
@@ -47,16 +47,14 @@ module ready_valid_skid_pipeline
     input logic clk, reset_n,
     
     // "in" is connected module A that sends data
-    ready_valid_if in,  // expects interface of type "ready_valid_if.out"
+    valid_ready_if in,  // expects interface of type "valid_ready_if.out"
     
     // "out" is connected to module B that receives data
-    ready_valid_if out  // expects interface of type "ready_valid_if.in"
+    valid_ready_if out  // expects interface of type "valid_ready_if.in"
 );
     // Skid pipeline internals
-    // logic [PIPELINE_DEPTH-1:0] valid, ready;
-    // logic [DATA_WIDTH-1:0] data [PIPELINE_DEPTH-1:0];
-    ready_valid_if #(.DATA_WIDTH(DATA_WIDTH)) SB_wire[PIPELINE_DEPTH-1:0](clk, reset_n);
-    ready_valid_if #(.DATA_WIDTH(DATA_WIDTH)) in_wire(clk, reset_n);
+    valid_ready_if #(.DATA_T(DATA_T)) SB_wire[PIPELINE_DEPTH-1:0](clk, reset_n);
+    valid_ready_if #(.DATA_T(DATA_T)) in_wire(clk, reset_n);
 
     assign in_wire.valid = in.valid;
     assign in_wire.data = in.data;
@@ -88,31 +86,33 @@ module ready_valid_skid_pipeline
 
         else begin : nonzero_pipeline_depth
             // genvar i; // genvar should only be used in "for" loops; cannot be initialized
+            // put the initial [0]th skid buffer in for loop itself; this helps to keep track of all
+            // generated gen_skid_fifo_[0 to PIPELINE_DEPTH-1]
             for (genvar i=0; i<=PIPELINE_DEPTH-1; i++) begin : gen_skid_fifo
                 if (i == 0) begin
                     // At module A
-                    fifo_ready_valid_wrapper #(.ROWS(2), .COL_BIT_WIDTH(DATA_WIDTH)) skid_fifo (
+                    fifo_valid_ready_wrapper #(.ROWS(2), .DATA_T(DATA_T)) skid_fifo (
                         .clk(clk), .reset_n(reset_n),                        
                         
                         // "in" is connected module A that sends data
-                        .in(in_wire),           // expects interface of type "ready_valid_if.out"
+                        .in(in_wire),           // expects interface of type "valid_ready_if.out"
                         .in_write_ptr(), 
                         
                         // "out" is connected to module B that receives data
                         .out(SB_wire[i]),
-                        .out_read_ptr()         // expects interface of type "ready_valid_if.in"
+                        .out_read_ptr()         // expects interface of type "valid_ready_if.in"
                     );
                 end
                 else begin
-                    fifo_ready_valid_wrapper #(.ROWS(2), .COL_BIT_WIDTH(DATA_WIDTH)) skid_fifo (
+                    fifo_valid_ready_wrapper #(.ROWS(2), .DATA_T(DATA_T)) skid_fifo (
                         .clk(clk), .reset_n(reset_n),
                         
                         // "in" is connected module A that sends data
-                        .in(SB_wire[i-1]),      // expects interface of type "ready_valid_if.out"
+                        .in(SB_wire[i-1]),      // expects interface of type "valid_ready_if.out"
                         .in_write_ptr(), 
                         
                         // "out" is connected to module B that receives data
-                        .out(SB_wire[i]),       // expects interface of type "ready_valid_if.in"
+                        .out(SB_wire[i]),       // expects interface of type "valid_ready_if.in"
                         .out_read_ptr()
                     );
                 end
@@ -125,4 +125,4 @@ module ready_valid_skid_pipeline
 
     endgenerate
 
-endmodule : ready_valid_skid_pipeline
+endmodule : valid_ready_skid_pipeline
