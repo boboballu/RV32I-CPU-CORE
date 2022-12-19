@@ -1,3 +1,25 @@
+//                                                                                                                                  fifo
+// +-------------+        +------------------------------------------------------+       +-----+      +-----+      +-----+       +----------------------+       +-----------+
+// |             |        |                                                      |       |     |      |     |      |     |       |                      |       |           |
+// |             |        |                                           out.valid  +------>+     +----->+     +----->+     +------>+ in.ready   out.ready +------>+  in.valid |
+// |  out.valid  +------->+ in.valid                                             |       |     |      |     |      |     |       |                      |       |           |
+// |             |        |                                                      |       +-----+      +-----+      +-----+       |                      |       |           |
+// |             |        |  +----------------------------------+                |       valid_ff0    valid_ff1    valid_ff2     |                      |       |           |
+// |             |        |  | credit_ctr                       |                |                                               |                      |       |           |
+// |             |        |  | * max_count = 7                  |                |                                               |                      |       |           |
+// |             |        |  | * min_count = 0                  |                |                                               |                      |       |           |
+// |             |        |  | case(in.valid, out.credit)       |                |                                               |                      |       |           |
+// |             |        |  |  * 01: decrement if not 0        |                |                                               |                      |       |           |
+// |             |        |  |  * 10: increment if <= max-1     |                |                                               |                      |       |           |
+// |             |        |  |  * 11: decrement gt max-1        |                |      +-----+                 +-----+          |                      |       |           |
+// |             |        |  +----------------------------------+                |      |     |                 |     |          |                      |       |           |
+// |  out.ready  +<-------+ in.ready                                 out.credit  +<-----+     +<----------------+     +<---------+ in.credit  out.ready +<------+  in.ready |
+// |             |        |                                                      |      |     |                 |     |          |                      |       |           |
+// +-------------+        +------------------------------------------------------+      +-----+                 +-----+          +----------------------+       +-----------+
+//                                                                                      credit_ff1              credit_ff0
+
+
+
 module valid_credit #(
     parameter type DATA_T = logic [7:0],
     parameter VALID_FFS     = 3,
@@ -5,7 +27,7 @@ module valid_credit #(
     //immutable params
     localparam FIFO_DEPTH   = VALID_FFS + CREDIT_FFS + 2,
     localparam CREDIT_CTR_MAX = FIFO_DEPTH,
-    localparam CREDIT_CTR_SIZE = ($clog2(FIFO_DEPTH+1)) // requires +1 since the counter counts from 0 to 2^n
+    localparam CREDIT_CTR_SIZE = ($clog2(FIFO_DEPTH+1)) // requires +1 since the counter which "CAN" from 0 to 2^n
 ) (
     input clk, reset_n,
 
@@ -24,7 +46,6 @@ module valid_credit #(
         $display (" rtl: valid_credit.sv : VALID_FFS %d | CREDIT_FFS %d", VALID_FFS, CREDIT_FFS);
         $display (" rtl: valid_credit.sv : FIFO_DEPTH %d | CREDIT_CTR_MAX %d | CREDIT_CTR_SIZE %d", FIFO_DEPTH, CREDIT_CTR_MAX, CREDIT_CTR_SIZE);
     end : parameter_checker
-
 
     struct {
         logic [CREDIT_CTR_SIZE-1:0] credit_ctr[1:0];
@@ -61,10 +82,10 @@ module valid_credit #(
     assign fifo_read_wire.ready     = out.ready;
 
     // sender valid_ready <-> valid_credit connection
-    assign in_to_ff_wire_valid      = in.valid & (credit_ctr <= CREDIT_CTR_MAX-1);
+    assign in_to_ff_wire_valid      = in.valid & (credit_ctr < CREDIT_CTR_MAX-1);
     assign in_to_ff_wire_data       = in.data;
     assign ff_to_in_wire_credit     = (CREDIT_FFS == 0) ? out_to_fifo_wire_credit : credit_ffs[CREDIT_FFS-1];
-    assign in.ready                 = (credit_ctr <= CREDIT_CTR_MAX-1);
+    assign in.ready                 = (credit_ctr < CREDIT_CTR_MAX-1);
     // valid_ffs <-> fifo input connectiom
     assign fifo_write_wire.valid    = (VALID_FFS == 0) ? in_to_ff_wire_valid : valid_ffs[VALID_FFS-1];
     assign fifo_write_wire.data     = (VALID_FFS == 0) ? in_to_ff_wire_data : valid_data_ffs[VALID_FFS-1];
@@ -81,7 +102,7 @@ module valid_credit #(
         .out_read_ptr()                 // expects interface of type "valid_ready_if.in"
     );
 
-    // credit counter update logic (saturating counter that counts from 0 to 2^n (Note: not 2^n - 1) )
+    // credit counter update logic (saturating counter which "CAN" count from 0 to 2^n (Note: not till 2^n - 1) )
     always_ff @(posedge clk or negedge reset_n) begin : update_credit_ctr
         if (!reset_n) begin
             credit_ctr <= '{default:'b0};
@@ -97,12 +118,12 @@ module valid_credit #(
                     end
                 end
                 2'b10: begin
-                    if (credit_ctr <= CREDIT_CTR_MAX-1) begin
+                    if (credit_ctr < CREDIT_CTR_MAX-1) begin
                         credit_ctr <= credit_ctr + 1;
                     end
                 end
                 2'b11: begin
-                    if (credit_ctr > CREDIT_CTR_MAX-1) begin
+                    if (credit_ctr >= CREDIT_CTR_MAX-1) begin
                         credit_ctr <= credit_ctr - 1;
                     end
                 end
@@ -134,27 +155,6 @@ module valid_credit #(
             if ( CREDIT_FFS == 1 ) begin
                 credit_ffs <= out_to_fifo_wire_credit;
             end
-
-            // Old method - Not very eligent
-            // for(int i=0; i<VALID_FFS; i++) begin
-            //     if (i == 0) begin
-            //         valid_ffs[0]        <= in_to_ff_wire_valid;
-            //         valid_data_ffs[0]   <= in_to_ff_wire_data;
-            //     end
-            //     else begin
-            //         valid_ffs[i]        <= valid_ffs[i-1];
-            //         valid_data_ffs[i]   <= valid_data_ffs[i-1];
-            //     end
-            // end
-
-            // for (int i=0; i <CREDIT_FFS; i++) begin
-            //     if (i == 0) begin
-            //         credit_ffs[0] <= out_to_fifo_wire_credit;
-            //     end
-            //     else begin
-            //         credit_ffs[i] <= credit_ffs[i-1];
-            //     end
-            // end
         end
     end : valid_credit_ff_pipeline
 

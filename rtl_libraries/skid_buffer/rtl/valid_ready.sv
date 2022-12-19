@@ -4,7 +4,7 @@
 //                 Interface Definition
 //        +-------------------+------------------+
 // +----> | valid             |            valid +----->
-//        |                   |                  |
+//        |          [IN]     |   [OUT]          |
 // +----> | data              |            data  +----->
 //        |                   |                  |
 //        |(receiver modport) |  (sender modport)|
@@ -13,26 +13,28 @@
 //        |                   |                  |
 //        +-------------------+------------------+
 //
-// +---------+       +-------------------+------------------+         +---------+
-// |in.valid +-----> | sender_valid      |   receiver_valid +-------> | in.valid|
+// sender                                                               receiver
+// +---------+   [IN]+-------------------+------------------+[OUT]    +---------+
+// |out.valid+-----> | sender_valid      |   receiver_valid +-------> | in.valid|
 // |         |       |                   |                  |         |         |
-// |in.data  +-----> | sender_data       |   receiver_data  +-------> | in.data |
+// |out.data +-----> | sender_data       |   receiver_data  +-------> | in.data |
 // |         |       |                   |                  |         |         |
 // |         |       |                   |                  |         |         |
 // |         |       |                   |                  |         |         |
-// |in.ready | <-----+ sender_ready      |   receiver_ready | <-------+ in.ready|
+// |out.ready| <-----+ sender_ready      |   receiver_ready | <-------+ in.ready|
 // |         |       |                   |                  |         |         |
 // +---------+       +-------------------+------------------+         +---------+
 //
 //                     <----------- Skid buffer Pipeline --------------->
+// sender                                                                       receiver
 //  ┌─────────┐       0                    valid                        15      ┌─────────┐
-//  │in.valid ├──────►┌─────────────────────────────────────────────────┬──────►│out.valid│
+//  │out.valid├──────►┌─────────────────────────────────────────────────┬──────►│in.valid │
 //  │         │       └─────────────────────────────────────────────────┘       │         │
 //  │         │       0                    data                         15      │         │
-//  │in.data  ├──────►┌─────────────────────────────────────────────────┬──────►│out.data │
+//  │out.data ├──────►┌─────────────────────────────────────────────────┬──────►│in.data  │
 //  │         │       └─────────────────────────────────────────────────┘       │         │
 //  │         │       15                   ready                        0       │         │
-//  │ in.ready│◄──────┬─────────────────────────────────────────────────┐◄──────┤out.ready│
+//  │out.ready│◄──────┬─────────────────────────────────────────────────┐◄──────┤in.ready │
 //  └─────────┘       └─────────────────────────────────────────────────┘       └─────────┘
 
 module valid_ready_skid_pipeline
@@ -46,7 +48,7 @@ module valid_ready_skid_pipeline
     // generic signals
     input logic clk, reset_n,
     
-    // "in" is connected module A that sends data
+    // "in" is connected to module A that sends data
     valid_ready_if in,  // expects interface of type "valid_ready_if.out"
     
     // "out" is connected to module B that receives data
@@ -62,15 +64,15 @@ module valid_ready_skid_pipeline
 
 // (sender - Module A | receiver - Module B)
 //   Module A               SB0                SB1                SB2                  Module B
-// +---------+            +--------+        +--------+         +--------+           +----------+
+// +---------+        [IN]+--------+        +--------+         +--------+[OUT]      +----------+
 // |         |            |        | Valid0 |        | Valid1  |        |  Valid2   |          |
-// |in.valid +----------> |        +------> |        +-------> |        +---------> | out.valid|
+// |out.valid+----------> |        +------> |        +-------> |        +---------> |in.valid  |
 // |         |            |        |        |        |         |        |           |          |
-// |in.data  +----------> |        +------> |        +-------> |        +---------> | out.data |
+// |out.data +----------> |        +------> |        +-------> |        +---------> |in.data   |
 // |         |            |        | data0  |        | data1   |        |  data2    |          |
 // |         |            |        |        |        |         |        |           |          |
 // |         |            |        |        |        |         |        |           |          |
-// |in.ready <------------+        | <------+        | <-------+        | <---------+ out.ready|
+// |out.ready<------------+        | <------+        | <-------+        | <---------+in.ready  |
 // |         |            |        | ready2 |        | ready1  |        |  ready0   |          |
 // +---------+            +--------+        +--------+         +--------+           +----------+
 // Direct wire connection                                                         SB2 to B_* wires are
