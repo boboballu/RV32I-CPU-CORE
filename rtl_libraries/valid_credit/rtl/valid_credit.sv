@@ -27,7 +27,7 @@ module valid_credit #(
     //immutable params
     localparam FIFO_DEPTH   = VALID_FFS + CREDIT_FFS + 2,
     localparam CREDIT_CTR_MAX = FIFO_DEPTH,
-    localparam CREDIT_CTR_SIZE = ($clog2(FIFO_DEPTH+1)) // requires +1 since the counter which "CAN" from 0 to 2^n
+    localparam CREDIT_CTR_SIZE = ($clog2(CREDIT_CTR_MAX+1)) // requires +1 since the counter which "CAN" from 0 to 2^n
 ) (
     input clk, reset_n,
 
@@ -48,7 +48,7 @@ module valid_credit #(
     end : parameter_checker
 
     struct {
-        logic [CREDIT_CTR_SIZE-1:0] credit_ctr[1:0];
+        logic [CREDIT_CTR_SIZE-1:0] credit_ctr[VALID_FFS-1:0];
         logic fifo_write_wire_ready_ff;
     } assertion_signals;
 
@@ -57,7 +57,6 @@ module valid_credit #(
     DATA_T [VALID_FFS-1:0] valid_data_ffs;
 
     logic [CREDIT_FFS-1:0] credit_ffs;
-    // logic [CREDIT_CTR_SIZE-1:0] credit_ctr;
 
     // in interface to valid_credit flip-flop connection
     logic in_to_ff_wire_valid;
@@ -75,17 +74,17 @@ module valid_credit #(
     // fifo output <-> valid_credit protocol connection
     assign fifo_to_out_wire_valid   = fifo_read_wire.valid;
     assign fifo_to_out_wire_data    = fifo_read_wire.data;
-    assign out_to_fifo_wire_credit  = out.ready & fifo_read_wire.valid;;
+    assign out_to_fifo_wire_credit  = out.ready & fifo_read_wire.valid;
     // valid_credit <-> receiver valid_ready connection
     assign out.valid                = fifo_to_out_wire_valid;
     assign out.data                 = fifo_to_out_wire_data;
     assign fifo_read_wire.ready     = out.ready;
 
     // sender valid_ready <-> valid_credit connection
-    assign in_to_ff_wire_valid      = in.valid & (credit_ctr < CREDIT_CTR_MAX-1);
+    assign in_to_ff_wire_valid      = in.valid & (credit_ctr <= CREDIT_CTR_MAX-1);
     assign in_to_ff_wire_data       = in.data;
     assign ff_to_in_wire_credit     = (CREDIT_FFS == 0) ? out_to_fifo_wire_credit : credit_ffs[CREDIT_FFS-1];
-    assign in.ready                 = (credit_ctr < CREDIT_CTR_MAX-1);
+    assign in.ready                 = (credit_ctr <= CREDIT_CTR_MAX-1);
     // valid_ffs <-> fifo input connectiom
     assign fifo_write_wire.valid    = (VALID_FFS == 0) ? in_to_ff_wire_valid : valid_ffs[VALID_FFS-1];
     assign fifo_write_wire.data     = (VALID_FFS == 0) ? in_to_ff_wire_data : valid_data_ffs[VALID_FFS-1];
@@ -118,12 +117,12 @@ module valid_credit #(
                     end
                 end
                 2'b10: begin
-                    if (credit_ctr < CREDIT_CTR_MAX-1) begin
+                    if (credit_ctr <= CREDIT_CTR_MAX-1) begin
                         credit_ctr <= credit_ctr + 1;
                     end
                 end
                 2'b11: begin
-                    if (credit_ctr >= CREDIT_CTR_MAX-1) begin
+                    if (credit_ctr > CREDIT_CTR_MAX-1) begin
                         credit_ctr <= credit_ctr - 1;
                     end
                 end
@@ -164,10 +163,10 @@ module valid_credit #(
         end
         else begin
             // assertion check scenario:
-            // - when credit_ctr saturates to CREDIT_CTR_MAX | CREDIT_FFS cycles later, the fifo write has to stall (not ready)
+            // - when credit_ctr saturates to CREDIT_CTR_MAX | VALID_FFS cycles later, the fifo write has to stall (not ready)
             begin : assert_credit_ctr_and_fifo_ready
                 assertion_signals.fifo_write_wire_ready_ff <= fifo_write_wire.ready;
-                for (int i=0; i<CREDIT_FFS; i++) begin : credit_history
+                for (int i=0; i<VALID_FFS; i++) begin : credit_history
                     if (i == 0) begin
                         assertion_signals.credit_ctr[0] <= credit_ctr;
                     end
@@ -178,11 +177,11 @@ module valid_credit #(
                 // dedect negative edge in fifo_write_wire.ready
                 if ( (assertion_signals.fifo_write_wire_ready_ff) & (!fifo_write_wire.ready) ) begin
                     FIFO_CTR_OVERFLOW : begin
-                        assert (assertion_signals.credit_ctr[1] === CREDIT_CTR_MAX) begin
-                            $display("assert::FIFO_CTR_OVERFLOW check : Pass");
+                        assert (assertion_signals.credit_ctr[VALID_FFS-1] === CREDIT_CTR_MAX) begin
+                            $display("time: %0t: assert::FIFO_CTR_OVERFLOW check : Pass", $time);
                         end
                         else begin
-                            $error("assert::FIFO_CTR_OVERFLOW check credit_ctr_2cb: %d | fifo_write_wire %b", assertion_signals.credit_ctr[CREDIT_FFS-1], fifo_write_wire.ready);
+                            $error("time: %0t: assert::FIFO_CTR_OVERFLOW check credit_ctr: %d | fifo_write_wire %b", $time, assertion_signals.credit_ctr[VALID_FFS-1], fifo_write_wire.ready);
                         end
                     end
                 end
