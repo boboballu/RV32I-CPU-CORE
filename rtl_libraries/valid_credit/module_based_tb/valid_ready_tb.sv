@@ -47,7 +47,7 @@ module valid_ready_tb ();
     // [EDIT*] local parameters goes here
     parameter type DATA_T = rtl_data_t;
     parameter VALID_FFS = 2;
-    parameter CREDIT_FFS = 2;
+    parameter CREDIT_FFS = 3;
     // [EDIT] testbench test sequence size
     parameter NUM_SEQUENCE = 50;
 
@@ -59,7 +59,7 @@ module valid_ready_tb ();
     valid_ready_if #(.DATA_T(DATA_T)) receiver_B (clk, reset_n);
 
     // [EDIT*] DUT instantiation goes here
-     valid_credit #(.DATA_T(DATA_T), .VALID_FFS(VALID_FFS), .CREDIT_FFS(CREDIT_FFS) ) DUT1 (
+     valid_credit #(.DATA_T(DATA_T), .VALID_FFS(VALID_FFS), .CREDIT_FFS(CREDIT_FFS)) DUT1 (
         .clk(clk), .reset_n(reset_n),
 
         // "in" is connected module A that sends data

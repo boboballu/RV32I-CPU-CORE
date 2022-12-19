@@ -1,12 +1,11 @@
 module valid_credit #(
     parameter type DATA_T = logic [7:0],
     parameter VALID_FFS     = 3,
-    parameter CREDIT_FFS     = 2,
-
+    parameter CREDIT_FFS    = 2,
     //immutable params
     localparam FIFO_DEPTH   = VALID_FFS + CREDIT_FFS + 2,
     localparam CREDIT_CTR_MAX = FIFO_DEPTH,
-    localparam CREDIT_CTR_SIZE = ($clog2(FIFO_DEPTH))
+    localparam CREDIT_CTR_SIZE = ($clog2(FIFO_DEPTH+1)) // requires +1 since the counter counts from 0 to 2^n
 ) (
     input clk, reset_n,
 
@@ -19,13 +18,22 @@ module valid_credit #(
     output logic [CREDIT_CTR_SIZE-1:0] credit_ctr
 );
 
+    // parameter checker - checks and prepares the parameters
+    initial begin : parameter_checker
+        $display (" rtl: valid_credit.sv : ---- parameters check ----");
+        $display (" rtl: valid_credit.sv : VALID_FFS %d | CREDIT_FFS %d", VALID_FFS, CREDIT_FFS);
+        $display (" rtl: valid_credit.sv : FIFO_DEPTH %d | CREDIT_CTR_MAX %d | CREDIT_CTR_SIZE %d", FIFO_DEPTH, CREDIT_CTR_MAX, CREDIT_CTR_SIZE);
+    end : parameter_checker
+
+
     struct {
         logic [CREDIT_CTR_SIZE-1:0] credit_ctr[1:0];
         logic fifo_write_wire_ready_ff;
     } assertion_signals;
 
+    // ff pipe stages for valid, valid_data dnd credit signals. Ignored if VALID_FFS or CREDIT_FFS is 0 (not used)
     logic [VALID_FFS-1:0] valid_ffs;
-    DATA_T valid_data_ffs [VALID_FFS-1:0];
+    DATA_T [VALID_FFS-1:0] valid_data_ffs;
 
     logic [CREDIT_FFS-1:0] credit_ffs;
     // logic [CREDIT_CTR_SIZE-1:0] credit_ctr;
@@ -52,17 +60,14 @@ module valid_credit #(
     assign out.data                 = fifo_to_out_wire_data;
     assign fifo_read_wire.ready     = out.ready;
 
-
     // sender valid_ready <-> valid_credit connection
     assign in_to_ff_wire_valid      = in.valid & (credit_ctr <= CREDIT_CTR_MAX-1);
     assign in_to_ff_wire_data       = in.data;
-    assign ff_to_in_wire_credit     = credit_ffs[CREDIT_FFS-1];
+    assign ff_to_in_wire_credit     = (CREDIT_FFS == 0) ? out_to_fifo_wire_credit : credit_ffs[CREDIT_FFS-1];
     assign in.ready                 = (credit_ctr <= CREDIT_CTR_MAX-1);
     // valid_ffs <-> fifo input connectiom
-    assign fifo_write_wire.valid    = valid_ffs[VALID_FFS-1];
-    assign fifo_write_wire.data     = valid_data_ffs[VALID_FFS-1];
-
-
+    assign fifo_write_wire.valid    = (VALID_FFS == 0) ? in_to_ff_wire_valid : valid_ffs[VALID_FFS-1];
+    assign fifo_write_wire.data     = (VALID_FFS == 0) ? in_to_ff_wire_data : valid_data_ffs[VALID_FFS-1];
 
     fifo_valid_ready_wrapper #(.ROWS(FIFO_DEPTH), .DATA_T(DATA_T)) skid_fifo (
         .clk(clk), .reset_n(reset_n),
@@ -76,7 +81,7 @@ module valid_credit #(
         .out_read_ptr()                 // expects interface of type "valid_ready_if.in"
     );
 
-
+    // credit counter update logic (saturating counter that counts from 0 to 2^n (Note: not 2^n - 1) )
     always_ff @(posedge clk or negedge reset_n) begin : update_credit_ctr
         if (!reset_n) begin
             credit_ctr <= '{default:'b0};
@@ -106,33 +111,50 @@ module valid_credit #(
                     end
     end : update_credit_ctr
 
+    // valid credit pipeline generation - only generated if VALID_FFS or CREDIT_FFS are >= 1
     always_ff @(posedge clk or negedge reset_n) begin : valid_credit_ff_pipeline
         if (!reset_n) begin
-
             valid_ffs       <= '{default:'b0};
             valid_data_ffs  <= '{default:'b0};
             credit_ffs      <= '{default:'b0};
         end
         else begin
-            for(int i=0; i<VALID_FFS; i++) begin
-                if (i == 0) begin
-                    valid_ffs[0]        <= in_to_ff_wire_valid;
-                    valid_data_ffs[0]   <= in_to_ff_wire_data;
-                end
-                else begin
-                    valid_ffs[i]        <= valid_ffs[i-1];
-                    valid_data_ffs[i]   <= valid_data_ffs[i-1];
-                end
+            // // cant really use the below code if VALID_FFS and CREDIT_FFS are less than 2
+            if ( VALID_FFS >= 2 ) begin
+                valid_ffs       <= {valid_ffs[VALID_FFS-2:0], in_to_ff_wire_valid};
+                valid_data_ffs  <= {valid_data_ffs[VALID_FFS-2:0], in_to_ff_wire_data};
+            end
+            if ( CREDIT_FFS >= 2 ) begin
+                credit_ffs      <= {credit_ffs[CREDIT_FFS-2:0], out_to_fifo_wire_credit};
+            end
+            if ( VALID_FFS == 1 ) begin
+                valid_ffs <= in_to_ff_wire_valid;
+                valid_data_ffs <= in_to_ff_wire_data;
+            end
+            if ( CREDIT_FFS == 1 ) begin
+                credit_ffs <= out_to_fifo_wire_credit;
             end
 
-            for (int i=0; i <= CREDIT_FFS-1; i++) begin
-                if (i == 0) begin
-                    credit_ffs[0] <= out_to_fifo_wire_credit;
-                end
-                else begin
-                    credit_ffs[i] <= credit_ffs[i-1];
-                end
-            end
+            // Old method - Not very eligent
+            // for(int i=0; i<VALID_FFS; i++) begin
+            //     if (i == 0) begin
+            //         valid_ffs[0]        <= in_to_ff_wire_valid;
+            //         valid_data_ffs[0]   <= in_to_ff_wire_data;
+            //     end
+            //     else begin
+            //         valid_ffs[i]        <= valid_ffs[i-1];
+            //         valid_data_ffs[i]   <= valid_data_ffs[i-1];
+            //     end
+            // end
+
+            // for (int i=0; i <CREDIT_FFS; i++) begin
+            //     if (i == 0) begin
+            //         credit_ffs[0] <= out_to_fifo_wire_credit;
+            //     end
+            //     else begin
+            //         credit_ffs[i] <= credit_ffs[i-1];
+            //     end
+            // end
         end
     end : valid_credit_ff_pipeline
 
