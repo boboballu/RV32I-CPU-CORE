@@ -47,11 +47,15 @@ module valid_ready_tb ();
     // [EDIT*] local parameters goes here
     parameter type DATA_T = rtl_data_t;
     parameter ROWS = 8;
+    parameter ROW_ADDR_WIDTH = ($clog2(ROWS));
     // [EDIT] testbench test sequence size
     parameter NUM_SEQUENCE = 50;
 
     // --- Signals to connect to DUT --- //
     logic clk, reset_n;
+
+    // fifo read and write pointers
+    logic [ROW_ADDR_WIDTH-1:0] sender_A_write_ptr,receiver_B_read_ptr;
 
     // ---RTL instantiation --- //
     valid_ready_if #(.DATA_T(DATA_T)) sender_A (clk, reset_n);
@@ -63,11 +67,11 @@ module valid_ready_tb ();
         
         // "in" is connected module A that sends data
         .in(sender_A.out),      // expects interface of type "valid_ready_if.out"
-        .in_write_ptr(),
+        .in_write_ptr(sender_A_write_ptr),
 
         // "out" is connected to module B that receives data
         .out(receiver_B.in),    // expects interface of type "valid_ready_if.in"
-        .out_read_ptr()
+        .out_read_ptr(receiver_B_read_ptr)
     );
 
     valid_ready_tb_elements #(.NUM_SEQUENCE(NUM_SEQUENCE)) tb_elements (

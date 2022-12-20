@@ -1,5 +1,5 @@
 # vsim -c -do "run -all; exit" "+test=1" valid_ready_tb 
-# Start time: 01:32:51 on Nov 12,2022
+# Start time: 01:09:01 on Dec 20,2022
 # Loading sv_std.std
 # Loading work.datatypes_globals_pkg
 # Loading work.valid_ready_tb_sv_unit
@@ -294,5 +294,5 @@
 # sender counter:          50   |   receiver counter:          50
 # ** Note: $finish    : valid_ready_tb.sv(127)
 #    Time: 820 ps  Iteration: 1  Instance: /valid_ready_tb
-# End time: 01:32:51 on Nov 12,2022, Elapsed time: 0:00:00
+# End time: 01:09:01 on Dec 20,2022, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0

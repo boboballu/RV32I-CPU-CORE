@@ -1,5 +1,5 @@
 # vsim -c -do "run -all; exit" "+test=1" valid_ready_tb 
-# Start time: 18:53:03 on Dec 18,2022
+# Start time: 16:54:40 on Dec 19,2022
 # Loading sv_std.std
 # Loading work.valid_ready_tb_sv_unit
 # Loading work.valid_ready_tb
@@ -8,6 +8,9 @@
 # Loading work.fifo_valid_ready_wrapper
 # Loading work.fifo
 # run -all
+#  rtl: valid_credit.sv : ---- parameters check ----
+#  rtl: valid_credit.sv : VALID_FFS           2 | CREDIT_FFS           2
+#  rtl: valid_credit.sv : FIFO_DEPTH           6 | CREDIT_CTR_MAX           6 | CREDIT_CTR_SIZE           3
 # Received BUSY_RECEIVER
 # ------ Busy Receiver test sequence ------
 # sender : valid-> 1 ; data-> b8
@@ -142,7 +145,7 @@
 # time: 70: sender_A:           3 : sent < b6 >
 # time: 80: sender_A:           4 : sent < c6 >
 # time: 90: sender_A:           5 : sent < 46 >
-# assert::FIFO_CTR_OVERFLOW check : Pass
+# time: 120: assert::FIFO_CTR_OVERFLOW check : Pass
 # time: 330: receiver_B:           0 : received < b8 >
 # time: 340: receiver_B:           1 : received < 26 >
 # time: 350: receiver_B:           2 : received < 66 >
@@ -292,5 +295,5 @@
 # sender counter:          50   |   receiver counter:          50
 # ** Note: $finish    : valid_ready_tb.sv(164)
 #    Time: 820 ps  Iteration: 1  Instance: /valid_ready_tb
-# End time: 18:53:03 on Dec 18,2022, Elapsed time: 0:00:00
+# End time: 16:54:40 on Dec 19,2022, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0

@@ -104,11 +104,11 @@ module valid_ready_tb ();
 
         // "in" is connected module A that sends data
         .in(sender_A.out),      // expects interface of type "valid_ready_if.out"
+        .in_credit_ctr(),
 
         // "out" is connected to module B that receives data
         .out(receiver_B.in),    // expects interface of type "valid_ready_if.in"
-
-        .credit_ctr()
+        .out_fifo_read_ptr(), .out_fifo_write_ptr()
     );
 
     initial begin : autogen_rand_testlist

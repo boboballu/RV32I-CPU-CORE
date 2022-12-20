@@ -38,14 +38,14 @@ module fifo #(
     input logic w_req, r_req,
     input DATA_T w_data,
     output DATA_T r_data,
-    output logic [ROW_ADDR_WIDTH:0] write_ptr, read_ptr,
+    output logic [ROW_ADDR_WIDTH-1:0] write_ptr, read_ptr,
     output logic w_stall, r_stall
 );
     DATA_T MEM [ROWS-1:0];
     logic full, empty;
     logic [ROW_ADDR_WIDTH:0] head, tail;
 
-    assign {read_ptr, write_ptr} = {head, tail};
+    assign {read_ptr, write_ptr} = {head[ROW_ADDR_WIDTH-1:0], tail[ROW_ADDR_WIDTH-1:0]};
     assign w_stall  = full;
     assign r_stall  = empty;
     assign r_data   = ( r_req & (!empty) ) ? MEM[head[ROW_ADDR_WIDTH-1:0]] : 'b0;
@@ -114,11 +114,11 @@ module fifo_valid_ready_wrapper #(
     // "in" is connected module A that sends data
     
     valid_ready_if in,      // expects interface of type "valid_ready_if.out"
-    output logic [ROW_ADDR_WIDTH:0] in_write_ptr, 
+    output logic [ROW_ADDR_WIDTH-1:0] in_write_ptr, 
     // "out" is connected to module B that receives data
     
     valid_ready_if out,     // expects interface of type "valid_ready_if.in"
-    output logic [ROW_ADDR_WIDTH:0] out_read_ptr
+    output logic [ROW_ADDR_WIDTH-1:0] out_read_ptr
 );
 
     logic w_stall, r_stall;

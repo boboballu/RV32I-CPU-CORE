@@ -96,7 +96,7 @@ module valid_ready_tb ();
     // ---RTL instantiation --- //
     valid_ready_if #(.DATA_T(rtl_data_t)) sender_A (clk, reset_n);
     valid_ready_if #(.DATA_T(rtl_data_t)) receiver_B (clk, reset_n);
-    logic [ROW_ADDR_WIDTH:0] sender_A_write_ptr,receiver_B_read_ptr;
+    logic [ROW_ADDR_WIDTH-1:0] sender_A_write_ptr,receiver_B_read_ptr;
 
     // [EDIT*] DUT instantiation goes here
     fifo_valid_ready_wrapper #(.ROWS(ROWS), .DATA_T(rtl_data_t) ) DUT1 (
