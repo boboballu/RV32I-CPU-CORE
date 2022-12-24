@@ -46,8 +46,8 @@ module valid_ready_tb ();
 
     // [EDIT*] local parameters goes here
     parameter type DATA_T = rtl_data_t;
-    parameter VALID_FFS = 0;
-    parameter CREDIT_FFS = 0;
+    parameter VALID_FFS = 2;
+    parameter CREDIT_FFS = 2;
     // [EDIT] testbench test sequence size
     parameter NUM_SEQUENCE = 50;
 

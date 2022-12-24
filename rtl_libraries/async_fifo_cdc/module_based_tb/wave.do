@@ -16,16 +16,9 @@ add wave -noupdate -radixshowbase 1 /valid_ready_tb/receiver_B/ready
 add wave -noupdate -radix hexadecimal -radixshowbase 1 /valid_ready_tb/receiver_B/data
 add wave -noupdate /valid_ready_tb/tb_elements/run_receiver_driver/index
 add wave -noupdate /valid_ready_tb/tb_elements/run_receiver_driver/transaction_tracker
-add wave -noupdate -divider DUT
-add wave -noupdate -radix unsigned -radixshowbase 1 /valid_ready_tb/DUT1/credit_ctr
-add wave -noupdate /valid_ready_tb/DUT1/fifo_write_wire/valid
-add wave -noupdate /valid_ready_tb/DUT1/fifo_write_wire/ready
-add wave -noupdate -radix hexadecimal -radixshowbase 1 /valid_ready_tb/DUT1/fifo_write_wire/data
-add wave -noupdate -childformat {{/valid_ready_tb/DUT1/assertion_signals.credit_ctr -radix unsigned -childformat {{{/valid_ready_tb/DUT1/assertion_signals.credit_ctr[0]} -radix unsigned}}}} -expand -subitemconfig {/valid_ready_tb/DUT1/assertion_signals.credit_ctr {-height 17 -radix unsigned -childformat {{{/valid_ready_tb/DUT1/assertion_signals.credit_ctr[0]} -radix unsigned}} -expand} {/valid_ready_tb/DUT1/assertion_signals.credit_ctr[0]} {-height 17 -radix unsigned}} /valid_ready_tb/DUT1/assertion_signals
-add wave -noupdate /valid_ready_tb/DUT1/skid_fifo/fifo_inst/write_ptr
-add wave -noupdate /valid_ready_tb/DUT1/skid_fifo/fifo_inst/read_ptr
+add wave -noupdate -radix hexadecimal -radixshowbase 1 /valid_ready_tb/DUT1/fifo_inst/MEM
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {94 ps} 0}
+WaveRestoreCursors {{Cursor 1} {75 ps} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 275
 configure wave -valuecolwidth 100
@@ -41,4 +34,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ns
 update
-WaveRestoreZoom {511 ps} {605 ps}
+WaveRestoreZoom {11 ps} {105 ps}

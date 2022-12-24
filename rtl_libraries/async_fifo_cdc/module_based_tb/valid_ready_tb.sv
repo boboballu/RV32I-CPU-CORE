@@ -46,24 +46,25 @@ module valid_ready_tb ();
 
     // [EDIT*] local parameters goes here
     parameter type DATA_T = rtl_data_t;
-    parameter ROWS = 5;
+    parameter ROWS = 8;
     parameter ROW_ADDR_WIDTH = ($clog2(ROWS));
+    parameter M_FF_SYNC_WIDTH = 2;
     // [EDIT] testbench test sequence size
     parameter NUM_SEQUENCE = 50;
 
     // --- Signals to connect to DUT --- //
-    logic clk, reset_n;
+    logic clk_sender, clk_receiver, reset_n;
 
     // fifo read and write pointers
     logic [ROW_ADDR_WIDTH-1:0] sender_A_write_ptr,receiver_B_read_ptr;
 
     // ---RTL instantiation --- //
-    valid_ready_if #(.DATA_T(DATA_T)) sender_A (clk, reset_n);
-    valid_ready_if #(.DATA_T(DATA_T)) receiver_B (clk, reset_n);
+    valid_ready_if #(.DATA_T(DATA_T)) sender_A (clk_sender, reset_n);
+    valid_ready_if #(.DATA_T(DATA_T)) receiver_B (clk_receiver, reset_n);
 
     // [EDIT*] DUT instantiation goes here
-    fifo_valid_ready_wrapper #(.DATA_T(DATA_T), .ROWS(ROWS) ) DUT1 (
-        .clk(clk), .reset_n(reset_n),
+    async_fifo_valid_ready_wrapper #(.DATA_T(DATA_T), .ROWS(ROWS), .M_FF_SYNC_WIDTH(M_FF_SYNC_WIDTH) ) DUT1 (
+        .clk_sender(clk_sender), .clk_receiver(clk_receiver), .reset_n(reset_n),
         
         // "in" is connected module A that sends data
         .in(sender_A.out),      // expects interface of type "valid_ready_if.out"
@@ -75,7 +76,7 @@ module valid_ready_tb ();
     );
 
     valid_ready_tb_elements #(.NUM_SEQUENCE(NUM_SEQUENCE)) tb_elements (
-        .clk(clk), .reset_n(reset_n),
+        .clk_sender(clk_sender), .clk_receiver(clk_receiver), .reset_n(reset_n),
         .sender_A(sender_A.in),
         .receiver_B(receiver_B.out)
     );
@@ -98,7 +99,7 @@ module valid_ready_tb ();
 
     // --- initial / defaults / clock gen / reset gen / vcd gen  --- //
     initial begin : defaults
-        clk = 1; reset_n = 1;
+        clk_sender = 1; clk_receiver = 1; reset_n = 1;
         sender_A.valid = 'b0; sender_A.data = 'b0;
         receiver_B.ready = 0;
         #1500 tb_elements.end_simulation(); $finish;
@@ -109,9 +110,18 @@ module valid_ready_tb ();
         $dumpvars(0,valid_ready_tb);
     end : dump_vars
 
-    always begin : clk_gen
-        clk = #5 ~clk;
-    end : clk_gen
+    initial begin : clk_sender_gen
+        forever begin
+            clk_sender = #5 ~clk_sender;
+        end
+    end : clk_sender_gen
+
+    initial begin : clk_receiver_gen
+        #5;
+        forever begin
+            clk_receiver = #10 ~clk_receiver;
+        end
+    end : clk_receiver_gen
 
     // reset_n should async asserted and sync deasserted (add #1 delay for deassertion to satisfy the simulator)
     initial begin : reset_n_gen
@@ -119,22 +129,78 @@ module valid_ready_tb ();
         #16 reset_n = 1;
     end : reset_n_gen
 
+    // initial begin
+    //     #20;
+    //     forever begin
+    //         tb_elements.run_sender_driver();
+    //     end
+    // end
+    // initial begin
+    //     #20;
+    //     forever begin
+    //         tb_elements.run_receiver_driver();
+    //     end
+    // end
+    // initial begin
+    //     #20;
+    //     forever begin
+    //         tb_elements.monitor_sender();
+    //     end
+    // end
+    // initial begin
+    //     #20;
+    //     forever begin
+    //         tb_elements.monitor_receiver();
+    //     end
+    // end
+
     initial begin
         #20;
         forever begin
             fork
                 tb_elements.run_sender_driver();
-                tb_elements.run_receiver_driver();
                 tb_elements.monitor_sender();
-                tb_elements.monitor_receiver();
-                begin : all_transaction_done_end
-                    if ( (scoreboard_perf_ctr.sender_count == NUM_SEQUENCE) && (scoreboard_perf_ctr.receiver_count == NUM_SEQUENCE) ) begin
-                        tb_elements.end_simulation();
-                        $finish;
-                    end
-                end : all_transaction_done_end
             join
         end
     end
+
+    initial begin
+        #20;
+        forever begin
+            fork
+                tb_elements.run_receiver_driver();
+                tb_elements.monitor_receiver();
+            join
+        end
+    end
+
+    initial begin
+        #20;
+        begin : all_transaction_done_end
+            if ( (scoreboard_perf_ctr.sender_count == NUM_SEQUENCE) && (scoreboard_perf_ctr.receiver_count == NUM_SEQUENCE) ) begin
+                tb_elements.end_simulation();
+                $finish;
+            end
+        end : all_transaction_done_end
+    end
+
+
+    // initial begin
+    //     #20;
+    //     forever begin
+    //         fork
+    //             tb_elements.run_sender_driver();
+    //             tb_elements.run_receiver_driver();
+    //             tb_elements.monitor_sender();
+    //             tb_elements.monitor_receiver();
+    //         join_any
+    //         begin : all_transaction_done_end
+    //             if ( (scoreboard_perf_ctr.sender_count == NUM_SEQUENCE) && (scoreboard_perf_ctr.receiver_count == NUM_SEQUENCE) ) begin
+    //                 tb_elements.end_simulation();
+    //                 $finish;
+    //             end
+    //         end : all_transaction_done_end
+    //     end
+    // end
 
 endmodule : valid_ready_tb

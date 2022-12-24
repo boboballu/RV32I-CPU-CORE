@@ -1,0 +1,130 @@
+# vsim -do "do wave.do;" async_fifo_valid_ready_tb 
+# Start time: 17:56:38 on Dec 23,2022
+# Loading sv_std.std
+# Loading work.async_fifo_valid_ready_tb
+# Loading work.valid_ready_if
+# Loading work.async_fifo_valid_ready_wrapper
+# Loading work.async_fifo
+# Loading work.bin2gray
+# Loading work.m_ff_sync
+# Loading work.gray2bin
+# ** Warning: (vsim-8311) System Verilog assertions are supported only in Questasim.
+# do wave.do
+# 
+run
+# default test picked:  BUSY_RECEIVER
+# ------ Busy Receiver test sequence ------
+# sender : valid-> 1 ; data-> 74
+# sender : valid-> 1 ; data-> cd
+# sender : valid-> 1 ; data-> 1d
+# sender : valid-> 1 ; data-> 36
+# sender : valid-> 1 ; data-> 63
+# sender : valid-> 1 ; data-> b6
+# sender : valid-> 1 ; data-> 4b
+# sender : valid-> 1 ; data-> fe
+# sender : valid-> 1 ; data-> 5e
+# sender : valid-> 1 ; data-> 11
+# sender : valid-> 1 ; data-> 41
+# sender : valid-> 1 ; data-> 78
+# sender : valid-> 1 ; data-> a2
+# sender : valid-> 1 ; data-> 89
+# sender : valid-> 1 ; data-> c8
+# sender : valid-> 1 ; data-> 2a
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# ------ Done ------
+# time: 50: sender_A:           0 : sent < 74 >
+run
+run
+# time: 280: receiver_B:           0 : received < 74 >
+# ** Warning: (vsim-3829) Non-existent associative array entry. Returning default value.
+#    Time: 300 ps  Iteration: 1  Process: /async_fifo_valid_ready_tb/#FORK#185_f69f95d File: async_fifo_tb.sv Line: 266
+# ** Error: Assertion error.
+#    Time: 300 ps  Scope: async_fifo_valid_ready_tb.monitor_receiver File: async_fifo_tb.sv Line: 266
+# time: 300: receiver_B:           1 : received < 74 >
+run
+# time: 310: sender_A:           1 : sent < cd >
+# time: 330: sender_A:           2 : sent < 1d >
+# time: 350: sender_A:           3 : sent < 36 >
+# ** Error: Assertion error.
+#    Time: 360 ps  Scope: async_fifo_valid_ready_tb.monitor_receiver File: async_fifo_tb.sv Line: 266
+# time: 360: receiver_B:           2 : received < cd >
+# time: 370: sender_A:           4 : sent < 63 >
+# time: 390: sender_A:           5 : sent < b6 >
+# ** Error: Assertion error.
+#    Time: 400 ps  Scope: async_fifo_valid_ready_tb.monitor_receiver File: async_fifo_tb.sv Line: 266
+# time: 400: receiver_B:           3 : received < 63 >
+add wave -position insertpoint  \
+sim:/async_fifo_valid_ready_tb/DUT1/fifo_inst/MEM
+restart
+# Closing VCD file "async_fifo_valid_ready_tb.vcd"
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+run
+# default test picked:  BUSY_RECEIVER
+# ------ Busy Receiver test sequence ------
+# sender : valid-> 1 ; data-> 74
+# sender : valid-> 1 ; data-> cd
+# sender : valid-> 1 ; data-> 1d
+# sender : valid-> 1 ; data-> 36
+# sender : valid-> 1 ; data-> 63
+# sender : valid-> 1 ; data-> b6
+# sender : valid-> 1 ; data-> 4b
+# sender : valid-> 1 ; data-> fe
+# sender : valid-> 1 ; data-> 5e
+# sender : valid-> 1 ; data-> 11
+# sender : valid-> 1 ; data-> 41
+# sender : valid-> 1 ; data-> 78
+# sender : valid-> 1 ; data-> a2
+# sender : valid-> 1 ; data-> 89
+# sender : valid-> 1 ; data-> c8
+# sender : valid-> 1 ; data-> 2a
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# ------ Done ------
+# time: 50: sender_A:           0 : sent < 74 >
+# End time: 18:03:34 on Dec 23,2022, Elapsed time: 0:06:56
+# Errors: 0, Warnings: 0

@@ -1,5 +1,5 @@
-# vsim -c -do "run -all; exit" "+test=2" valid_ready_tb 
-# Start time: 16:52:34 on Dec 19,2022
+# vsim -do "do wave.do;" "+test=1" valid_ready_tb 
+# Start time: 15:23:06 on Dec 22,2022
 # Loading sv_std.std
 # Loading work.datatypes_globals_pkg
 # Loading work.valid_ready_tb_sv_unit
@@ -10,181 +10,87 @@
 # Loading work.fifo
 # Loading work.valid_ready_tb_elements_sv_unit
 # Loading work.valid_ready_tb_elements
-# run -all
+# do wave.do
+# 
+run
 #  rtl: valid_credit.sv : ---- parameters check ----
-#  rtl: valid_credit.sv : VALID_FFS           0 | CREDIT_FFS           0
-#  rtl: valid_credit.sv : FIFO_DEPTH           2 | CREDIT_CTR_MAX           2 | CREDIT_CTR_SIZE           2
-# Received RANDOM
-# ------ Generating random sender and receiver test sequence ------
-# sender : valid-> 0 ; data-> 26
-# sender : valid-> 0 ; data-> b6
-# sender : valid-> 0 ; data-> 46
-# sender : valid-> 0 ; data-> 2e
-# sender : valid-> 1 ; data-> 3a
-# sender : valid-> 0 ; data-> b4
-# sender : valid-> 1 ; data-> 56
-# sender : valid-> 1 ; data-> d4
-# sender : valid-> 0 ; data-> 7d
-# sender : valid-> 1 ; data-> 05
-# sender : valid-> 1 ; data-> 20
-# sender : valid-> 1 ; data-> 05
-# sender : valid-> 1 ; data-> e9
-# sender : valid-> 1 ; data-> 8a
-# sender : valid-> 0 ; data-> 8b
-# sender : valid-> 0 ; data-> c9
-# sender : valid-> 1 ; data-> 40
-# sender : valid-> 0 ; data-> 0e
-# sender : valid-> 0 ; data-> 8e
-# sender : valid-> 0 ; data-> 97
-# sender : valid-> 1 ; data-> c7
-# sender : valid-> 0 ; data-> 51
-# sender : valid-> 0 ; data-> 23
-# sender : valid-> 0 ; data-> b3
-# sender : valid-> 0 ; data-> e6
-# sender : valid-> 0 ; data-> 65
-# sender : valid-> 0 ; data-> 0f
-# sender : valid-> 1 ; data-> 44
-# sender : valid-> 1 ; data-> cb
-# sender : valid-> 1 ; data-> c7
-# sender : valid-> 0 ; data-> e1
-# sender : valid-> 1 ; data-> 30
-# sender : valid-> 0 ; data-> 1d
-# sender : valid-> 0 ; data-> 16
-# sender : valid-> 1 ; data-> 40
-# sender : valid-> 1 ; data-> 91
-# sender : valid-> 1 ; data-> a0
-# sender : valid-> 1 ; data-> 1d
-# sender : valid-> 0 ; data-> dd
-# sender : valid-> 0 ; data-> 84
-# sender : valid-> 1 ; data-> 89
-# sender : valid-> 0 ; data-> d5
-# sender : valid-> 0 ; data-> 4c
-# sender : valid-> 0 ; data-> c3
-# sender : valid-> 0 ; data-> bc
-# sender : valid-> 1 ; data-> f3
-# sender : valid-> 1 ; data-> b7
-# sender : valid-> 1 ; data-> e7
-# sender : valid-> 0 ; data-> 09
-# sender : valid-> 0 ; data-> c1
-# sender : valid-> 0 ; data-> 60
-# sender : valid-> 1 ; data-> 6f
-# sender : valid-> 1 ; data-> cd
-# sender : valid-> 0 ; data-> d0
-# sender : valid-> 1 ; data-> fc
-# sender : valid-> 1 ; data-> a7
-# sender : valid-> 1 ; data-> be
-# sender : valid-> 1 ; data-> 85
-# sender : valid-> 0 ; data-> a0
-# sender : valid-> 1 ; data-> 00
-# sender : valid-> 0 ; data-> 8b
-# sender : valid-> 0 ; data-> bd
-# sender : valid-> 0 ; data-> 7d
-# sender : valid-> 1 ; data-> aa
-# sender : valid-> 1 ; data-> b2
-# sender : valid-> 0 ; data-> 46
-# sender : valid-> 0 ; data-> e1
-# sender : valid-> 0 ; data-> 21
-# sender : valid-> 0 ; data-> 69
-# sender : valid-> 0 ; data-> f4
-# sender : valid-> 0 ; data-> ca
-# sender : valid-> 0 ; data-> 03
-# sender : valid-> 1 ; data-> ec
-# sender : valid-> 0 ; data-> 46
-# sender : valid-> 0 ; data-> c5
-# sender : valid-> 0 ; data-> a4
-# sender : valid-> 1 ; data-> 0d
-# sender : valid-> 0 ; data-> 7d
-# sender : valid-> 1 ; data-> f9
-# sender : valid-> 1 ; data-> 21
-# sender : valid-> 1 ; data-> dd
-# sender : valid-> 1 ; data-> f1
-# sender : valid-> 1 ; data-> 9a
-# sender : valid-> 0 ; data-> a8
-# sender : valid-> 0 ; data-> ee
-# sender : valid-> 0 ; data-> 18
-# sender : valid-> 1 ; data-> 7c
-# sender : valid-> 1 ; data-> c1
+#  rtl: valid_credit.sv : VALID_FFS           2 | CREDIT_FFS           2
+#  rtl: valid_credit.sv : FIFO_DEPTH           6 | CREDIT_CTR_MAX           6 | CREDIT_CTR_SIZE           3
+# Received BUSY_RECEIVER
+# ------ Busy Receiver test sequence ------
+# sender : valid-> 1 ; data-> b8
+# sender : valid-> 1 ; data-> 26
+# sender : valid-> 1 ; data-> 66
+# sender : valid-> 1 ; data-> b6
+# sender : valid-> 1 ; data-> c6
 # sender : valid-> 1 ; data-> 46
-# sender : valid-> 0 ; data-> 27
-# sender : valid-> 1 ; data-> 3c
-# sender : valid-> 0 ; data-> c8
-# sender : valid-> 0 ; data-> 26
-# sender : valid-> 1 ; data-> 73
+# sender : valid-> 1 ; data-> 72
+# sender : valid-> 1 ; data-> 2e
+# sender : valid-> 1 ; data-> 67
+# sender : valid-> 1 ; data-> 3a
+# sender : valid-> 1 ; data-> 6a
 # sender : valid-> 1 ; data-> b4
-# sender : valid-> 1 ; data-> c8
-# sender : valid-> 1 ; data-> 52
-# sender : valid-> 0 ; data-> 4e
-# sender : valid-> 0 ; data-> df
-# sender : valid-> 1 ; data-> 91
-# sender : valid-> 1 ; data-> ea
-# sender : valid-> 1 ; data-> 95
-# sender : valid-> 0 ; data-> 16
-# sender : valid-> 0 ; data-> 54
-# sender : valid-> 0 ; data-> 51
-# sender : valid-> 0 ; data-> c3
-# sender : valid-> 1 ; data-> 8c
-# receiver : ready -> 0
-# receiver : ready -> 0
-# receiver : ready -> 1
-# receiver : ready -> 0
-# receiver : ready -> 1
-# receiver : ready -> 0
-# receiver : ready -> 0
-# receiver : ready -> 0
-# receiver : ready -> 1
-# receiver : ready -> 0
-# receiver : ready -> 1
-# receiver : ready -> 1
-# receiver : ready -> 0
-# receiver : ready -> 0
-# receiver : ready -> 0
-# receiver : ready -> 0
-# receiver : ready -> 0
-# receiver : ready -> 1
-# receiver : ready -> 1
-# receiver : ready -> 1
-# receiver : ready -> 1
-# receiver : ready -> 1
-# receiver : ready -> 1
-# receiver : ready -> 0
-# receiver : ready -> 0
-# receiver : ready -> 1
-# receiver : ready -> 0
-# receiver : ready -> 0
-# receiver : ready -> 0
+# sender : valid-> 1 ; data-> 6f
+# sender : valid-> 1 ; data-> 56
+# sender : valid-> 1 ; data-> 35
+# sender : valid-> 1 ; data-> d4
+# sender : valid-> 1 ; data-> ae
+# sender : valid-> 1 ; data-> 7d
+# sender : valid-> 1 ; data-> db
+# sender : valid-> 1 ; data-> 05
+# sender : valid-> 1 ; data-> e3
+# sender : valid-> 1 ; data-> 20
+# sender : valid-> 1 ; data-> e5
+# sender : valid-> 1 ; data-> 05
+# sender : valid-> 1 ; data-> 25
+# sender : valid-> 1 ; data-> e9
+# sender : valid-> 1 ; data-> 5d
+# sender : valid-> 1 ; data-> 8a
+# sender : valid-> 1 ; data-> 58
+# sender : valid-> 1 ; data-> 8b
+# sender : valid-> 1 ; data-> 56
+# sender : valid-> 1 ; data-> c9
+# sender : valid-> 1 ; data-> b9
+# sender : valid-> 1 ; data-> 40
+# sender : valid-> 1 ; data-> 80
+# sender : valid-> 1 ; data-> 0e
+# sender : valid-> 1 ; data-> d4
+# sender : valid-> 1 ; data-> 8e
+# sender : valid-> 1 ; data-> c0
+# sender : valid-> 1 ; data-> 97
+# sender : valid-> 1 ; data-> 25
+# sender : valid-> 1 ; data-> c7
+# sender : valid-> 1 ; data-> 58
+# sender : valid-> 1 ; data-> 51
+# sender : valid-> 1 ; data-> 32
+# sender : valid-> 1 ; data-> 23
+# sender : valid-> 1 ; data-> 54
+# sender : valid-> 1 ; data-> b3
+# sender : valid-> 1 ; data-> 5a
+# sender : valid-> 1 ; data-> e6
 # receiver : ready -> 0
 # receiver : ready -> 0
 # receiver : ready -> 0
 # receiver : ready -> 0
 # receiver : ready -> 0
-# receiver : ready -> 1
-# receiver : ready -> 1
-# receiver : ready -> 0
-# receiver : ready -> 0
-# receiver : ready -> 1
 # receiver : ready -> 0
 # receiver : ready -> 0
 # receiver : ready -> 0
-# receiver : ready -> 1
-# receiver : ready -> 1
-# receiver : ready -> 0
-# receiver : ready -> 1
-# receiver : ready -> 1
-# receiver : ready -> 1
-# receiver : ready -> 1
-# receiver : ready -> 0
-# receiver : ready -> 1
-# receiver : ready -> 1
-# receiver : ready -> 1
-# receiver : ready -> 1
-# receiver : ready -> 0
-# receiver : ready -> 1
-# receiver : ready -> 0
-# receiver : ready -> 1
 # receiver : ready -> 0
 # receiver : ready -> 0
 # receiver : ready -> 0
-# receiver : ready -> 1
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
+# receiver : ready -> 0
 # receiver : ready -> 0
 # receiver : ready -> 0
 # receiver : ready -> 1
@@ -197,194 +103,112 @@
 # receiver : ready -> 1
 # receiver : ready -> 1
 # receiver : ready -> 1
-# receiver : ready -> 0
-# receiver : ready -> 1
-# receiver : ready -> 1
-# receiver : ready -> 0
-# receiver : ready -> 0
 # receiver : ready -> 1
 # receiver : ready -> 1
 # receiver : ready -> 1
 # receiver : ready -> 1
-# receiver : ready -> 0
 # receiver : ready -> 1
 # receiver : ready -> 1
-# receiver : ready -> 0
-# receiver : ready -> 0
-# receiver : ready -> 0
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
+# receiver : ready -> 1
 # receiver : ready -> 1
 # receiver : ready -> 1
 # receiver : ready -> 1
 # receiver : ready -> 1
 # ------ Done ------
-# time: 80: sender_A:           0 : sent < 3a >
-# time: 100: sender_A:           1 : sent < 56 >
-# time: 110: assert::FIFO_CTR_OVERFLOW check : Pass
-# time: 120: receiver_B:           0 : received < 3a >
-# time: 130: sender_A:           2 : sent < d4 >
-# time: 140: assert::FIFO_CTR_OVERFLOW check : Pass
-# time: 140: receiver_B:           1 : received < 56 >
-# time: 160: sender_A:           3 : sent < 05 >
-# time: 170: assert::FIFO_CTR_OVERFLOW check : Pass
-# time: 180: receiver_B:           2 : received < d4 >
-# time: 190: sender_A:           4 : sent < 20 >
-# time: 200: assert::FIFO_CTR_OVERFLOW check : Pass
-# time: 200: receiver_B:           3 : received < 05 >
-# time: 210: receiver_B:           4 : received < 20 >
-# time: 210: sender_A:           5 : sent < 05 >
-# time: 220: sender_A:           6 : sent < e9 >
-# time: 230: assert::FIFO_CTR_OVERFLOW check : Pass
-# time: 270: receiver_B:           5 : received < 05 >
-# time: 280: receiver_B:           6 : received < e9 >
-# time: 280: sender_A:           7 : sent < 8a >
-# time: 290: receiver_B:           7 : received < 8a >
-# time: 310: sender_A:           8 : sent < 40 >
-# time: 320: receiver_B:           8 : received < 40 >
-# time: 350: sender_A:           9 : sent < c7 >
-# time: 360: receiver_B:           9 : received < c7 >
-# time: 420: sender_A:          10 : sent < 44 >
-# time: 430: sender_A:          11 : sent < cb >
-# time: 440: assert::FIFO_CTR_OVERFLOW check : Pass
-# time: 460: receiver_B:          10 : received < 44 >
-# time: 470: sender_A:          12 : sent < c7 >
-# time: 480: assert::FIFO_CTR_OVERFLOW check : Pass
-# time: 550: receiver_B:          11 : received < cb >
-# time: 560: receiver_B:          12 : received < c7 >
-# time: 570: sender_A:          13 : sent < 30 >
-# time: 600: receiver_B:          13 : received < 30 >
-# time: 600: sender_A:          14 : sent < 40 >
-# time: 610: sender_A:          15 : sent < 91 >
-# time: 620: assert::FIFO_CTR_OVERFLOW check : Pass
-# time: 640: receiver_B:          14 : received < 40 >
-# time: 650: receiver_B:          15 : received < 91 >
-# time: 650: sender_A:          16 : sent < a0 >
-# time: 660: sender_A:          17 : sent < 1d >
-# time: 670: assert::FIFO_CTR_OVERFLOW check : Pass
-# time: 670: receiver_B:          16 : received < a0 >
-# time: 680: receiver_B:          17 : received < 1d >
-# time: 700: sender_A:          18 : sent < 89 >
-# time: 710: receiver_B:          18 : received < 89 >
-# time: 750: sender_A:          19 : sent < f3 >
-# time: 760: sender_A:          20 : sent < b7 >
-# time: 770: assert::FIFO_CTR_OVERFLOW check : Pass
-# time: 780: receiver_B:          19 : received < f3 >
-# time: 790: receiver_B:          20 : received < b7 >
-# time: 790: sender_A:          21 : sent < e7 >
-# time: 800: receiver_B:          21 : received < e7 >
-# time: 830: sender_A:          22 : sent < 6f >
-# time: 840: sender_A:          23 : sent < cd >
-# time: 850: assert::FIFO_CTR_OVERFLOW check : Pass
-# time: 860: receiver_B:          22 : received < 6f >
-# time: 880: receiver_B:          23 : received < cd >
-# time: 880: sender_A:          24 : sent < fc >
-# time: 890: sender_A:          25 : sent < a7 >
-# time: 900: assert::FIFO_CTR_OVERFLOW check : Pass
-# time: 920: receiver_B:          24 : received < fc >
-# time: 930: sender_A:          26 : sent < be >
-# time: 940: assert::FIFO_CTR_OVERFLOW check : Pass
-# time: 950: receiver_B:          25 : received < a7 >
-# time: 960: receiver_B:          26 : received < be >
-# time: 960: sender_A:          27 : sent < 85 >
-# time: 970: receiver_B:          27 : received < 85 >
-# time: 980: sender_A:          28 : sent < 00 >
-# time: 990: receiver_B:          28 : received < 00 >
-# time: 1020: sender_A:          29 : sent < aa >
-# time: 1030: receiver_B:          29 : received < aa >
-# time: 1030: sender_A:          30 : sent < b2 >
-# time: 1040: receiver_B:          30 : received < b2 >
-# time: 1110: sender_A:          31 : sent < ec >
-# time: 1120: receiver_B:          31 : received < ec >
-# time: 1150: sender_A:          32 : sent < 0d >
-# time: 1160: receiver_B:          32 : received < 0d >
-# time: 1170: sender_A:          33 : sent < f9 >
-# time: 1180: receiver_B:          33 : received < f9 >
-# time: 1180: sender_A:          34 : sent < 21 >
-# time: 1190: receiver_B:          34 : received < 21 >
-# time: 1190: sender_A:          35 : sent < dd >
-# time: 1200: sender_A:          36 : sent < f1 >
-# time: 1210: assert::FIFO_CTR_OVERFLOW check : Pass
-# time: 1210: receiver_B:          35 : received < dd >
-# time: 1220: receiver_B:          36 : received < f1 >
-# time: 1220: sender_A:          37 : sent < 9a >
-# time: 1250: receiver_B:          37 : received < 9a >
-# time: 1260: sender_A:          38 : sent < 7c >
-# time: 1270: receiver_B:          38 : received < 7c >
-# time: 1270: sender_A:          39 : sent < c1 >
-# time: 1280: receiver_B:          39 : received < c1 >
-# time: 1280: sender_A:          40 : sent < 46 >
-# time: 1290: receiver_B:          40 : received < 46 >
-# time: 1300: sender_A:          41 : sent < 3c >
-# time: 1310: receiver_B:          41 : received < 3c >
-# time: 1330: sender_A:          42 : sent < 73 >
-# time: 1340: receiver_B:          42 : received < 73 >
-# time: 1340: sender_A:          43 : sent < b4 >
-# time: 1350: receiver_B:          43 : received < b4 >
-# time: 1350: sender_A:          44 : sent < c8 >
-# time: 1360: sender_A:          45 : sent < 52 >
-# time: 1370: assert::FIFO_CTR_OVERFLOW check : Pass
-# time: 1390: receiver_B:          44 : received < c8 >
-# time: 1400: receiver_B:          45 : received < 52 >
-# time: 1420: sender_A:          46 : sent < 91 >
-# time: 1430: receiver_B:          46 : received < 91 >
-# time: 1430: sender_A:          47 : sent < ea >
-# time: 1440: receiver_B:          47 : received < ea >
-# time: 1440: sender_A:          48 : sent < 95 >
-# time: 1450: receiver_B:          48 : received < 95 >
-# time: 1490: sender_A:          49 : sent < 8c >
-# --- END Of Simulation ---
-# -- data transfer stats (Key: data send index | value: Data sent) --
-#  -key:   0   |   -value: 0000003a
-#  -key:   1   |   -value: 00000056
-#  -key:   2   |   -value: 000000d4
-#  -key:   3   |   -value: 00000005
-#  -key:   4   |   -value: 00000020
-#  -key:   5   |   -value: 00000005
-#  -key:   6   |   -value: 000000e9
-#  -key:   7   |   -value: 0000008a
-#  -key:   8   |   -value: 00000040
-#  -key:   9   |   -value: 000000c7
-#  -key:  10   |   -value: 00000044
-#  -key:  11   |   -value: 000000cb
-#  -key:  12   |   -value: 000000c7
-#  -key:  13   |   -value: 00000030
-#  -key:  14   |   -value: 00000040
-#  -key:  15   |   -value: 00000091
-#  -key:  16   |   -value: 000000a0
-#  -key:  17   |   -value: 0000001d
-#  -key:  18   |   -value: 00000089
-#  -key:  19   |   -value: 000000f3
-#  -key:  20   |   -value: 000000b7
-#  -key:  21   |   -value: 000000e7
-#  -key:  22   |   -value: 0000006f
-#  -key:  23   |   -value: 000000cd
-#  -key:  24   |   -value: 000000fc
-#  -key:  25   |   -value: 000000a7
-#  -key:  26   |   -value: 000000be
-#  -key:  27   |   -value: 00000085
-#  -key:  28   |   -value: 00000000
-#  -key:  29   |   -value: 000000aa
-#  -key:  30   |   -value: 000000b2
-#  -key:  31   |   -value: 000000ec
-#  -key:  32   |   -value: 0000000d
-#  -key:  33   |   -value: 000000f9
-#  -key:  34   |   -value: 00000021
-#  -key:  35   |   -value: 000000dd
-#  -key:  36   |   -value: 000000f1
-#  -key:  37   |   -value: 0000009a
-#  -key:  38   |   -value: 0000007c
-#  -key:  39   |   -value: 000000c1
-#  -key:  40   |   -value: 00000046
-#  -key:  41   |   -value: 0000003c
-#  -key:  42   |   -value: 00000073
-#  -key:  43   |   -value: 000000b4
-#  -key:  44   |   -value: 000000c8
-#  -key:  45   |   -value: 00000052
-#  -key:  46   |   -value: 00000091
-#  -key:  47   |   -value: 000000ea
-#  -key:  48   |   -value: 00000095
-#  -key:  49   |   -value: 0000008c
-# sender counter:          50   |   receiver counter:          49
-# ** Note: $finish    : valid_ready_tb.sv(101)
-#    Time: 1500 ps  Iteration: 0  Instance: /valid_ready_tb
-# End time: 16:52:35 on Dec 19,2022, Elapsed time: 0:00:01
+# time: 40: sender_A:           0 : sent < b8 >
+# time: 50: sender_A:           1 : sent < 26 >
+# time: 60: sender_A:           2 : sent < 66 >
+# time: 70: sender_A:           3 : sent < b6 >
+# time: 80: sender_A:           4 : sent < c6 >
+# time: 90: sender_A:           5 : sent < 46 >
+run
+# rtl: time: 120: assert::FIFO_CTR_OVERFLOW check : Pass
+run
+run
+# time: 330: receiver_B:           0 : received < b8 >
+# time: 340: receiver_B:           1 : received < 26 >
+# time: 350: receiver_B:           2 : received < 66 >
+# time: 360: receiver_B:           3 : received < b6 >
+# time: 360: sender_A:           6 : sent < 72 >
+# time: 370: receiver_B:           4 : received < c6 >
+# time: 370: sender_A:           7 : sent < 2e >
+# time: 380: receiver_B:           5 : received < 46 >
+# time: 380: sender_A:           8 : sent < 67 >
+# time: 390: receiver_B:           6 : received < 72 >
+# time: 390: sender_A:           9 : sent < 3a >
+# time: 400: receiver_B:           7 : received < 2e >
+# time: 400: sender_A:          10 : sent < 6a >
+run
+# time: 410: receiver_B:           8 : received < 67 >
+# time: 410: sender_A:          11 : sent < b4 >
+# time: 420: receiver_B:           9 : received < 3a >
+# time: 420: sender_A:          12 : sent < 6f >
+# time: 430: receiver_B:          10 : received < 6a >
+# time: 430: sender_A:          13 : sent < 56 >
+# time: 440: receiver_B:          11 : received < b4 >
+# time: 440: sender_A:          14 : sent < 35 >
+# time: 450: receiver_B:          12 : received < 6f >
+# time: 450: sender_A:          15 : sent < d4 >
+# time: 460: receiver_B:          13 : received < 56 >
+# time: 460: sender_A:          16 : sent < ae >
+# time: 470: receiver_B:          14 : received < 35 >
+# time: 470: sender_A:          17 : sent < 7d >
+# time: 480: receiver_B:          15 : received < d4 >
+# time: 480: sender_A:          18 : sent < db >
+# time: 490: receiver_B:          16 : received < ae >
+# time: 490: sender_A:          19 : sent < 05 >
+# time: 500: receiver_B:          17 : received < 7d >
+# time: 500: sender_A:          20 : sent < e3 >
+run
+# time: 510: receiver_B:          18 : received < db >
+# time: 510: sender_A:          21 : sent < 20 >
+# time: 520: receiver_B:          19 : received < 05 >
+# time: 520: sender_A:          22 : sent < e5 >
+# time: 530: receiver_B:          20 : received < e3 >
+# time: 530: sender_A:          23 : sent < 05 >
+# time: 540: receiver_B:          21 : received < 20 >
+# time: 540: sender_A:          24 : sent < 25 >
+# time: 550: receiver_B:          22 : received < e5 >
+# time: 550: sender_A:          25 : sent < e9 >
+# time: 560: receiver_B:          23 : received < 05 >
+# time: 560: sender_A:          26 : sent < 5d >
+# time: 570: receiver_B:          24 : received < 25 >
+# time: 570: sender_A:          27 : sent < 8a >
+# time: 580: receiver_B:          25 : received < e9 >
+# time: 580: sender_A:          28 : sent < 58 >
+# time: 590: receiver_B:          26 : received < 5d >
+# time: 590: sender_A:          29 : sent < 8b >
+# time: 600: receiver_B:          27 : received < 8a >
+# time: 600: sender_A:          30 : sent < 56 >
+# ** Fatal: Unable to read lock file necessary for use of uncounted nodelocked license. Exiting.
+# End time: 15:28:06 on Dec 22,2022, Elapsed time: 0:05:00
 # Errors: 0, Warnings: 0

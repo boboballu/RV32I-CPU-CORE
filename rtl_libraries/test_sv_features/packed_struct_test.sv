@@ -2,6 +2,8 @@ typedef struct packed {
     logic [1:0] s1;
     logic [1:0] s2;
 } pd_t;
+
+// check how = and => assignment works with struct
 module packed_struct_test ();
     pd_t pd1, pd2;
     logic clk = 1;

@@ -30,7 +30,7 @@
 
 module async_fifo #(
     parameter ROWS  = 8,
-    parameter COL_BIT_WIDTH = 32,
+    parameter type DATA_T = logic [7:0],
     parameter M_FF_SYNC_WIDTH = 2,
     //immutable - local params
     localparam ROW_ADDR_WIDTH = ($clog2(ROWS)),
@@ -39,12 +39,12 @@ module async_fifo #(
 (
     input logic clk_sender, clk_receiver, reset_n,
     input logic w_req, r_req,
-    input logic [COL_BIT_WIDTH-1:0] w_data,
-    output logic [COL_BIT_WIDTH-1:0] r_data,
-    output logic [POINTER_WIDTH-1:0] write_ptr, read_ptr,
+    input DATA_T w_data,
+    output DATA_T r_data,
+    output logic [ROW_ADDR_WIDTH-1:0] write_ptr, read_ptr,
     output logic w_stall, r_stall
 );
-    logic [COL_BIT_WIDTH-1:0] MEM [ROWS-1:0];
+    DATA_T MEM [ROWS-1:0];
     logic full, empty;
     logic [POINTER_WIDTH-1:0] head, tail;
 
@@ -64,13 +64,13 @@ module async_fifo #(
     gray2bin #(.BIT_WIDTH(POINTER_WIDTH)) head_bin_at_sender    (.in_gray(head_gray_synced), .out_bin(head_bin_synced));
     gray2bin #(.BIT_WIDTH(POINTER_WIDTH)) tail_bin_at_receiver  (.in_gray(tail_gray_synced), .out_bin(tail_bin_synced));
 
-    assign {read_ptr, write_ptr} = {head, tail};
+    assign {read_ptr, write_ptr} = {head[ROW_ADDR_WIDTH-1:0], tail[ROW_ADDR_WIDTH-1:0]};
     assign w_stall  = full;
     assign r_stall  = empty;
     assign r_data   = ( r_req & (!empty) ) ? MEM[head[ROW_ADDR_WIDTH-1:0]] : 'b0;
 
     always_comb begin : sender_side_full
-        if ( (head_bin_synced ^ tail) == { 1'b1, {(ROW_ADDR_WIDTH-1){1'b0}} } ) begin : full_condition
+        if ( (head_bin_synced ^ tail) == { 1'b1, {(ROW_ADDR_WIDTH){1'b0}} } ) begin : full_condition
             full = 1;
         end : full_condition
         else begin
@@ -116,9 +116,9 @@ module async_fifo #(
     end : receiver_side
 endmodule : async_fifo
 
-module async_fifo_ready_valid_wrapper #(
+module async_fifo_valid_ready_wrapper #(
     parameter ROWS  = 8,
-    parameter COL_BIT_WIDTH = 32,
+    parameter type DATA_T = logic [7:0],
     parameter M_FF_SYNC_WIDTH = 2,
 
     //immutable - local params
@@ -131,16 +131,16 @@ module async_fifo_ready_valid_wrapper #(
     input logic clk_sender, clk_receiver, reset_n,
     // "in" is connected module A that sends data
     
-    ready_valid_if in,      // expects interface of type "ready_valid_if.out"
-    output logic [POINTER_WIDTH-1:0] in_write_ptr, 
+    valid_ready_if in,      // expects interface of type "valid_ready_if.out"
+    output logic [ROW_ADDR_WIDTH-1:0] in_write_ptr, 
     // "out" is connected to module B that receives data
     
-    ready_valid_if out,     // expects interface of type "ready_valid_if.in"
-    output logic [POINTER_WIDTH-1:0] out_read_ptr
+    valid_ready_if out,     // expects interface of type "valid_ready_if.in"
+    output logic [ROW_ADDR_WIDTH-1:0] out_read_ptr
 );
 
     logic w_stall, r_stall;
-    async_fifo #(.ROWS(ROWS), .COL_BIT_WIDTH(COL_BIT_WIDTH), .M_FF_SYNC_WIDTH(M_FF_SYNC_WIDTH)) fifo_inst (
+    async_fifo #(.ROWS(ROWS), .DATA_T(DATA_T), .M_FF_SYNC_WIDTH(M_FF_SYNC_WIDTH)) fifo_inst (
         .clk_sender(clk_sender), .clk_receiver(clk_receiver), .reset_n(reset_n),
         .w_req(in.valid), .r_req(out.ready),
         .w_data(in.data), .r_data(out.data),
@@ -151,4 +151,4 @@ module async_fifo_ready_valid_wrapper #(
     assign in.ready = !w_stall;
     assign out.valid = !r_stall;
 
-endmodule : async_fifo_ready_valid_wrapper
+endmodule : async_fifo_valid_ready_wrapper

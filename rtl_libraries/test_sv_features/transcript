@@ -1,14 +1,47 @@
-# vsim tb 
-# Start time: 02:07:05 on Nov 10,2022
+# vsim -c -do "run -all; exit" test 
+# Start time: 19:02:59 on Dec 23,2022
 # Loading sv_std.std
-# Loading work.tb
-# Loading work.first_1_finder
-add wave -position insertpoint sim:/tb/DUT0/*
-run
-# in : 1100  | out : 0010  | found : 1
-# ** Note: $finish    : first_1_finder__synthForLoop.sv(24)
-#    Time: 5 ps  Iteration: 0  Instance: /tb
-# 1
-# Break in Module tb at first_1_finder__synthForLoop.sv line 24
-# End time: 02:23:03 on Nov 10,2022, Elapsed time: 0:15:58
+# Loading work.test
+# run -all
+# Time 10 | sender_ct           1
+# Time 20 | sender_ct           2
+# Time 25 | receiver_ct           1
+# Time 25 | receiver_ct           2
+# Time 25 | receiver_ct           3
+# Time 30 | sender_ct           3
+# Time 30 | sender_ct           4
+# Time 40 | sender_ct           5
+# Time 45 | receiver_ct           4
+# Time 45 | receiver_ct           5
+# Time 45 | receiver_ct           6
+# Time 50 | sender_ct           6
+# Time 50 | sender_ct           7
+# Time 60 | sender_ct           8
+# Time 65 | receiver_ct           7
+# Time 65 | receiver_ct           8
+# Time 65 | receiver_ct           9
+# Time 70 | sender_ct           9
+# Time 70 | sender_ct          10
+# Time 80 | sender_ct          11
+# Time 85 | receiver_ct          10
+# Time 85 | receiver_ct          11
+# Time 85 | receiver_ct          12
+# Time 90 | sender_ct          12
+# Time 90 | sender_ct          13
+# Time 100 | sender_ct          14
+# Time 105 | receiver_ct          13
+# Time 105 | receiver_ct          14
+# Time 105 | receiver_ct          15
+# Time 110 | sender_ct          15
+# Time 110 | sender_ct          16
+# Time 120 | sender_ct          17
+# Time 125 | receiver_ct          16
+# Time 125 | receiver_ct          17
+# Time 125 | receiver_ct          18
+# Time 130 | sender_ct          18
+# Time 130 | sender_ct          19
+# Time 140 | sender_ct          20
+# ** Note: $finish    : fork_join.sv(44)
+#    Time: 140 ps  Iteration: 1  Instance: /test
+# End time: 19:02:59 on Dec 23,2022, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
