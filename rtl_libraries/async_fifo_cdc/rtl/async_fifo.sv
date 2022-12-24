@@ -69,6 +69,14 @@ module async_fifo #(
     assign r_stall  = empty;
     assign r_data   = ( r_req & (!empty) ) ? MEM[head[ROW_ADDR_WIDTH-1:0]] : 'b0;
 
+    initial begin : param_checker
+        // check if ROWS is power of 2
+        if (ROWS && (ROWS & (ROWS - 1))) begin
+            $display("rtl: async_fifo.sv : ROWS %d async_fifo module only supports ROWS that are powers of 2", ROWS);
+            $finish();
+        end
+    end : param_checker
+
     always_comb begin : sender_side_full
         if ( (head_bin_synced ^ tail) == { 1'b1, {(ROW_ADDR_WIDTH){1'b0}} } ) begin : full_condition
             full = 1;

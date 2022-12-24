@@ -108,7 +108,7 @@ module valid_ready_tb_elements #(
     endtask : run_receiver_driver
 
     task monitor_sender();
-        @(posedge clk_sender);
+        @(negedge clk_sender);
         if (reset_n == 1'b0) return;
         if ( (sender_A.valid && sender_A.ready) && (scoreboard_perf_ctr.sender_count <= NUM_SEQUENCE-1) ) begin
             scoreboard_perf_ctr.data_transfer_assoc_array[scoreboard_perf_ctr.sender_count] = sender_A.data;
@@ -118,7 +118,7 @@ module valid_ready_tb_elements #(
     endtask : monitor_sender
 
     task monitor_receiver();
-        @(posedge clk_receiver);
+        @(negedge clk_receiver);
         if (reset_n == 1'b0) return;
         if ( (receiver_B.valid && receiver_B.ready) && (scoreboard_perf_ctr.receiver_count <= NUM_SEQUENCE-1) ) begin
             assert(scoreboard_perf_ctr.data_transfer_assoc_array[scoreboard_perf_ctr.receiver_count] == receiver_B.data);

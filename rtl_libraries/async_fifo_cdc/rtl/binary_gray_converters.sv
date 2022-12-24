@@ -68,7 +68,7 @@ module gray2bin #(
     output logic [BIT_WIDTH-1:0] out_bin
 );
     always_comb begin
-        out_bin[BIT_WIDTH-1:0] = in_gray[BIT_WIDTH-1];
+        out_bin[BIT_WIDTH-1] = in_gray[BIT_WIDTH-1];
         for (int i=BIT_WIDTH-2; i>=0; i--) begin
             out_bin[i] = in_gray[i] ^ out_bin[i+1];
         end

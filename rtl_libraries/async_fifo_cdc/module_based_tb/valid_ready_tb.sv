@@ -102,7 +102,7 @@ module valid_ready_tb ();
         clk_sender = 1; clk_receiver = 1; reset_n = 1;
         sender_A.valid = 'b0; sender_A.data = 'b0;
         receiver_B.ready = 0;
-        #1500 tb_elements.end_simulation(); $finish;
+        #2500 tb_elements.end_simulation(); $finish;
     end : defaults
 
     initial begin : dump_vars
@@ -129,60 +129,61 @@ module valid_ready_tb ();
         #16 reset_n = 1;
     end : reset_n_gen
 
-    // initial begin
-    //     #20;
-    //     forever begin
-    //         tb_elements.run_sender_driver();
-    //     end
-    // end
-    // initial begin
-    //     #20;
-    //     forever begin
-    //         tb_elements.run_receiver_driver();
-    //     end
-    // end
-    // initial begin
-    //     #20;
-    //     forever begin
-    //         tb_elements.monitor_sender();
-    //     end
-    // end
-    // initial begin
-    //     #20;
-    //     forever begin
-    //         tb_elements.monitor_receiver();
-    //     end
-    // end
 
     initial begin
         #20;
         forever begin
-            fork
-                tb_elements.run_sender_driver();
-                tb_elements.monitor_sender();
-            join
+            tb_elements.run_sender_driver();
         end
     end
-
     initial begin
         #20;
         forever begin
-            fork
-                tb_elements.run_receiver_driver();
-                tb_elements.monitor_receiver();
-            join
+            tb_elements.run_receiver_driver();
+        end
+    end
+    initial begin
+        #20;
+        forever begin
+            tb_elements.monitor_sender();
+        end
+    end
+    initial begin
+        #20;
+        forever begin
+            tb_elements.monitor_receiver();
         end
     end
 
-    initial begin
-        #20;
-        begin : all_transaction_done_end
-            if ( (scoreboard_perf_ctr.sender_count == NUM_SEQUENCE) && (scoreboard_perf_ctr.receiver_count == NUM_SEQUENCE) ) begin
-                tb_elements.end_simulation();
-                $finish;
-            end
-        end : all_transaction_done_end
-    end
+    // issue wuth fork-join : (All) waits for the longest thread to finish and joins
+    // fork-join_any : waits for the earliest thread to finish and the rest is dropped
+    // initial begin
+    //     #20;
+    //     forever begin
+    //         fork
+    //             tb_elements.run_sender_driver();
+    //             tb_elements.monitor_sender();
+    //         join
+    //     end
+    // end
+
+    // initial begin
+    //     #20;
+    //     forever begin
+    //         fork
+    //             tb_elements.run_receiver_driver();
+    //             tb_elements.monitor_receiver();
+    //         join
+    //     end
+    // end
+
+    always@(scoreboard_perf_ctr.sender_count or scoreboard_perf_ctr.receiver_count) begin : all_transaction_done_end
+        if ( (scoreboard_perf_ctr.sender_count == NUM_SEQUENCE) && (scoreboard_perf_ctr.receiver_count == NUM_SEQUENCE) ) begin
+            tb_elements.end_simulation();
+            $finish;
+        end
+    end : all_transaction_done_end
+
 
 
     // initial begin
