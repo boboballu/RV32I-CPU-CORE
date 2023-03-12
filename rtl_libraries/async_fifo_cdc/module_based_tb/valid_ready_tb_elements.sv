@@ -3,7 +3,7 @@ module valid_ready_tb_elements #(
     parameter NUM_SEQUENCE = 16
 )(
     // generic signals
-    input logic clk_sender, clk_receiver, reset_n,
+    input logic clk_sender, clk_receiver, sender_reset_n, receiver_reset_n,
 
     // "in" is connected module A that sends data
     valid_ready_if sender_A,  // expects interface of type "valid_ready_if.out"
@@ -11,6 +11,9 @@ module valid_ready_tb_elements #(
     // "out" is connected to module B that receives data
     valid_ready_if receiver_B  // expects interface of type "valid_ready_if.in"
 );
+
+    string tb_elements_end_sim_2_driver_msg = "none";
+
     task generate_testlist(test_type_t test_type);
         static int i=0;
         static int sv=0;
@@ -57,26 +60,37 @@ module valid_ready_tb_elements #(
         static enum bit [1:0] {SENDER_STALL, RECEIVER_STALL, TRANSACT} transaction_tracker;
         static int index=0;
         @(posedge clk_sender);
-        if (reset_n == 1'b0) return;
-        if (index < sender_testlist.size()) begin
-                casex ({sender_testlist[index].valid, sender_A.ready})
-                    2'b01: begin // sender_A_has_no_valid_data
-                        sender_A.valid = sender_testlist[index].valid;
-                        transaction_tracker = SENDER_STALL;
-                        index = index + 1;
-                    end
-                    2'b11: begin // sender_A_has_valid_data_and_receiver_is_ready
-                        sender_A.valid = sender_testlist[index].valid;
-                        sender_A.data = sender_testlist[index].data;
-                        transaction_tracker = TRANSACT;
-                        index = index + 1;
-                    end
-                    default: begin 
-                        transaction_tracker = RECEIVER_STALL;
-                        /* do nothing */ 
-                    end
-                endcase
+        if (sender_reset_n == 1'b0) return;
+        if (tb_elements_end_sim_2_driver_msg == "end_of_sim") begin
+            sender_A.valid = 1'b0;
+            sender_A.data = 'bx;
+            transaction_tracker = SENDER_STALL;
+            return;
         end
+        if (index < sender_testlist.size()) begin
+            casex ({sender_testlist[index].valid, sender_A.ready})
+                2'b01: begin // sender_A_has_no_valid_data
+                    sender_A.valid = sender_testlist[index].valid;
+                    transaction_tracker = SENDER_STALL;
+                    index = index + 1;
+                end
+                2'b11: begin // sender_A_has_valid_data_and_receiver_is_ready
+                    sender_A.valid = sender_testlist[index].valid;
+                    sender_A.data = sender_testlist[index].data;
+                    transaction_tracker = TRANSACT;
+                    index = index + 1;
+                end
+                default: begin 
+                    transaction_tracker = RECEIVER_STALL;
+                    /* do nothing */ 
+                end
+            endcase
+        end
+        // else begin
+        //     sender_A.valid = 1'b0;
+        //     sender_A.data = 'bx;
+        //     transaction_tracker = SENDER_STALL;
+        // end
         //@(posedge clk_sender);
     endtask : run_sender_driver
 
@@ -86,7 +100,12 @@ module valid_ready_tb_elements #(
         static enum bit [1:0] {SENDER_STALL, RECEIVER_STALL, TRANSACT} transaction_tracker;
         static int index=0;
         @(posedge clk_receiver);
-        if (reset_n == 1'b0) return;
+        if (receiver_reset_n == 1'b0) return;
+        if (tb_elements_end_sim_2_driver_msg == "end_of_sim") begin
+            receiver_B.ready = 1'b0;
+            transaction_tracker = SENDER_STALL;
+            return;
+        end
         if (index < receiver_testlist.size()) begin
             receiver_B.ready = receiver_testlist[index].ready;
             casex ({receiver_B.valid, receiver_testlist[index].ready})
@@ -104,12 +123,17 @@ module valid_ready_tb_elements #(
                 end
             endcase
         end
+        else begin
+            receiver_B.ready = 1'b0;
+            transaction_tracker = SENDER_STALL;
+        end
+
         //@(posedge clk_receiver);
     endtask : run_receiver_driver
 
     task monitor_sender();
         @(negedge clk_sender);
-        if (reset_n == 1'b0) return;
+        if (sender_reset_n == 1'b0) return;
         if ( (sender_A.valid && sender_A.ready) && (scoreboard_perf_ctr.sender_count <= NUM_SEQUENCE-1) ) begin
             scoreboard_perf_ctr.data_transfer_assoc_array[scoreboard_perf_ctr.sender_count] = sender_A.data;
             $display("time: %0t: sender_A: %d : sent < %x >", $time(), scoreboard_perf_ctr.sender_count, sender_A.data);
@@ -119,7 +143,7 @@ module valid_ready_tb_elements #(
 
     task monitor_receiver();
         @(negedge clk_receiver);
-        if (reset_n == 1'b0) return;
+        if (receiver_reset_n == 1'b0) return;
         if ( (receiver_B.valid && receiver_B.ready) && (scoreboard_perf_ctr.receiver_count <= NUM_SEQUENCE-1) ) begin
             assert(scoreboard_perf_ctr.data_transfer_assoc_array[scoreboard_perf_ctr.receiver_count] == receiver_B.data);
             $display("time: %0t: receiver_B: %d : received < %x >", $time(), scoreboard_perf_ctr.receiver_count, receiver_B.data);
@@ -130,6 +154,7 @@ module valid_ready_tb_elements #(
 
     // end the simulation printing the scoreboard statistics.
     task end_simulation();
+        tb_elements_end_sim_2_driver_msg = "end_of_sim";
         $display("--- END Of Simulation ---");
         $display("-- data transfer stats (Key: data send index | value: Data sent) --");
         foreach(scoreboard_perf_ctr.data_transfer_assoc_array[key]) begin

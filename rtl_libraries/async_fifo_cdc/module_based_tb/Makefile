@@ -13,6 +13,7 @@ rtl:
 	vlog ../rtl/valid_ready_if.sv
 	vlog ../rtl/binary_gray_converters.sv
 	vlog ../rtl/m_ff_sync.sv
+	vlog ../rtl/reset_sync.sv
 	vlog ../rtl/async_fifo.sv
 
 tb:

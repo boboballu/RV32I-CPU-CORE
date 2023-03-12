@@ -46,26 +46,34 @@ module valid_ready_tb ();
 
     // [EDIT*] local parameters goes here
     parameter type DATA_T = rtl_data_t;
-    parameter ROWS = 8;
+    parameter ROWS = 4;
     parameter ROW_ADDR_WIDTH = ($clog2(ROWS));
     parameter M_FF_SYNC_WIDTH = 2;
     // [EDIT] testbench test sequence size
     parameter NUM_SEQUENCE = 50;
 
     // --- Signals to connect to DUT --- //
-    logic clk_sender, clk_receiver, reset_n;
+    logic clk_sender, clk_receiver, async_reset_n, sender_reset_n, receiver_reset_n;
 
     // fifo read and write pointers
-    logic [ROW_ADDR_WIDTH-1:0] sender_A_write_ptr,receiver_B_read_ptr;
+    logic [ROW_ADDR_WIDTH-1:0] sender_A_write_ptr, receiver_B_read_ptr;
+
+    // reset_sync instantiation
+    reset_sync sender_reset_A (.clk(clk_sender), .async_reset_n(async_reset_n), .sync_reset_n(sender_reset_n));
+    reset_sync sender_reset_B (.clk(clk_receiver), .async_reset_n(async_reset_n), .sync_reset_n(receiver_reset_n));
+
 
     // ---RTL instantiation --- //
-    valid_ready_if #(.DATA_T(DATA_T)) sender_A (clk_sender, reset_n);
-    valid_ready_if #(.DATA_T(DATA_T)) receiver_B (clk_receiver, reset_n);
+    valid_ready_if #(.DATA_T(DATA_T)) sender_A (clk_sender, sender_reset_n);
+    valid_ready_if #(.DATA_T(DATA_T)) receiver_B (clk_receiver, receiver_reset_n);
+
+
+    async_fifo_reset_gen #(.M_FF_SYNC_WIDTH(M_FF_SYNC_WIDTH)) async_fifo_reset_gen_test (.clk_sender(clk_sender), .clk_receiver(clk_receiver), .async_reset_n(async_reset_n), .sender_reset_n(reset_sender_test), .receiver_reset_n(reset_receiver_test));
 
     // [EDIT*] DUT instantiation goes here
     async_fifo_valid_ready_wrapper #(.DATA_T(DATA_T), .ROWS(ROWS), .M_FF_SYNC_WIDTH(M_FF_SYNC_WIDTH) ) DUT1 (
-        .clk_sender(clk_sender), .clk_receiver(clk_receiver), .reset_n(reset_n),
-        
+        .clk_sender(clk_sender), .clk_receiver(clk_receiver), .sender_reset_n(sender_reset_n), .receiver_reset_n(receiver_reset_n),
+
         // "in" is connected module A that sends data
         .in(sender_A.out),      // expects interface of type "valid_ready_if.out"
         .in_write_ptr(sender_A_write_ptr),
@@ -75,8 +83,9 @@ module valid_ready_tb ();
         .out_read_ptr(receiver_B_read_ptr)
     );
 
+
     valid_ready_tb_elements #(.NUM_SEQUENCE(NUM_SEQUENCE)) tb_elements (
-        .clk_sender(clk_sender), .clk_receiver(clk_receiver), .reset_n(reset_n),
+        .clk_sender(clk_sender), .clk_receiver(clk_receiver), .sender_reset_n(sender_reset_n), .receiver_reset_n(receiver_reset_n),
         .sender_A(sender_A.in),
         .receiver_B(receiver_B.out)
     );
@@ -99,7 +108,7 @@ module valid_ready_tb ();
 
     // --- initial / defaults / clock gen / reset gen / vcd gen  --- //
     initial begin : defaults
-        clk_sender = 1; clk_receiver = 1; reset_n = 1;
+        clk_sender = 1; clk_receiver = 1; async_reset_n = 1;
         sender_A.valid = 'b0; sender_A.data = 'b0;
         receiver_B.ready = 0;
         #2500 tb_elements.end_simulation(); $finish;
@@ -123,11 +132,11 @@ module valid_ready_tb ();
         end
     end : clk_receiver_gen
 
-    // reset_n should async asserted and sync deasserted (add #1 delay for deassertion to satisfy the simulator)
-    initial begin : reset_n_gen
-        #5 reset_n = 0;
-        #16 reset_n = 1;
-    end : reset_n_gen
+    // async_reset_n should async asserted and sync deasserted (add #1 delay for deassertion to satisfy the simulator)
+    initial begin : async_reset_n_gen
+        #5 async_reset_n = 0;
+        #16 async_reset_n = 1;
+    end : async_reset_n_gen
 
 
     initial begin
@@ -185,7 +194,8 @@ module valid_ready_tb ();
     end : all_transaction_done_end
 
 
-
+    // issue wuth fork-join : (All) waits for the longest thread to finish and joins
+    // fork-join_any : waits for the earliest thread to finish and the rest is dropped
     // initial begin
     //     #20;
     //     forever begin
