@@ -1,13 +1,13 @@
-# vsim -c -do "run -all; exit" "+test=1" valid_ready_tb 
-# Start time: 16:51:51 on Mar 12,2023
+# vsim -do "do wave.do;" "+test=1" valid_ready_tb 
+# Start time: 01:16:41 on Mar 13,2023
 # Loading sv_std.std
 # Loading work.datatypes_globals_pkg
 # Loading work.valid_ready_tb_sv_unit
 # Loading work.valid_ready_tb
-# Loading work.reset_sync
 # Loading work.valid_ready_if
 # Loading work.async_fifo_sv_unit
 # Loading work.async_fifo_reset_gen
+# Loading work.reset_sync
 # Loading work.m_ff_sync
 # Loading work.async_fifo_valid_ready_wrapper
 # Loading work.async_fifo
@@ -24,7 +24,52 @@
 # ** Warning: (vsim-3722) ../rtl/async_fifo.sv(240): [TFMPC] - Missing connection for port 'read_ptr_norm'.
 # ** Warning: (vsim-3722) ../rtl/async_fifo.sv(240): [TFMPC] - Missing connection for port 'write_occupancy_ctr'.
 # ** Warning: (vsim-3722) ../rtl/async_fifo.sv(240): [TFMPC] - Missing connection for port 'read_occupancy_ctr'.
-# run -all
+# do wave.do
+# ** UI-Msg: (vish-4014) No objects found matching '/valid_ready_tb/sender_reset_A/clk'.
+# Executing ONERROR command at macro ./wave.do line 56
+# ** UI-Msg: (vish-4014) No objects found matching '/valid_ready_tb/sender_reset_A/async_reset_n'.
+# Executing ONERROR command at macro ./wave.do line 57
+# ** UI-Msg: (vish-4014) No objects found matching '/valid_ready_tb/sender_reset_A/sync_reset_n'.
+# Executing ONERROR command at macro ./wave.do line 58
+# ** UI-Msg: (vish-4014) No objects found matching '/valid_ready_tb/sender_reset_A/ffs'.
+# Executing ONERROR command at macro ./wave.do line 59
+# ** UI-Msg: (vish-4014) No objects found matching '/valid_ready_tb/async_fifo_reset_gen_test/clk_sender'.
+# Executing ONERROR command at macro ./wave.do line 61
+# ** UI-Msg: (vish-4014) No objects found matching '/valid_ready_tb/async_fifo_reset_gen_test/clk_receiver'.
+# Executing ONERROR command at macro ./wave.do line 62
+# ** UI-Msg: (vish-4014) No objects found matching '/valid_ready_tb/async_fifo_reset_gen_test/async_reset_n'.
+# Executing ONERROR command at macro ./wave.do line 63
+# ** UI-Msg: (vish-4014) No objects found matching '/valid_ready_tb/async_fifo_reset_gen_test/sender_reset_n'.
+# Executing ONERROR command at macro ./wave.do line 64
+# ** UI-Msg: (vish-4014) No objects found matching '/valid_ready_tb/async_fifo_reset_gen_test/receiver_reset_n'.
+# Executing ONERROR command at macro ./wave.do line 65
+# ** UI-Msg: (vish-4014) No objects found matching '/valid_ready_tb/async_fifo_reset_gen_test/receiver_reset_synced'.
+# Executing ONERROR command at macro ./wave.do line 66
+# ** UI-Msg: (vish-4014) No objects found matching '/valid_ready_tb/async_fifo_reset_gen_test/receiver_reset_loopback'.
+# Executing ONERROR command at macro ./wave.do line 67
+# ** UI-Msg: (vish-4014) No objects found matching '/valid_ready_tb/async_fifo_reset_gen_test/sender_reset_from_receiver'.
+# Executing ONERROR command at macro ./wave.do line 68
+# ** UI-Msg: (vish-4014) No objects found matching '/valid_ready_tb/async_fifo_reset_gen_test/sender_reset_flop'.
+# Executing ONERROR command at macro ./wave.do line 69
+# ** UI-Msg: (vish-4014) No objects found matching '/valid_ready_tb/async_fifo_reset_gen_test/receiver_reset_flop'.
+# Executing ONERROR command at macro ./wave.do line 70
+# ** UI-Msg: (vish-4014) No objects found matching '/valid_ready_tb/async_fifo_reset_gen_test/sender_reset_synced'.
+# Executing ONERROR command at macro ./wave.do line 71
+# 
+add wave -position insertpoint  \
+sim:/valid_ready_tb/async_fifo_reset_gen/clk_sender \
+sim:/valid_ready_tb/async_fifo_reset_gen/clk_receiver \
+sim:/valid_ready_tb/async_fifo_reset_gen/async_reset_n \
+sim:/valid_ready_tb/async_fifo_reset_gen/sender_reset_n \
+sim:/valid_ready_tb/async_fifo_reset_gen/receiver_reset_n \
+sim:/valid_ready_tb/async_fifo_reset_gen/sender_reset_flop \
+sim:/valid_ready_tb/async_fifo_reset_gen/receiver_reset_flop \
+sim:/valid_ready_tb/async_fifo_reset_gen/sender_reset_synced \
+sim:/valid_ready_tb/async_fifo_reset_gen/receiver_reset_synced \
+sim:/valid_ready_tb/async_fifo_reset_gen/receiver_reset_loopback \
+sim:/valid_ready_tb/async_fifo_reset_gen/sender_reset_from_receiver
+write format wave -window .main_pane.wave.interior.cs.body.pw.wf /root/RISCV_DEV/RV32I-CPU-CORE/rtl_libraries/async_fifo_cdc/module_based_tb/wave.do
+run
 # rtl: async_fifo.sv : ROWS =           4 async_fifo - received a power of 2 size
 # rtl: async_fifo.sv: MEM_ADDR_LOW =           0 and MEM_ADDR_HIGH =           3
 # rtl: async_fifo.sv: MIRROR_MEM_ADDR_LOW =           4 and MIRROR_MEM_ADDR_HIGH =           7
@@ -156,106 +201,122 @@
 # receiver : ready -> 1
 # receiver : ready -> 1
 # ------ Done ------
-# time: 55: sender_A:           0 : sent < b8 >
-# time: 65: sender_A:           1 : sent < 26 >
-# time: 75: sender_A:           2 : sent < 66 >
-# time: 85: sender_A:           3 : sent < b6 >
-# time: 615: receiver_B:           0 : received < b8 >
-# time: 635: receiver_B:           1 : received < 26 >
-# time: 645: sender_A:           4 : sent < c6 >
-# time: 655: receiver_B:           2 : received < 66 >
-# time: 665: sender_A:           5 : sent < 46 >
-# time: 675: receiver_B:           3 : received < b6 >
-# time: 685: sender_A:           6 : sent < 72 >
-# time: 695: receiver_B:           4 : received < c6 >
-# time: 705: sender_A:           7 : sent < 2e >
-# time: 715: receiver_B:           5 : received < 46 >
-# time: 725: sender_A:           8 : sent < 67 >
-# time: 735: receiver_B:           6 : received < 72 >
-# time: 745: sender_A:           9 : sent < 3a >
-# time: 755: receiver_B:           7 : received < 2e >
-# time: 765: sender_A:          10 : sent < 6a >
-# time: 775: receiver_B:           8 : received < 67 >
-# time: 785: sender_A:          11 : sent < b4 >
-# time: 795: receiver_B:           9 : received < 3a >
-# time: 805: sender_A:          12 : sent < 6f >
-# time: 815: receiver_B:          10 : received < 6a >
-# time: 825: sender_A:          13 : sent < 56 >
-# time: 835: receiver_B:          11 : received < b4 >
-# time: 845: sender_A:          14 : sent < 35 >
-# time: 855: receiver_B:          12 : received < 6f >
-# time: 865: sender_A:          15 : sent < d4 >
-# time: 875: receiver_B:          13 : received < 56 >
-# time: 885: sender_A:          16 : sent < ae >
-# time: 895: receiver_B:          14 : received < 35 >
-# time: 905: sender_A:          17 : sent < 7d >
-# time: 915: receiver_B:          15 : received < d4 >
-# time: 925: sender_A:          18 : sent < db >
-# time: 935: receiver_B:          16 : received < ae >
-# time: 945: sender_A:          19 : sent < 05 >
-# time: 955: receiver_B:          17 : received < 7d >
-# time: 965: sender_A:          20 : sent < e3 >
-# time: 975: receiver_B:          18 : received < db >
-# time: 985: sender_A:          21 : sent < 20 >
-# time: 995: receiver_B:          19 : received < 05 >
-# time: 1005: sender_A:          22 : sent < e5 >
-# time: 1015: receiver_B:          20 : received < e3 >
-# time: 1025: sender_A:          23 : sent < 05 >
-# time: 1035: receiver_B:          21 : received < 20 >
-# time: 1045: sender_A:          24 : sent < 25 >
-# time: 1055: receiver_B:          22 : received < e5 >
-# time: 1065: sender_A:          25 : sent < e9 >
-# time: 1075: receiver_B:          23 : received < 05 >
-# time: 1085: sender_A:          26 : sent < 5d >
-# time: 1095: receiver_B:          24 : received < 25 >
-# time: 1105: sender_A:          27 : sent < 8a >
-# time: 1115: receiver_B:          25 : received < e9 >
-# time: 1125: sender_A:          28 : sent < 58 >
-# time: 1135: receiver_B:          26 : received < 5d >
-# time: 1145: sender_A:          29 : sent < 8b >
-# time: 1155: receiver_B:          27 : received < 8a >
-# time: 1165: sender_A:          30 : sent < 56 >
-# time: 1175: receiver_B:          28 : received < 58 >
-# time: 1185: sender_A:          31 : sent < c9 >
-# time: 1195: receiver_B:          29 : received < 8b >
-# time: 1205: sender_A:          32 : sent < b9 >
-# time: 1215: receiver_B:          30 : received < 56 >
-# time: 1225: sender_A:          33 : sent < 40 >
-# time: 1235: receiver_B:          31 : received < c9 >
-# time: 1245: sender_A:          34 : sent < 80 >
-# time: 1255: receiver_B:          32 : received < b9 >
-# time: 1265: sender_A:          35 : sent < 0e >
-# time: 1275: receiver_B:          33 : received < 40 >
-# time: 1285: sender_A:          36 : sent < d4 >
-# time: 1295: receiver_B:          34 : received < 80 >
-# time: 1305: sender_A:          37 : sent < 8e >
-# time: 1315: receiver_B:          35 : received < 0e >
-# time: 1325: sender_A:          38 : sent < c0 >
-# time: 1335: receiver_B:          36 : received < d4 >
-# time: 1345: sender_A:          39 : sent < 97 >
-# time: 1355: receiver_B:          37 : received < 8e >
-# time: 1365: sender_A:          40 : sent < 25 >
-# time: 1375: receiver_B:          38 : received < c0 >
-# time: 1385: sender_A:          41 : sent < c7 >
-# time: 1395: receiver_B:          39 : received < 97 >
-# time: 1405: sender_A:          42 : sent < 58 >
-# time: 1415: receiver_B:          40 : received < 25 >
-# time: 1425: sender_A:          43 : sent < 51 >
-# time: 1435: receiver_B:          41 : received < c7 >
-# time: 1445: sender_A:          44 : sent < 32 >
-# time: 1455: receiver_B:          42 : received < 58 >
-# time: 1465: sender_A:          45 : sent < 23 >
-# time: 1475: receiver_B:          43 : received < 51 >
-# time: 1485: sender_A:          46 : sent < 54 >
-# time: 1495: receiver_B:          44 : received < 32 >
-# time: 1505: sender_A:          47 : sent < b3 >
-# time: 1515: receiver_B:          45 : received < 23 >
-# time: 1525: sender_A:          48 : sent < 5a >
-# time: 1535: receiver_B:          46 : received < 54 >
-# time: 1545: sender_A:          49 : sent < e6 >
-# time: 1555: receiver_B:          47 : received < b3 >
-# time: 1575: receiver_B:          48 : received < 5a >
-# time: 1595: receiver_B:          49 : received < e6 >
+# time: 85: sender_A:           0 : sent < b8 >
+# time: 95: sender_A:           1 : sent < 26 >
+run
+# time: 105: sender_A:           2 : sent < 66 >
+# time: 115: sender_A:           3 : sent < b6 >
+run
+run
+run
+run
+run
+# time: 655: receiver_B:           0 : received < b8 >
+# time: 675: receiver_B:           1 : received < 26 >
+# time: 685: sender_A:           4 : sent < c6 >
+# time: 695: receiver_B:           2 : received < 66 >
+run
+# time: 705: sender_A:           5 : sent < 46 >
+# time: 715: receiver_B:           3 : received < b6 >
+# time: 725: sender_A:           6 : sent < 72 >
+# time: 735: receiver_B:           4 : received < c6 >
+# time: 745: sender_A:           7 : sent < 2e >
+# time: 755: receiver_B:           5 : received < 46 >
+# time: 765: sender_A:           8 : sent < 67 >
+# time: 775: receiver_B:           6 : received < 72 >
+# time: 785: sender_A:           9 : sent < 3a >
+# time: 795: receiver_B:           7 : received < 2e >
+run
+# time: 805: sender_A:          10 : sent < 6a >
+# time: 815: receiver_B:           8 : received < 67 >
+# time: 825: sender_A:          11 : sent < b4 >
+# time: 835: receiver_B:           9 : received < 3a >
+# time: 845: sender_A:          12 : sent < 6f >
+# time: 855: receiver_B:          10 : received < 6a >
+# time: 865: sender_A:          13 : sent < 56 >
+# time: 875: receiver_B:          11 : received < b4 >
+# time: 885: sender_A:          14 : sent < 35 >
+# time: 895: receiver_B:          12 : received < 6f >
+run
+# time: 905: sender_A:          15 : sent < d4 >
+# time: 915: receiver_B:          13 : received < 56 >
+# time: 925: sender_A:          16 : sent < ae >
+# time: 935: receiver_B:          14 : received < 35 >
+# time: 945: sender_A:          17 : sent < 7d >
+# time: 955: receiver_B:          15 : received < d4 >
+# time: 965: sender_A:          18 : sent < db >
+# time: 975: receiver_B:          16 : received < ae >
+# time: 985: sender_A:          19 : sent < 05 >
+# time: 995: receiver_B:          17 : received < 7d >
+run
+# time: 1005: sender_A:          20 : sent < e3 >
+# time: 1015: receiver_B:          18 : received < db >
+# time: 1025: sender_A:          21 : sent < 20 >
+# time: 1035: receiver_B:          19 : received < 05 >
+# time: 1045: sender_A:          22 : sent < e5 >
+# time: 1055: receiver_B:          20 : received < e3 >
+# time: 1065: sender_A:          23 : sent < 05 >
+# time: 1075: receiver_B:          21 : received < 20 >
+# time: 1085: sender_A:          24 : sent < 25 >
+# time: 1095: receiver_B:          22 : received < e5 >
+run
+# time: 1105: sender_A:          25 : sent < e9 >
+# time: 1115: receiver_B:          23 : received < 05 >
+# time: 1125: sender_A:          26 : sent < 5d >
+# time: 1135: receiver_B:          24 : received < 25 >
+# time: 1145: sender_A:          27 : sent < 8a >
+# time: 1155: receiver_B:          25 : received < e9 >
+# time: 1165: sender_A:          28 : sent < 58 >
+# time: 1175: receiver_B:          26 : received < 5d >
+# time: 1185: sender_A:          29 : sent < 8b >
+# time: 1195: receiver_B:          27 : received < 8a >
+run
+# time: 1205: sender_A:          30 : sent < 56 >
+# time: 1215: receiver_B:          28 : received < 58 >
+# time: 1225: sender_A:          31 : sent < c9 >
+# time: 1235: receiver_B:          29 : received < 8b >
+# time: 1245: sender_A:          32 : sent < b9 >
+# time: 1255: receiver_B:          30 : received < 56 >
+# time: 1265: sender_A:          33 : sent < 40 >
+# time: 1275: receiver_B:          31 : received < c9 >
+# time: 1285: sender_A:          34 : sent < 80 >
+# time: 1295: receiver_B:          32 : received < b9 >
+run
+# time: 1305: sender_A:          35 : sent < 0e >
+# time: 1315: receiver_B:          33 : received < 40 >
+# time: 1325: sender_A:          36 : sent < d4 >
+# time: 1335: receiver_B:          34 : received < 80 >
+# time: 1345: sender_A:          37 : sent < 8e >
+# time: 1355: receiver_B:          35 : received < 0e >
+# time: 1365: sender_A:          38 : sent < c0 >
+# time: 1375: receiver_B:          36 : received < d4 >
+# time: 1385: sender_A:          39 : sent < 97 >
+# time: 1395: receiver_B:          37 : received < 8e >
+run
+# time: 1405: sender_A:          40 : sent < 25 >
+# time: 1415: receiver_B:          38 : received < c0 >
+# time: 1425: sender_A:          41 : sent < c7 >
+# time: 1435: receiver_B:          39 : received < 97 >
+# time: 1445: sender_A:          42 : sent < 58 >
+# time: 1455: receiver_B:          40 : received < 25 >
+# time: 1465: sender_A:          43 : sent < 51 >
+# time: 1475: receiver_B:          41 : received < c7 >
+# time: 1485: sender_A:          44 : sent < 32 >
+# time: 1495: receiver_B:          42 : received < 58 >
+run
+# time: 1505: sender_A:          45 : sent < 23 >
+# time: 1515: receiver_B:          43 : received < 51 >
+# time: 1525: sender_A:          46 : sent < 54 >
+# time: 1535: receiver_B:          44 : received < 32 >
+# time: 1545: sender_A:          47 : sent < b3 >
+# time: 1555: receiver_B:          45 : received < 23 >
+# time: 1565: sender_A:          48 : sent < 5a >
+# time: 1575: receiver_B:          46 : received < 54 >
+# time: 1585: sender_A:          49 : sent < e6 >
+# time: 1595: receiver_B:          47 : received < b3 >
+run
+# time: 1615: receiver_B:          48 : received < 5a >
+# time: 1635: receiver_B:          49 : received < e6 >
 # --- END Of Simulation ---
 # -- data transfer stats (Key: data send index | value: Data sent) --
 #  -key:   0   |   -value: 000000b8
@@ -309,7 +370,9 @@
 #  -key:  48   |   -value: 0000005a
 #  -key:  49   |   -value: 000000e6
 # sender counter:          50   |   receiver counter:          50
-# ** Note: $finish    : valid_ready_tb.sv(192)
-#    Time: 1595 ps  Iteration: 2  Instance: /valid_ready_tb
-# End time: 16:51:51 on Mar 12,2023, Elapsed time: 0:00:00
+# ** Note: $finish    : valid_ready_tb.sv(206)
+#    Time: 1635 ps  Iteration: 2  Instance: /valid_ready_tb
+# 1
+# Break in NamedBeginStat all_transaction_done_end at valid_ready_tb.sv line 206
+# End time: 01:18:41 on Mar 13,2023, Elapsed time: 0:02:00
 # Errors: 0, Warnings: 8

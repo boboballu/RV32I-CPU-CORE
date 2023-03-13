@@ -59,8 +59,8 @@ module valid_ready_tb ();
     logic [ROW_ADDR_WIDTH-1:0] sender_A_write_ptr, receiver_B_read_ptr;
 
     // reset_sync instantiation
-    reset_sync sender_reset_A (.clk(clk_sender), .async_reset_n(async_reset_n), .sync_reset_n(sender_reset_n));
-    reset_sync sender_reset_B (.clk(clk_receiver), .async_reset_n(async_reset_n), .sync_reset_n(receiver_reset_n));
+    // reset_sync sender_reset_A (.clk(clk_sender), .async_reset_n(async_reset_n), .sync_reset_n(sender_reset_n));
+    // reset_sync sender_reset_B (.clk(clk_receiver), .async_reset_n(async_reset_n), .sync_reset_n(receiver_reset_n));
 
 
     // ---RTL instantiation --- //
@@ -68,7 +68,7 @@ module valid_ready_tb ();
     valid_ready_if #(.DATA_T(DATA_T)) receiver_B (clk_receiver, receiver_reset_n);
 
 
-    async_fifo_reset_gen #(.M_FF_SYNC_WIDTH(M_FF_SYNC_WIDTH)) async_fifo_reset_gen_test (.clk_sender(clk_sender), .clk_receiver(clk_receiver), .async_reset_n(async_reset_n), .sender_reset_n(reset_sender_test), .receiver_reset_n(reset_receiver_test));
+    async_fifo_reset_gen #(.M_FF_SYNC_WIDTH(M_FF_SYNC_WIDTH)) async_fifo_reset_gen (.clk_sender(clk_sender), .clk_receiver(clk_receiver), .async_reset_n(async_reset_n), .sender_reset_n(sender_reset_n), .receiver_reset_n(receiver_reset_n));
 
     // [EDIT*] DUT instantiation goes here
     async_fifo_valid_ready_wrapper #(.DATA_T(DATA_T), .ROWS(ROWS), .M_FF_SYNC_WIDTH(M_FF_SYNC_WIDTH) ) DUT1 (
@@ -82,6 +82,20 @@ module valid_ready_tb ();
         .out(receiver_B.in),    // expects interface of type "valid_ready_if.in"
         .out_read_ptr(receiver_B_read_ptr)
     );
+
+    // // [EDIT*] DUT instantiation goes here
+    // async_fifo_valid_ready_wrapper_w_reset_gen #(.DATA_T(DATA_T), .ROWS(ROWS), .M_FF_SYNC_WIDTH(M_FF_SYNC_WIDTH) ) DUT1 (
+    //     .clk_sender(clk_sender), .clk_receiver(clk_receiver), .async_reset_n(async_reset_n),
+
+    //     // "in" is connected module A that sends data
+    //     .in(sender_A.out),      // expects interface of type "valid_ready_if.out"
+    //     .in_write_ptr(sender_A_write_ptr),
+
+    //     // "out" is connected to module B that receives data
+    //     .out(receiver_B.in),    // expects interface of type "valid_ready_if.in"
+    //     .out_read_ptr(receiver_B_read_ptr)
+    // );
+
 
 
     valid_ready_tb_elements #(.NUM_SEQUENCE(NUM_SEQUENCE)) tb_elements (

@@ -269,8 +269,8 @@ module async_fifo_reset_gen #(
     reset_sync sender_reset_A (.clk(clk_sender), .async_reset_n(async_reset_n), .sync_reset_n(sender_reset_synced));
     reset_sync receiver_reset_B (.clk(clk_receiver), .async_reset_n(async_reset_n), .sync_reset_n(receiver_reset_synced));
 
-    m_ff_sync #(.M(M_FF_SYNC_WIDTH), .DATA_WIDTH(1)) receiver2sender_reset (.clk(clk_sender), .reset_n(1'b1), .Din(async_reset_n), .Dout(sender_reset_from_receiver) );
-    m_ff_sync #(.M(M_FF_SYNC_WIDTH), .DATA_WIDTH(1)) sender2receiver_reset_loopback (.clk(clk_receiver),   .reset_n(1'b1), .Din(sender_reset_flop), .Dout(receiver_reset_loopback) );
+    m_ff_sync #(.M(M_FF_SYNC_WIDTH), .DATA_WIDTH(1)) receiver2sender_reset (.clk(clk_sender), .reset_n(receiver_reset_synced), .Din(async_reset_n), .Dout(sender_reset_from_receiver) );
+    m_ff_sync #(.M(M_FF_SYNC_WIDTH), .DATA_WIDTH(1)) sender2receiver_reset_loopback (.clk(clk_receiver),   .reset_n(sender_reset_synced), .Din(sender_reset_flop), .Dout(receiver_reset_loopback) );
 
     always_ff@(posedge clk_sender or negedge sender_reset_synced) begin
         if (!sender_reset_synced)
@@ -287,3 +287,41 @@ module async_fifo_reset_gen #(
     end
 
 endmodule : async_fifo_reset_gen
+
+module async_fifo_valid_ready_wrapper_w_reset_gen #(
+    parameter ROWS  = 8,
+    parameter type DATA_T = logic [7:0],
+    parameter M_FF_SYNC_WIDTH = 2,
+
+    //immutable - local params
+    localparam ROW_ADDR_WIDTH = ($clog2(ROWS)),
+    localparam POINTER_WIDTH = ROW_ADDR_WIDTH + 1
+) (
+    // general signals
+    input logic clk_sender, clk_receiver, async_reset_n,
+    // "in" is connected module A that sends data
+    
+    valid_ready_if in,      // expects interface of type "valid_ready_if.out"
+    output logic [ROW_ADDR_WIDTH-1:0] in_write_ptr, 
+    // "out" is connected to module B that receives data
+    
+    valid_ready_if out,     // expects interface of type "valid_ready_if.in"
+    output logic [ROW_ADDR_WIDTH-1:0] out_read_ptr
+);
+
+    async_fifo_reset_gen #(.M_FF_SYNC_WIDTH(M_FF_SYNC_WIDTH)) async_fifo_reset_gen (.clk_sender(clk_sender), .clk_receiver(clk_receiver), .async_reset_n(async_reset_n), .sender_reset_n(sender_reset_n), .receiver_reset_n(receiver_reset_n));
+
+    async_fifo_valid_ready_wrapper #(.DATA_T(DATA_T), .ROWS(ROWS), .M_FF_SYNC_WIDTH(M_FF_SYNC_WIDTH) ) async_fifo_valid_ready_wrapper (
+        .clk_sender(clk_sender), .clk_receiver(clk_receiver), .sender_reset_n(sender_reset_n), .receiver_reset_n(receiver_reset_n),
+
+        // "in" is connected module A that sends data
+        .in(sender_A.out),      // expects interface of type "valid_ready_if.out"
+        .in_write_ptr(sender_A_write_ptr),
+
+        // "out" is connected to module B that receives data
+        .out(receiver_B.in),    // expects interface of type "valid_ready_if.in"
+        .out_read_ptr(receiver_B_read_ptr)
+    );
+
+
+endmodule : async_fifo_valid_ready_wrapper_w_reset_gen

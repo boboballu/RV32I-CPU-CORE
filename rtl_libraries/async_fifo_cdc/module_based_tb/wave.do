@@ -30,12 +30,12 @@ add wave -noupdate -radixshowbase 1 /valid_ready_tb/DUT1/fifo_inst/r_stall
 add wave -noupdate -radixshowbase 1 /valid_ready_tb/DUT1/fifo_inst/MEM
 add wave -noupdate /valid_ready_tb/DUT1/fifo_inst/POINTER_WIDTH
 add wave -noupdate /valid_ready_tb/async_reset_n
-add wave -noupdate /valid_ready_tb/DUT1/fifo_inst/sender_reset_n
 add wave -noupdate -radixshowbase 1 /valid_ready_tb/DUT1/fifo_inst/clk_sender
+add wave -noupdate /valid_ready_tb/DUT1/fifo_inst/sender_reset_n
+add wave -noupdate -radixshowbase 1 /valid_ready_tb/DUT1/fifo_inst/clk_receiver
+add wave -noupdate /valid_ready_tb/DUT1/fifo_inst/receiver_reset_n
 add wave -noupdate /valid_ready_tb/DUT1/fifo_inst/wp
 add wave -noupdate /valid_ready_tb/DUT1/fifo_inst/wp_gray
-add wave -noupdate /valid_ready_tb/DUT1/fifo_inst/receiver_reset_n
-add wave -noupdate -radixshowbase 1 /valid_ready_tb/DUT1/fifo_inst/clk_receiver
 add wave -noupdate /valid_ready_tb/DUT1/fifo_inst/rp
 add wave -noupdate /valid_ready_tb/DUT1/fifo_inst/rp_gray
 add wave -noupdate /valid_ready_tb/DUT1/fifo_inst/rp_gray_synced
@@ -52,23 +52,18 @@ add wave -noupdate /valid_ready_tb/DUT1/fifo_inst/rp_wire
 add wave -noupdate /valid_ready_tb/DUT1/fifo_inst/wp_wire
 add wave -noupdate /valid_ready_tb/DUT1/fifo_inst/rp_gray_wire
 add wave -noupdate /valid_ready_tb/DUT1/fifo_inst/wp_gray_wire
-add wave -noupdate -divider sender_A_reset_sync
-add wave -noupdate /valid_ready_tb/sender_reset_A/clk
-add wave -noupdate /valid_ready_tb/sender_reset_A/async_reset_n
-add wave -noupdate /valid_ready_tb/sender_reset_A/sync_reset_n
-add wave -noupdate /valid_ready_tb/sender_reset_A/ffs
-add wave -noupdate -divider reset_test
-add wave -noupdate /valid_ready_tb/async_fifo_reset_gen_test/clk_sender
-add wave -noupdate /valid_ready_tb/async_fifo_reset_gen_test/clk_receiver
-add wave -noupdate /valid_ready_tb/async_fifo_reset_gen_test/async_reset_n
-add wave -noupdate /valid_ready_tb/async_fifo_reset_gen_test/sender_reset_n
-add wave -noupdate /valid_ready_tb/async_fifo_reset_gen_test/receiver_reset_n
-add wave -noupdate /valid_ready_tb/async_fifo_reset_gen_test/receiver_reset_synced
-add wave -noupdate /valid_ready_tb/async_fifo_reset_gen_test/receiver_reset_loopback
-add wave -noupdate /valid_ready_tb/async_fifo_reset_gen_test/sender_reset_from_receiver
-add wave -noupdate /valid_ready_tb/async_fifo_reset_gen_test/sender_reset_flop
-add wave -noupdate /valid_ready_tb/async_fifo_reset_gen_test/receiver_reset_flop
-add wave -noupdate /valid_ready_tb/async_fifo_reset_gen_test/sender_reset_synced
+add wave -noupdate -divider async_fifo_reset_gen
+add wave -noupdate /valid_ready_tb/async_fifo_reset_gen/clk_sender
+add wave -noupdate /valid_ready_tb/async_fifo_reset_gen/clk_receiver
+add wave -noupdate /valid_ready_tb/async_fifo_reset_gen/async_reset_n
+add wave -noupdate /valid_ready_tb/async_fifo_reset_gen/sender_reset_n
+add wave -noupdate /valid_ready_tb/async_fifo_reset_gen/receiver_reset_n
+add wave -noupdate /valid_ready_tb/async_fifo_reset_gen/sender_reset_flop
+add wave -noupdate /valid_ready_tb/async_fifo_reset_gen/receiver_reset_flop
+add wave -noupdate /valid_ready_tb/async_fifo_reset_gen/sender_reset_synced
+add wave -noupdate /valid_ready_tb/async_fifo_reset_gen/receiver_reset_synced
+add wave -noupdate /valid_ready_tb/async_fifo_reset_gen/receiver_reset_loopback
+add wave -noupdate /valid_ready_tb/async_fifo_reset_gen/sender_reset_from_receiver
 TreeUpdate [SetDefaultTree]
 WaveRestoreCursors {{Cursor 1} {36 ps} 0}
 quietly wave cursor active 1
